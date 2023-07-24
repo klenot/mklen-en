@@ -28,7 +28,9 @@ This repository contains the codebase for my personal website, a Next.js applica
 I welcome contributions to enhance the functionality and design of my personal website. If you find a bug, have a suggestion, or want to add exciting features, feel free to open an issue or submit a pull request. Let's make this website even more awesome together! 🙌
 
 <br>
+
 ---
+
 <br>
 
 Thank you for visiting my repository and checking out my personal website! If you have any questions or feedback, feel free to reach out to me. Enjoy exploring my site!
