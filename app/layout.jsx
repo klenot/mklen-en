@@ -1,3 +1,4 @@
+import Script from "next/script"
 import 'styles/globals.css'
 import Head from "components/head.jsx"
 import Footer from "components/footer.jsx"
@@ -14,7 +15,7 @@ export default function RootLayout({ children }) {
             <nav>
               <div className="nav-container">
                 <div className="nav-section logo-section">
-                  <a href="index.html">
+                  <a href="/">
                     <span id="logo" className="logo">
                       mklenotic
                     </span>
@@ -24,22 +25,22 @@ export default function RootLayout({ children }) {
                   <div className="nav-section">
                     <ul className="nav-list">
                       <li className="nav-item">
-                        <a id="home" href="index.html">
+                        <a id="home" href="/">
                           Home
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a id="about" href="about.html">
+                        <a id="about" href="/about">
                           About
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a id="services" href="services.html">
+                        <a id="services" href="/services">
                           Services
                         </a>
                       </li>
                       <li className="nav-item">
-                        <a id="blog" href="blog.html">
+                        <a id="blog" href="/blog">
                           Blog
                         </a>
                       </li>
@@ -49,7 +50,7 @@ export default function RootLayout({ children }) {
                     <span
                       style={{ fontSize: 27 }}
                       className="material-symbols-sharp burger-icon"
-                      onclick="toggleMenu()"
+                      onClick="toggleMenu()"
                     >
                       lunch_dining
                     </span>
@@ -57,7 +58,7 @@ export default function RootLayout({ children }) {
                       style={{ fontSize: 30 }}
                       id="light-mode"
                       className="material-symbols-sharp"
-                      onclick="toggleIcon(), toggleDark()"
+                      onClick="toggleIcon(), toggleDark()"
                     >
                       light_mode
                     </span>
@@ -92,7 +93,7 @@ export default function RootLayout({ children }) {
                       <span
                         style={{ fontSize: 30 }}
                         className="material-symbols-sharp"
-                        onclick="closeMenu()"
+                        onClick="closeMenu()"
                       >
                         close
                       </span>
@@ -111,7 +112,7 @@ export default function RootLayout({ children }) {
               <Footer />
           </footer>
         </div>
-        <script src="index.js" defer></script>
+        <Script src="index.js" strategy="lazyOnload"/>
       </body>
     </html>
   )

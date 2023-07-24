@@ -1,4 +1,4 @@
-"use client"
+import BlogFilter from "components/blogFilter.jsx"
 
 export default function BlogRepeater() {
     return (
@@ -15,38 +15,11 @@ export default function BlogRepeater() {
                     Writing is the essential part of my learning process.
                 </p>
                 </div>
+
                 <div className="blog-section">
-                <div className="blog-section-filter blog-filter">
-                    <div className="post-category filter-item" onclick="showAllPosts()">
-                    <div className="pill">
-                        <span>All</span>
-                    </div>
-                    </div>
-                    <div
-                    className="post-category-pm filter-item"
-                    onclick="showProjectManagementPosts()"
-                    >
-                    <div className="pill">
-                        <span>Project management</span>
-                    </div>
-                    </div>
-                    <div
-                    className="post-category-prod filter-item"
-                    onclick="showProductivityPosts()"
-                    >
-                    <div className="pill">
-                        <span>Productivity</span>
-                    </div>
-                    </div>
-                    <div
-                    className="post-category-thg filter-item"
-                    onclick="showThoughtsPosts()"
-                    >
-                    <div className="pill">
-                        <span>Thoughts</span>
-                    </div>
-                    </div>
-                </div>
+                
+                <BlogFilter />
+
                 <div className="blog-list-container">
                     <div className="blog-list-item display-item pm">
                     <a href="index.html">
