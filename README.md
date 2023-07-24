@@ -1,7 +1,5 @@
 # 🌐 My Personal Website Repository 🚀
 
-<img src="https://cdn.worldvectorlogo.com/logos/next-js.svg" alt="Next.js Logo" width="100">
-
 Welcome to the repository for my personal website built using Next.js and powered by Notion as a CMS for dynamic data management! 😄
 
 <br>
