@@ -1,17 +1,15 @@
 # 🌐 My Personal Website Repository 🚀
 
-![Next.js Logo](https://cdn.worldvectorlogo.com/logos/next-js.svg | width=100)
+<img src="https://cdn.worldvectorlogo.com/logos/next-js.svg" alt="Next.js Logo" width="100">
 
 Welcome to the repository for my personal website built using Next.js and powered by Notion as a CMS for dynamic data management! 😄
 
-<br>
 <br>
 
 ## 📄 Description
 
 This repository contains the codebase for my personal website, a Next.js application that showcases my portfolio, blog posts, services, skills, and projects. One of the unique and exciting features of this web application is the integration of Notion as a Content Management System (CMS). This allows me to easily manage and update dynamic content without the need for complex backend systems. 📝💻
 
-<br>
 <br>
 
 ## 🚀 Features
@@ -23,7 +21,6 @@ This repository contains the codebase for my personal website, a Next.js applica
 - 🌙 Dark mode for better user experience
 - ⚡ Blazing fast performance using Next.js
 
-<br>
 <br>
 
 ## 🤝 Contribution
