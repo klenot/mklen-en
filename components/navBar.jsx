@@ -1,10 +1,17 @@
 "use client"
 
 import { useTheme } from "next-themes"
+import React, { useState } from 'react'
 
 export default function NavBar() {
 
     const {resolvedTheme, setTheme} = useTheme()
+
+    const [isOpen, setOpen] = useState(false)
+    
+    const openMenu = (e) => {
+      !isOpen ? setOpen(true) : setOpen(false)
+    }
 
 
     return (
@@ -49,7 +56,7 @@ export default function NavBar() {
                     <span
                       style={{ fontSize: 27 }}
                       className="material-symbols-sharp burger-icon"
-                      onClick="toggleMenu()"
+                      onClick={openMenu}
                     >
                       lunch_dining
                     </span>
@@ -63,22 +70,22 @@ export default function NavBar() {
                     </span>
                   </div>
                 </div>
-                <div id="mobile-menu" className="mobile-menu-container mobile-menu-hide">
+                <div id="mobile-menu" className={isOpen === false ? "mobile-menu-container mobile-menu-hide" : "mobile-menu-container mobile-menu-display"}>
                   <div className="mobile-menu">
                     <ul className="nav-list">
-                      <li className="nav-item nav-item-mobile">
-                        <a href="index.html">Home</a>
+                      <li className="nav-item-mobile">
+                        <a href="/">Home</a>
                       </li>
-                      <li className="nav-item nav-item-mobile">
-                        <a href="about.html">About</a>
+                      <li className="nav-item-mobile">
+                        <a href="/about">About</a>
                       </li>
-                      <li className="nav-item nav-item-mobile">
-                        <a href="services.html">Services</a>
+                      <li className="nav-item-mobile">
+                        <a href="/services">Services</a>
                       </li>
-                      <li className="nav-item nav-item-mobile">
-                        <a href="blog.html">Blog</a>
+                      <li className="nav-item-mobile">
+                        <a href="/blog">Blog</a>
                       </li>
-                      <li className="nav-item nav-item-mobile">
+                      <li className="nav-item-mobile">
                         <a href="#">
                           <img
                             className="nav-mobile-lang-icon"
@@ -92,7 +99,7 @@ export default function NavBar() {
                       <span
                         style={{ fontSize: 30 }}
                         className="material-symbols-sharp"
-                        onClick="closeMenu()"
+                        onClick={openMenu}
                       >
                         close
                       </span>

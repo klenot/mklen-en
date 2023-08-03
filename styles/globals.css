@@ -351,7 +351,7 @@ transition: transform 0.4s ease-out;
 }
 
 .nav-item:hover{
-  transform: scale(1.1);
+  transform: scale(1.07);
 }
 
 .nav-item{
@@ -400,6 +400,7 @@ transition: transform 0.4s ease-out;
   display: flex;
   justify-content: space-between;
   max-height: 400px;
+  gap: 2rem;
   overflow: auto;
   position: relative;
   bottom: 4px;
@@ -415,7 +416,12 @@ transition: transform 0.4s ease-out;
 .nav-item-mobile{
   font-size: 2rem;
   padding: 0.5rem 1rem;
+  font-weight: var(--thin-font);
   color: var(--primary-text-color);
+}
+
+.nav-item-mobile:hover{
+  transform: scale(1.01);
 }
 
 .nav-mobile-lang-icon{
@@ -613,23 +619,6 @@ transition: transform 0.4s ease-out;
 
 /* SERVICES ----------------------------------------------------------------------------- */
 
-.service-thumbnail{
-  height: 40px;
-  width: 40px;
-  object-fit: cover;
-  position: relative;
-  left: -5px;
-  top: -5px;
-}
-
-.two-columns-span{
-  grid-column: span 2;
-}
-
-.two-rows-span{
-  grid-row: span 2;
-}
-
 .service-container{
   display: flex;
   padding: var(--mobile-cont-pd);
@@ -640,65 +629,56 @@ transition: transform 0.4s ease-out;
   margin-right: auto;
 }
 
+@media only screen and (min-width: 767px){
+  .service-container {
+      padding: var(--tablet-cont-pd);
+      width: var(--tablet-cont-w);
+    }
+}
+
+@media only screen and (min-width: 1100px) {
+.service-container {
+    padding: var(--desktop-cont-pd);
+    width: var(--desktop-cont-w);
+  }
+}
+
 .service-section{
   padding: var(--mobile-sect-pd);
 }
 
-.grid-container{
-  display: grid;
-  grid-template-columns: repeat(1, 33rem);
-  grid-template-rows: repeat(6, 22rem);
-  flex-wrap: wrap;
+.cards-container{
+  display: flex;
   flex-direction: row;
-  justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
-  gap: 1rem;
 }
 
-.grid-container:hover > .card::after {
-  opacity: 1;
+.cards {
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  gap: 1rem;
 }
 
 .card {
   background-color: var(--card-bg-color);
   border-radius: 8px;
   cursor: pointer;
-  display: flex;
   flex-direction: column;
-  position: relative;
+  padding: 2rem;
+  height: 20rem;
 }
 
-.card::before,
-.card::after {
-  border-radius: inherit;
-  content: "";
-  height: 100%;
-  left: 0px;
-  opacity: 0;
-  position: absolute;
-  top: 0px;
-  transition: opacity 500ms;
-  width: 100%;
+@media (min-width: 600px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
 }
 
-.card::before {
-  background: radial-gradient(
-  800px circle at var(--mouse-x) var(--mouse-y), 
-  var(--card-radial-gradient-before),
-  transparent 40%
-  );
-  z-index: 3;
+@media (min-width: 900px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
 }
 
-.card::after {  
-  background: radial-gradient(
-  600px circle at var(--mouse-x) var(--mouse-y), 
-  var(--card-radial-gradient-after),
-  transparent 40%
-  );
-  z-index: 1;
-}
+
+
+
 
 .card > .card-content {
   background-color: var(--card-content-color);
@@ -720,104 +700,7 @@ transition: transform 0.4s ease-out;
 .card-title{
   font-weight: var(--ultra-heavy-font);
   font-size: 2rem;
-}
-/*
-.bg-image-1{
-  background-image: url(media/services/ai-usage.png);
-}
-
-.bg-image-2{
-  background-image: url(media/services/solution.png);
-}
-
-.bg-image-3{
-  background-image: url(media/services/digital-marketing.png);
-}
-
-.bg-image-4{
-  background-image: url(media/services/ga4.png);
-}
-
-.bg-image-5{
-  background-image: url(media/services/holistic-strategy.png);
-}
-
-.bg-image-6{
-  background-image: url(media/services/project-management.png);
-}
-
-.bg-image-7{
-  background-image: url(media/thumbnails/pawel-czerwinski-3NXZA_V3qOQ-unsplash.jpg);
-}
-
-*/
-
-.card-info{
-  opacity: 1;
-}
-
-      @media only screen and (min-width: 414px){
-          .grid-container{
-              grid-template-columns: repeat(1, 37rem);
-              grid-template-rows: repeat(6, 27rem);
-          }
-      }
-
-      /* SERVICES SECTION - TABLET */
-
-      @media only screen and (min-width: 767px){
-
-          .service-container{
-              padding: var(--tablet-cont-pd);
-              width: var(--tablet-cont-w);
-          }
-
-          .service-section{
-              padding: var(--tablet-sect-pd);
-          }
-
-          .service-container-grid{
-              padding: var(--tablet-cont-pd);
-              width: var(--tablet-cont-w);
-              margin-left: auto;
-              margin-right: auto;
-              overflow: hidden;
-          }
-
-
-          .grid-container{
-              display: grid;
-              grid-template-columns: repeat(2, 33rem);
-              grid-template-rows: repeat(3, 23rem);
-          }
-
-      }
-
-      @media only screen and (min-width: 820px){
-          .grid-container{
-              display: grid;
-              grid-template-columns: repeat(2, 35rem);
-              grid-template-rows: repeat(3, 25rem);
-          }
-      }
-
-      /* SERVICES SECTION - DESKTOP */
-
-      @media only screen and (min-width: 1100px){
-
-          .service-container{
-              padding: var(--desktop-cont-pd);
-              width: var(--desktop-cont-w);
-          }
-
-          .grid-container{
-              display: grid;
-              grid-template-columns: repeat(2, 26rem);
-              grid-template-rows: repeat(3, 20rem);
-              justify-content: start;
-          }
-
-      }
+} 
 
 
 /* TILE SECTION ----------------------------------------------------------------------------- */
