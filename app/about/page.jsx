@@ -1,6 +1,6 @@
 import HeroMain from "@/components/heroMain.jsx";
 import SkillRepeater from "@/components/skillRepeater";
-import TileRepeater from "@/components/tileRepeater";
+import TileRepeater from "@/components/bookRepeater";
 import 'styles/about-styles.css'
 
 export default function About() {

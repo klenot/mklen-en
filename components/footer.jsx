@@ -1,18 +1,12 @@
+import Image from "next/image"
+
 export default function Footer() {
+
+  const currentYear = new Date().getFullYear();
+
   return(
       <>
         <footer id="footer">
-          <svg className="hideSvgSoThatItSupportsFirefox">
-            <filter id="sharpBlur">
-              <feGaussianBlur stdDeviation="3.5" />
-              <feColorMatrix
-                type="matrix"
-                values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 9 0"
-              />
-              <feComposite in2="SourceGraphic" operator="in" />
-            </filter>
-          </svg>
-          
           <div className="footer-container">
             <div className="footer-row-top">
               <div className="footer-section">
@@ -90,13 +84,20 @@ export default function Footer() {
                   />
                   <div className="button-wrapper">
                     <button className="cta">
-                      <span className="cta-text">
-                        send the pidgeon
-                        <img
-                          className="icon-pidgeon"
-                          src="public/icons/pidgeon-1.png"
-                          alt="The pidgeon."
+                      <span className="cta-text" style={{paddingTop: "2px"}}>
+                        Send the pidgeon
+                        <span style={{paddingLeft:"8px"}}>
+                        <Image
+                          src={"/icons/pidgeon-1.png"}
+                          alt={"The pidgeon."}
+                          width={20}
+                          height={20}
+                          style={{
+                            position: "relative",
+                            top: "2px"
+                          }}
                         />
+                        </span>
                       </span>
                     </button>
                   </div>
@@ -190,12 +191,17 @@ export default function Footer() {
               <div className="footer-bottom">
                 <div className="footer-bottom-container">
                   <p>
-                    2023 © Created in Prague on Macbook Pro M1.{" "}
+                    {currentYear} © Created in Prague on Macbook Pro M1.{" "}
                     <span>
-                      <img
-                        className="footer-icon"
-                        src="public/icons/disclaimer-macbook.png"
-                        alt="Macbook Pro as a disclaimer icon."
+                      <Image
+                        src={"/icons/disclaimer-macbook.png"}
+                        alt={"Macbook Pro as a disclaimer icon."}
+                        width={19}
+                        height={19}
+                        style={{
+                          position: "relative",
+                          top: "4px"
+                        }}
                       />
                     </span>
                   </p>

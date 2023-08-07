@@ -13,12 +13,12 @@ function ButtonAll() {
             item.style.borderBottom = "";
           }
         
-          for (let item of getProductivityPosts) {
+        for (let item of getProductivityPosts) {
             item.style.display = 'flex';
             item.style.borderBottom = "";
           }
         
-          for (let item of getThoughtsPosts) {
+        for (let item of getThoughtsPosts) {
             item.style.display = 'flex';
             item.style.borderBottom = "";
           }

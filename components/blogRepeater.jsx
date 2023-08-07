@@ -6,7 +6,7 @@ export default function BlogRepeater() {
         <section id="blog-section">
             <div className="blog-section-container">
                 <div className="blog-section section-title-h2">
-                <h2>Writing</h2>
+                <h2 className="mt-2">Writing</h2>
                 </div>
                 <div className="blog-section">
                 <p>

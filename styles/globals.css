@@ -35,7 +35,7 @@ h2{
 
 h3{
   font-size: 1.8rem;
-  font-weight: var(--regular-font);
+  font-weight: var(--bold-font);
 }
 
 p{
@@ -56,6 +56,22 @@ select, textarea {
   outline: none;
 }
 
+.mt-1{
+  margin-top: 1rem;
+}
+
+.mt-2{
+  margin-top: 2rem;
+}
+
+.mb-1{
+  margin-bottom: 1rem;
+}
+
+.mb-2{
+  margin-bottom: 2rem;
+}
+
 :root{
   --ultra-thin-font: 100;
   --thin-font: 200;
@@ -68,7 +84,7 @@ select, textarea {
 
   --mobile-cont-pd: 2% 6% 2% 6%;
   --tablet-cont-pd: 1% 5% 1% 5%;
-  --desktop-cont-pd: 3% 4% 1% 4%;
+  --desktop-cont-pd: 1% 4% 1% 4%;
   --mobile-sect-pd: 4% 0% 4% 0%;
   --tablet-sect-pd: 2% 0% 2% 0%;
   --desktop-sect-pd: 2% 0% 2% 0%;
@@ -161,6 +177,14 @@ select, textarea {
   font-weight: var(--thin-font);
 }
 
+.dark-theme .tile-title{
+  font-weight: var(--regular-font);
+}
+
+.light-theme .tile-title{
+  font-weight: var(--bold-font);
+}
+
 .dark-theme .footer-link{
   font-weight: var(--thin-font);
 }
@@ -203,14 +227,6 @@ select, textarea {
 
 .light-theme textarea{
   font-weight: var(--light-font);
-}
-
-.light-theme .tile-title{
-  color: #f0f0f0;
-}
-
-.light-theme .tile-perex{
-  color: #f0f0f0;
 }
 
 .light-theme .card-title, .card-description{
@@ -525,6 +541,7 @@ transition: transform 0.4s ease-out;
 
 .hero-container{
   display: flex;
+  height: 100%;
   flex-wrap: wrap;
   flex-direction: column;
   row-gap: 10%;
@@ -643,10 +660,6 @@ transition: transform 0.4s ease-out;
   }
 }
 
-.service-section{
-  padding: var(--mobile-sect-pd);
-}
-
 .cards-container{
   display: flex;
   flex-direction: row;
@@ -668,17 +681,13 @@ transition: transform 0.4s ease-out;
   height: 20rem;
 }
 
+.card:hover{
+  scale: 1.015;
+}
+
 @media (min-width: 600px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
 }
-
-@media (min-width: 900px) {
-  .cards { grid-template-columns: repeat(2, 1fr); }
-}
-
-
-
-
 
 .card > .card-content {
   background-color: var(--card-content-color);
@@ -705,18 +714,6 @@ transition: transform 0.4s ease-out;
 
 /* TILE SECTION ----------------------------------------------------------------------------- */
 
-.tile-thumbnail{
-  width: 100%;
-  height: 20rem;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.svgBlur {
-  -webkit-filter: url("#sharpBlur");
-  filter: url("#sharpBlur");
-}
-
 .tile-section-container{
   display: flex;
   flex-wrap: wrap;
@@ -735,13 +732,15 @@ transition: transform 0.4s ease-out;
 
 .tile-container{
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 2rem;
   gap: 1rem;
   justify-content: center;
 }
 
 .tile-item{
   display: flex;
+  margin-bottom: 3rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -749,36 +748,22 @@ transition: transform 0.4s ease-out;
 }
 
 .tile-item:hover{
-  transform: scale(0.95);
-  transition: 0.25s ease-out
+  transform: scale(1.04);
+  transition: 0.3s ease-out
 }
-
-.tile-item:hover > .tile-thumbnail{
-  -webkit-filter: url("#sharpBlur");
-  filter: url("#sharpBlur");
-}
-
-/* .tile-item:hover .tile-title{
-  opacity: 1;
-}
-
-.tile-item:hover .tile-perex{
-  opacity: 1;
-} */
 
 .tile-info-wrapper{
   display: flex;
   flex-direction: column;
-  z-index: 8;
-  position: absolute;
   align-items: center;
   text-align: center;
-  width: 15rem;
+  width: 100%;
+  height: 15rem;
 }
 
 .tile-title, .tile-perex{
   padding: 1rem 1rem 0 1rem;
-  opacity: 1;
+  font-size: 1.2rem;
 }
 
       /* TILE SECTION - MOBILE 1 */
@@ -1249,8 +1234,7 @@ transition: transform 0.4s ease-out;
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 1rem;
-  margin-top: 0.5rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.1rem;
 }
 
 .skill-list-container{
@@ -1345,46 +1329,6 @@ a.skill-page-link{
   cursor: pointer;
 }
 
-.icon-html{
-  position: relative;
-  top: 3px;
-}
-
-.icon-css{
-  height: 20px;
-  width: 20px;
-  position: relative;
-  top: 4px;
-}
-
-.icon-js{
-  height: 20px;
-  width: 20px;
-  position: relative;
-  top: 4px;
-}
-
-.icon-python{
-  height: 20px;
-  width: 16px;
-  position: relative;
-  top: 6px;
-}
-
-.icon-english{
-  height: 20px;
-  width: 20px;
-  position: relative;
-  top: 5px;
-}
-
-.icon-deutsch{
-  height: 20px;
-  width: 20px;
-  position: relative;
-  top: 5px;
-}
-
       /* SKILL SECTION - TABLET */
 
       @media only screen and (min-width: 767px){
@@ -1474,7 +1418,7 @@ a.skill-page-link{
 }
 
 input:focus {
-  transform: scale(1.1);
+  transform: scale(1);
 }
 
 input:focus *{
@@ -1482,7 +1426,7 @@ input:focus *{
 }
 
 textarea:focus{
-  transform: scale(1.1);
+  transform: scale(1);
 }
 
 
@@ -1545,6 +1489,7 @@ textarea:focus{
   margin-right: auto;
   border-top: solid 0.1rem var(--primary-text-color);
   padding-top: 5rem;
+  margin-top: 7rem;
 }
 
 .footer-section{

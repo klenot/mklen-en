@@ -1,5 +1,5 @@
 import HeroMain from "components/heroMain.jsx"
-import TileRepeater from "@/components/tileRepeater"
+import TileRepeater from "@/components/bookRepeater"
 
 export default function Blog() {
     return (

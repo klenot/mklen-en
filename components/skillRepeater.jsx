@@ -1,3 +1,6 @@
+import SkillFilter from "/components/skillFilter.jsx"
+import Image from "next/image"
+
 export default function SkillRepeater() {
   return (
     <>
@@ -13,80 +16,9 @@ export default function SkillRepeater() {
             </p>
           </div>
           <div className='skill-section'>
-            <div className='skill-filter'>
-              <div
-                className='skill-category filter-item'
-                onclick='showcaseSkills()'>
-                <div className='pill'>
-                  <span>Showcase</span>
-                </div>
-              </div>
-              <div
-                className='skill-category filter-item'
-                onclick='showAiSkills()'>
-                <div className='pill'>
-                  <span>AI tools</span>
-                </div>
-              </div>
-              <div
-                className='skill-category filter-item'
-                onclick='showCodeSkills()'>
-                <div className='pill'>
-                  <span>Coding &amp; Programming</span>
-                </div>
-              </div>
-              <div
-                className='skill-category filter-item'
-                onclick='showDigitalSkills()'>
-                <div className='pill'>
-                  <span>Digital marketing</span>
-                </div>
-              </div>
-              <div
-                className='skill-category filter-item'
-                onclick='showManagementSkills()'>
-                <div className='pill'>
-                  <span>Management</span>
-                </div>
-              </div>
-            </div>
-            <div className='skill-filter'>
-              <div
-                className='skill-category filter-item'
-                onclick='showGraphicSkills()'>
-                <div className='pill'>
-                  <span>Graphics &amp; Design</span>
-                </div>
-              </div>
-              <div
-                className='skill-category filter-item'
-                onclick='showAnalyticSkills()'>
-                <div className='pill'>
-                  <span>Analytic tools</span>
-                </div>
-              </div>
-              <div
-                className='skill-category filter-item'
-                onclick='showLanguages()'>
-                <div className='pill'>
-                  <span>Languages</span>
-                </div>
-              </div>
-              <div
-                className='skill-category filter-item'
-                onclick='showPerformSkills()'>
-                <div className='pill'>
-                  <span>Performance marketing</span>
-                </div>
-              </div>
-              <div
-                className='skill-category filter-item'
-                onclick='showGeneralSkills()'>
-                <div className='pill'>
-                  <span>General &amp; Administrative</span>
-                </div>
-              </div>
-            </div>
+            
+            <SkillFilter />
+
             <div className='skill-list-container'>
               <div className='skill-list-item shw man'>
                 <div className='skill-title'>
@@ -174,9 +106,6 @@ export default function SkillRepeater() {
                         <span>Creative</span>
                       </div>
                     </div>
-                    {/* <div class="skill-level">
-                                            <div class=""><span>Skill level</span></div>
-                                        </div> */}
                   </div>
                 </div>
               </div>
@@ -184,10 +113,15 @@ export default function SkillRepeater() {
                 <div className='skill-title'>
                   <h3>
                     HTML5{" "}
-                    <img
-                      className='icon-html'
-                      src='media/icons/html5.png'
-                      alt='The HTML5 logo.'
+                    <Image
+                      src={'/icons/html5.png'}
+                      alt={'The HTML5 logo.'}
+                      width={16.5}
+                      height={16.5}
+                      style={{
+                        position: "relative",
+                        top: "4px"
+                      }}
                     />
                   </h3>
                 </div>
@@ -213,10 +147,15 @@ export default function SkillRepeater() {
                 <div className='skill-title'>
                   <h3>
                     CSS{" "}
-                    <img
-                      className='icon-css'
-                      src='media/icons/css-3.png'
-                      alt='The HTML5 logo.'
+                    <Image
+                      src={'/icons/css-3.png'}
+                      alt={'The HTML5 logo.'}
+                      width={20}
+                      height={20}
+                      style={{
+                        position: "relative",
+                        top: "4px"
+                      }}
                     />
                   </h3>
                 </div>
@@ -244,10 +183,15 @@ export default function SkillRepeater() {
                 <div className='skill-title'>
                   <h3>
                     JavaScript{" "}
-                    <img
-                      className='icon-js'
-                      src='media/icons/js.png'
-                      alt='The javascript logo.'
+                    <Image
+                      src={'/icons/js.png'}
+                      alt={'The javascript logo.'}
+                      width={22}
+                      height={22}
+                      style={{
+                        position: "relative",
+                        top: "5px"
+                      }}
                     />
                   </h3>
                 </div>
@@ -273,10 +217,15 @@ export default function SkillRepeater() {
                 <div className='skill-title'>
                   <h3>
                     Python{" "}
-                    <img
-                      className='icon-python'
-                      src='media/icons/python.svg'
-                      alt='The python logo.'
+                    <Image
+                      src={'/icons/python.svg'}
+                      alt={'The python logo.'}
+                      width={20}
+                      height={20}
+                      style={{
+                        position: "relative",
+                        top: "6px"
+                      }}
                     />
                   </h3>
                 </div>
@@ -302,10 +251,15 @@ export default function SkillRepeater() {
                 <div className='skill-title'>
                   <h3>
                     English{" "}
-                    <img
-                      className='icon-english'
-                      src='media/icons/great-britain-icon.png'
-                      alt='The English flag.'
+                    <Image
+                      src={'/icons/great-britain-icon.png'}
+                      alt={'The English flag.'}
+                      width={20}
+                      height={20}
+                      style={{
+                        position: "relative",
+                        top: "5px"
+                      }}
                     />
                   </h3>
                 </div>
@@ -333,10 +287,15 @@ export default function SkillRepeater() {
                 <div className='skill-title'>
                   <h3>
                     Deutsch{" "}
-                    <img
-                      className='icon-deutsch'
-                      src='media/icons/germany-icon.png'
-                      alt='The python logo.'
+                    <Image
+                      src={'/icons/germany-icon.png'}
+                      alt={'The python logo.'}
+                      width={20}
+                      height={20}
+                      style={{
+                        position: "relative",
+                        top: "5px"
+                      }}
                     />
                   </h3>
                 </div>
@@ -362,7 +321,7 @@ export default function SkillRepeater() {
             <div className='skill-section'>
               <p className='skill-page-link'>
                 You can find a structured skillset list on this{" "}
-                <a href='index.html' className='hover-underline-animation'>
+                <a href='/' className='hover-underline-animation'>
                   page
                 </a>
                 .

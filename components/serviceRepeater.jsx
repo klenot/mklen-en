@@ -38,15 +38,6 @@ export default function ServiceRepeater() {
             </div>
         
             <div className="service-container">
-                <div className="service-section">
-                    <br />
-                    <p>
-                        My expertise spans across a range of digital marketing channels,
-                        including project leadership, web development, e-commerce, web
-                        analytics, performance marketing, social media strategy, email marketing
-                        and content creation.
-                    </p>
-                </div>
                 <div className="hero-section hero-button-wrapper">
                 <a href="/services.html">
                     <button onclick="scrollToFooter()" className="cta">
