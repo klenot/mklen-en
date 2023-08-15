@@ -9,9 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.4.10",
+    "@notionhq/client": "^2.2.10",
+    "axios": "^1.4.0",
+    "json": "^11.0.0",
+    "next": "^13.4.15",
     "next-themes": "^0.2.1",
+    "node.js": "^0.0.1-security",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "encoding": "^0.1.13"
   }
 }

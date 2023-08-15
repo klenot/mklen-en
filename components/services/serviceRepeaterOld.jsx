@@ -1,4 +1,4 @@
-export default function ServiceRepeater() {
+export default function ServiceRepeaterOld() {
     return (
       <>
         <section id="service-section-2">
@@ -40,7 +40,7 @@ export default function ServiceRepeater() {
             <div className="service-container">
                 <div className="hero-section hero-button-wrapper">
                 <a href="/services.html">
-                    <button onclick="scrollToFooter()" className="cta">
+                    <button className="cta">
                     <span>explore all services</span>
                     </button>
                 </a>

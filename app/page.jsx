@@ -1,15 +1,15 @@
-import HeroMain from "components/heroMain.jsx"
-import ServiceRepeater from "@/components/serviceRepeater"
-import BlogRepeater from "@/components/blogRepeater"
+import HeroMain from "components/Shared/heroMain.jsx";
+import ServiceRepeater from "@/components/services/serviceRepeater";
+import BlogRepeater from "@/components/Blog/blogRepeater";
 
 export default function Home() {
   return (
     <>
       <main>
-          <HeroMain />
-          <ServiceRepeater />
-          <BlogRepeater />
+        <HeroMain />
+        <ServiceRepeater />
+        <BlogRepeater />
       </main>
-  </>
-  )
+    </>
+  );
 }

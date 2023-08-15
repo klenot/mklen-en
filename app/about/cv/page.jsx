@@ -1,99 +1,10 @@
 import "styles/cv-styles.css";
+import NavBar from "@/components/Shared/navBar";
 
 export default function CurriculumVitae() {
   return (
     <>
-      <header id='nav-bar'>
-        <nav>
-          <div className='nav-container'>
-            <div className='nav-section logo-section'>
-              <a href='../index.html'>
-                <span id='logo' className='logo'>
-                  mklenotic
-                </span>
-              </a>
-            </div>
-            <div className='nav-right-wrapper'>
-              <div className='nav-section'>
-                <ul className='nav-list'>
-                  <li className='nav-item'>
-                    <a id='home' href='../index.html'>
-                      Home
-                    </a>
-                  </li>
-                  <li className='nav-item'>
-                    <a id='about' href='../about.html'>
-                      About
-                    </a>
-                  </li>
-                  <li className='nav-item'>
-                    <a id='services' href='../services.html'>
-                      Services
-                    </a>
-                  </li>
-                  <li className='nav-item'>
-                    <a id='blog' href='../blog.html'>
-                      Blog
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div id='burger-icon' className='nav-section mobile-menu-icons'>
-                <span
-                  style={{ fontSize: 27 }}
-                  className='material-symbols-sharp burger-icon'
-                  onclick='toggleMenu()'>
-                  lunch_dining
-                </span>
-                <span
-                  style={{ fontSize: 30 }}
-                  id='light-mode'
-                  className='material-symbols-sharp'
-                  onclick='toggleIcon(), toggleDark()'>
-                  light_mode
-                </span>
-              </div>
-            </div>
-            <div
-              id='mobile-menu'
-              className='mobile-menu-container mobile-menu-hide'>
-              <div className='mobile-menu'>
-                <ul className='nav-list'>
-                  <li className='nav-item nav-item-mobile'>
-                    <a href='../index.html'>Home</a>
-                  </li>
-                  <li className='nav-item nav-item-mobile'>
-                    <a href='../about.html'>About</a>
-                  </li>
-                  <li className='nav-item nav-item-mobile'>
-                    <a href='../services.html'>Services</a>
-                  </li>
-                  <li className='nav-item nav-item-mobile'>
-                    <a href='../blog.html'>Blog</a>
-                  </li>
-                  <li className='nav-item nav-item-mobile'>
-                    <a href='#'>
-                      <img
-                        className='nav-mobile-lang-icon'
-                        src='../media/icons/czech-flag-icon.png'
-                        alt='Czech Repuplic flag standing for the translation into Czech.'
-                      />
-                    </a>
-                  </li>
-                </ul>
-                <div>
-                  <span
-                    style={{ fontSize: 30 }}
-                    className='material-symbols-sharp'
-                    onclick='closeMenu()'>
-                    close
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </header>
+      <NavBar />
       <>
         <section id='cv-hero-section'>
           <div className='cv-hero-container'>
@@ -112,7 +23,8 @@ export default function CurriculumVitae() {
                 </div>
                 <p className='long-text'>
                   <br />I know that time is a valuable asset and I am glad that
-                  you are investing a few minutes of yours to me. Thank you for reviewing my CV.
+                  you are investing a few minutes of yours to me. Thank you for
+                  reviewing my CV.
                 </p>
               </div>
             </div>

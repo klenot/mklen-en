@@ -1,4 +1,4 @@
-import BlogFilter from "components/blogFilter.jsx"
+import BlogFilter from "components/Blog/blogFilter.jsx"
 
 export default function BlogRepeater() {
     return (

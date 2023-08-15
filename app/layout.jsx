@@ -1,8 +1,8 @@
 import 'styles/globals.css'
-import Head from "components/head.jsx"
-import NavBar from "components/navBar.jsx"
+import Head from "components/Shared/head.jsx"
+import NavBar from "components/Shared/navBar.jsx"
 import Providers from "app/providers.jsx"
-import Footer from "components/footer.jsx"
+import Footer from "components/Shared/footer.jsx"
 
 export default function RootLayout({ children }) {
   return (

@@ -116,6 +116,7 @@ select, textarea {
   --card-content-color: rgb(23, 23, 23);
   --card-radial-gradient-before: rgba(255, 255, 255, 0.05);
   --card-radial-gradient-after: rgba(255, 255, 255, 0.6);
+  --service-category-bg: #397FE3;
 
   --skill-category-bg: #CBFBFE;
   --skill-level-bg: #DABCF9;
@@ -153,6 +154,7 @@ select, textarea {
   --card-content-color: rgb(206, 206, 206);
   --card-radial-gradient-before: rgba(90, 90, 90, 0.1);
   --card-radial-gradient-after: rgb(4, 4, 4);
+  --service-category-bg: #FFAD7A;
 
   --skill-category-bg: #8891DE;
   --skill-level-bg: #CBFBFE;
@@ -673,6 +675,8 @@ transition: transform 0.4s ease-out;
 }
 
 .card {
+  display: flex;
+  justify-content: space-between;
   background-color: var(--card-bg-color);
   border-radius: 8px;
   cursor: pointer;
@@ -709,7 +713,27 @@ transition: transform 0.4s ease-out;
 .card-title{
   font-weight: var(--ultra-heavy-font);
   font-size: 2rem;
-} 
+}
+
+.service-description{
+  margin-top: 1rem;
+}
+
+.service-category{
+  display: flex;
+  background-color: var(--service-category-bg);
+  width: fit-content;
+  padding: 0.1rem 0.6rem 0.2rem 0.6rem;
+  height: fit-content;
+  border-radius: 4px;
+  text-align: center;
+  border: solid 0.1rem var(--primary-outline);
+  box-shadow: 2px 2px 0px var(--service-category-bg);
+}
+
+.service-category-text{
+  font-size: 1.2rem;
+}
 
 
 /* TILE SECTION ----------------------------------------------------------------------------- */
@@ -929,6 +953,7 @@ transition: transform 0.4s ease-out;
 
   .post-category{
       display: flex;
+
       background-color: var(--post-category-bg);
       width: fit-content;
       padding: 0.1rem 0.6rem 0.2rem 0.6rem;
