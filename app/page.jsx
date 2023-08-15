@@ -1,14 +1,25 @@
 import HeroMain from "components/Shared/heroMain.jsx";
-import ServiceRepeater from "@/components/services/serviceRepeater";
-import BlogRepeater from "@/components/Blog/blogRepeater";
+import ServiceSectionHome from "@/components/services/serviceSectionHome";
+import BlogSection from "@/components/Blog/blogSection";
 
 export default function Home() {
   return (
     <>
       <main>
-        <HeroMain />
-        <ServiceRepeater />
-        <BlogRepeater />
+        <HeroMain 
+          h1={"My name is Marek."}
+          perex={"I'm a martech specialist & project manager with a passion for effective digital strategies."}
+          buttonText={"get to know me"}
+        />
+        <ServiceSectionHome
+          title={"How I can help your business"}
+          description={"As an experienced martech specialist, project manager and digital marketing consultant I can help you achieve your business goals."}
+          buttonText={"explore all services"}
+        />
+        <BlogSection 
+          h2={"Writing"}
+          perex={"When I'm getting into a new subject or reflecting on my experiences, writing helps me to clarify my thoughts and better understand the topic. Writing is the essential part of my learning process."}
+        />
       </main>
     </>
   );
