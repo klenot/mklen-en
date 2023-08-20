@@ -1,8 +1,9 @@
 import Link from "next/link";
+import BlogFilter from "./blogFilter";
 
 const { Client } = require("@notionhq/client");
 
-export default async function BlogRepeater() {
+export default async function BlogListRepeater() {
   const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
   const response = await notion.databases.query({
@@ -12,7 +13,11 @@ export default async function BlogRepeater() {
       select: {
         equals: "Published",
       },
-    },
+      property: "Placement",
+      select: {
+        equals: "Homepage",
+      },
+    }, 
   });
 
   const blogs = {
@@ -21,11 +26,15 @@ export default async function BlogRepeater() {
 
   return (
     <>
+      
+      <BlogFilter />
+
       <div className='blog-section'>
         <div className='blog-list-container'>
           {blogs.props.map((blog) => (
-            <div key={blog.id} className='blog-list-item'>
-              <Link href={"/"}>
+            <Link className="blog-list-item" href={"/"}>
+            <div key={blog.id}>
+              
                 <div
                   className={blog.properties.AutoClassGenerator.formula.string}>
                   <div className='pill'>
@@ -44,8 +53,11 @@ export default async function BlogRepeater() {
                 <div className='post-date'>
                   <p>{blog.properties.PostDate.date.start}</p>
                 </div>
-              </Link>
+
             </div>
+
+            </Link>
+            
           ))}
         </div>
       </div>

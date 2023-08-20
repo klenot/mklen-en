@@ -125,6 +125,8 @@ select, textarea {
   --post-category-pm-bg: #FCF9BE;
   --post-category-productivity-bg: #9FA3FB;
   --post-category-thoughts-bg: #FAAB78;
+
+  --post-date-bg: rgb(158, 158, 158);
   
   --shadow-color: #FFAD7A;
 
@@ -163,6 +165,8 @@ select, textarea {
   --post-category-pm-bg: #C9B7F3;
   --post-category-productivity-bg: #CBB9D3;
   --post-category-thoughts-bg: #8891DE;
+
+  --post-date-bg: rgb(112, 112, 112);
 
   --shadow-color: #FFAD7A;
 
@@ -355,7 +359,6 @@ transition: transform 0.4s ease-out;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-
   position: fixed;
   z-index: 10;
   left: 50%;
@@ -933,9 +936,57 @@ transition: transform 0.4s ease-out;
       order: 4;
   }
 
+
+  .post-card {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--card-bg-color);
+    border-radius: 8px;
+    cursor: pointer;
+    flex-direction: column;
+    padding: 2rem;
+    height: 30rem;
+  }
+
+  .post-card-info{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .post-card-info-date{
+    display: flex;
+    align-items: center;
+
+    background-color: var(--post-category-bg);
+    padding: 0.1rem 0.6rem 0.2rem 0.6rem;
+    border-radius: 4px;
+    border: solid 0.1rem var(--primary-outline);
+    box-shadow: 2px 2px 0px var(--post-category-bg);
+  }
+
+  .post-card-info-date-text{
+    font-size: 1.2rem;
+  }
+  
+  .post-card:hover{
+    scale: 1.014;
+  }
+
+  .hide-by-default{
+    opacity: 0%;
+  }
+
+  .hide-by-default:hover{
+    transition: opacity 0.4s ease;
+    opacity: 100%;
+  }
+
+
+
   .post-title h3{
       font-size: 1.5rem;
       font-weight: var(--regular-font);
+      margin-top: 2rem;
       padding: 0.5rem 0 0.5rem 0;
   }
 
@@ -953,11 +1004,9 @@ transition: transform 0.4s ease-out;
 
   .post-category{
       display: flex;
-
       background-color: var(--post-category-bg);
       width: fit-content;
       padding: 0.1rem 0.6rem 0.2rem 0.6rem;
-      margin-bottom: 2rem;
       height: fit-content;
       border-radius: 4px;
       text-align: center;
@@ -970,7 +1019,6 @@ transition: transform 0.4s ease-out;
       background-color: var(--post-category-productivity-bg);
       width: fit-content;
       padding: 0.1rem 0.6rem 0.2rem 0.6rem;
-      margin-bottom: 2rem;
       height: fit-content;
       border-radius: 4px;
       text-align: center;
@@ -995,7 +1043,6 @@ transition: transform 0.4s ease-out;
       background-color: var(--post-category-pm-bg);
       width: fit-content;
       padding: 0.1rem 0.6rem 0.2rem 0.6rem;
-      margin-bottom: 2rem;
       height: fit-content;
       border-radius: 4px;
       text-align: center;
@@ -1008,6 +1055,80 @@ transition: transform 0.4s ease-out;
       font-weight: var(--regular-font);
       color: var(--secondary-text-color);
   }
+
+  .post-category-filter-button{
+    display: flex;
+    background-color: var(--post-category-bg);
+    width: fit-content;
+    padding: 0.1rem 0.6rem 0.2rem 0.6rem;
+    height: fit-content;
+    border-radius: 4px;
+    text-align: center;
+    border: solid 0.1rem var(--primary-outline);
+    box-shadow: 2px 2px 0px var(--post-category-bg);
+}
+
+.post-category-filter-button:hover{
+  scale: 1.03;
+}
+
+  .post-category-pm-filter-button{
+    display: flex;
+    background-color: var(--post-category-pm-bg);
+    width: fit-content;
+    padding: 0.1rem 0.6rem 0.2rem 0.6rem;
+    height: fit-content;
+    border-radius: 4px;
+    text-align: center;
+    border: solid 0.1rem var(--primary-outline);
+    box-shadow: 2px 2px 0px var(--post-category-pm-bg);
+}
+
+.post-category-pm-filter-button:hover{
+  scale: 1.03;
+}
+
+.post-category-thg-filter-button{
+  display: flex;
+  background-color: var(--post-category-thoughts-bg);
+  width: fit-content;
+  padding: 0.1rem 0.6rem 0.2rem 0.6rem;
+  height: fit-content;
+  border-radius: 4px;
+  text-align: center;
+  border: solid 0.1rem var(--primary-outline);
+  box-shadow: 2px 2px 0px var(--post-category-thoughts-bg);
+}
+
+.post-category-thg-filter-button:hover{
+scale: 1.03;
+}
+
+.post-category-prod-filter-button{
+  display: flex;
+  background-color: var(--post-category-productivity-bg);
+  width: fit-content;
+  padding: 0.1rem 0.6rem 0.2rem 0.6rem;
+  height: fit-content;
+  border-radius: 4px;
+  text-align: center;
+  border: solid 0.1rem var(--primary-outline);
+  box-shadow: 2px 2px 1px var(--post-category-productivity-bg);
+}
+
+.post-category-prod-filter-button:hover{
+scale: 1.03;
+}
+
+.post-category-filter-button span, .post-category-pm-filter-button span, .post-category-thg-filter-button span, .post-category-prod-filter-button span{
+  font-size: 1.4rem;
+  font-weight: var(--regular-font);
+  color: var(--secondary-text-color);
+}
+
+.pill{
+  z-index: 10;
+}
 
 
           /* BLOG SECTION - TABLET */

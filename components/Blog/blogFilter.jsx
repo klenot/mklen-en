@@ -1,52 +1,43 @@
-"use client"
-
-function ButtonAll() { 
-    return (
-      <div className="post-category filter-item">
-        <div className="pill">
-            <span>All</span>
-        </div>
+export function FilterButton({ buttonText, filterCategory, className }) {
+  return (
+    <>
+      <div>
+        <button className={className}><span>{buttonText}</span></button>
       </div>
-    );
-  };
+    </>
+  );
+}
 
-function ButtonProjectManagement() {
-    return (
-      <div className="post-category-pm filter-item">
-        <div className="pill">
-            <span>Project management</span>
-        </div>
+export default function BlogFilter() {
+  return (
+    <>
+      <div className='blog-section blog-filter  '>
+
+        <FilterButton
+        buttonText={"All"}
+        filterCategory={"AllPost"}
+        className={"post-category-filter-button"} 
+        />
+        
+        <FilterButton
+        buttonText={"Project management"}
+        filterCategory={"Project management"}
+        className={"post-category-pm-filter-button"}
+        />
+        
+        <FilterButton
+        buttonText={"Productivity"}
+        filterCategory={"Productivity"}
+        className={"post-category-prod-filter-button"}
+        />
+        
+        <FilterButton
+        buttonText={"Thoughts"}
+        filterCategory={"Thoughts"}
+        className={"post-category-thg-filter-button"}
+        />
+
       </div>
-    );
-  };
-
-function ButtonProductivity() {
-    return (
-      <div className="post-category-prod filter-item">
-        <div className="pill">
-            <span>Productivity</span>
-        </div>
-      </div>
-    );
-  };
-
-function ButtonThoughts() {
-    return (
-      <div className="post-category-thg filter-item">
-        <div className="pill">
-            <span>Thoughts</span>
-        </div>
-      </div>
-    );
-  };
-
-  export default function BlogFilter() {
-    return(
-        <div className="blog-section-filter blog-filter">
-            <ButtonAll />
-            <ButtonProjectManagement />
-            <ButtonProductivity />
-            <ButtonThoughts />
-        </div>
-    );
-}   
+    </>
+  );
+}

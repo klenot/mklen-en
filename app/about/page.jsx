@@ -1,4 +1,4 @@
-import HeroMain from "@/components/Shared/heroMain.jsx";
+import HeroLandingPage from "@/components/Shared/heroLandingPage";
 import SkillRepeater from "@/components/Skills/skillRepeater";
 import TileRepeater from "@/components/Books/bookRepeater";
 import 'styles/about-styles.css'
@@ -7,7 +7,11 @@ export default function About() {
   return (
     <>
       <main>
-        <HeroMain />
+        <HeroLandingPage 
+          h1={"About"}
+          perex={"I am Marek."}
+          buttonText={"get to know me"}
+        />
         <SkillRepeater />
         <TileRepeater />
 
