@@ -1,6 +1,6 @@
-import HeroMain from "components/Shared/heroMain.jsx";
-import ServiceSectionHome from "@/components/services/serviceSectionHome";
-import BlogListSection from "@/components/Blog/blogListSection";
+import HeroMain from "app/components/Shared/heroMain.jsx";
+import ServiceSectionHome from "@/app/components/services/serviceSectionHome";
+import BlogListSection from "@/app/components/Blog/blogListSection";
 
 export default function Home() {
   return (

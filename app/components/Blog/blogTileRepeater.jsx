@@ -1,66 +1,41 @@
-
 import Link from "next/link";
 import BlogFilter from "./blogFilter";
-const { Client } = require("@notionhq/client");
-
-async function getBlogPosts() {
-  const notion = new Client({ auth: process.env.NOTION_API_KEY });
-
-  const response = await notion.databases.query({
-    database_id: process.env.BLOG_DATABASE_ID,
-    filter: {
-      property: "Publish",
-      select: {
-        equals: "Published",
-      },
-    },
-    sorts: [
-      {
-        property: "PostDate",
-        direction: "descending",
-      },
-    ],
-  });
-
-  const blogs = response.results;
-  return blogs;
-}
+import getBlogPosts from "app/libs/getBlogPosts.jsx";
 
 export default async function BlogTileRepeater() {
-  const blogs = await getBlogPosts();
+  const posts = await getBlogPosts();
 
   return (
     <>
       <BlogFilter />
-
       <div className='blog-container'>
         <div className='cards-container'>
           <div className='cards'>
-            {blogs.map((blog) => (
-              <Link href="/blog">
-                <div key={blog.id} className='post-card'>
+            {posts.map((post) => (
+              <Link href='/blog'>
+                <div key={post.id} className='post-card'>
                   <div>
-                    <h3>{blog.properties.PostTitle.title[0].plain_text}</h3>
+                    <h3>{post.properties.PostTitle.title[0].plain_text}</h3>
                     <p className='service-description'>
-                      {blog.properties.PostPerex.rich_text[0].plain_text}
+                      {post.properties.PostPerex.rich_text[0].plain_text}
                     </p>
                   </div>
 
                   <div className='post-card-info'>
                     <div
                       className={
-                        blog.properties.AutoClassGenerator.formula.string
+                        post.properties.AutoClassGenerator.formula.string
                       }>
                       <div className='pill'>
                         <span className='service-category-text'>
-                          {blog.properties.Category.select.name}
+                          {post.properties.Category.select.name}
                         </span>
                       </div>
                     </div>
                     <div className='post-card-info-date'>
                       <div className='pill'>
                         <span className='post-card-info-date-text'>
-                          {blog.properties.PostDate.date.start}
+                          {post.properties.PostDate.date.start}
                         </span>
                       </div>
                     </div>

@@ -1,5 +1,5 @@
 import "styles/cv-styles.css";
-import NavBar from "@/components/Shared/navBar";
+import NavBar from "@/app/components/Shared/navBar";
 
 export default function CurriculumVitae() {
   return (

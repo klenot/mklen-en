@@ -1,4 +1,4 @@
-import SkillFilter from "/components/Skills/skillFilter.jsx"
+import SkillFilter from "app/components/Skills/skillFilter.jsx"
 import Image from "next/image"
 
 export default function SkillRepeater() {

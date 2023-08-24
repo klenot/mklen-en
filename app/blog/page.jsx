@@ -1,5 +1,5 @@
-import HeroLandingPage from "@/components/Shared/heroLandingPage";
-import BlogTileSection from "@/components/Blog/blogTileSection";
+import HeroLandingPage from "@/app/components/Shared/heroLandingPage";
+import BlogTileSection from "@/app/components/Blog/blogTileSection";
 
 export default function Blog() {
   return (

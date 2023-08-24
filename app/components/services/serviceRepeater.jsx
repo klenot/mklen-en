@@ -1,28 +1,14 @@
-const { Client } = require("@notionhq/client");
+import getServices from "@/app/libs/getServices";
 
 export default async function ServiceRepeater() {
-  const notion = new Client({ auth: process.env.NOTION_API_KEY });
-
-  const response = await notion.databases.query({
-    database_id: process.env.SERVICES_DATABASE_ID,
-    filter: {
-      property: "Publish",
-      select: {
-        equals: "Published",
-      },
-    },
-  });
-
-  const services = {
-    props: response.results,
-  };
+  const services = await getServices();
 
   return (
     <>
       <div className='service-container'>
         <div className='cards-container'>
           <div className='cards'>
-            {services.props.map((service) => (
+            {services.map((service) => (
               <div key={service.id} className='card'>
                 <div>
                   <h3>{service.properties.Name.title[0].plain_text}</h3>

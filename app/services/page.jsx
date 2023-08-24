@@ -1,5 +1,5 @@
-import HeroMain from "@/components/Shared/heroMain";
-import ServiceSection from "@/components/services/serviceSection";
+import HeroMain from "@/app/components/Shared/heroMain";
+import ServiceSection from "@/app/components/services/serviceSection";
 
 export default function Services() {
     return (

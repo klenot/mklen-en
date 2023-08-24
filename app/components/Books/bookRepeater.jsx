@@ -1,4 +1,4 @@
-import BookTile from "components/books/bookTile.jsx";
+import BookTile from "app/components/Books/bookTile.jsx";
 
 export default function BookRepeater() {
   return (
