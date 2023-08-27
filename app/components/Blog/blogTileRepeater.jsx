@@ -12,7 +12,7 @@ export default async function BlogTileRepeater() {
         <div className='cards-container'>
           <div className='cards'>
             {posts.map((post) => (
-              <Link href='/blog'>
+              <Link href={`/blog/${post.id}`}>
                 <div key={post.id} className='post-card'>
                   <div>
                     <h3>{post.properties.PostTitle.title[0].plain_text}</h3>

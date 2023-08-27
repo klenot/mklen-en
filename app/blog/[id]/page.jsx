@@ -1,10 +1,15 @@
-export default function BlogPost({ params }) {
+import HeroLandingPage from "app/components/Shared/heroLandingPage";
 
-  console.log({params})
+export default function Post({ params }) {
+
+  console.log(params)
 
   return (
     <>
-      <h1>My post title</h1>
+      <HeroLandingPage
+        h1={"test"}
+        perex={"test"}
+        buttonText={"test"}></HeroLandingPage>
     </>
   );
 }
