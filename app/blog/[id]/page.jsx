@@ -46,7 +46,7 @@ export default async function Post({ params }) {
       case "paragraph":
         return (
           <p className="article-text">
-            <Text text={value.rich_text} />
+            <Text text={value.rich_text} className="plain-text"/>
           </p>
         );
       case "heading_1":
@@ -130,12 +130,12 @@ export default async function Post({ params }) {
         return <hr key={id} />;
       case "quote":
         return (
-          <blockquote key={id}>{value.rich_text[0].plain_text}</blockquote>
+          <blockquote key={id} className="quote">{'„ '}{value.rich_text[0].plain_text}{" ”"}</blockquote>
         );
       case "code":
         return (
-          <pre>
-            <code key={id}>{value.rich_text[0].plain_text}</code>
+          <pre className="rich-code">
+            <code className="rich-code-content" key={id}>{value.rich_text[0].plain_text}</code>
           </pre>
         );
       case "file":
