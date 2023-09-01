@@ -4,7 +4,6 @@ import { getBlocks, getPage } from "@/app/libs/notionServices";
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
 
 export default async function Post({ params }) {
-  console.log(params.id);
   const page = await getPage(params.id);
   const blocks = await getBlocks(params.id);
 
@@ -91,21 +90,21 @@ export default async function Post({ params }) {
         );
       case "to_do":
         return (
-          <div>
-            <label htmlFor={id}>
-              <input type='checkbox' id={id} defaultChecked={value.checked} />{" "}
+           <div>
+            <label className="checkbox-label" htmlFor={id}>
+              <input type='checkbox' id={id} defaultChecked={value.checked} /><span className="checkmark"></span>{" "}
               <Text text={value.rich_text} />
             </label>
           </div>
         );
       case "toggle":
         return (
-          <details>
+          <details className="article-text">
             <summary>
-              <Text text={value.rich_text} />
+              <Text className="article-text" text={value.rich_text} />
             </summary>
             {block.children?.map((child) => (
-              <Fragment key={child.id}>{renderBlock(child)}</Fragment>
+              <Fragment className="toggle-content" key={child.id}>{renderBlock(child)}</Fragment>
             ))}
           </details>
         );
@@ -188,14 +187,14 @@ export default async function Post({ params }) {
       }
       case "column_list": {
         return (
-          <div>
+          <div className="columns">
             {block.children.map((block) => renderBlock(block))}
           </div>
         );
       }
       case "column": {
         return (
-          <div>
+          <div className="column">
             {block.children.map((child) => renderBlock(child))}
           </div>
         );
