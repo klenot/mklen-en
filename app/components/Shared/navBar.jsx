@@ -28,9 +28,9 @@ export default function NavBar() {
               <div className='nav-container'>
                 <div className='nav-section logo-section'>
                   <Link href='/'>
-                    <span id='logo' className='logo'>
+                    <p className='logo'>
                       mklenotic
-                    </span>
+                    </p>
                   </Link>
                 </div>
                 <div className='nav-right-wrapper'>

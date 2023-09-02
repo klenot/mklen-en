@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Image from "next/image";
 import { getBlocks, getPage } from "@/app/libs/notionServices";
-import HeroLandingPage from "app/components/Shared/heroLandingPage";
+import HeroBlogPost from "app/components/Shared/heroBlogPost";
 
 export default async function Post({ params }) {
   const page = await getPage(params.id);
@@ -37,6 +37,105 @@ export default async function Post({ params }) {
     });
   };
 
+  const renderContentTable = (block) => {
+    const { type, id } = block;
+    const value = block[type];
+
+    switch (type) {
+       
+      case "heading_1":
+        return (
+          <a key={block.id} className="table-of-content-item" href={`/blog/${page.id}#${block.id}`}>
+            <Text text={value.rich_text} />
+          </a>
+        );
+
+        case "heading_2":
+        return (
+          <a key={block.id} className="table-of-content-item" href={`/blog/${page.id}#${block.id}`}>
+            <Text text={value.rich_text} />
+          </a>
+        );
+
+        case "heading_3":
+        return (
+          <a key={block.id} className="table-of-content-item" href={`/blog/${page.id}#${block.id}`}>
+            <Text text={value.rich_text} />
+          </a>
+        );
+
+        case "paragraph":
+        return (
+          null
+        );
+      
+      case "bulleted_list": {
+        return (
+          null
+        );
+      }
+      case "numbered_list": {
+        return (
+          null
+        );
+      }
+      case "bulleted_list_item":
+      case "numbered_list_item":
+        return (
+          null
+        );
+      case "to_do":
+        return (
+          null
+        );
+      case "toggle":
+        return (
+         null
+        );
+      case "child_page":
+        return (
+         null
+        );
+      case "image":
+        return (
+          null
+        );
+      case "divider":
+        return null
+      case "quote":
+        return (
+          null
+        );
+      case "code":
+        return (
+          null
+        );
+      case "file":
+        return (
+          null
+        );
+      case "bookmark":
+        return (
+          null
+        );
+      case "table": {
+        return (
+          null
+        );
+      }
+      case "column_list": {
+        return (
+          null
+        );
+      }
+      case "column": {
+        return (
+         null
+        );
+      }
+      }
+  };
+
   const renderBlock = (block) => {
     const { type, id } = block;
     const value = block[type];
@@ -50,19 +149,19 @@ export default async function Post({ params }) {
         );
       case "heading_1":
         return (
-          <h1 className="article-h1">
+          <h1 id={block.id} className="article-h1">
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 className="article-h2">
+          <h2 id={block.id} className="article-h2">
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 className="article-h3">
+          <h3 id={block.id} className="article-h3">
             <Text text={value.rich_text} />
           </h3>
         );
@@ -104,7 +203,7 @@ export default async function Post({ params }) {
               <Text className="article-text" text={value.rich_text} />
             </summary>
             {block.children?.map((child) => (
-              <Fragment className="toggle-content" key={child.id}>{renderBlock(child)}</Fragment>
+              <div className="toggle-content" key={child.id}>{renderBlock(child)}</div>
             ))}
           </details>
         );
@@ -205,19 +304,34 @@ export default async function Post({ params }) {
         })`;
     }
   };
+ 
 
   return (
     <>
       <main>
-        <HeroLandingPage
+        <HeroBlogPost
           h1={page.properties.PostTitle.title[0].plain_text}
-          perex={"test"}
-          buttonText={"test"}
+          perex={page.properties.PostPerex.rich_text[0].plain_text}
+          buttonText={
+            page.properties.ButtonText.rich_text[0] === undefined
+              ? "Read"
+              : page.properties.ButtonText.rich_text[0].plain_text
+          }
+          startReadUrl={"/"}
+          tableOfContent={
+            <div className="hero-section">
+              {blocks.map((block) => (
+                <div className='table-of-content-item'>
+                  {renderContentTable(block)}
+                </div>
+              ))}
+            </div>
+          }
         />
 
         <article className='article-section-container'>
           {blocks.map((block) => (
-            <div key={block.id} className='article-section'>
+            <div className='article-section' key={block.id}>
               {renderBlock(block)}
             </div>
           ))}

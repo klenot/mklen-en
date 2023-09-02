@@ -30,7 +30,14 @@ export default async function BlogListRepeater() {
                 </div>
 
                 <div className='post-date'>
-                  <p>{post.properties.PostDate.date.start}</p>
+                  <p>{new Date(post.properties.PostDate.date.start).toLocaleString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
+                              }
+                            )}</p>
                 </div>
               </div>
             </Link>

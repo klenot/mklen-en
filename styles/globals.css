@@ -355,6 +355,15 @@ transition: transform 0.4s ease-out;
 .logo{
   font-weight: var(--thin-font);
   font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.logo:hover{
+  transform: scale(1.07);
+}
+
+a > p {
+  cursor: pointer;
 }
 
 .mobile-menu-icons{
@@ -391,6 +400,7 @@ transition: transform 0.4s ease-out;
 
 .nav-item{
   font-weight: var(--thin-font);
+  cursor: pointer;
 }
 
 .hover{
@@ -464,8 +474,6 @@ transition: transform 0.4s ease-out;
   height: 25px;
 }
 
-
-
 .material-symbols-sharp {
   cursor: pointer;
   font-variation-settings:
@@ -491,9 +499,6 @@ transition: transform 0.4s ease-out;
   transform: scale(1.2);
 }
 
-#logo:hover{
-  transform: scale(1.2);
-}
       /* NAV BAR - TABLET */
 
       @media only screen and (min-width: 767px){
@@ -1186,6 +1191,13 @@ scale: 1.03;
 
 /* ARTICLE SECTION - MOBILE ----------------------------------------------------------------------------- */
 
+.blog-hero-container{
+  height: 100vh;
+  display: flex;
+  flex-wrap: nowrap;
+  row-gap: 5rem;
+}
+
 .article-section-container{
   display: flex;
   flex-direction: column;
@@ -1195,7 +1207,7 @@ scale: 1.03;
 }
 
 .article-section{
-  padding: 0px;
+  padding: var(--mobile-sect-pd);
 }
 
 .article-image-container {
@@ -1214,19 +1226,34 @@ scale: 1.03;
 
 /* Text formatting */
 
+.table-of-content-item{
+  font-size: 1.7rem;
+}
+
+.table-of-content-item:hover{
+  transform: scale(1.01);
+}
+
+.hide-toc-item{
+  display: none;
+}
+
 .article-h1{
   font-size: 3rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   font-weight: var(--bold-font);
+  scroll-margin-top: 10rem;
 }
 
 .article-h2{
   margin-top: 3rem;
+  scroll-margin-top: 10rem;
 }
 
 .article-h3{
   margin-top: 3rem;
+  scroll-margin-top: 10rem;
 }
 
 .article-text{
@@ -1238,7 +1265,6 @@ scale: 1.03;
   white-space:pre-wrap;
   word-break:break-word;
 }
-
 
 .plain-text{
   font-weight: var(--thin-font);
@@ -1265,15 +1291,13 @@ scale: 1.03;
   font-size: 1.7rem;
   border-radius: 8px;
   padding: 1rem;
-  width: fit-content;
-  line-height: 2rem;
+  line-height: 2.5rem;
 }
 
 .rich-code-content{
   display: block;
-  width: 51.5rem;
   padding: 1rem;
-  word-break: break-all;
+  text-wrap: wrap;
 }
 
 

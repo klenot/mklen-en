@@ -5,6 +5,17 @@ import getBlogPosts from "app/libs/getBlogPosts.jsx";
 export default async function BlogTileRepeater() {
   const posts = await getBlogPosts();
 
+  const date = new Date(posts[0].properties.PostDate.date.start).toLocaleString(
+    "en-US",
+    {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    }
+  );
+
+  console.log(date)
+
   return (
     <>
       <BlogFilter />
@@ -35,7 +46,14 @@ export default async function BlogTileRepeater() {
                     <div className='post-card-info-date'>
                       <div className='pill'>
                         <span className='post-card-info-date-text'>
-                          {post.properties.PostDate.date.start}
+                          {new Date(post.properties.PostDate.date.start).toLocaleString(
+                              "en-US",
+                              {
+                                month: "short",
+                                day: "2-digit",
+                                year: "numeric",
+                              }
+                            )}
                         </span>
                       </div>
                     </div>
