@@ -1,6 +1,4 @@
-import Link from "next/link";
-
-export default function HeroBlogPost({ h1, perex, buttonText, StartReadUrl, tableOfContent }) {
+export default function HeroBlogPost({ h1, perex, tableOfContent }) {
   return (
     <section id='hero-section'>
       <div className='hero-container blog-hero-container'>
@@ -23,16 +21,7 @@ export default function HeroBlogPost({ h1, perex, buttonText, StartReadUrl, tabl
         <div className="hero-section">
           {tableOfContent}
         </div>
-
-        <div className='hero-section'>
-          <button className='cta'>
-            <Link href="/">
-              <span>{buttonText}</span>
-            </Link>
-          </button>
-        </div>
       </div>
-
     </section>
   );
 }

@@ -312,12 +312,7 @@ export default async function Post({ params }) {
         <HeroBlogPost
           h1={page.properties.PostTitle.title[0].plain_text}
           perex={page.properties.PostPerex.rich_text[0].plain_text}
-          buttonText={
-            page.properties.ButtonText.rich_text[0] === undefined
-              ? "Read"
-              : page.properties.ButtonText.rich_text[0].plain_text
-          }
-          startReadUrl={"/"}
+          firstHeadingAnchor={"http://localhost:3000/blog/80397377-91ea-4363-bd30-40f3dedb9a21#50a4eee2-30a9-48e4-81be-922b0f40a770"}
           tableOfContent={
             <div className="hero-section">
               {blocks.map((block) => (

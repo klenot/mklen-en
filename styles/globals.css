@@ -102,7 +102,7 @@ select, textarea {
 
 .dark-theme{
   --primary-bg: #0a0a0a;
-  --primary-text-color: #f0f0f0;
+  --primary-text-color: #f0f0f0f7;
 
   --secondary-bg: #adadad38;
   --secondary-text-color: #0a0a0a;
@@ -359,7 +359,7 @@ transition: transform 0.4s ease-out;
 }
 
 .logo:hover{
-  transform: scale(1.07);
+  transform: scale(1.03);
 }
 
 a > p {
@@ -1192,7 +1192,6 @@ scale: 1.03;
 /* ARTICLE SECTION - MOBILE ----------------------------------------------------------------------------- */
 
 .blog-hero-container{
-  height: 100vh;
   display: flex;
   flex-wrap: nowrap;
   row-gap: 5rem;
@@ -1207,7 +1206,7 @@ scale: 1.03;
 }
 
 .article-section{
-  padding: var(--mobile-sect-pd);
+  padding: 3rem 0 0 0;
 }
 
 .article-image-container {
@@ -1227,7 +1226,9 @@ scale: 1.03;
 /* Text formatting */
 
 .table-of-content-item{
-  font-size: 1.7rem;
+  font-size: 1.3rem;
+  font-weight: var(--heavy-font);
+  padding-top: 0.2rem;
 }
 
 .table-of-content-item:hover{
@@ -1240,19 +1241,19 @@ scale: 1.03;
 
 .article-h1{
   font-size: 3rem;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
   font-weight: var(--bold-font);
   scroll-margin-top: 10rem;
 }
 
 .article-h2{
-  margin-top: 3rem;
+  margin-top: 7rem;
   scroll-margin-top: 10rem;
 }
 
 .article-h3{
-  margin-top: 3rem;
+  margin-top: 7rem;
   scroll-margin-top: 10rem;
 }
 
@@ -1315,12 +1316,19 @@ scale: 1.03;
 
 .quote{
   background-color: var(--secondary-bg);
+  color: var(--primary-text-color);
   font-weight: var(--regular-font);
   font-size: 1.7rem;
   border-radius: 8px;
   padding: 1rem;
   width: fit-content;
   line-height: 3rem;
+}
+
+figcaption{
+  text-align: center;
+  color: var(--primary-text-color);
+  padding: 1rem 4rem 0rem 4rem;
 }
 
 /* The container */
@@ -1356,13 +1364,13 @@ scale: 1.03;
 }
 
 /* On mouse-over, add a grey background color */
-.checkbox-label:hover input ~ .checkmark {
+/* .checkbox-label:hover input ~ .checkmark {
   background-color: var(--primary-outline);
-}
+} */
 
 /* When the checkbox is checked, add a background */
 .checkbox-label input:checked ~ .checkmark {
-  background-color: var(--button-primary-color);
+  background-color: var(--shadow-color);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -1420,6 +1428,7 @@ details > p{
   position: relative;
   left: 2rem;
   list-style-type: disc;
+  line-height: 3rem;
 }
 
 .article-numbered-list{
@@ -1427,6 +1436,7 @@ details > p{
   position: relative;
   left: 3.2rem;
   font-weight: var(--bold-font);
+  line-height: 3rem;
 }
 
 li > span{
@@ -1444,7 +1454,7 @@ li > span{
             }
             
             .article-section{
-                padding: var(--tablet-sect-pd);
+              padding: 3rem 0 0 0;
             }
 
         }
@@ -1460,7 +1470,7 @@ li > span{
             }
             
             .article-section{
-                padding: var(--desktop-sect-pd);
+              padding: 3rem 0 0 0;
             }
 
         }

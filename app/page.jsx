@@ -1,6 +1,7 @@
 import HeroMain from "app/components/Shared/heroMain.jsx";
 import ServiceSectionHome from "@/app/components/services/serviceSectionHome";
 import BlogListSection from "@/app/components/Blog/blogListSection";
+import Footer from "./components/Shared/footer";
 
 export default function Home() {
   return (
@@ -22,6 +23,9 @@ export default function Home() {
           buttonText={"more writings"}
         />
       </main>
+
+      <Footer />
+
     </>
   );
 }
