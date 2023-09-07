@@ -758,6 +758,298 @@ a > p {
 }
 
 
+
+/* SERVICE PAGE */
+
+
+.service-hero-container{
+  display: flex;
+  flex-wrap: nowrap;
+  row-gap: 5rem;
+}
+
+.service-section-container{
+  display: flex;
+  flex-direction: column;
+  padding: var(--mobile-cont-pd);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.service-section{
+  padding: 3rem 0 0 0;
+}
+
+.service-image-container {
+  height: auto;
+  width: var(--mobile-sect-pd);
+  margin: 2rem 0 2rem 0;
+}
+
+.service-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border: solid 1px transparent;
+    border-radius: 15px;
+  }
+
+/* Text formatting */
+
+.table-of-content-item{
+  font-size: 1.3rem;
+  font-weight: var(--heavy-font);
+  padding-top: 0.2rem;
+}
+
+.table-of-content-item:hover{
+  transform: scale(1.01);
+}
+
+.hide-toc-item{
+  display: none;
+}
+
+.service-h1{
+  font-size: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: var(--bold-font);
+  scroll-margin-top: 10rem;
+}
+
+.service-h2{
+  margin-top: 7rem;
+  scroll-margin-top: 10rem;
+}
+
+.service-h3{
+  margin-top: 7rem;
+  scroll-margin-top: 10rem;
+}
+
+.service-text{
+  font-size: 1.7rem;
+  letter-spacing: -0.2px;
+  line-height: 3rem;
+  text-align: justify;
+  word-spacing: 0.05rem;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.plain-text{
+  font-weight: var(--thin-font);
+}
+
+.bold{
+  font-weight: var(--bold-font);
+}
+
+.code{
+  background: var(--secondary-bg);
+  border-radius: 8px;
+  /* -webkit-overflow-scrolling: touch;
+  overflow-x: scroll; */
+  max-width: 100%;
+  min-width: auto;
+  font-size: 1.7rem;
+  padding: 0.4rem;
+}
+
+.rich-code{
+  background-color: var(--rich-code-bg);
+  font-weight: var(--regular-font);
+  font-size: 1.7rem;
+  border-radius: 8px;
+  padding: 1rem;
+  line-height: 2.5rem;
+}
+
+.rich-code-content{
+  display: block;
+  padding: 1rem;
+  text-wrap: wrap;
+}
+
+
+.italic{
+  font-style: italic;
+}
+
+.strike-through{
+  text-decoration: line-through;
+}
+
+.underline{
+  text-decoration: underline;
+}
+
+.quote{
+  background-color: var(--secondary-bg);
+  color: var(--primary-text-color);
+  font-weight: var(--regular-font);
+  font-size: 1.7rem;
+  border-radius: 8px;
+  padding: 1rem;
+  width: fit-content;
+  line-height: 3rem;
+}
+
+figcaption{
+  text-align: center;
+  color: var(--primary-text-color);
+  padding: 1rem 4rem 0rem 4rem;
+}
+
+/* The container */
+.checkbox-label {
+  padding: 0;
+  position: relative;
+  padding-left: 33px;
+  cursor: pointer;
+  font-size: 1.7rem;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: var(--secondary-bg);
+  border-radius: 6px;
+}
+
+/* On mouse-over, add a grey background color */
+/* .checkbox-label:hover input ~ .checkmark {
+  background-color: var(--primary-outline);
+} */
+
+/* When the checkbox is checked, add a background */
+.checkbox-label input:checked ~ .checkmark {
+  background-color: var(--shadow-color);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: flex;
+}
+
+/* Show the checkmark when checked */
+.checkbox-label input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-label .checkmark:after {
+  left: 8px;
+  top: 6px;
+  width: 3px;
+  height: 6px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+details {
+  cursor: pointer;
+}
+
+summary::marker{
+  color: var(--primary-outline);
+}
+
+details > p{
+  margin-top: 2rem;
+  padding-left: 1.5rem;
+}
+
+.columns{
+  display: flex;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+.column{
+  width: 50%;
+}
+
+
+.service-bullet-list{
+  font-size: 1.7rem;
+  font-weight: var(--regular-font);
+  position: relative;
+  left: 2rem;
+  list-style-type: disc;
+  line-height: 3rem;
+}
+
+.service-numbered-list{
+  font-size: 1.7rem;
+  position: relative;
+  left: 3.2rem;
+  font-weight: var(--bold-font);
+  line-height: 3rem;
+}
+
+li > span{
+  font-weight: var(--thin-font);
+}
+
+
+          /* SERVICE PAGE SECTION - TABLET */
+      
+          @media only screen and (min-width: 767px){
+
+            .service-section-container{
+                padding: var(--tablet-cont-pd);
+                width: var(--tablet-cont-w);
+            }
+            
+            .service-section{
+              padding: 3rem 0 0 0;
+            }
+
+        }
+
+
+        /* SERVICE PAGE SECTION - DESKTOP */
+
+        @media only screen and (min-width: 1100px){
+
+            .service-section-container{
+                padding: var(--desktop-cont-pd);
+                width: var(--desktop-cont-w);
+            }
+            
+            .service-section{
+              padding: 3rem 0 0 0;
+            }
+
+        }
+
+
+
+
+
 /* TILE SECTION ----------------------------------------------------------------------------- */
 
 .tile-section-container{
@@ -1864,9 +2156,13 @@ a.skill-page-link{
 /* FORM SECTION ----------------------------------------------------------------------------- */
 
 .form-container{
-  padding: var(--mobile-cont-pd);
-  margin-left: auto;
-  margin-right: auto;
+  height: 50rem;
+}
+
+.form-h2{
+  margin-top: 7rem;
+  padding-bottom: 3rem;
+  scroll-margin-top: 10rem;
 }
 
 input:focus {
@@ -1885,10 +2181,6 @@ textarea:focus{
       /* FORM SECTION - TABLET */
 
       @media only screen and (min-width: 767px){
-              .form-container{
-                  padding: var(--tablet-cont-pd);
-                  width: var(--tablet-cont-w);
-              }
 
               .form-label{
                   padding: 2% 0 1% 0;
@@ -1906,12 +2198,6 @@ textarea:focus{
       /* FORM SECTION - DESKTOP */
 
       @media only screen and (min-width: 1100px){
-
-              .form-container{
-                  padding: var(--desktop-cont-pd);
-                  width: var(--desktop-cont-w);
-                  padding-bottom: 3%;
-              }
 
               .form-section{
                   padding: var(--desktop-sect-pd);

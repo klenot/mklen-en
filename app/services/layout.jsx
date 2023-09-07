@@ -1,11 +1,11 @@
-import Footer from "app/components/Shared/footer.jsx";
+import ShortFooter from "app/components/Shared/shortFooter.jsx";
 
 export default function RootLayout({ children }) {
   return (
     <>
       {children}
 
-      <Footer />
+      <ShortFooter />
     </>
   );
 }

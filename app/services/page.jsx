@@ -1,11 +1,11 @@
-import HeroMain from "@/app/components/Shared/heroMain";
 import ServiceSection from "@/app/components/services/serviceSection";
+import HeroLandingPage from "../components/Shared/heroLandingPage";
 
 export default function Services() {
     return (
       <>
-        <HeroMain
-          h1 = {"My name is Marek."}
+        <HeroLandingPage
+          h1 = {"Services"}
           perex={"I'm a martech specialist & project manager with a passion for effective digital strategies."}
           buttonText={"get to know me"}
         />

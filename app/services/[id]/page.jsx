@@ -1,9 +1,10 @@
 import { Fragment } from "react";
 import Image from "next/image";
 import { getBlocks, getPage } from "@/app/libs/notionServices";
-import HeroBlogPost from "app/components/Blog/heroBlogPost";
+import HeroLandingPage from "@/app/components/Shared/heroLandingPage";
 
-export default async function Post({ params }) {
+
+export default async function ServicePage({ params }) {
   const page = await getPage(params.id);
   const blocks = await getBlocks(params.id);
 
@@ -37,105 +38,6 @@ export default async function Post({ params }) {
     });
   };
 
-  const renderContentTable = (block) => {
-    const { type, id } = block;
-    const value = block[type];
-
-    switch (type) {
-       
-      case "heading_1":
-        return (
-          <a key={block.id} className="table-of-content-item" href={`/blog/${page.id}#${block.id}`}>
-            <Text text={value.rich_text} />
-          </a>
-        );
-
-        case "heading_2":
-        return (
-          <a key={block.id} className="table-of-content-item" href={`/blog/${page.id}#${block.id}`}>
-            <Text text={value.rich_text} />
-          </a>
-        );
-
-        case "heading_3":
-        return (
-          <a key={block.id} className="table-of-content-item" href={`/blog/${page.id}#${block.id}`}>
-            <Text text={value.rich_text} />
-          </a>
-        );
-
-        case "paragraph":
-        return (
-          null
-        );
-      
-      case "bulleted_list": {
-        return (
-          null
-        );
-      }
-      case "numbered_list": {
-        return (
-          null
-        );
-      }
-      case "bulleted_list_item":
-      case "numbered_list_item":
-        return (
-          null
-        );
-      case "to_do":
-        return (
-          null
-        );
-      case "toggle":
-        return (
-         null
-        );
-      case "child_page":
-        return (
-         null
-        );
-      case "image":
-        return (
-          null
-        );
-      case "divider":
-        return null
-      case "quote":
-        return (
-          null
-        );
-      case "code":
-        return (
-          null
-        );
-      case "file":
-        return (
-          null
-        );
-      case "bookmark":
-        return (
-          null
-        );
-      case "table": {
-        return (
-          null
-        );
-      }
-      case "column_list": {
-        return (
-          null
-        );
-      }
-      case "column": {
-        return (
-         null
-        );
-      }
-      }
-  };
-
   const renderBlock = (block) => {
     const { type, id } = block;
     const value = block[type];
@@ -143,38 +45,38 @@ export default async function Post({ params }) {
     switch (type) {
       case "paragraph":
         return (
-          <p className="article-text">
+          <p className="service-text">
             <Text text={value.rich_text} className="plain-text"/>
           </p>
         );
       case "heading_1":
         return (
-          <h1 id={block.id} className="article-h1">
+          <h1 id={block.id} className="service-h1">
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 id={block.id} className="article-h2">
+          <h2 id={block.id} className="service-h2">
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 id={block.id} className="article-h3">
+          <h3 id={block.id} className="service-h3">
             <Text text={value.rich_text} />
           </h3>
         );
       case "bulleted_list": {
         return (
-          <ul className="article-bullet-list">
+          <ul className="service-bullet-list">
             {value.children.map((child) => renderBlock(child))}
           </ul>
         );
       }
       case "numbered_list": {
         return (
-          <ol className="article-numbered-list">
+          <ol className="service-numbered-list">
             {value.children.map((child) => renderBlock(child))}
           </ol>
         );
@@ -198,9 +100,9 @@ export default async function Post({ params }) {
         );
       case "toggle":
         return (
-          <details className="article-text">
+          <details className="service-text">
             <summary>
-              <Text className="article-text" text={value.rich_text} />
+              <Text className="service-text" text={value.rich_text} />
             </summary>
             {block.children?.map((child) => (
               <div className="toggle-content" key={child.id}>{renderBlock(child)}</div>
@@ -219,8 +121,8 @@ export default async function Post({ params }) {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure className="article-image-container">
-            <img src={src} alt={caption} className="article-img"/>
+          <figure className="service-image-container">
+            <img src={src} alt={caption} className="service-img"/>
             {caption && <figcaption>{caption}</figcaption>}
           </figure>
         );
@@ -255,11 +157,75 @@ export default async function Post({ params }) {
           </figure>
         );
       case "bookmark":
-        const href = value.url;
         return (
-          <a href={href} target='_blank'>
-            {href}
-          </a>
+          <section className="form-container">
+            <div>
+              <div>
+                <h2 className='form-h2'>Get in touch.</h2>
+                <form
+                  action='https://formsubmit.co/mklen@mklenotic.cz'
+                  method='POST'
+                  className='form-wrapper'>
+                  <label className='form-label' htmlFor='name-input'>
+                    First and last name:
+                  </label>
+                  <input
+                    className='form-input'
+                    id='name-input'
+                    type='text'
+                    name='name'
+                    maxLength={40}
+                    placeholder='Start with your name here...'
+                    required=''
+                  />
+                  <br />
+                  <label className='form-label' htmlFor='email-input'>
+                    Email:
+                  </label>
+                  <input
+                    className='form-input'
+                    id='email-input'
+                    type='email'
+                    name='email'
+                    maxLength={40}
+                    placeholder='your@email.com'
+                    required=''
+                  />
+                  <br />
+                  <label className='form-label' htmlFor='message-input'>
+                    Message:
+                  </label>
+                  <textarea
+                    className='form-input'
+                    id='message-input'
+                    rows={5}
+                    name='message'
+                    placeholder='Can we meet online?'
+                    maxLength={220}
+                    required=''
+                    defaultValue={""}
+                  />
+                  <br />
+                  <input type='hidden' name='_next' defaultValue='index.html' />
+                  <input
+                    type='hidden'
+                    name='_autoresponse'
+                    defaultValue='Hello :) Thank you for reaching out to me! I am going to respond as soon as I read your message. Have a productive day, MK.'
+                  />
+                  <input
+                    type='hidden'
+                    name='_subject'
+                    defaultValue='New message submitted from mklenotic.com.'
+                  />
+                  <div className='button-wrapper'>
+                    <button className='cta'>
+                      <span>→ submit</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
         );
       case "table": {
         return (
@@ -309,28 +275,19 @@ export default async function Post({ params }) {
   return (
     <>
       <main>
-        <HeroBlogPost
-          h1={page.properties.PostTitle.title[0].plain_text}
-          perex={page.properties.PostPerex.rich_text[0].plain_text}
-          firstHeadingAnchor={"http://localhost:3000/blog/80397377-91ea-4363-bd30-40f3dedb9a21#50a4eee2-30a9-48e4-81be-922b0f40a770"}
-          tableOfContent={
-            <div className="hero-section">
-              {blocks.map((block) => (
-                <div className='table-of-content-item'>
-                  {renderContentTable(block)}
-                </div>
-              ))}
-            </div>
-          }
+        <HeroLandingPage
+          h1={page.properties.ServiceName.title[0].plain_text}
+          perex={page.properties.Description.rich_text[0].plain_text}
+          buttonText={"test"}
         />
 
-        <article className='article-section-container'>
+        <section className='service-container'>
           {blocks.map((block) => (
-            <div className='article-section' key={block.id}>
+            <div className='service-section' key={block.id}>
               {renderBlock(block)}
             </div>
           ))}
-        </article>
+        </section>
       </main>
     </>
   );

@@ -12,7 +12,7 @@ export default async function BlogListRepeater() {
       <div className='blog-section'>
         <div className='blog-list-container'>
           {posts.map((post) => (
-            <Link className='blog-list-item' href={"/"}>
+            <Link className='blog-list-item' href={`/blog/${post.id}`}>
               <div key={post.id}>
                 <div
                   className={post.properties.AutoClassGenerator.formula.string}>

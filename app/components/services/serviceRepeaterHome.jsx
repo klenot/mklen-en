@@ -11,7 +11,7 @@ export default async function ServiceRepeaterHome() {
             {services.map((service) => (
               <div key={service.id} className='card'>
                 <div>
-                  <h3>{service.properties.Name.title[0].plain_text}</h3>
+                  <h3>{service.properties.ServiceName.title[0].plain_text}</h3>
                   <p className='service-description'>
                     {service.properties.Description.rich_text[0].plain_text}
                   </p>

@@ -1,4 +1,5 @@
 import getServices from "@/app/libs/getServices";
+import Link from "next/link";
 
 export default async function ServiceRepeater() {
   const services = await getServices();
@@ -9,9 +10,12 @@ export default async function ServiceRepeater() {
         <div className='cards-container'>
           <div className='cards'>
             {services.map((service) => (
+              <Link
+              href={`/services/${service.id}`}
+              >
               <div key={service.id} className='card'>
                 <div>
-                  <h3>{service.properties.Name.title[0].plain_text}</h3>
+                  <h3>{service.properties.ServiceName.title[0].plain_text}</h3>
                   <p className='service-description'>
                     {service.properties.Description.rich_text[0].plain_text}
                   </p>
@@ -24,6 +28,7 @@ export default async function ServiceRepeater() {
                   </div>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>
