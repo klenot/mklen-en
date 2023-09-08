@@ -1,12 +1,14 @@
 import { Fragment } from "react";
 import Image from "next/image";
 import { getBlocks, getPage } from "@/app/libs/notionServices";
-import HeroLandingPage from "@/app/components/Shared/heroLandingPage";
+import HeroServicePage from "@/app/components/Services/heroServicePage";
 
 
 export default async function ServicePage({ params }) {
   const page = await getPage(params.id);
   const blocks = await getBlocks(params.id);
+
+  console.log(page.properties.ButtonText.rich_text[0].plain_text)
 
   const Text = ({ text }) => {
     if (!text) {
@@ -275,10 +277,10 @@ export default async function ServicePage({ params }) {
   return (
     <>
       <main>
-        <HeroLandingPage
+        <HeroServicePage
           h1={page.properties.ServiceName.title[0].plain_text}
           perex={page.properties.Description.rich_text[0].plain_text}
-          buttonText={"test"}
+          buttonText={page.properties.ButtonText.rich_text[0].plain_text}
         />
 
         <section className='service-container'>

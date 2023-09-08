@@ -678,7 +678,7 @@ a > p {
 }
 
 @media only screen and (min-width: 1100px) {
-.service-container {
+  .service-container {
     padding: var(--desktop-cont-pd);
     width: var(--desktop-cont-w);
   }
@@ -761,11 +761,15 @@ a > p {
 
 /* SERVICE PAGE */
 
-
 .service-hero-container{
   display: flex;
+  height: 100%;
   flex-wrap: nowrap;
-  row-gap: 5rem;
+  flex-direction: column;
+  padding: var(--mobile-cont-pd);
+  padding-top: 10rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .service-section-container{
@@ -1015,31 +1019,39 @@ li > span{
 }
 
 
-          /* SERVICE PAGE SECTION - TABLET */
-      
-          @media only screen and (min-width: 767px){
-
-            .service-section-container{
-                padding: var(--tablet-cont-pd);
-                width: var(--tablet-cont-w);
-            }
-            
-            .service-section{
-              padding: 3rem 0 0 0;
-            }
-
+      /* SERVICE PAGE SECTION - TABLET */
+  
+      @media only screen and (min-width: 767px){
+        .service-hero-container{
+          padding: var(--tablet-cont-pd);
+          width: var(--tablet-cont-w);
+          padding-top: 15rem;
         }
+
+        .service-section-container{
+            padding: var(--tablet-cont-pd);
+            width: var(--tablet-cont-w);
+        }
+        
+        .service-section{
+          padding: 3rem 0 0 0;
+        }
+
+    }
 
 
         /* SERVICE PAGE SECTION - DESKTOP */
 
         @media only screen and (min-width: 1100px){
-
+            .service-hero-container{
+              padding: var(--desktop-cont-pd);
+              width: var(--desktop-cont-w);
+              padding-top: 20rem;
+            } 
             .service-section-container{
                 padding: var(--desktop-cont-pd);
                 width: var(--desktop-cont-w);
             }
-            
             .service-section{
               padding: 3rem 0 0 0;
             }
@@ -2157,10 +2169,10 @@ a.skill-page-link{
 
 .form-container{
   height: 50rem;
+  margin: 4rem 0 4rem 0;
 }
 
 .form-h2{
-  margin-top: 7rem;
   padding-bottom: 3rem;
   scroll-margin-top: 10rem;
 }
