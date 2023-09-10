@@ -1,9 +1,12 @@
+import { getDatabase } from "@/app/libs/notionServices";
 import BookTile from "app/components/Books/bookTile.jsx";
 
-export default function BookRepeater() {
+export default async function BookRepeater() {
+  const books = await getDatabase(process.env.BOOKS_DATABASE_ID)
+
   return (
     <>
-      <section id='more'>
+      <section id='book-section'>
         <div className='tile-section-container'>
           <div className='tile-section section-title-h2'>
             <h2>Project management</h2>
@@ -20,47 +23,16 @@ export default function BookRepeater() {
 
           <div className='tile-section'>
             <div className='tile-container'>
-              <BookTile
-                title={
-                  "How the World Really Works: A Scientist's Guide to Our Past, Present and Future"
-                }
-                author={"Václav Smil"}
-                image={{
-                  url: "vaclav-smil-how-the-world-really-works",
-                  alt: "A book cover of How the World Really Works by Václav Smil",
-                }}
-              />
 
-              <BookTile
-                title={
-                  "12 Rules for Life: An Antidote to Chaos"
-                }
-                author={"Jordan B. Peterson"}
-                image={{
-                  url: "12-rules-for-life",
-                  alt: "A book cover of 12 Rules for Life: An Antidote to Chaos",
-                }}
-              />
-              <BookTile
-                title={
-                  "How the World Really Works: A Scientist's Guide to Our Past, Present and Future"
-                }
-                author={"Václav Smil"}
-                image={{
-                  url: "vaclav-smil-how-the-world-really-works",
-                  alt: "A book cover of How the World Really Works by Václav Smil",
-                }}
-              />
-              <BookTile
-                title={
-                  "How the World Really Works: A Scientist's Guide to Our Past, Present and Future"
-                }
-                author={"Václav Smil"}
-                image={{
-                  url: "vaclav-smil-how-the-world-really-works",
-                  alt: "A book cover of How the World Really Works by Václav Smil",
-                }}
-              />
+              {books.map((book) => (
+                <BookTile
+                  tileKey={book.id}
+                  title={book.properties.BookName.title[0].plain_text}
+                  author={book.properties.Author.rich_text[0].plain_text}
+                  src={book.properties.BookCover.files[0].file.url}
+                />
+              ))}
+
             </div>
           </div>
         </div>

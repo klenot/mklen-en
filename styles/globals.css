@@ -1077,7 +1077,6 @@ li > span{
   display: flex;
   flex-direction: column;
   padding: var(--mobile-sect-pd);
-
 }
 
 .tile-container{
@@ -1090,7 +1089,6 @@ li > span{
 
 .tile-item{
   display: flex;
-  margin-bottom: 3rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -1122,6 +1120,10 @@ li > span{
           
           .tile-container{
               grid-template-columns: repeat(2,1fr);
+          }
+
+          .tile-section{
+            width: var(--tablet-cont-w);
           }
 
       }
