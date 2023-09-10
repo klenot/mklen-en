@@ -191,7 +191,7 @@ export default function Footer() {
               <div className="footer-bottom">
                 <div className="footer-bottom-container">
                   <p>
-                    {currentYear} © Created in Prague on MacBook Pro M1 | Next.js & Notion {" "}
+                    {currentYear} © Created in Prague with Next.js & Notion {" "}
                     <span>
                       <Image
                         src={"/icons/disclaimer-macbook.png"}
