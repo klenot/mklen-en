@@ -1,11 +1,16 @@
 import { Fragment } from "react";
 import Image from "next/image";
-import { getBlocks, getPage } from "@/app/libs/notionServices";
-import HeroBlogPost from "app/components/Blog/heroBlogPost";
+import { getBlocks, getPage } from "app/libs/notionServices.jsx";
+import { getPageBySlug } from "app/libs/getPageBySlug.ts";
+import HeroBlogPost from "app/components/Blog/heroBlogPost.jsx";
 
 export default async function Post({ params }) {
-  const page = await getPage(params.id);
-  const blocks = await getBlocks(params.id);
+  const slug = await getPageBySlug (params.slug);
+
+  console.log(slug)
+
+  const page = await getPage(slug.id);
+  const blocks = await getBlocks(slug.id);
 
   const Text = ({ text }) => {
     if (!text) {
@@ -45,21 +50,21 @@ export default async function Post({ params }) {
        
       case "heading_1":
         return (
-          <a key={block.id} className="table-of-content-item" href={`/blog/${page.id}#${block.id}`}>
+          <a key={block.id} className="table-of-content-item" href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
             <Text text={value.rich_text} />
           </a>
         );
 
         case "heading_2":
         return (
-          <a key={block.id} className="table-of-content-item" href={`/blog/${page.id}#${block.id}`}>
+          <a key={block.id} className="table-of-content-item" href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
             <Text text={value.rich_text} />
           </a>
         );
 
         case "heading_3":
         return (
-          <a key={block.id} className="table-of-content-item" href={`/blog/${page.id}#${block.id}`}>
+          <a key={block.id} className="table-of-content-item" href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
             <Text text={value.rich_text} />
           </a>
         );

@@ -1,4 +1,4 @@
-import getServices from "@/app/libs/getServices";
+import getServices from "app/libs/getServices";
 import Link from "next/link";
 
 export default async function ServiceRepeater() {
@@ -11,7 +11,7 @@ export default async function ServiceRepeater() {
           <div className='cards'>
             {services.map((service) => (
               <Link
-              href={`/services/${service.id}`}
+              href={`/services/${service.properties.Slug.formula.string}`}
               >
               <div key={service.id} className='card'>
                 <div>

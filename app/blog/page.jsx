@@ -1,6 +1,5 @@
-import HeroLandingPage from "@/app/components/Shared/heroLandingPage";
-import BlogTileSection from "@/app/components/Blog/blogTileSection";
-import Footer from "../components/Shared/footer";
+import HeroLandingPage from "app/components/Shared/heroLandingPage.jsx";
+import BlogTileSection from "app/components/Blog/blogTileSection.jsx";
 
 export default function Blog() {
   return (

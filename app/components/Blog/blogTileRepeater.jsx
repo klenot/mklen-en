@@ -5,17 +5,6 @@ import getBlogPosts from "app/libs/getBlogPosts.jsx";
 export default async function BlogTileRepeater() {
   const posts = await getBlogPosts();
 
-  const date = new Date(posts[0].properties.PostDate.date.start).toLocaleString(
-    "en-US",
-    {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    }
-  );
-
-  console.log(date)
-
   return (
     <>
       <BlogFilter />
@@ -23,7 +12,7 @@ export default async function BlogTileRepeater() {
         <div className='cards-container'>
           <div className='cards'>
             {posts.map((post) => (
-              <Link href={`/blog/${post.id}`}>
+              <Link href={`/blog/${post.properties.Slug.formula.string}`}>
                 <div key={post.id} className='post-card'>
                   <div>
                     <h3>{post.properties.PostTitle.title[0].plain_text}</h3>

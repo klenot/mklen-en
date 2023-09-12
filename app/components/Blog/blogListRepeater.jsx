@@ -1,6 +1,6 @@
 import Link from "next/link";
 import BlogFilter from "./blogFilter";
-import getHomepageBlogPosts from "@/app/libs/getHpBlogPosts";
+import getHomepageBlogPosts from "app/libs/getHpBlogPosts";
 
 export default async function BlogListRepeater() {
   const posts = await getHomepageBlogPosts();
@@ -12,7 +12,7 @@ export default async function BlogListRepeater() {
       <div className='blog-section'>
         <div className='blog-list-container'>
           {posts.map((post) => (
-            <Link className='blog-list-item' href={`/blog/${post.id}`}>
+            <Link className='blog-list-item' href={`/blog/${post.properties.Slug.formula.string}`}>
               <div key={post.id}>
                 <div
                   className={post.properties.AutoClassGenerator.formula.string}>

@@ -1,14 +1,14 @@
 import { Fragment } from "react";
 import Image from "next/image";
-import { getBlocks, getPage } from "@/app/libs/notionServices";
-import HeroServicePage from "@/app/components/Services/heroServicePage";
+import { getBlocks, getPage } from "app/libs/notionServices";
+import { getPageBySlug } from "app/libs/getPageBySlug.ts";
+import HeroServicePage from "app/components/Services/heroServicePage";
 
 
 export default async function ServicePage({ params }) {
-  const page = await getPage(params.id);
-  const blocks = await getBlocks(params.id);
-
-  console.log(page.properties.ButtonText.rich_text[0].plain_text)
+  const slug = await getPageBySlug (params.slug);
+  const page = await getPage("8ddbb8f6371c4b6fae47dd16ca5af060");
+  const blocks = await getBlocks("8ddbb8f6371c4b6fae47dd16ca5af060");
 
   const Text = ({ text }) => {
     if (!text) {

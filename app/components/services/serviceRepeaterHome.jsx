@@ -1,4 +1,4 @@
-import getHomepageServices from "@/app/libs/getHpServices";
+import getHomepageServices from "app/libs/getHpServices";
 
 export default async function ServiceRepeaterHome() {
   const services = await getHomepageServices();

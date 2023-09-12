@@ -16,9 +16,12 @@
     "next-themes": "^0.2.1",
     "node.js": "^0.0.1-security",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
-    "encoding": "^0.1.13"
+    "@types/react": "18.2.21",
+    "encoding": "^0.1.13",
+    "typescript": "5.2.2"
   }
 }
