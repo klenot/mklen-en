@@ -1,4 +1,4 @@
-import { getDatabase } from "@/app/libs/notionServices";
+import { getDatabase } from "app/libs/notionServices";
 import Image from "next/image"
 
 export default async function SkillRepeater() {

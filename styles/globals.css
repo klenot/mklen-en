@@ -127,6 +127,7 @@ select, textarea {
   --post-category-pm-bg: #FCF9BE;
   --post-category-productivity-bg: #9FA3FB;
   --post-category-thoughts-bg: #FAAB78;
+  --post-card-info-date: #fdff88;
 
   --post-date-bg: rgb(158, 158, 158);
 
@@ -256,11 +257,11 @@ select, textarea {
 /* GLOBAL FOR ALL SECTIONS ----------------------------------------------------------------------------- */
 
 .section-title-h2{
-  padding: 4% 0 4% 0;
+  padding: 2% 0 2% 0;
 }
 
 .section-title-h3{
-  padding: 2% 0 2% 0;
+  padding: 1% 0 1% 0;
 }
 
 .format-block{
@@ -570,9 +571,10 @@ a > p {
   flex-direction: column;
   row-gap: 10%;
   padding: var(--mobile-cont-pd);
-  padding-top: 6rem;
   margin-left: auto;
   margin-right: auto;
+  padding-top: 10rem;
+  padding-bottom: 10rem;
 }
 
 .hero-section{
@@ -631,7 +633,8 @@ a > p {
           .hero-container{
               padding: var(--tablet-cont-pd);
               width: var(--tablet-cont-w);
-              padding-top: 8rem;
+              padding-top: 15rem;
+              padding-bottom: 10rem;
           }
 
           .hero-section{
@@ -704,7 +707,7 @@ a > p {
   cursor: pointer;
   flex-direction: column;
   padding: 2rem;
-  height: 20rem;
+  height: 30rem;
 }
 
 .card:hover{
@@ -781,7 +784,7 @@ a > p {
 }
 
 .service-section{
-  padding: 3rem 0 0 0;
+  padding: 1rem 0 1rem 0;
 }
 
 .service-image-container {
@@ -1034,7 +1037,7 @@ li > span{
         }
         
         .service-section{
-          padding: 3rem 0 0 0;
+          padding: 1rem 0 1rem 0;
         }
 
     }
@@ -1053,7 +1056,7 @@ li > span{
                 width: var(--desktop-cont-w);
             }
             .service-section{
-              padding: 3rem 0 0 0;
+              padding: 1rem 0 1rem 0;
             }
 
         }
@@ -1194,8 +1197,9 @@ li > span{
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  margin-top: 2.5rem;
+  margin-top: 1rem;
   justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .filter-item{
@@ -1270,7 +1274,7 @@ li > span{
     cursor: pointer;
     flex-direction: column;
     padding: 2rem;
-    height: 30rem;
+    height: 40rem;
   }
 
   .post-card-info{
@@ -1281,12 +1285,11 @@ li > span{
   .post-card-info-date{
     display: flex;
     align-items: center;
-
-    background-color: var(--post-category-bg);
+    background-color: var(--post-card-info-date);
     padding: 0.1rem 0.6rem 0.2rem 0.6rem;
     border-radius: 4px;
     border: solid 0.1rem var(--primary-outline);
-    box-shadow: 2px 2px 0px var(--post-category-bg);
+    box-shadow: 2px 2px 0px var(--post-card-info-date);
   }
 
   .post-card-info-date-text{
@@ -1453,6 +1456,10 @@ scale: 1.03;
 
 .pill{
   z-index: 10;
+}
+
+.pill > span{
+  color: var(--secondary-text-color)
 }
 
 
@@ -1828,7 +1835,7 @@ li > span{
           }
 
           .section-title-h2{
-              padding: 3% 0 3% 0;
+              padding: 0 0 1% 0;
           }
           
           .section-title-h3{
@@ -1860,7 +1867,7 @@ li > span{
           }
 
           .section-title-h2{
-              padding: 2.5% 0 2.5% 0;
+              padding: 1% 0 1% 0;
           }
           
           .section-title-h3{
@@ -2297,6 +2304,10 @@ input::placeholder, textarea::placeholder{
   justify-items: flex-start;
 }
 
+.footer-get-in-touch{
+  padding-bottom: 3rem
+}
+
 
 .footer-list{
   display: flex;
@@ -2363,15 +2374,19 @@ input::placeholder, textarea::placeholder{
           }
           
           .footer-section{
-              flex-wrap: nowrap;
-              width: 30rem;
-              padding: var(--tablet-sect-pd);
+            flex-wrap: nowrap;
+            width: 30rem;
+            padding: var(--tablet-sect-pd);
+            line-height: 2.5rem;
+            word-break: break-word;
+            text-align: justify;
           }
 
           .footer-row-top{
               display: flex;
               flex-direction: row;
               justify-content: space-between;
+              padding-top: 6rem;
           }
 
           .footer-row-mid{
@@ -2383,10 +2398,6 @@ input::placeholder, textarea::placeholder{
           .footer-row-bottom{
               padding: 7% 0 5% 0;
               width: fit-content;
-          }
-
-          .contact-info{
-              padding: 5% 0 5% 0;
           }
 
       }
@@ -2414,6 +2425,7 @@ input::placeholder, textarea::placeholder{
               align-items: flex-start;
               justify-content: space-between;
               gap: 8%;
+              padding-top: 1rem;
           }
       
           .footer-row-mid{

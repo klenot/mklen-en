@@ -11,15 +11,15 @@ export default function Blog() {
           perex={
             "The process of writing always reminds me of how little I actually know about the topic."
           }
-          buttonText={"All posts"}
+          buttonText={"-"}
         />
 
         <BlogTileSection 
-          h2={"Writing"}
+          h2={"-"}
           perex={
-            "The process of writing always reminds me of how little I actually know about the topic."
+            "-"
           }
-          buttonText={"more writings"}
+          buttonText={"-"}
         />
       
       </main>

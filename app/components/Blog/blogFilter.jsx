@@ -1,4 +1,4 @@
-export function FilterButton({ buttonText, filterCategory, className }) {
+function FilterButton({ buttonText, filterCategory, className }) {
   return (
     <>
       <div>

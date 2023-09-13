@@ -1,4 +1,4 @@
-import { getDatabase } from "@/app/libs/notionServices";
+import { getDatabase } from "app/libs/notionServices";
 import BookTile from "app/components/Books/bookTile.jsx";
 
 export default async function BookRepeater() {

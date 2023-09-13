@@ -321,7 +321,7 @@ export default async function Post({ params }) {
           tableOfContent={
             <div className="hero-section">
               {blocks.map((block) => (
-                <div className='table-of-content-item'>
+                <div className='table-of-content-item' key={block.id}>
                   {renderContentTable(block)}
                 </div>
               ))}

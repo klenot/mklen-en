@@ -1,3 +1,4 @@
+import Link from "next/link";
 import BlogTileRepeater from "./blogTileRepeater";
 
 export default function BlogTileSection({ h2, perex, buttonText }) {
@@ -5,32 +6,34 @@ export default function BlogTileSection({ h2, perex, buttonText }) {
     <>
       <section id='blog-section'>
         <div className='blog-section-container'>
-          <div className='blog-section section-title-h2'>
-            <h2 className='mt-2'>
-              
-              {h2}
-              
-            </h2>
-          </div>
-          <div className='blog-section'>
-            <p>
-              
-              {perex}
+          {h2 === "-" ? (
+            <></>
+          ) : (
+            <div className='blog-section section-title-h2'>
+              <h2 className='mt-2'>{h2}</h2>
+            </div>
+          )}
 
-            </p>
-          </div>
+          {perex === "-" ? (
+            <></>
+          ) : (
+            <div className='blog-section'>
+              <p>{perex}</p>
+            </div>
+          )}
 
           <BlogTileRepeater />
-
-          <div className='blog-section button-wrapper'>
-            <button className='cta'>
-              <span>
-                
-                {buttonText}
-              
-              </span>
-            </button>
-          </div>
+          {buttonText === "-" ? (
+            <></>
+          ) : (
+            <div className='blog-section button-wrapper'>
+              <button className='cta'>
+                <Link href='/about'>
+                  <span>{buttonText}</span>
+                </Link>
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>

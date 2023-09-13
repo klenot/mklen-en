@@ -16,13 +16,13 @@ export default function HeroLandingPage({ h1, perex, buttonText }) {
             <p className='hero-perex'>{perex}</p>
           </div>
         </div>
-        <div className='hero-section'>
+        {buttonText === "-" ? <></> : <div className='hero-section'>
           <button className='cta'>
             <Link href='/about'>
               <span>{buttonText}</span>
             </Link>
           </button>
-        </div>
+        </div>}
       </div>
     </section>
   );

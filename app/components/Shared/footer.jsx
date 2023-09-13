@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="footer-container">
             <div className="footer-row-top">
               <div className="footer-section">
-                <h2 className="section-title-h2">Get in touch.</h2>
+                <h2 className="footer-get-in-touch">Get in touch.</h2>
                 <p>
                   I built this website with two purposes in mind. To present my
                   knowledge &amp; abilities and to provide services that can help
