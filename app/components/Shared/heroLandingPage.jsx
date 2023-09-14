@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function HeroLandingPage({ h1, perex, buttonText }) {
+export default function HeroLandingPage({ h1, perex, buttonText, buttonUrl }) {
   return (
     <section id='hero-section'>
       <div className='hero-container'>
@@ -16,13 +16,27 @@ export default function HeroLandingPage({ h1, perex, buttonText }) {
             <p className='hero-perex'>{perex}</p>
           </div>
         </div>
-        {buttonText === "-" ? <></> : <div className='hero-section'>
-          <button className='cta'>
-            <Link href='/about'>
+        {buttonText === "-" ? (
+          <></>
+        ) : (
+          <div className='hero-section'>
+            <button className='cta'>
+              {buttonUrl === "-" ? (
+                <Link href={"/"}>
+                  <span>{buttonText}</span>
+                </Link>
+              ) : (
+                <Link href={`/${buttonUrl}`}>
+                  <span>{buttonText}</span>
+                </Link>
+              )}
+
+              {/*             <Link href={`/${buttonUrl}`}>
               <span>{buttonText}</span>
-            </Link>
-          </button>
-        </div>}
+            </Link> */}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

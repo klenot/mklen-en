@@ -11,6 +11,7 @@ export default function About() {
           h1={"About"}
           perex={"Helping companies create effective digital presence is what I’ve been doing for the last 6 years working as a marketing consultant & project manager."}
           buttonText={"Curriculum vitae"}
+          buttonUrl={"about/cv"}
         />
         <SkillRepeater />
         <TileRepeater />

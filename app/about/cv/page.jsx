@@ -1,5 +1,6 @@
+import Image from "next/image";
 import "styles/cv-styles.css";
-import NavBar from "@/app/components/Shared/navBar";
+import NavBar from "app/components/Shared/navBar";
 
 export default function CurriculumVitae() {
   return (
@@ -9,9 +10,14 @@ export default function CurriculumVitae() {
         <section id='cv-hero-section'>
           <div className='cv-hero-container'>
             <div className='cv-hero-section-image'>
-              <img
-                className='cv-image'
-                src='../media/cv-page/color_square.jpg'
+              <Image
+                src={"/images/cv/color_square.jpg"}
+                width= {200}
+                height={200}
+                style={{
+                  border: "solid 1px transparent",
+                  borderRadius: "8px"
+                }}
                 alt='A self portrait taken on November 1st in 2020.'
               />
             </div>
@@ -427,10 +433,10 @@ export default function CurriculumVitae() {
                 </p>
               </div>
               <div className='text-section text-section-image'>
-                <img
-                  className='signature-image'
-                  src='../media/cv-page/podpis_mk_grey.png'
-                  alt='My handwritten signature.'
+                <Image
+                   src={"/images/cv/podpis_mk_grey.png"}
+                   width= {350}
+                   height={150}
                 />
               </div>
               <div id='download' className='text-section'>
