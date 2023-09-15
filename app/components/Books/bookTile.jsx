@@ -16,6 +16,7 @@ export default function BookTile({ tileKey, title, author, src }) {
               }}
             width={2}
             height={3}
+            alt='Book cover.'
         />
         <div>
           <div className='tile-info-wrapper'>
