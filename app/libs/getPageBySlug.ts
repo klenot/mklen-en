@@ -10,10 +10,24 @@ export const notionClient = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
-export const getPageBySlug = cache((slug: string) => {
+export const getBlogBySlug = cache((slug: string) => {
   return notionClient.databases
     .query({
       database_id: process.env.BLOG_DATABASE_ID,
+      filter: {
+        property: "Slug",
+        rich_text: {
+          equals: slug,
+        },
+      },
+    })
+    .then((res) => res.results[0] as PageObjectResponse | undefined);
+});
+
+export const getServiceBySlug = cache((slug: string) => {
+  return notionClient.databases
+    .query({
+      database_id: process.env.SERVICES_DATABASE_ID,
       filter: {
         property: "Slug",
         rich_text: {

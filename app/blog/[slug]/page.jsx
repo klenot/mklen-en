@@ -1,14 +1,11 @@
 import { Fragment } from "react";
 import Image from "next/image";
 import { getBlocks, getPage } from "app/libs/notionServices.jsx";
-import { getPageBySlug } from "app/libs/getPageBySlug.ts";
+import { getBlogBySlug } from "app/libs/getPageBySlug.ts";
 import HeroBlogPost from "app/components/Blog/heroBlogPost.jsx";
 
 export default async function Post({ params }) {
-  const slug = await getPageBySlug (params.slug);
-
-  console.log(slug)
-
+  const slug = await getBlogBySlug (params.slug);
   const page = await getPage(slug.id);
   const blocks = await getBlocks(slug.id);
 

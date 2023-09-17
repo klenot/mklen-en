@@ -1,12 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getDatabase } from "app/libs/notionServices.jsx";
 
 export default function SkillFilter() {
   const [category, setCategory] = useState(["Showcase"]);
 
   useEffect(() => {
-    console.log(category)
+    async function fetchData(){
+      const skills = await getDatabase(process.env.SKILLS_DATABASE_ID)
+      console.log(skills)
+    }
+    fetchData()
   }, [category]);
 
   function showAll(){
