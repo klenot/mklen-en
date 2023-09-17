@@ -1,16 +1,24 @@
-import { Client } from "@notionhq/client";
+import axios from "axios";
 
-const notion = new Client({
-  auth: process.env.NOTION_API_KEY,
-});
+// export const getDatabase = async (databaseId) => {
+//   const response = await notion.databases.query({
+//     database_id: databaseId,
+//   });
+//   return response.results;
+// };
 
-export const getDatabase = async (databaseId) => {
-  const response = await notion.databases.query({
-    database_id: databaseId,
-  });
-  return response.results;
-};
-
+export async function getDatabase(databaseId) {
+  try {
+    const response = await axios.post("http://localhost:3000/api/notion", {
+      operation: "databaseQuery",
+      data: { databaseId },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching database from Notion API:", error);
+    throw error;
+  }
+}
 export async function getPage(pageId) {
   const response = await notion.pages.retrieve({ page_id: pageId });
   return response

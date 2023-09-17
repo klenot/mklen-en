@@ -8,6 +8,11 @@ const nextConfig = {
         },
       ],
     },
+
+    env: {
+      SKILLS_DATABASE_ID: process.env.SKILLS_DATABASE_ID,
+    },
+
   };
 
 module.exports = nextConfig

@@ -21,14 +21,16 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/libs/notionServices.jsx"  ],
+    "**/*.tsx",
+    "app/libs/notionServicesOld.jsx"
+  ],
   "exclude": [
     "node_modules"
   ]
