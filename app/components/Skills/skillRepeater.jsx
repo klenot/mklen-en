@@ -31,6 +31,7 @@ export default async function SkillRepeater() {
                     
                     <Image
                       src={skill.properties.Icon.files[0].file.url}
+                      alt="Icon"
                       width={16.5}
                       height={16.5}
                       style={{
