@@ -3,7 +3,7 @@ import Image from 'next/image'
 export default function BookTile({ tileKey, title, author, src }) {
   return (
     <>
-      <div key={tileKey} className='tile-item'>
+      <div className='tile-item'>
         <Image
             src={src}
             sizes='100vw'

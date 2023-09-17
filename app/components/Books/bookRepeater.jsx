@@ -26,7 +26,7 @@ export default async function BookRepeater() {
 
               {books.map((book) => (
                 <BookTile
-                  Key={book.id}
+                  key={book.id}
                   title={book.properties.BookName.title[0].plain_text}
                   author={book.properties.Author.rich_text[0].plain_text}
                   src={book.properties.BookCover.files[0].file.url}

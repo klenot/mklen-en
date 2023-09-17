@@ -1,5 +1,6 @@
-import { getDatabase } from "app/libs/notionServices";
 import Image from "next/image"
+import { getDatabase } from "app/libs/notionServices";
+import SkillFilter from "./skillFilter";
 
 export default async function SkillRepeater() {
 
@@ -19,6 +20,10 @@ export default async function SkillRepeater() {
             </p>
           </div>
           <div className='skill-section'>
+
+            <div className="skill-section">
+                <SkillFilter />
+            </div>
 
             <div className='skill-list-container'>
 
