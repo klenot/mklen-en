@@ -17,12 +17,22 @@ export default async function handler(
     if (operation === "databaseQuery") {
       const response = await notion.databases.query({
         database_id: data.databaseId,
-        filter: {
-          property: data.filter,
-          select: {
-            equals: data.category,
+        filter:{
+          or: [
+            {
+              property: data.filterA,
+              select: {
+              equals: data.categoryA
+              }
             },
-          },
+            {
+              property: data.filterB,
+              select: {
+              equals: data.categoryB
+              }
+            },
+          ]
+        }
       });
       res.status(200).json(response.results);
     } else if (operation === "retrievePage") {

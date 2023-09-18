@@ -3,7 +3,23 @@ export default async function getHomepageBlogPosts() {
   const notion = new Client({ auth: process.env.NOTION_API_KEY });
   const response = await notion.databases.query({
     database_id: process.env.BLOG_DATABASE_ID,
-    filter: {
+    filter:{
+      and: [
+        {
+          property: "Publish",
+          select: {
+          equals: "Published"
+          }
+        },
+        {
+          property: "Placement",
+          select: {
+          equals: "Homepage"
+          }
+        },
+      ]
+    }
+    /* filter: {
       property: "Publish",
       select: {
         equals: "Published",
@@ -18,7 +34,7 @@ export default async function getHomepageBlogPosts() {
         property: "PostDate",
         direction: "descending",
       },
-    ],
+    ], */
   });
 
   const blogs = response.results;

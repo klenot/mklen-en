@@ -5,31 +5,39 @@ import { useEffect, useState } from "react";
 import { getDatabase } from "app/libs/notionServices";
 
 export default function SkillRepeater() {
-  const [filter, setFilter] = useState("Showcase");
-  const [category, setCategory] = useState("Showcase");
+  const [filterA, setFilterA] = useState("Showcase");
+  const [filterB, setFilterB] = useState("Showcase");
+  const [categoryA, setCategoryA] = useState("Showcase");
+  const [categoryB, setCategoryB] = useState("Showcase");
   const [skills, setSkills] = useState([])
 
   useEffect(() => {
     async function fetchData(){
-      const skills = await getDatabase(process.env.SKILLS_DATABASE_ID, filter, category)
+      const skills = await getDatabase(process.env.SKILLS_DATABASE_ID, filterA, categoryA, filterB, categoryB)
       setSkills(skills)
     }
     fetchData()
-  }, [category]);
+  }, [categoryA, categoryB]);
 
   function showAll(){
-    setFilter("Showcase")
-    setCategory("Showcase")
+    setFilterA("Showcase")
+    setCategoryA("Showcase")
+    setFilterB("Showcase")
+    setCategoryB("Showcase")
   }
 
   function showAi(){
-    setFilter("Category")
-    setCategory("AI")
+    setFilterA("Category")
+    setCategoryA("AI")
+    setFilterB("Category")
+    setCategoryB("AI")
   }
 
   function showCoding(){
-    setFilter("Category")
-    setCategory("Coding")
+    setFilterA("Category")
+    setCategoryA("Coding")
+    setFilterB("Category")
+    setCategoryB("Programming")
   }
 
   return (

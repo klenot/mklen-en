@@ -1,6 +1,6 @@
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
 import SkillRepeater from "app/components/Skills/skillRepeater";
-import TileRepeater from "app/components/Books/bookRepeater";
+import BookRepeater from "app/components/Books/bookRepeater";
 import 'styles/about-styles.css'
 
 export default function About() {
@@ -14,7 +14,7 @@ export default function About() {
           buttonUrl={"about/cv"}
         />
         <SkillRepeater />
-        <TileRepeater />
+        <BookRepeater />
 
         <section id='interest-section'>
           <div className='interest-container'>

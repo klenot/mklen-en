@@ -7,11 +7,11 @@ import axios from "axios";
 //   return response.results;
 // };
 
-export async function getDatabase(databaseId, filter, category) {
+export async function getDatabase(databaseId, filterA, categoryA, filterB, categoryB) {
   try {
     const response = await axios.post("http://localhost:3000/api/notion", {
       operation: "databaseQuery",
-      data: { databaseId, filter, category },
+      data: { databaseId, filterA, categoryA, filterB, categoryB },
     });
     return response.data;
   } catch (error) {
