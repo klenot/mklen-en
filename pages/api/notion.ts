@@ -14,7 +14,7 @@ export default async function handler(
     // Determine the type of Notion operation based on the request body
     const { operation, data } = req.body;
 
-    if (operation === "databaseQuery") {
+    if (operation === "databaseQueryWithOr") {
       const response = await notion.databases.query({
         database_id: data.databaseId,
         filter:{
@@ -35,6 +35,27 @@ export default async function handler(
         }
       });
       res.status(200).json(response.results);
+    } else if (operation === "databaseQueryWithAnd") {
+        const response = await notion.databases.query({
+          database_id: data.databaseId,
+          filter:{
+            and: [
+              {
+                property: data.filterA,
+                select: {
+                equals: data.categoryA
+                }
+              },
+              {
+                property: data.filterB,
+                select: {
+                equals: data.categoryB
+                }
+              },
+            ]
+          }
+        });
+        res.status(200).json(response.results);
     } else if (operation === "retrievePage") {
       const response = await notion.pages.retrieve({ page_id: data.pageId });
       res.status(200).json(response);

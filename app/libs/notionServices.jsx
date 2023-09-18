@@ -1,4 +1,9 @@
 import axios from "axios";
+import { Client } from "@notionhq/client";
+
+const notion = new Client({
+  auth: process.env.NOTION_API_KEY,
+});
 
 // export const getDatabase = async (databaseId) => {
 //   const response = await notion.databases.query({
@@ -7,10 +12,10 @@ import axios from "axios";
 //   return response.results;
 // };
 
-export async function getDatabase(databaseId, filterA, categoryA, filterB, categoryB) {
+export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB, categoryB) {
   try {
     const response = await axios.post("http://localhost:3000/api/notion", {
-      operation: "databaseQuery",
+      operation: "databaseQueryWithOr",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
     });
     return response.data;
@@ -19,6 +24,20 @@ export async function getDatabase(databaseId, filterA, categoryA, filterB, categ
     throw error;
   }
 }
+
+export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB, categoryB) {
+  try {
+    const response = await axios.post("http://localhost:3000/api/notion", {
+      operation: "databaseQueryWithAnd",
+      data: { databaseId, filterA, categoryA, filterB, categoryB },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching database from Notion API:", error);
+    throw error;
+  }
+}
+
 export async function getPage(pageId) {
   const response = await notion.pages.retrieve({ page_id: pageId });
   return response
@@ -26,7 +45,6 @@ export async function getPage(pageId) {
 
 export async function getBlocks(blockId) {
   blockId = blockId.replaceAll("-", "");
-  console.log(blockId)
 
   const { results } = await notion.blocks.children.list({
     block_id: blockId,

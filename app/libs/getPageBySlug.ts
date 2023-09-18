@@ -6,13 +6,12 @@ import {
 } from "@notionhq/client/build/src/api-endpoints";
 import { cache } from "react";
 
-export const notionClient = new Client({
+export const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
 export const getBlogBySlug = cache((slug: string) => {
-  return notionClient.databases
-    .query({
+  return notion.databases.query({
       database_id: process.env.BLOG_DATABASE_ID,
       filter: {
         property: "Slug",
@@ -25,7 +24,7 @@ export const getBlogBySlug = cache((slug: string) => {
 });
 
 export const getServiceBySlug = cache((slug: string) => {
-  return notionClient.databases
+  return notion.databases
     .query({
       database_id: process.env.SERVICES_DATABASE_ID,
       filter: {

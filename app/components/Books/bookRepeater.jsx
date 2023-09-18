@@ -1,8 +1,8 @@
-import { getDatabase } from "app/libs/notionServices";
 import BookTile from "app/components/Books/bookTile.jsx";
+import { getDatabaseWithAnd } from "../../libs/notionServices";
 
 export default async function BookRepeater() {
-  const books = await getDatabase(process.env.BOOKS_DATABASE_ID, "Publish", "Published", "Publish", "Published")
+  const books = await getDatabaseWithAnd(process.env.BOOKS_DATABASE_ID, "Publish", "Published", "Publish", "Published")
 
   return (
     <>

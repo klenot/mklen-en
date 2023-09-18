@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getDatabase } from "app/libs/notionServices";
+import { getDatabaseWithOr } from "app/libs/notionServices";
 
 export default function SkillRepeater() {
   const [filterA, setFilterA] = useState("Showcase");
@@ -13,7 +13,7 @@ export default function SkillRepeater() {
 
   useEffect(() => {
     async function fetchData(){
-      const skills = await getDatabase(process.env.SKILLS_DATABASE_ID, filterA, categoryA, filterB, categoryB)
+      const skills = await getDatabaseWithOr(process.env.SKILLS_DATABASE_ID, filterA, categoryA, filterB, categoryB)
       setSkills(skills)
     }
     fetchData()

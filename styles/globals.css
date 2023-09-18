@@ -57,6 +57,10 @@ select, textarea {
   outline: none;
 }
 
+button{
+  cursor: pointer;
+}
+
 .mt-1{
   margin-top: 1rem;
 }

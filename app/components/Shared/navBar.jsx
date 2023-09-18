@@ -1,21 +1,34 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { usePathname } from 'next/navigation';
 import Image from "next/image";
 import Link from "next/link";
 
 export default function NavBar() {
-  const { resolvedTheme, setTheme } = useTheme();
-
+  const { theme, setTheme } = useTheme();
   const [isOpen, setOpen] = useState(false);
+  let pathname = usePathname();
+  
+  useEffect(() => {
+    setOpen(false);
+    setTheme(theme)
+  }, [ pathname ]);
 
-  const openMenu = (e) => {
+  const openMenu = () => {
     !isOpen ? setOpen(true) : setOpen(false);
+    const menuButton = document.getElementById('burger-icon');
+    const menu = document.getElementById('menu');
+    document.addEventListener('click', (event) => {
+      if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+        setOpen(false);
+      }
+    });
   };
 
   function toggleTheme() {
-    setTheme(resolvedTheme === "dark-theme" ? "light-theme" : "dark-theme");
+    setTheme(theme === "dark-theme" ? "light-theme" : "dark-theme");
   }
 
   return (
@@ -54,8 +67,9 @@ export default function NavBar() {
                     </li>
                   </ul>
                 </div>
-                <div id='burger-icon' className='nav-section mobile-menu-icons'>
+                <div className='nav-section mobile-menu-icons'>
                   <span
+                    id='burger-icon'
                     style={{ fontSize: 27 }}
                     className='material-symbols-sharp burger-icon'
                     onClick={openMenu}>
@@ -66,7 +80,7 @@ export default function NavBar() {
                     id='light-mode'
                     className='material-symbols-sharp'
                     onClick={toggleTheme}>
-                    {resolvedTheme === "loght-theme"
+                    {theme === "loght-theme"
                       ? "dark_mode"
                       : "light_mode"}
                   </span>
@@ -79,7 +93,7 @@ export default function NavBar() {
                     ? "mobile-menu-container mobile-menu-hide"
                     : "mobile-menu-container mobile-menu-display"
                 }>
-                <div className='mobile-menu'>
+                <div id="menu" className='mobile-menu'>
                   <ul className='nav-list'>
                     <li className='nav-item-mobile'>
                       <Link href='/'>Home</Link>
