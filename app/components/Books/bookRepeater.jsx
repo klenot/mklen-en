@@ -2,7 +2,7 @@ import { getDatabase } from "app/libs/notionServices";
 import BookTile from "app/components/Books/bookTile.jsx";
 
 export default async function BookRepeater() {
-  const books = await getDatabase(process.env.BOOKS_DATABASE_ID)
+  const books = await getDatabase(process.env.BOOKS_DATABASE_ID, "Publish", "Published")
 
   return (
     <>

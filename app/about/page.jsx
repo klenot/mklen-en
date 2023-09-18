@@ -1,6 +1,6 @@
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
 import SkillRepeater from "app/components/Skills/skillRepeater";
-import TileRepeater from "app/components/Books/bookRepeater.jsx";
+import TileRepeater from "app/components/Books/bookRepeater";
 import 'styles/about-styles.css'
 
 export default function About() {

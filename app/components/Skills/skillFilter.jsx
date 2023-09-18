@@ -4,22 +4,31 @@ import { useEffect, useState } from "react";
 import { getDatabase } from "app/libs/notionServices.jsx";
 
 export default function SkillFilter() {
-  const [category, setCategory] = useState(["Showcase"]);
+  const [filter, setFilter] = useState("Showcase");
+  const [category, setCategory] = useState("Showcase");
 
   useEffect(() => {
     async function fetchData(){
-      const skills = await getDatabase(process.env.SKILLS_DATABASE_ID)
+      const skills = await getDatabase(process.env.SKILLS_DATABASE_ID, filter, category)
+      console.log(filter, category)
       console.log(skills)
     }
     fetchData()
   }, [category]);
 
   function showAll(){
-    setCategory(["Showcase"])
+    setFilter("Showcase")
+    setCategory("Showcase")
   }
 
   function showAi(){
-    setCategory(["AI"])
+    setFilter("Category")
+    setCategory("AI")
+  }
+
+  function showCoding(){
+    setFilter("Category")
+    setCategory("Coding")
   }
 
   return (
@@ -36,7 +45,7 @@ export default function SkillFilter() {
           </div>
         </div>
         <div className='skill-category filter-item'>
-          <div className='pill'>
+          <div onClick={showCoding} className='pill'>
             <span>Coding &amp; Programming</span>
           </div>
         </div>
