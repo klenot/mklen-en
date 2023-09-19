@@ -68,22 +68,37 @@ export default function NavBar() {
                   </ul>
                 </div>
                 <div className='nav-section mobile-menu-icons'>
-                  <span
+                  <Image
                     id='burger-icon'
-                    style={{ fontSize: 27 }}
-                    className='material-symbols-sharp burger-icon'
-                    onClick={openMenu}>
-                    lunch_dining
-                  </span>
-                  <span
-                    style={{ fontSize: 30 }}
-                    id='light-mode'
-                    className='material-symbols-sharp'
-                    onClick={toggleTheme}>
-                    {theme === "loght-theme"
-                      ? "dark_mode"
-                      : "light_mode"}
-                  </span>
+                    onClick={openMenu}
+                    src={"/icons/navbar/burger-menu-icon.svg"}
+                    width={30}
+                    height={30}
+                    alt='Icon for toggling navigation menu.'
+                  />
+
+                  {theme === "dark-theme" ? (
+                    <Image
+                      id='light-mode'
+                      onClick={toggleTheme}
+                      src={"/icons/navbar/light-mode-icon.svg"}
+                      width={33}
+                      height={33}
+                      alt='Light mode icon.'
+                    />
+                  ) : (
+                    <Image
+                      id='dark-mode'
+                      onClick={toggleTheme}
+                      src={"/icons/navbar/dark-mode-icon.svg"}
+                      width={33}
+                      height={33}
+                      alt='Dark mode icon.'
+                    />
+                  )}
+
+                  
+
                 </div>
               </div>
               <div
@@ -93,7 +108,7 @@ export default function NavBar() {
                     ? "mobile-menu-container mobile-menu-hide"
                     : "mobile-menu-container mobile-menu-display"
                 }>
-                <div id="menu" className='mobile-menu'>
+                <div id='menu' className='mobile-menu'>
                   <ul className='nav-list'>
                     <li className='nav-item-mobile'>
                       <Link href='/'>Home</Link>
@@ -121,12 +136,14 @@ export default function NavBar() {
                     </li>
                   </ul>
                   <div>
-                    <span
-                      style={{ fontSize: 30 }}
-                      className='material-symbols-sharp'
-                      onClick={openMenu}>
-                      close
-                    </span>
+                    <Image
+                      id='close-menu-icon'
+                      src={"/icons/navbar/close-menu-icon.svg"}
+                      onClick={openMenu}
+                      width={30}
+                      height={30}
+                      alt='Close the menu icon.'
+                    />
                   </div>
                 </div>
               </div>

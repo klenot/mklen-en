@@ -374,6 +374,7 @@ a > p {
 .mobile-menu-icons{
   display: flex;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .nav-container{
@@ -471,7 +472,7 @@ a > p {
 }
 
 .nav-item-mobile:hover{
-  transform: scale(1.01);
+  transform: scale(1.03);
 }
 
 .nav-mobile-lang-icon{
@@ -479,30 +480,54 @@ a > p {
   height: 25px;
 }
 
-.material-symbols-sharp {
-  cursor: pointer;
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 100,
-  'GRAD' -25,
-  'opsz' 24
+#burger-icon{
+  filter: invert(18%) sepia(0%) saturate(0%) hue-rotate(169deg) brightness(97%) contrast(90%);
 }
 
-.material-symbols-sharp{
-  color: var(--primary-text-color);
+#dark-mode{
+  filter: invert(18%) sepia(0%) saturate(0%) hue-rotate(169deg) brightness(97%) contrast(90%);
+}
+
+
+
+#light-mode{
+  filter: invert(18%) sepia(0%) saturate(0%) hue-rotate(169deg) brightness(97%) contrast(90%);
+}
+
+.dark-theme #light-mode{
+  filter: invert(100%) sepia(1%) saturate(4064%) hue-rotate(236deg) brightness(118%) contrast(88%);
 }
 
 #light-mode:hover{
-  color: #ffbd07;
+  cursor: pointer;
+  transform: scale(1.2);
+  filter: invert(85%) sepia(32%) saturate(4995%) hue-rotate(354deg) brightness(103%) contrast(101%);
 }
 
-.light-theme #light-mode:hover{
-  color: #019dff;
+.light-theme #dark-mode:hover{
+  cursor: pointer;
+  transform: scale(1.2);
+  filter: invert(47%) sepia(46%) saturate(4585%) hue-rotate(180deg) brightness(103%) contrast(102%);
 }
 
-.material-symbols-sharp:hover{
+#burger-icon:hover{
+  cursor: pointer;
   transform: scale(1.2);
 }
+
+.dark-theme #burger-icon{
+  filter: invert(100%) sepia(1%) saturate(4064%) hue-rotate(236deg) brightness(118%) contrast(88%);
+}
+
+#close-menu-icon:hover{
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.dark-theme #close-menu-icon{
+  filter: invert(100%) sepia(1%) saturate(4064%) hue-rotate(236deg) brightness(118%) contrast(88%);
+}
+
 
       /* NAV BAR - TABLET */
 
@@ -528,7 +553,7 @@ a > p {
       @media only screen and (min-width: 1100px){
           /* NAVIGATION */
 
-          span.burger-icon{
+          #burger-icon{
               display: none;
           }
           
