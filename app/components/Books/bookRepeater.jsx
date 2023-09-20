@@ -6,13 +6,13 @@ export default async function BookRepeater() {
 
   return (
     <>
-      <section id='book-section'>
+      <section id='book-section' className="pt-10 pb-10">
         <div className='tile-section-container'>
-          <div className='tile-section section-title-h2'>
+          <div className='tile-section pb-2'>
             <h2>Project management</h2>
           </div>
 
-          <div className='tile-section'>
+          <div className='tile-section pb-1'>
             <p>
               In my project management blog posts you can explore various
               strategies and techniques for planning, executing, and delivering

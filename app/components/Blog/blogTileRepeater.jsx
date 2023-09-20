@@ -52,7 +52,7 @@ export default function BlogTileRepeater() {
 
   return (
     <>
-      <div className='blog-section blog-filter  '>
+      <div className='blog-section blog-filter pt-2 pb-2'>
         <div>
           <button onClick={showAll} className='post-category-filter-button'>
             <span>All</span>

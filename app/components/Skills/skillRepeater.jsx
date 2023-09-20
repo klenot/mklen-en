@@ -42,9 +42,9 @@ export default function SkillRepeater() {
 
   return (
     <>
-      <section id='skill-section'>
+      <section id='skill-section' className="pt-10 pb-10">
         <div className='skill-section-container'>
-          <div className='skill-section section-title-h2'>
+          <div className='skill-section pb-2'>
             <h2>I am trying to suck a bit less every day.</h2>
           </div>
           <div className='skill-section'>
@@ -53,9 +53,9 @@ export default function SkillRepeater() {
               lifelong journey &amp; culture.
             </p>
           </div>
-          <div className='skill-section'>
-            <div className='skill-section'>
-              <div className='skill-filter mt-1'>
+          <div className='skill-section pt-2'>
+            <div className='skill-section pt-2'>
+              <div className='skill-filter pb-1'>
                 <div className='skill-category filter-item'>
                   <div onClick={showAll} className='pill'>
                     <span>Showcase</span>
@@ -82,7 +82,7 @@ export default function SkillRepeater() {
                   </div>
                 </div>
               </div>
-              <div className='skill-filter mb-2'>
+              <div className='skill-filter'>
                 <div className='skill-category filter-item'>
                   <div className='pill'>
                     <span>Graphics &amp; Design</span>
@@ -165,15 +165,6 @@ export default function SkillRepeater() {
                   </div>
                 </div>
               ))}
-            </div>
-            <div className='skill-section'>
-              <p className='skill-page-link'>
-                You can find a structured skillset list on this{" "}
-                <a href='/' className='hover-underline-animation'>
-                  page
-                </a>
-                .
-              </p>
             </div>
           </div>
         </div>

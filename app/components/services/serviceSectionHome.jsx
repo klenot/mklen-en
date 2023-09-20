@@ -5,12 +5,12 @@ export default function ServiceSectionHome ({title, description, buttonText}) {
 
   return (
     <>
-      <section id='service-section-2'>
+      <section id='service-section-home' className="pt-10 pb-10">
         <div className='service-container'>
-          <div className='service-section section-title-h2'>
+          <div className='service-section pb-2'>
             <h2>{title}</h2>
           </div>
-          <div className='service-section'>
+          <div className='service-section pb-1'>
             <p>{description}</p>
             <br />
           </div>
@@ -18,8 +18,8 @@ export default function ServiceSectionHome ({title, description, buttonText}) {
 
         <ServiceRepeaterHome />
 
-        <div className='service-container'>
-          <div className='hero-section hero-button-wrapper'>
+        <div className='pt-1'>
+          <div className='service-container button-wrapper'>
             <button className='cta'>
               <Link href='/services.html'>
                 <span>{buttonText}</span>

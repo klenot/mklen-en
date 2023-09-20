@@ -7,9 +7,9 @@ export default function ShortFooter() {
 
   return(
       <>
-        <footer id="footer">
+        <footer id="footer" className="pt-5">
           <div className="footer-container">
-            <div className="footer-row-mid">
+            <div className="footer-row-mid pt-2">
               <div className="footer-section">
                 <nav className="footer-list">
                   <li>
@@ -52,7 +52,7 @@ export default function ShortFooter() {
                 </nav>
               </div>
               <div className="footer-section">
-                <nav className="footer-list">
+                <nav className="footer-list-right">
                   <li>
                     <Link
                       className="footer-link hover-underline-animation"

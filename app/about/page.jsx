@@ -16,7 +16,7 @@ export default function About() {
         <SkillRepeater />
         <BookRepeater />
 
-        <section id='interest-section'>
+        <section id='interest-section' className="pb-10">
           <div className='interest-container'>
             <div className='iterest-section'>
               <h2>Interests</h2>
@@ -24,15 +24,21 @@ export default function About() {
             <div className='iterest-section-wrapper'>
               <div className='interest-item text-align-left'>
                 <p>Photography</p>
+                <p>Traveling</p>
+                <p>Podcasts</p>
                 <p>Music</p>
               </div>
               <div className='interest-item text-align-center'>
                 <p>Chess</p>
-                <p>Learning guitar</p>
+                <p>Elevate</p>
+                <p>Duolingo</p>
+                <p>Reading</p>
               </div>
               <div className='interest-item text-align-right'>
-                <p>Traveling</p>
+                <p>Running</p>
                 <p>Badminton</p>
+                <p>Meditation</p>
+                <p>Crowdy streets</p>
               </div>
             </div>
           </div>

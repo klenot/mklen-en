@@ -11,7 +11,7 @@ function FilterButton({ buttonText, filterCategory, className }) {
 export default function BlogFilter() {
   return (
     <>
-      <div className='blog-section blog-filter  '>
+      <div className='blog-section blog-filter pt-2 pb-2'>
 
         <FilterButton
         buttonText={"All"}

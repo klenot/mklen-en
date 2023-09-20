@@ -4,25 +4,26 @@ import BlogTileRepeater from "./blogTileRepeater";
 export default function BlogTileSection({ h2, perex, buttonText }) {
   return (
     <>
-      <section id='blog-section'>
+      <section id='blog-section' className="pt-5 pb-5">
         <div className='blog-section-container'>
           {h2 === "-" ? (
             <></>
           ) : (
-            <div className='blog-section section-title-h2'>
-              <h2 className='mt-2'>{h2}</h2>
+            <div className='blog-section pb-2'>
+              <h2>{h2}</h2>
             </div>
           )}
 
           {perex === "-" ? (
             <></>
           ) : (
-            <div className='blog-section'>
+            <div className='blog-section pb-2'>
               <p>{perex}</p>
             </div>
           )}
 
           <BlogTileRepeater />
+          
           {buttonText === "-" ? (
             <></>
           ) : (

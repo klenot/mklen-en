@@ -8,6 +8,7 @@ export default function Footer() {
       <>
         <footer id="footer">
           <div className="footer-container">
+            <div className="pt-5"></div>
             <div className="footer-row-top">
               <div className="footer-section">
                 <h2 className="footer-get-in-touch">Get in touch.</h2>
