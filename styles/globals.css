@@ -104,7 +104,7 @@ button{
 /* DARK MODE & LIGHT MODE ----------------------------------------------------------------------------- */
 
 
-.dark-theme{
+.dark{
   --primary-bg: #0a0a0a;
   --primary-text-color: #f0f0f0f7;
 
@@ -147,7 +147,7 @@ button{
   --cta-bg: #adadad38;
 }
 
-.light-theme{
+.light{
   --primary-bg: #f0f0f0;
   --primary-text-color: #353535;
 
@@ -190,71 +190,71 @@ button{
 }
 
 
-.dark-theme p{
+.dark p{
   font-weight: var(--thin-font);
 }
 
-.dark-theme .tile-title{
+.dark .tile-title{
   font-weight: var(--regular-font);
 }
 
-.light-theme .tile-title{
+.light .tile-title{
   font-weight: var(--bold-font);
 }
 
-.dark-theme .footer-link{
+.dark .footer-link{
   font-weight: var(--thin-font);
 }
 
-.dark-theme li > span{
+.dark li > span{
   font-weight: var(--thin-font);
 }
 
-.light-theme p{
+.light p{
   font-weight: var(--regular-font);
 }
 
-.light-theme .footer-link{
+.light .footer-link{
   font-weight: var(--regular-font);
 }
 
-.light-theme .post-perex p{
+.light .post-perex p{
   font-weight: var(--regular-font);
 }
 
-.light-theme .post-date p{
+.light .post-date p{
   font-weight: var(--regular-font);
 }
 
-.light-theme h2{
+.light h2{
   font-weight: var(--bold-font);
 }
 
-.light-theme .footer-section h3{
+.light .footer-section h3{
   font-weight: var(--bold-font);
 }
 
-.light-theme .logo{
+.light .logo{
   font-weight: var(--light-font);
 }
 
-.light-theme .nav-item{
+.light .nav-item{
   font-weight: var(--light-font);
 }
 
-.light-theme input{
+.light input{
   font-weight: var(--light-font);
 }
 
-.light-theme textarea{
+.light textarea{
   font-weight: var(--light-font);
 }
 
-.light-theme .card-title, .card-description{
+.light .card-title, .card-description{
   color: #f0f0f0;
 }
 
-.light-theme li > span{
+.light li > span{
   font-weight: var(--regular-font);
 }
 
@@ -494,7 +494,7 @@ a > p {
   filter: invert(18%) sepia(0%) saturate(0%) hue-rotate(169deg) brightness(97%) contrast(90%);
 }
 
-.dark-theme #light-mode{
+.dark #light-mode{
   filter: invert(100%) sepia(1%) saturate(4064%) hue-rotate(236deg) brightness(118%) contrast(88%);
 }
 
@@ -504,7 +504,7 @@ a > p {
   filter: invert(85%) sepia(32%) saturate(4995%) hue-rotate(354deg) brightness(103%) contrast(101%);
 }
 
-.light-theme #dark-mode:hover{
+.light #dark-mode:hover{
   cursor: pointer;
   transform: scale(1.2);
   filter: invert(47%) sepia(46%) saturate(4585%) hue-rotate(180deg) brightness(103%) contrast(102%);
@@ -515,7 +515,7 @@ a > p {
   transform: scale(1.2);
 }
 
-.dark-theme #burger-icon{
+.dark #burger-icon{
   filter: invert(100%) sepia(1%) saturate(4064%) hue-rotate(236deg) brightness(118%) contrast(88%);
 }
 
@@ -524,7 +524,7 @@ a > p {
   transform: scale(1.2);
 }
 
-.dark-theme #close-menu-icon{
+.dark #close-menu-icon{
   filter: invert(100%) sepia(1%) saturate(4064%) hue-rotate(236deg) brightness(118%) contrast(88%);
 }
 

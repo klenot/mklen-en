@@ -7,13 +7,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function NavBar() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme("dark");
   const [isOpen, setOpen] = useState(false);
   let pathname = usePathname();
   
   useEffect(() => {
     setOpen(false);
-    setTheme(theme)
   }, [ pathname ]);
 
   const openMenu = () => {
@@ -28,7 +27,7 @@ export default function NavBar() {
   };
 
   function toggleTheme() {
-    setTheme(theme === "dark-theme" ? "light-theme" : "dark-theme");
+    setTheme(theme === "light" ? "dark" : "light");
   }
 
   return (
@@ -77,16 +76,7 @@ export default function NavBar() {
                     alt='Icon for toggling navigation menu.'
                   />
 
-                  {theme === "dark-theme" ? (
-                    <Image
-                      id='light-mode'
-                      onClick={toggleTheme}
-                      src={"/icons/navbar/light-mode-icon.svg"}
-                      width={33}
-                      height={33}
-                      alt='Light mode icon.'
-                    />
-                  ) : (
+                  {theme === "light" ? (
                     <Image
                       id='dark-mode'
                       onClick={toggleTheme}
@@ -95,6 +85,19 @@ export default function NavBar() {
                       height={33}
                       alt='Dark mode icon.'
                     />
+                    
+                  ) : (
+                    
+
+<Image
+                      id='light-mode'
+                      onClick={toggleTheme}
+                      src={"/icons/navbar/light-mode-icon.svg"}
+                      width={33}
+                      height={33}
+                      alt='Light mode icon.'
+                    />
+
                   )}
 
                   

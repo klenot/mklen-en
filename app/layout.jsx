@@ -5,7 +5,7 @@ import Providers from "app/providers.jsx";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang='en' className='dark-theme'>
+    <html lang='en' className='dark'>
       <Head />
       <body>
         <Providers>
