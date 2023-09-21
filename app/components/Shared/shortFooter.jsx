@@ -21,7 +21,7 @@ export default function ShortFooter() {
                     </Link>
                   </li>
                   <li>
-                    <Link className="footer-link hover-underline-animation" href="/">
+                    <Link className="footer-link hover-underline-animation" href="/projects">
                       Projects
                     </Link>
                   </li>
@@ -36,9 +36,9 @@ export default function ShortFooter() {
                   <li>
                     <Link
                       className="footer-link hover-underline-animation"
-                      href="/"
+                      href="/cooperation"
                     >
-                      Cooperation guidelines
+                      Cooperation
                     </Link>
                   </li>
                   <li>

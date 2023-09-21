@@ -1,8 +1,11 @@
-import { Fragment } from "react";
 import Image from "next/image";
 import { getBlocks, getPage } from "app/libs/notionServices.jsx";
 import { getBlogBySlug } from "app/libs/getPageBySlug.ts";
 import HeroBlogPost from "app/components/Blog/heroBlogPost.jsx";
+
+/* const metatitle = slug.properties.MetaTitle.rich_text[0].plain_text
+const metadescription = slug.properties.MetaDescription.rich_text[0].plain_text */
+
 
 export default async function Post({ params }) {
   const slug = await getBlogBySlug (params.slug);

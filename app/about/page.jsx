@@ -3,6 +3,11 @@ import SkillRepeater from "app/components/Skills/skillRepeater";
 import BookRepeater from "app/components/Books/bookRepeater";
 import 'styles/about-styles.css'
 
+export const metadata = {
+  title: "Get to know me",
+  description: "I'm a experienced marktech consultant & PMI certified project manager. Find out all about my skills and projects in five minutes on my about page.",
+}
+
 export default function About() {
   return (
     <>

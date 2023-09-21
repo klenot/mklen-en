@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link";
 
 export default function Footer() {
 
@@ -109,81 +110,81 @@ export default function Footer() {
               <div className="footer-section">
                 <nav className="footer-list">
                   <li>
-                    <a
+                    <Link
                       className="footer-link hover-underline-animation"
-                      href="/about.html"
+                      href="/about"
                     >
                       About
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="footer-link hover-underline-animation" href="">
+                    <Link className="footer-link hover-underline-animation" href="/projects">
                       Projects
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       className="footer-link hover-underline-animation"
-                      href="/services.html"
+                      href="/services"
                     >
                       Services
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       className="footer-link hover-underline-animation"
-                      href="guidelines.html"
+                      href="/cooperation"
                     >
-                      Cooperation guidelines
-                    </a>
+                      Cooperation
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       className="footer-link hover-underline-animation"
-                      href="/blog.html"
+                      href="/blog"
                     >
                       Blog
-                    </a>
+                    </Link>
                   </li>
                 </nav>
               </div>
               <div className="footer-section">
                 <nav className="footer-list">
                   <li>
-                    <a
+                    <Link
                       className="footer-link hover-underline-animation"
                       href="https://www.facebook.com/klenoticmarek"
                       target="”_blank”"
                     >
                       Facebook
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       className="footer-link hover-underline-animation"
                       href="https://www.linkedin.com/in/klenoticmarek/"
                       target="”_blank”"
                     >
                       LinkedIn
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       className="footer-link hover-underline-animation"
                       href="https://www.instagram.com/mklenotic/?hl=cs"
                       target="”_blank”"
                     >
                       Instagram
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a
+                    <Link
                       className="footer-link hover-underline-animation"
                       href="https://github.com/klenot"
                       target="”_blank”"
                     >
                       Github
-                    </a>
+                    </Link>
                   </li>
                 </nav>
               </div>

@@ -1,6 +1,11 @@
 import ServiceSection from "app/components/Services/serviceSection";
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
 
+export const metadata = {
+  title: "My services make your business stand out",
+  description: "Browse through my services and discover how we can work together to achieve your goals and make a real impact in your field.",
+}
+
 export default function Services() {
     return (
       <>

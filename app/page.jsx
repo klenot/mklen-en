@@ -3,6 +3,10 @@ import ServiceSectionHome from "app/components/Services/serviceSectionHome";
 import BlogListSection from "app/components/Blog/blogListSection";
 import Footer from "./components/Shared/footer";
 
+export const metadata = {
+  description: "As someone who's been in the world of marketing tech and project management for a while, I'm here to share my insights and know-how with you.",
+}
+
 export default function Home() {
   return (
     <>
