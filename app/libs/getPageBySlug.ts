@@ -36,3 +36,17 @@ export const getServiceBySlug = cache((slug: string) => {
     })
     .then((res) => res.results[0] as PageObjectResponse | undefined);
 });
+
+export const getProjectBySlug = cache((slug: string) => {
+  return notion.databases
+    .query({
+      database_id: process.env.SERVICES_DATABASE_ID,
+      filter: {
+        property: "Slug",
+        rich_text: {
+          equals: slug,
+        },
+      },
+    })
+    .then((res) => res.results[0] as PageObjectResponse | undefined);
+});

@@ -1,6 +1,6 @@
 import Footer from "app/components/Shared/footer.jsx";
 
-export default function RootLayout({ children }) {
+export default function AboutLayout({ children }) {
   return (
     <>
       {children}

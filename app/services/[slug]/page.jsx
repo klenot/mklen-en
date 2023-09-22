@@ -4,6 +4,16 @@ import { getBlocks, getPage } from "app/libs/notionServices";
 import { getServiceBySlug } from "app/libs/getPageBySlug.ts";
 import HeroServicePage from "app/components/Services/heroServicePage";
 
+export async function generateMetadata({ params }) {
+  const slug = await getServiceBySlug(params.slug);
+  const metadescription = slug.properties.MetaDescription.rich_text[0].plain_text;
+  const metatitle = slug.properties.MetaTitle.rich_text[0].plain_text;
+
+  return {
+    title: metatitle,
+    description: metadescription,
+  };
+}
 
 export default async function ServicePage({ params }) {
   const slug = await getServiceBySlug (params.slug);

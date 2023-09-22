@@ -1,6 +1,6 @@
 import ShortFooter from "app/components/Shared/shortFooter.jsx";
 
-export default function ServicesLayout({ children }) {
+export default function ProjectsLayout({ children }) {
   return (
     <>
       {children}

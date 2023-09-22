@@ -3,6 +3,11 @@ import Image from "next/image";
 import NavBar from "app/components/Shared/navBar";
 import SkillRepeater from "app/components/Skills/skillRepeater.jsx"
 
+export const metadata = {
+  title: "Read about my career",
+  description: "I'm a experienced marktech consultant & PMI certified project manager. Find out all about my skills and projects in five minutes on my about page.",
+}
+
 export default function CurriculumVitae() {
   return (
     <>
