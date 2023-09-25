@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getBlocks, getPage } from "app/libs/notionServices";
 import { getProjectBySlug } from "app/libs/getPageBySlug.ts";
-import HeroServicePage from "app/components/Services/heroServicePage";
+import HeroProjectPage from "app/components/Projects/heroProjectPage";
 
 export async function generateMetadata({ params }) {
   const slug = await getProjectBySlug(params.slug);
@@ -288,8 +288,8 @@ export default async function ProjectPage({ params }) {
   return (
     <>
       <main>
-        <HeroServicePage
-          h1={page.properties.ServiceName.title[0].plain_text}
+        <HeroProjectPage
+          h1={page.properties.ProjectName.title[0].plain_text}
           perex={page.properties.Description.rich_text[0].plain_text}
           buttonText={page.properties.ButtonText.rich_text[0].plain_text}
         />

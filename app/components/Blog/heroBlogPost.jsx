@@ -18,7 +18,7 @@ export default function HeroBlogPost({ h1, perex, tableOfContent }) {
           </div>
         </div>
 
-        <div className="hero-section">
+        <div>
           {tableOfContent}
         </div>
       </div>

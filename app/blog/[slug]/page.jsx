@@ -21,8 +21,6 @@ export default async function Post({ params }) {
   const page = await getPage(slug.id);
   const blocks = await getBlocks(slug.id);
 
-  console.log(params)
-
   const Text = ({ text }) => {
     if (!text) {
       return null;
@@ -61,23 +59,37 @@ export default async function Post({ params }) {
        
       case "heading_1":
         return (
-          <a key={block.id} className="table-of-content-item" href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
-            <Text text={value.rich_text} />
-          </a>
+          <div className='table-of-content-item'>
+            <a
+              key={block.id}
+              className='table-of-content-item'
+              href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
+              <Text text={value.rich_text} />
+            </a>
+          </div>
         );
 
         case "heading_2":
         return (
-          <a key={block.id} className="table-of-content-item" href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
-            <Text text={value.rich_text} />
-          </a>
+          <div className='table-of-content-item'>
+            <a
+              key={block.id}
+              className='table-of-content-item'
+              href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
+              <Text text={value.rich_text} />
+            </a>
+          </div>
         );
 
         case "heading_3":
         return (
-          <a key={block.id} className="table-of-content-item" href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
-            <Text text={value.rich_text} />
-          </a>
+          <div className='table-of-content-item'>
+            <a
+              key={block.id}
+              href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
+              <Text text={value.rich_text} />
+            </a>
+          </div>
         );
 
         case "paragraph":
@@ -146,7 +158,7 @@ export default async function Post({ params }) {
       }
       case "column": {
         return (
-         null
+         <p>text</p>
         );
       }
       }
@@ -332,9 +344,9 @@ export default async function Post({ params }) {
           tableOfContent={
             <div className="hero-section">
               {blocks.map((block) => (
-                <div className='table-of-content-item' key={block.id}>
-                  {renderContentTable(block)}
-                </div>
+                
+                  renderContentTable(block)
+                
               ))}
             </div>
           }
