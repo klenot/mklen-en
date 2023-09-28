@@ -170,8 +170,8 @@ export default async function ServicePage({ params }) {
         );
       case "bookmark":
         return (
-          <section className="form-container">
-            <div>
+          <section className="pt-5 pb-5">
+            <div className="text-section-container">
               <div>
                 <h2 className='form-h2'>Get in touch.</h2>
                 <form

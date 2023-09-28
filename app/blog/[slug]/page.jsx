@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { getBlocks, getPage } from "app/libs/notionServices.jsx";
 import { getBlogBySlug } from "app/libs/getPageBySlug.ts";
 import HeroBlogPost from "app/components/Blog/heroBlogPost.jsx";
@@ -14,7 +12,6 @@ export async function generateMetadata({ params }) {
     description: metadescription,
   };
 }
-
 
 export default async function Post({ params }) {
   const slug = await getBlogBySlug (params.slug);
@@ -341,7 +338,7 @@ export default async function Post({ params }) {
           h1={page.properties.PostTitle.title[0].plain_text}
           perex={page.properties.PostPerex.rich_text[0].plain_text}
           firstHeadingAnchor={"http://localhost:3000/blog/80397377-91ea-4363-bd30-40f3dedb9a21#50a4eee2-30a9-48e4-81be-922b0f40a770"}
-          tableOfContent={
+          ToC={
             <div className="hero-section">
               {blocks.map((block) => (
                 
@@ -350,6 +347,8 @@ export default async function Post({ params }) {
               ))}
             </div>
           }
+          readingTime={"7 minutes of reading"}
+          category={page.properties.Category.select.name}
         />
 
         <article className='article-section-container'>

@@ -1531,6 +1531,7 @@ li>span {
   display: flex;
   flex-wrap: nowrap;
   row-gap: 5rem;
+  min-height: 100vh;
 }
 
 .article-section-container {
@@ -1942,8 +1943,9 @@ li>span {
 @media only screen and (min-width: 414px) {
 
   .content-image-media {
-    width: 33rem;
-    height: 33rem;
+    width: 100%;
+    max-width: 70rem;
+    height: auto;
     object-fit: cover;
   }
 
@@ -1983,7 +1985,7 @@ li>span {
     flex-direction: row;
     padding: var(--desktop-cont-pd);
     width: var(--desktop-cont-w);
-    gap: 7%;
+    gap: 6%;
   }
 
   .content-image-section {
@@ -2179,13 +2181,8 @@ a.skill-page-link {
 
 /* FORM SECTION ----------------------------------------------------------------------------- */
 
-.form-container {
-  height: 50rem;
-  margin: 4rem 0 4rem 0;
-}
-
 .form-h2 {
-  padding-bottom: 3rem;
+  padding-bottom: 1.2rem;
   scroll-margin-top: 10rem;
 }
 
@@ -2216,8 +2213,6 @@ textarea:focus {
   }
 
 }
-
-
 
 /* FORM SECTION - DESKTOP */
 
