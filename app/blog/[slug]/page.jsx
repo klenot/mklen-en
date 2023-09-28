@@ -49,47 +49,53 @@ export default async function Post({ params }) {
   };
 
   const renderContentTable = (block) => {
-    const { type, id } = block;
+    const { type } = block;
     const value = block[type];
 
     switch (type) {
        
       case "heading_1":
+        const preQueryh1 = (value.rich_text[0].plain_text).replaceAll(" ", "-").toLowerCase()
+        const queryh1 = preQueryh1.replaceAll(/[^a-zA-Z0-9-]/g, "")
         return (
           <div className='table-of-content-item'>
             <a
               key={block.id}
               className='table-of-content-item'
-              href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
+              href={`/blog/${page.properties.Slug.formula.string}#${queryh1}`}>
               <Text text={value.rich_text} />
             </a>
           </div>
         );
 
-        case "heading_2":
+      case "heading_2":
+        const preQueryh2 = (value.rich_text[0].plain_text).replaceAll(" ", "-").toLowerCase()
+        const queryh2 = preQueryh2.replaceAll(/[^a-zA-Z0-9-]/g, "")
         return (
           <div className='table-of-content-item'>
             <a
               key={block.id}
               className='table-of-content-item'
-              href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
+              href={`/blog/${page.properties.Slug.formula.string}#${queryh2}`}>
               <Text text={value.rich_text} />
             </a>
           </div>
         );
 
         case "heading_3":
+        const preQueryh3 = (value.rich_text[0].plain_text).replaceAll(" ", "-").toLowerCase()
+        const queryh3 = preQueryh3.replaceAll(/[^a-zA-Z0-9-]/g, "")
         return (
           <div className='table-of-content-item'>
             <a
               key={block.id}
-              href={`/blog/${page.properties.Slug.formula.string}#${block.id}`}>
+              href={`/blog/${page.properties.Slug.formula.string}#${queryh3}`}>
               <Text text={value.rich_text} />
             </a>
           </div>
         );
 
-        case "paragraph":
+      case "paragraph":
         return (
           null
         );
@@ -105,6 +111,9 @@ export default async function Post({ params }) {
         );
       }
       case "bulleted_list_item":
+        return (
+          null
+        );
       case "numbered_list_item":
         return (
           null
@@ -126,7 +135,9 @@ export default async function Post({ params }) {
           null
         );
       case "divider":
-        return null
+        return (
+          null
+        );
       case "quote":
         return (
           null
@@ -155,7 +166,7 @@ export default async function Post({ params }) {
       }
       case "column": {
         return (
-         <p>text</p>
+         null
         );
       }
       }
@@ -173,20 +184,26 @@ export default async function Post({ params }) {
           </p>
         );
       case "heading_1":
+        const preQueryh1 = (value.rich_text[0].plain_text).replaceAll(" ", "-").toLowerCase()
+        const queryh1 = preQueryh1.replaceAll(/[^a-zA-Z0-9-]/g, "")
         return (
-          <h1 id={block.id} className="article-h1">
+          <h1 id={queryh1} className="article-h1">
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
+        const preQueryh2 = (value.rich_text[0].plain_text).replaceAll(" ", "-").toLowerCase()
+        const queryh2 = preQueryh2.replaceAll(/[^a-zA-Z0-9-]/g, "")
         return (
-          <h2 id={block.id} className="article-h2">
+          <h2 id={queryh2} className="article-h2">
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
+        const preQueryh3 = (value.rich_text[0].plain_text).replaceAll(" ", "-").toLowerCase()
+        const queryh3 = preQueryh3.replaceAll(/[^a-zA-Z0-9-]/g, "")
         return (
-          <h3 id={block.id} className="article-h3">
+          <h3 id={queryh3} className="article-h3">
             <Text text={value.rich_text} />
           </h3>
         );

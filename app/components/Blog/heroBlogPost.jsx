@@ -18,10 +18,12 @@ export default function HeroBlogPost({ h1, perex, ToC, readingTime, category }) 
           </div>
         </div>
 
-        <div>{ToC}</div>
+        <div>
+          {ToC}</div>
 
-        <div className='article-section'>
-          <div className='columns'>
+        <div className='hero-section'>
+          <hr></hr>
+          <div className='columns pt-3'>
             <div className='column'>
               <p className='article-text'>
                 <span>⏱ {readingTime}</span>
@@ -33,10 +35,6 @@ export default function HeroBlogPost({ h1, perex, ToC, readingTime, category }) 
               </p>
             </div>
           </div>
-        </div>
-
-        <div className='article-section'>
-          <hr></hr>
         </div>
       </div>
     </section>
