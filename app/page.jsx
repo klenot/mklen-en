@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <main>
         <HeroMain 
-          h1={"My name is Marek."}
+          h1={"I'm Marek"}
           perex={"I'm a martech specialist & project manager with a passion for effective digital strategies."}
           buttonText={"get to know me"}
         />
