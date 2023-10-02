@@ -4,8 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getDatabaseWithAnd } from "app/libs/notionServices";
-import BlogFilter from "./blogFilter";
-import getBlogPosts from "app/libs/getBlogPosts.jsx";
 
 export default function BlogTileRepeater() {
   const [filterA, setFilterA] = useState("Publish");
@@ -60,65 +58,95 @@ export default function BlogTileRepeater() {
         </div>
 
         <div>
-          <button onClick={showProjectManagementPosts} className='post-category-pm-filter-button'>
+          <button
+            onClick={showProjectManagementPosts}
+            className='post-category-pm-filter-button'>
             <span>Project management</span>
           </button>
         </div>
 
         <div>
-          <button onClick={showProductivityPosts} className='post-category-prod-filter-button'>
+          <button
+            onClick={showProductivityPosts}
+            className='post-category-prod-filter-button'>
             <span>Productivity</span>
           </button>
         </div>
 
         <div>
-          <button onClick={showThoughtsPosts} className='post-category-thg-filter-button'>
+          <button
+            onClick={showThoughtsPosts}
+            className='post-category-thg-filter-button'>
             <span>Thoughts</span>
           </button>
         </div>
       </div>
       <div className='blog-container'>
         <div className='cards-container'>
-          <div className='cards'>
+          {/* <div className='cards'> */}
             {posts.map((post) => (
-              <Link key={post.id} href={`/blog/${post.properties.Slug.formula.string}`}>
+              <Link
+                className="card-wrapper"
+                key={post.id}
+                href={`/blog/${post.properties.Slug.formula.string}`}>
                 <div className='post-card'>
-                  <div>
-                    <h3>{post.properties.PostTitle.title[0].plain_text}</h3>
-                    <p className='service-description'>
-                      {post.properties.PostPerex.rich_text[0].plain_text}
-                    </p>
+                  <div className='post-image'>
+                    <div className="post-image-wrapper">
+                      <Image
+                        src={"/images/blog/doge-computer.webp"}
+                        width={300}
+                        height={200}
+                        alt={"Alt text."}
+                      />
+                    </div>
                   </div>
 
-                  <div className='post-card-info'>
-                    <div
-                      className={
-                        post.properties.AutoClassGenerator.formula.string
-                      }>
-                      <div className='pill'>
-                        <span className='service-category-text'>
-                          {post.properties.Category.select.name}
-                        </span>
-                      </div>
+                  <div className="post-info-wrapper">
+
+                  <div className='post-info'>
+                    <div>
+                      <h3>{post.properties.PostTitle.title[0].plain_text}</h3>
+                      <p className='service-description'>
+                        {post.properties.PostPerex.rich_text[0].plain_text}
+                      </p>
                     </div>
-                    <div className='post-card-info-date'>
-                      <div className='pill'>
-                        <span className='post-card-info-date-text'>
-                          {new Date(
-                            post.properties.PostDate.date.start
-                          ).toLocaleString("en-US", {
-                            month: "short",
-                            day: "2-digit",
-                            year: "numeric",
-                          })}
-                        </span>
-                      </div>
-                    </div>
+
+                    
                   </div>
+                  
+                  <div className="post-additional-info">
+                      <div
+                        className={
+                          post.properties.AutoClassGenerator.formula.string
+                        }>
+                        <div className='pill'>
+                          <span className='service-category-text'>
+                            {post.properties.Category.select.name}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className='post-card-info-date'>
+                        <div className='pill'>
+                          <span className='post-card-info-date-text'>
+                            {new Date(
+                              post.properties.PostDate.date.start
+                            ).toLocaleString("en-US", {
+                              month: "short",
+                              day: "2-digit",
+                              year: "numeric",
+                            })}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    </div>
+
                 </div>
               </Link>
             ))}
-          </div>
+          {/* </div> */}
         </div>
       </div>
     </>

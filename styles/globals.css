@@ -751,6 +751,8 @@ a>p {
 .cards-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
 .cards {
@@ -1296,21 +1298,51 @@ li>span {
   order: 4;
 }
 
+.card-wrapper{
+  display: flex;
+  position: relative;
+  flex: 1 1 372px;
+}
 
 .post-card {
   display: flex;
-  justify-content: space-between;
   background-color: var(--card-bg-color);
   border-radius: 8px;
   cursor: pointer;
   flex-direction: column;
-  padding: 2rem;
-  height: 40rem;
+  width: 100%;
 }
 
-.post-card-info {
+.post-image-wrapper{
+  padding-top: 3rem;
+}
+
+.post-image{
   display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.post-info-wrapper{
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
+  flex-grow: 1;
+}
+
+.post-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.post-additional-info{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem;
 }
 
 .post-card-info-date {
