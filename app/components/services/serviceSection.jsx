@@ -40,7 +40,7 @@ export default function ServiceSection({
           <></>
         ) : (
           <div className='service-container'>
-            <div className='hero-section hero-button-wrapper'>
+            <div className='service-section button-wrapper'>
               <button className='cta'>
                 {button.link === "" ? 
                 <Link href="/">

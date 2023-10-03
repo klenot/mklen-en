@@ -1,27 +1,34 @@
-import HeroMain from "app/components/Shared/heroMain.jsx";
+import HeroMain from "app/components/Homepage/heroMain.jsx";
 import ServiceSection from "app/components/Services/serviceSection";
 import BlogListSection from "app/components/Blog/blogListSection";
 import Footer from "./components/Shared/footer";
 
 export const metadata = {
-  description: "As someone who's been in the world of marketing tech and project management for a while, I'm here to share my insights and know-how with you.",
-}
+  description:
+    "As someone who's been in the world of marketing tech and project management for a while, I'm here to share my insights and know-how with you.",
+};
 
 export default function Home() {
   return (
     <>
       <main>
-        <HeroMain 
-          h1={"I'm Marek"}
-          perex={"I'm a martech specialist & project manager with a passion for effective digital strategies."}
-          buttonText={"get to know me"}
+        <HeroMain
+          title={"I'm Marek"}
+          perex={
+            "I'm a martech specialist & project manager with a passion for effective digital strategies."
+          }
+          button={{
+            text:"Get to know me",
+          }}
         />
         <ServiceSection
           title={"How I can help your business"}
-          description={"As an experienced martech specialist, project manager and digital marketing consultant I can help you achieve your business goals."}
+          description={
+            "As an experienced martech specialist, project manager and digital marketing consultant I can help you achieve your business goals."
+          }
           button={{
             text: "Explore all services",
-            link: "/services"
+            link: "/services",
           }}
           filters={{
             filterA: "Publish",
@@ -30,15 +37,24 @@ export default function Home() {
             categoryB: "Homepage",
           }}
         />
-        <BlogListSection 
-          h2={"Writing"}
-          perex={"When I'm getting into a new subject or reflecting on my experiences, writing helps me to clarify my thoughts and better understand the topic. Writing is the essential part of my learning process."}
-          buttonText={"more writings"}
+        <BlogListSection
+          title={"Writing"}
+          perex={
+            "When I'm getting into a new subject or reflecting on my experiences, writing helps me to clarify my thoughts and better understand the topic. Writing is the essential part of my learning process."
+          }
+          button={{
+            text: "More writings",
+            link: "/blog",
+          }}
+          filters={{
+            filterA: "Publish",
+            categoryA: "Published",
+            filterB: "Placement",
+            categoryB: "Homepage",
+          }}
         />
       </main>
-
       <Footer />
-
     </>
   );
 }

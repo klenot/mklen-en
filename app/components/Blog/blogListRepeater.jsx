@@ -1,14 +1,22 @@
 import Link from "next/link";
-import BlogFilter from "./blogFilter";
-import getHomepageBlogPosts from "app/libs/getHpBlogPosts";
+import { getDatabaseWithAnd } from "app/libs/notionServices";
 
-export default async function BlogListRepeater() {
-  const posts = await getHomepageBlogPosts();
+export default async function BlogListRepeater({
+  filterA,
+  categoryA,
+  filterB,
+  categoryB,
+}) {
+  const posts = await getDatabaseWithAnd(
+    process.env.BLOG_DATABASE_ID,
+    filterA,
+    categoryA,
+    filterB,
+    categoryB
+  );
 
   return (
     <>
-      <BlogFilter />
-
       <div className='blog-section'>
         <div className='blog-list-container'>
           {posts.map((post) => (
