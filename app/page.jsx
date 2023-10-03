@@ -1,5 +1,5 @@
 import HeroMain from "app/components/Shared/heroMain.jsx";
-import ServiceSectionHome from "app/components/Services/serviceSectionHome";
+import ServiceSection from "app/components/Services/serviceSection";
 import BlogListSection from "app/components/Blog/blogListSection";
 import Footer from "./components/Shared/footer";
 
@@ -16,10 +16,19 @@ export default function Home() {
           perex={"I'm a martech specialist & project manager with a passion for effective digital strategies."}
           buttonText={"get to know me"}
         />
-        <ServiceSectionHome
+        <ServiceSection
           title={"How I can help your business"}
           description={"As an experienced martech specialist, project manager and digital marketing consultant I can help you achieve your business goals."}
-          buttonText={"explore all services"}
+          button={{
+            text: "Explore all services",
+            link: "/services"
+          }}
+          filters={{
+            filterA: "Publish",
+            categoryA: "Published",
+            filterB: "Placement",
+            categoryB: "Homepage",
+          }}
         />
         <BlogListSection 
           h2={"Writing"}

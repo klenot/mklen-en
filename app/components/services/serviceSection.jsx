@@ -1,10 +1,15 @@
 import Link from "next/link";
 import ServiceRepeater from "./serviceRepeater";
 
-export default function ServiceSection({ title, description, buttonText }) {
+export default function ServiceSection({
+  title,
+  description,
+  button,
+  filters,
+}) {
   return (
     <>
-      <section id='service-section'>
+      <section>
         <div className='service-container'>
           {title === "-" ? (
             <></>
@@ -22,18 +27,30 @@ export default function ServiceSection({ title, description, buttonText }) {
             </div>
           )}
         </div>
+        <div className='service-container'>
+          <ServiceRepeater
+            filterA={filters.filterA}
+            categoryA={filters.categoryA}
+            filterB={filters.filterB}
+            categoryB={filters.categoryB}
+          />
+        </div>
 
-        <ServiceRepeater />
-
-        {buttonText === "-" ? (
+        {button.text === "-" ? (
           <></>
         ) : (
           <div className='service-container'>
             <div className='hero-section hero-button-wrapper'>
               <button className='cta'>
-                <Link href='/services.html'>
-                  <span>{buttonText}</span>
-                </Link>
+                {button.link === "" ? 
+                <Link href="/">
+                <span>{button.text}</span>
+              </Link>
+              :
+              <Link href={button.link}>
+                  <span>{button.text}</span>
+              </Link>
+              }
               </button>
             </div>
           </div>

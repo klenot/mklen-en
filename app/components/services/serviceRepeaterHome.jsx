@@ -23,7 +23,7 @@ export default async function ServiceRepeaterHome() {
                 <div className='service-category'>
                   <div className='pill'>
                     <span className='service-category-text'>
-                      {service.properties.Category.multi_select[0].name}
+                      {service.properties.Category.select.name}
                     </span>
                   </div>
                 </div>

@@ -227,11 +227,13 @@ export default function CurriculumVitae() {
                 </p>
               </div>
               <div className='text-section text-section-image'>
+                <div className="text-section">
                 <Image
-                   src={"/images/cv/podpis_mk_grey.png"}
-                   width= {350}
-                   height={150}
+                   src={"/images/cv/signature-mk-light.png"}
+                   width= {300}
+                   height={100}
                 />
+                </div>
               </div>
               <div id='download' className='text-section'>
                 <p className='text-block'>
