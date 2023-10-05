@@ -1,10 +1,12 @@
-export default function Form({ heading }) {
+export default function Form({ heading, description }) {
     return (
       <>
         <section className="pt-5 pb-5">
             <div className="text-section-container">
-              <div>
-                <h2 className='form-h2'>{heading}</h2>
+              {heading === "-" ? null :
+              <h2 className='form-h2'>{heading}</h2>}
+              {description === "-" ? null :
+              <p className='text-section'>{description}</p>}
                 <form
                   action='https://formsubmit.co/mklen@mklenotic.cz'
                   method='POST'
@@ -67,7 +69,6 @@ export default function Form({ heading }) {
                   </div>
                 </form>
               </div>
-            </div>
           </section>
       </>
     )

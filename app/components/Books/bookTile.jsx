@@ -1,15 +1,15 @@
 import Image from 'next/image'
 
-export default function BookTile({ tileKey, title, author, src }) {
+export default function BookTile({ key, title, author, src }) {
   return (
     <>
-      <div className='tile-item'>
+      <div key={key} className='book'>
         <Image
             src={src}
             sizes='100vw'
             style={{
-              width: "100%",
-              height: "auto",
+              width: "200px",
+              height: "300px",
               objectFit: "fill",
               border: "solid 0.01rem #f0f0f0",
               borderRadius: "8px"
@@ -19,9 +19,9 @@ export default function BookTile({ tileKey, title, author, src }) {
             alt='Book cover.'
         />
         <div>
-          <div className='tile-info-wrapper'>
-            <p className='tile-perex'>{author}</p>
-            <p className='tile-title'>{title}</p>
+          <div className='book-info'>
+            <p className='book-author'>{author}</p>
+            <p className='book-title'>{title}</p>
           </div>
         </div>
       </div>

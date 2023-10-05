@@ -36,7 +36,16 @@ export default function Projects() {
         description={
           "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         }
-        buttonText={"-"}
+        button={{
+          text: "cta",
+          link: "",
+        }}
+        filters={{
+          filterA: "Publish",
+          categoryA: "Published",
+          filterB: "Publish",
+          categoryB: "Published",
+        }}
       />
       <TextBlock
         heading={"Heading 2"}
@@ -44,7 +53,10 @@ export default function Projects() {
           "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
         }
       />
-      <Form heading={"Get in touch."} />
+      <Form
+        heading={"Heading 2"}
+        description={"It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."}
+      />
     </>
   );
 }

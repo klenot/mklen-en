@@ -19,7 +19,6 @@ export default function About() {
           buttonUrl={"about/cv"}
         />
         <SkillRepeater />
-        <BookRepeater />
 
         <section id='interest-section' className="pb-10">
           <div className='interest-container'>

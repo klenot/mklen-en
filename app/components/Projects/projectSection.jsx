@@ -1,7 +1,12 @@
 import Link from "next/link";
 import ProjectRepeater from "./projectRepeater";
 
-export default function ProjectSection({ title, description, buttonText, buttonLink }) {
+export default function ProjectSection({
+  title,
+  description,
+  button,
+  filters,
+}) {
   return (
     <>
       <section id='project-section'>
@@ -22,18 +27,30 @@ export default function ProjectSection({ title, description, buttonText, buttonL
             </div>
           )}
         </div>
+        <div className='service-container'>
+          <ProjectRepeater
+            filterA={filters.filterA}
+            categoryA={filters.categoryA}
+            filterB={filters.filterB}
+            categoryB={filters.categoryB}
+          />
+        </div>
 
-        <ProjectRepeater />
-
-        {buttonText === "-" ? (
+        {button.text === "-" ? (
           <></>
         ) : (
           <div className='service-container'>
-            <div className='hero-section hero-button-wrapper'>
+            <div className='service-section button-wrapper'>
               <button className='cta'>
-                <Link href={`/${buttonLink}`}>
-                  <span>{buttonText}</span>
-                </Link>
+                {button.link === "" ? (
+                  <Link href='/'>
+                    <span>{button.text}</span>
+                  </Link>
+                ) : (
+                  <Link href={button.link}>
+                    <span>{button.text}</span>
+                  </Link>
+                )}
               </button>
             </div>
           </div>
