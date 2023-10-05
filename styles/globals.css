@@ -1187,6 +1187,28 @@ li>span {
   font-size: 1.2rem;
 }
 
+/* SLIDER SECTION ----------------------------------------------------------------------------- */
+
+.swiper {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 200px;
+  height: 300px;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  border: solid 0.1rem black;
+  border-radius: 8px;
+}
+
 
 /* BLOG SECTION ----------------------------------------------------------------------------- */
 
