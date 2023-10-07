@@ -72,7 +72,7 @@ export default function Footer() {
                   <input
                     type="hidden"
                     name="_next"
-                    defaultValue="http://127.0.0.1:5501/message-sent.html"
+                    defaultValue="http://localhost:3000/message-sent"
                   />
                   <input
                     type="hidden"

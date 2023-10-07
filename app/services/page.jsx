@@ -11,11 +11,14 @@ export default function Services() {
   return (
     <>
       <HeroLandingPage
-        h1={"Services"}
-        perex={
+        title={"Services"}
+        sideKick={
           "I'm a martech specialist & project manager with a passion for effective digital strategies."
         }
-        buttonText={"-"}
+        button={{
+          text: "-",
+          link: "-"
+        }}
       />
       <ServiceSection
         title={"This is title heading"}

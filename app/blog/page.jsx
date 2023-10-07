@@ -12,11 +12,14 @@ export default function Blog() {
       <main>
         
         <HeroLandingPage
-          h1={"Writing"}
-          perex={
+          title={"Writing"}
+          sideKick={
             "The process of writing always reminds me of how little I actually know about the topic."
           }
-          buttonText={"-"}
+          button={{
+            text:"-",
+            link: "-",
+          }}
         />
 
         <BlogTileSection 

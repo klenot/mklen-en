@@ -15,12 +15,14 @@ export default function About() {
     <>
       <main>
         <HeroLandingPage
-          h1={"About"}
-          perex={
+          title={"About"}
+          sideKick={
             "Helping companies create effective digital presence is what I’ve been doing for the last 6 years working as a marketing consultant & project manager."
           }
-          buttonText={"Curriculum vitae"}
-          buttonUrl={"about/cv"}
+          button={{
+            text:"Curriculum vitae",
+            link:"about/cv",
+          }}
         />
         <SkillRepeater />
         <BookRepeater

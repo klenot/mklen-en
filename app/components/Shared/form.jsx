@@ -51,7 +51,7 @@ export default function Form({ heading, description }) {
                     defaultValue={""}
                   />
                   <br />
-                  <input type='hidden' name='_next' defaultValue='/' />
+                  <input type='hidden' name='_next' defaultValue='http://localhost:3000/message-sent' />
                   <input
                     type='hidden'
                     name='_autoresponse'

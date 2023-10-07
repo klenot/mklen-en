@@ -725,6 +725,13 @@ a>p {
 
 }
 
+/* 404 ----------------------------------------------------------------------------- */
+
+.not-found, .message-sent, .thank-you {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+}
 
 /* SERVICES ----------------------------------------------------------------------------- */
 
@@ -1536,7 +1543,7 @@ li>span {
   flex-wrap: nowrap;
   row-gap: 1.5rem;
   height: 100vh;
-
+  justify-content: center;
 }
 
 .article-section-container {

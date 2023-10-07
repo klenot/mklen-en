@@ -14,7 +14,7 @@ export default function Home() {
       <main>
         <HeroMain
           title={"I'm Marek"}
-          perex={
+          sideKick={
             "I'm a martech specialist & project manager with a passion for effective digital strategies."
           }
           button={{

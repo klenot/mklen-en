@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function HeroMain({ title, perex, button }) {
+export default function HeroMain({ title, sideKick, button }) {
   return (
     <section id='hero-section'>
       <div className='hero-container'>
@@ -15,7 +15,7 @@ export default function HeroMain({ title, perex, button }) {
         </div>
         <div className='hero-section'>
           <div>
-            <p className='hero-perex'>{perex}</p>
+            <p className='hero-perex'>{sideKick}</p>
           </div>
         </div>
         <div className='hero-section'>
