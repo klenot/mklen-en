@@ -4,7 +4,7 @@ export default function button({ buttonText, buttonLink }) {
       <div className='button-wrapper'>
         <button className='cta'>
           <Link href={buttonLink}>
-            <span>{buttonText}</span>
+            <span className="button-text">{buttonText}</span>
           </Link>
         </button>
       </div>

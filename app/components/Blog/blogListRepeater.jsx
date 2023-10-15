@@ -17,14 +17,16 @@ export default async function BlogListRepeater({
 
   return (
     <>
-      <div className='blog-section'>
+      
         <div className='blog-list-container'>
           {posts.map((post) => (
-            <Link className='blog-list-item' href={`/blog/${post.properties.Slug.formula.string}`}>
+            <Link
+              className='blog-list-item'
+              href={`/blog/${post.properties.Slug.formula.string}`}>
               <div key={post.id}>
                 <div
                   className={post.properties.AutoClassGenerator.formula.string}>
-                  <div className='pill'>
+                  <div>
                     <span>{post.properties.Category.select.name}</span>
                   </div>
                 </div>
@@ -38,20 +40,21 @@ export default async function BlogListRepeater({
                 </div>
 
                 <div className='post-date'>
-                  <p>{new Date(post.properties.PostDate.date.start).toLocaleString(
-                              "en-US",
-                              {
-                                month: "short",
-                                day: "2-digit",
-                                year: "numeric",
-                              }
-                            )}</p>
+                  <p>
+                    {new Date(
+                      post.properties.PostDate.date.start
+                    ).toLocaleString("en-US", {
+                      month: "short",
+                      day: "2-digit",
+                      year: "numeric",
+                    })}
+                  </p>
                 </div>
               </div>
             </Link>
           ))}
         </div>
-      </div>
+      
     </>
   );
 }

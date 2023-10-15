@@ -25,7 +25,20 @@ export default async function ServiceRepeater({
             key={service.id}
             href={`/services/${service.properties.Slug.formula.string}`}>
             <div className='tile-card'>
+            <div className='tile-more-info'>
+                  <div
+                    className={
+                      service.properties.AutoClassGenerator.formula.string
+                    }>
+                    <div className='pill'>
+                      <span className='tile-category-text'>
+                        {service.properties.Category.select.name}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               <div className='tile-image-wrapper'>
+                
                 <Image
                   src={"/images/blog/doge-computer.webp"}
                   width={300}
@@ -43,19 +56,6 @@ export default async function ServiceRepeater({
                     <p className='pt-1 pb-1'>
                       {service.properties.Description.rich_text[0].plain_text}
                     </p>
-                  </div>
-                </div>
-
-                <div className='tile-more-info'>
-                  <div
-                    className={
-                      service.properties.AutoClassGenerator.formula.string
-                    }>
-                    <div className='pill'>
-                      <span className='tile-category-text'>
-                        {service.properties.Category.select.name}
-                      </span>
-                    </div>
                   </div>
                 </div>
               </div>

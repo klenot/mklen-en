@@ -23,11 +23,11 @@ export default function HeroLandingPage({ title, sideKick, button }) {
             <button className='cta'>
               {button.link === "-" ? (
                 <Link href={"/"}>
-                  <span>{button.text}</span>
+                  <span className="button-text">{button.text}</span>
                 </Link>
               ) : (
                 <Link href={`/${button.link}`}>
-                  <span>{button.text}</span>
+                  <span className="button-text">{button.text}</span>
                 </Link>
               )}
             </button>

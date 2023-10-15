@@ -64,7 +64,7 @@ export default function Form({ heading, description }) {
                   />
                   <div className='button-wrapper'>
                     <button className='cta'>
-                      <span>→ submit</span>
+                      <span className="button-text">→ submit</span>
                     </button>
                   </div>
                 </form>

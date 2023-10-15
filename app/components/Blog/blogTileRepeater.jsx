@@ -95,6 +95,18 @@ export default function BlogTileRepeater() {
             key={post.id}
             href={`/blog/${post.properties.Slug.formula.string}`}>
             <div className='tile-card'>
+            <div className='tile-more-info'>
+                  <div
+                    className={
+                      post.properties.AutoClassGenerator.formula.string
+                    }>
+                    <div>
+                      <span className='tile-category-text'>
+                        {post.properties.Category.select.name}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               <div className='tile-image-wrapper'>
                 <Image
                   src={"/images/blog/doge-computer.webp"}
@@ -105,29 +117,11 @@ export default function BlogTileRepeater() {
               </div>
 
               <div className='tile-info-wrapper'>
+                
                 <div className='tile-info'>
                   <div>
-                    <h3>{post.properties.PostTitle.title[0].plain_text}</h3>
-                    <p className='pt-1 pb-1'>
-                      {post.properties.PostPerex.rich_text[0].plain_text}
-                    </p>
-                  </div>
-                </div>
-
-                <div className='tile-more-info'>
-                  <div
-                    className={
-                      post.properties.AutoClassGenerator.formula.string
-                    }>
-                    <div className='pill'>
-                      <span className='tile-category-text'>
-                        {post.properties.Category.select.name}
-                      </span>
-                    </div>
-                  </div>
-
                   <div className='tile-date'>
-                    <div className='pill'>
+                    <div>
                       <span className='tile-date-text'>
                         {new Date(
                           post.properties.PostDate.date.start
@@ -139,7 +133,14 @@ export default function BlogTileRepeater() {
                       </span>
                     </div>
                   </div>
+                    <h3>{post.properties.PostTitle.title[0].plain_text}</h3>
+                    <p className='pt-1 pb-1'>
+                      {post.properties.PostPerex.rich_text[0].plain_text}
+                    </p>
+                  </div>
                 </div>
+
+                
               </div>
             </div>
           </Link>

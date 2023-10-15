@@ -23,16 +23,16 @@ export default function BlogListSection({ title, perex, button, filters }) {
           {button.text === "-" ? (
             <></>
           ) : (
-            <div className='pt-2'>
+            <div className="pt-2">
               <div className='blog-section button-wrapper'>
                 <button className='cta'>
                   {button.link === "" ? (
                     <Link href='/'>
-                      <span>{button.text}</span>
+                      <span className="button-text">{button.text}</span>
                     </Link>
                   ) : (
                     <Link href={button.link}>
-                      <span>{button.text}</span>
+                      <span className="button-text">{button.text}</span>
                     </Link>
                   )}
                 </button>

@@ -30,7 +30,7 @@ export default function BlogTileSection({ h2, perex, buttonText }) {
             <div className='blog-section button-wrapper'>
               <button className='cta'>
                 <Link href='/about'>
-                  <span>{buttonText}</span>
+                  <span className="button-text">{buttonText}</span>
                 </Link>
               </button>
             </div>
