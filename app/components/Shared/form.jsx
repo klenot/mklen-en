@@ -1,7 +1,7 @@
 export default function Form({ heading, description }) {
     return (
       <>
-        <section className="pt-5 pb-5">
+        <div className="pt-5 pb-5">
             <div className="text-section-container">
               {heading === "-" ? null :
               <h2 className='form-h2'>{heading}</h2>}
@@ -69,7 +69,7 @@ export default function Form({ heading, description }) {
                   </div>
                 </form>
               </div>
-          </section>
+          </div>
       </>
     )
   }

@@ -5,10 +5,10 @@ export default function BookRepeater({ heading, description }) {
     <>
       <section className='pt-10 pb-10'>
         <div className='service-container'>
-          <div className='text-section pb-2'>
+          <div className='books-repeater-text pb-2'>
             <h2>{heading}</h2>
           </div>
-          <div className='text-section pb-1'>
+          <div className='books-repeater-text pb-2'>
             <p>{description}</p>
           </div>
         </div>

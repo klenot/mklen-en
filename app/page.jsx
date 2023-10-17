@@ -1,7 +1,8 @@
 import HeroMain from "app/components/Homepage/heroMain.jsx";
+import ContentImage from "app/components/Shared/contentImage";
 import ServiceSection from "app/components/Services/serviceSection";
 import BlogListSection from "app/components/Blog/blogListSection";
-import Footer from "./components/Shared/footer";
+import Footer from "app/components/Shared/footer";
 
 export const metadata = {
   description:
@@ -18,8 +19,23 @@ export default function Home() {
             "I'm a martech specialist & project manager with a passion for effective digital strategies."
           }
           button={{
-            text:"Get to know me",
+            text:"Explore the site",
+            link:"/#explore",
           }}
+        />
+        <ContentImage
+        anchor={"explore"}
+        direction={"left"}
+        heading={"Lorem ipsum"}
+        text={"As an experienced martech specialist, project manager and digital marketing consultant I can help you achieve your business goals."}
+        image={{
+          url:"/images/projects/black-hole.jpg",
+          alt:"",
+        }}
+        button={{
+          text: "Get to know me",
+          link: "/about",
+        }}
         />
         <ServiceSection
           title={"How I can help your business"}

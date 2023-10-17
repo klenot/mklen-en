@@ -19,6 +19,10 @@ body {
   font-family: 'IBM Plex Mono', monospace;
 }
 
+section{
+  scroll-margin-top: 10rem;
+}
+
 p,
 h1,
 h2,
@@ -28,6 +32,7 @@ a,
 button,
 label,
 input {
+  font-family: 'IBM Plex Mono', monospace;
   color: var(--primary-text-color);
   background-color: transparent;
   text-decoration: none;
@@ -650,16 +655,27 @@ a>p {
 /* HERO SECTION - MOBILE ----------------------------------------------------------------------------- */
 
 .hero-container {
+  height: 100vh;
   display: flex;
-  height: 100%;
   flex-wrap: wrap;
   flex-direction: column;
-  row-gap: 10%;
+  justify-content: center;
   padding: var(--mobile-cont-pd);
   margin-left: auto;
   margin-right: auto;
   padding-top: 10rem;
   padding-bottom: 10rem;
+}
+
+.hero-container-landing-page {
+  height: 40vh;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: var(--mobile-cont-pd);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero-section {
@@ -724,6 +740,11 @@ a>p {
     padding-bottom: 10rem;
   }
 
+  .hero-container-landing-page {
+    padding: var(--tablet-cont-pd);
+    width: var(--tablet-cont-w);
+  }
+
   .hero-section {
     padding: var(--tablet-sect-pd);
   }
@@ -741,13 +762,18 @@ a>p {
     padding-bottom: 5%;
   }
 
+  .hero-container-landing-page {
+    padding: var(--desktop-cont-pd);
+    width: var(--desktop-cont-w);
+  }
+
   .hero-section {
     padding: var(--desktop-sect-pd);
   }
 
 }
 
-/* 404 ----------------------------------------------------------------------------- */
+/* 404 and support pages ----------------------------------------------------------------------------- */
 
 .not-found, .message-sent, .thank-you {
   display: flex;
@@ -765,6 +791,11 @@ a>p {
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
+}
+
+.service-form{
+  height: 55rem;
+  margin: 10rem 0 10rem 0;
 }
 
 @media only screen and (min-width: 767px) {
@@ -1246,13 +1277,26 @@ li>span {
   background-size: cover;
   width: 200px;
   height: 300px;
+  border: solid 0.1rem white;
+  border-radius: 6px;
 }
 
 .swiper-slide img {
   display: block;
   width: 100%;
-  border: solid 0.1rem black;
-  border-radius: 8px;
+  border: solid 0.1rem white;
+  border-radius: 6px;
+}
+
+.books-repeater-text{
+  text-align: center;
+}
+
+@media only screen and (min-width: 1100px) {
+
+  .swiper{
+    width: 80%;
+  }
 }
 
 
@@ -1966,8 +2010,10 @@ li>span {
   width: 100%;
 }
 
-.cnt-img-media-wrapper {
-  text-align: center;
+.cnt-img-media-wrapper-right, .cnt-img-media-wrapper-left{
+  display: flex;
+  padding: 2rem;
+  justify-content: center;
 }
 
 .content-image-media {

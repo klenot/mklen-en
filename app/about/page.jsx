@@ -1,7 +1,7 @@
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
+import ContentImage from "app/components/Shared/contentImage";
 import SkillRepeater from "app/components/Skills/skillRepeater";
 import BookRepeater from "app/components/Books/bookRepeater";
-import Slider from "app/components/Shared/slider";
 import "styles/about-styles.css";
 
 export const metadata = {
@@ -14,16 +14,34 @@ export default function About() {
   return (
     <>
       <main>
+        <div className="pt-2">
         <HeroLandingPage
           title={"About"}
           sideKick={
             "Helping companies create effective digital presence is what I’ve been doing for the last 6 years working as a marketing consultant & project manager."
           }
           button={{
-            text:"Curriculum vitae",
-            link:"about/cv",
+            text:"-",
+            link:"-",
           }}
         />
+        <div className="pt-5">
+        <ContentImage
+        anchor={"explore"}
+        direction={"right"}
+        heading={"Heading 2"}
+        text={"Helping companies create effective digital presence is what I’ve been doing for the last 6 years working as a marketing consultant & project manager."}
+        image={{
+          url:"/images/projects/black-hole.jpg",
+          alt:"",
+        }}
+        button={{
+          text: "Curriculum vitae",
+          link: "/about/cv",
+        }}
+        />
+        </div>
+        </div>
         <SkillRepeater />
         <BookRepeater
           heading={"Heading 2"}

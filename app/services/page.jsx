@@ -1,5 +1,7 @@
 import ServiceSection from "app/components/Services/serviceSection";
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
+import Form from "app/components/Shared/form";
+import TextBlock from "app/components/Shared/textBlock";
 
 export const metadata = {
   title: "My services make your business stand out",
@@ -21,9 +23,9 @@ export default function Services() {
         }}
       />
       <ServiceSection
-        title={"This is title heading"}
+        title={"-"}
         description={
-          "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+          "-"
         }
         button={{
           text: "-",
@@ -36,7 +38,6 @@ export default function Services() {
           categoryB: "Published",
         }}
       />
-      <div className='pb-5'></div>
     </>
   );
 }

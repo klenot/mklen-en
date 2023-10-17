@@ -57,25 +57,25 @@ export default async function ServicePage({ params }) {
     switch (type) {
       case "paragraph":
         return (
-          <p className="service-text">
+          <p className="service-text pb-1">
             <Text text={value.rich_text} className="plain-text"/>
           </p>
         );
       case "heading_1":
         return (
-          <h1 id={block.id} className="service-h1">
+          <h1 id={block.id} className="service-h1 pb-2">
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 id={block.id} className="service-h2">
+          <h2 id={block.id} className="service-h2 pb-2">
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 id={block.id} className="service-h3">
+          <h3 id={block.id} className="service-h3 pb-2">
             <Text text={value.rich_text} />
           </h3>
         );
@@ -133,7 +133,7 @@ export default async function ServicePage({ params }) {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure className="service-image-container">
+          <figure className="service-image-container pt-5 pb-5">
             <img src={src} alt={caption} className="service-img"/>
             {caption && <figcaption>{caption}</figcaption>}
           </figure>
@@ -170,9 +170,7 @@ export default async function ServicePage({ params }) {
         );
       case "bookmark":
         return (
-          <section className="pt-5 pb-5">
-            <div className="text-section-container">
-              <div>
+              <div id="form" className="service-form">
                 <h2 className='form-h2'>Get in touch.</h2>
                 <form
                   action='https://formsubmit.co/mklen@mklenotic.cz'
@@ -231,13 +229,11 @@ export default async function ServicePage({ params }) {
                   />
                   <div className='button-wrapper'>
                     <button className='cta'>
-                      <span>→ submit</span>
+                      <span className="button-text">Submit</span>
                     </button>
                   </div>
                 </form>
               </div>
-            </div>
-          </section>
         );
       case "table": {
         return (

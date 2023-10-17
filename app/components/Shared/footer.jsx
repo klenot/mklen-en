@@ -9,7 +9,7 @@ export default function Footer() {
       <>
         <footer id="footer">
           <div className="footer-container">
-            <div className="footer-divider-wrapper pb-8">
+            <div className="footer-divider-wrapper pb-10">
             <hr className="footer-divider"></hr>
             </div>
             <div className="footer-row-top">
@@ -89,7 +89,7 @@ export default function Footer() {
                   <div className="button-wrapper">
                     <button className="cta">
                       <span className="button-text" style={{paddingTop: "2px"}}>
-                        Send the pidgeon
+                        Send
                         <span style={{paddingLeft:"8px"}}>
                         <Image
                           src={"/icons/pidgeon-1.png"}

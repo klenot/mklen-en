@@ -9,12 +9,12 @@ export default function ServiceSection({
 }) {
   return (
     <>
-      <section>
+      <section className="pb-5">
         <div className='service-container'>
           {title === "-" ? (
             <></>
           ) : (
-            <div className='service-section pb-1'>
+            <div className='service-section pt-10 pb-1'>
               <h2>{title}</h2>
             </div>
           )}

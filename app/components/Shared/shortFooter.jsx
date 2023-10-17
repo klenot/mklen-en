@@ -7,9 +7,9 @@ export default function ShortFooter() {
 
   return(
       <>
-        <footer id="footer" className="pt-5">
+        <footer id="footer" className="pt-10">
           <div className="footer-container">
-          <div className="footer-divider-wrapper pb-8">
+          <div className="footer-divider-wrapper pb-10">
             <hr className="footer-divider"></hr>
             </div>
             <div className="footer-row-mid">

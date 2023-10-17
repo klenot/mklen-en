@@ -4,7 +4,7 @@ import BlogTileRepeater from "./blogTileRepeater";
 export default function BlogTileSection({ h2, perex, buttonText }) {
   return (
     <>
-      <section id='blog-section' className="pt-5 pb-5">
+      <section id='blog-section' className="pb-5">
         <div className='blog-section-container'>
           {h2 === "-" ? (
             <></>
