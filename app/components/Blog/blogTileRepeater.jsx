@@ -1,9 +1,11 @@
 "use client";
 
+import { Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getDatabaseWithAnd } from "app/libs/notionServices";
+import TileSkeleton from "app/components/Shared/tileSkeleton";
 
 export default function BlogTileRepeater() {
   const [filterA, setFilterA] = useState("Publish");
@@ -11,6 +13,7 @@ export default function BlogTileRepeater() {
   const [categoryA, setCategoryA] = useState("Published");
   const [categoryB, setCategoryB] = useState("Published");
   const [posts, setPosts] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
@@ -22,6 +25,7 @@ export default function BlogTileRepeater() {
         categoryB
       );
       setPosts(posts);
+      setLoading(false);
     }
     fetchData();
   }, [categoryA, categoryB]);
@@ -87,26 +91,23 @@ export default function BlogTileRepeater() {
           </button>
         </div>
       </div>
-
       <div className='tile-container'>
         {posts.map((post) => (
-          <Link
+          <a
             className='tile-wrapper'
             key={post.id}
             href={`/blog/${post.properties.Slug.formula.string}`}>
             <div className='tile-card'>
-            <div className='tile-more-info'>
-                  <div
-                    className={
-                      post.properties.AutoClassGenerator.formula.string
-                    }>
-                    <div>
-                      <span className='tile-category-text'>
-                        {post.properties.Category.select.name}
-                      </span>
-                    </div>
+              <div className='tile-more-info'>
+                <div
+                  className={post.properties.AutoClassGenerator.formula.string}>
+                  <div>
+                    <span className='tile-category-text'>
+                      {post.properties.Category.select.name}
+                    </span>
                   </div>
                 </div>
+              </div>
               <div className='tile-image-wrapper'>
                 <Image
                   src={"/images/blog/doge-computer.webp"}
@@ -117,33 +118,30 @@ export default function BlogTileRepeater() {
               </div>
 
               <div className='tile-info-wrapper'>
-                
                 <div className='tile-info'>
                   <div>
-                  <div className='tile-date'>
-                    <div>
-                      <span className='tile-date-text'>
-                        {new Date(
-                          post.properties.PostDate.date.start
-                        ).toLocaleString("en-US", {
-                          month: "short",
-                          day: "2-digit",
-                          year: "numeric",
-                        })}
-                      </span>
+                    <div className='tile-date'>
+                      <div>
+                        <span className='tile-date-text'>
+                          {new Date(
+                            post.properties.PostDate.date.start
+                          ).toLocaleString("en-US", {
+                            month: "short",
+                            day: "2-digit",
+                            year: "numeric",
+                          })}
+                        </span>
+                      </div>
                     </div>
-                  </div>
                     <h3>{post.properties.PostTitle.title[0].plain_text}</h3>
                     <p className='pt-1 pb-1'>
                       {post.properties.PostPerex.rich_text[0].plain_text}
                     </p>
                   </div>
                 </div>
-
-                
               </div>
             </div>
-          </Link>
+          </a>
         ))}
       </div>
     </>

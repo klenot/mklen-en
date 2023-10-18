@@ -14,20 +14,20 @@ export default function Home() {
     <>
       <main>
         <HeroMain
-          title={"I'm Marek"}
+          title={"My name is Marek"}
           sideKick={
-            "I'm a martech specialist & project manager with a passion for effective digital strategies."
+            "I'm a MarTech specialist with a passion for effective digital strategies."
           }
           button={{
-            text:"Explore the site",
+            text:"Explore more",
             link:"/#explore",
           }}
         />
         <ContentImage
         anchor={"explore"}
         direction={"left"}
-        heading={"Lorem ipsum"}
-        text={"As an experienced martech specialist, project manager and digital marketing consultant I can help you achieve your business goals."}
+        heading={"How I can help your business"}
+        text={"As a professional with expertise in Martech, Project Management, and Digital Marketing I offer a rare brew of skills to your digital presence. Let's work together and bring life to your ideas."}
         image={{
           url:"/images/projects/black-hole.jpg",
           alt:"",
@@ -40,10 +40,10 @@ export default function Home() {
         <ServiceSection
           title={"How I can help your business"}
           description={
-            "As an experienced martech specialist, project manager and digital marketing consultant I can help you achieve your business goals."
+            "As a professional with expertise in Martech, Project Management, and Digital Marketing I offer a rare brew of skills to your digital presence. Let's work together and bring life to your ideas."
           }
           button={{
-            text: "Explore all services",
+            text: "All services",
             link: "/services",
           }}
           filters={{
@@ -56,10 +56,10 @@ export default function Home() {
         <BlogListSection
           title={"Writing"}
           perex={
-            "When I'm getting into a new subject or reflecting on my experiences, writing helps me to clarify my thoughts and better understand the topic. Writing is the essential part of my learning process."
+            "When I'm getting into a new subject or reflecting on my past experiences, writing always helps me to clarify my thoughts. The goal is to better understand the topic. Writing is the essential part of a learning process."
           }
           button={{
-            text: "More writings",
+            text: "More posts",
             link: "/blog",
           }}
           filters={{

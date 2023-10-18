@@ -15,7 +15,7 @@ export default function Services() {
       <HeroLandingPage
         title={"Services"}
         sideKick={
-          "I'm a martech specialist & project manager with a passion for effective digital strategies."
+          "You can chose from a variation of services from digital marketing strategies to tailoring your company processes by a certified project manager."
         }
         button={{
           text: "-",

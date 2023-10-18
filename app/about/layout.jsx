@@ -3,9 +3,11 @@ import Footer from "app/components/Shared/footer.jsx";
 export default function AboutLayout({ children }) {
   return (
     <>
-      {children}
+      <main>
+        {children}
 
-      <Footer />
+        <Footer />
+      </main>
     </>
   );
 }

@@ -45,12 +45,11 @@ export default function SkillRepeater() {
       <section id='skill-section' className="pt-10 pb-10">
         <div className='skill-section-container'>
           <div className='skill-section pb-2'>
-            <h2>I am trying to suck a bit less every day.</h2>
+            <h2>Skills</h2>
           </div>
           <div className='skill-section'>
             <p>
-              I'm developing my skills on a daily basis. Continuous growth is a
-              lifelong journey &amp; culture.
+            I try to suck a bit less every day. Continuous growth is a culture to me.
             </p>
           </div>
           <div className='skill-section pt-2'>

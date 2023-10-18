@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function HeroLandingPage({ title, sideKick, button }) {
   return (
-    <section id='hero-section'>
+    <section className="hero-section-landing-page" id='hero-section'>
       <div className='hero-container-landing-page'>
         <div className='hero-section'>
           <h1>

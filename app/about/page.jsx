@@ -14,23 +14,22 @@ export default function About() {
   return (
     <>
       <main>
-        <div className="pt-2">
         <HeroLandingPage
           title={"About"}
           sideKick={
-            "Helping companies create effective digital presence is what I’ve been doing for the last 6 years working as a marketing consultant & project manager."
+            "Helping companies create effective digital presence is what I’ve been doing for the last seven years."
           }
           button={{
             text:"-",
             link:"-",
           }}
         />
-        <div className="pt-5">
+        <SkillRepeater />
         <ContentImage
         anchor={"explore"}
-        direction={"right"}
-        heading={"Heading 2"}
-        text={"Helping companies create effective digital presence is what I’ve been doing for the last 6 years working as a marketing consultant & project manager."}
+        direction={"left"}
+        heading={"Career"}
+        text={"Every path is different. If you want to learn more about mine continue to my cv page."}
         image={{
           url:"/images/projects/black-hole.jpg",
           alt:"",
@@ -40,12 +39,9 @@ export default function About() {
           link: "/about/cv",
         }}
         />
-        </div>
-        </div>
-        <SkillRepeater />
         <BookRepeater
-          heading={"Heading 2"}
-          description={"Helping companies create effective digital presence is what I’ve been doing for the last 6 years working as a marketing consultant & project manager."}
+          heading={"Reading"}
+          description={"I am not fast nor a heavy reader, but I do enjoy reading. Do you have any interesting books to discuss?"}
         />
         <section id='interest-section' className='pb-10'>
           <div className='interest-container'>
@@ -57,15 +53,18 @@ export default function About() {
                 <p>Photography</p>
                 <p>Traveling</p>
                 <p>Podcasts</p>
+                <p>Movies</p>
                 <p>Music</p>
               </div>
               <div className='interest-item text-align-center'>
                 <p>Chess</p>
                 <p>Elevate</p>
                 <p>Duolingo</p>
+                <p>Learning</p>
                 <p>Reading</p>
               </div>
               <div className='interest-item text-align-right'>
+                <p>Surfing</p>
                 <p>Running</p>
                 <p>Badminton</p>
                 <p>Meditation</p>

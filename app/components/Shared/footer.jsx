@@ -14,26 +14,21 @@ export default function Footer() {
             </div>
             <div className="footer-row-top">
               <div className="footer-section">
-                <h2 className="footer-get-in-touch">Get in touch.</h2>
+                <h2 className="footer-get-in-touch">The purpose</h2>
                 <p>
-                  I built this website with two purposes in mind. To present my
-                  knowledge &amp; abilities and to provide services that can help
-                  others.
+                I lacked my own playground <br />so I created one.
                 </p>
                 <br />
                 <br />
                 <p className="contact-info">+420 734 540 226</p>
                 <p className="contact-info">mklen@mklenotic.cz</p>
                 <p className="contact-info" style={{ paddingBottom: "10%" }}>
-                  Download my <span className="hover-underline-animation">contact</span>
-                  .
+                  Download my <span className="hover-underline-animation">contact</span>.
                 </p>
               </div>
               <div className="footer-section">
                 <h3 className="section-title-h3">
-                  You can send me
-                  <br />
-                  your questions here.
+                  Get in touch
                 </h3>
                 <form
                   action="https://formsubmit.co/mklen@mklenotic.cz"
@@ -46,7 +41,7 @@ export default function Footer() {
                     type="text"
                     name="name"
                     maxLength={40}
-                    placeholder="Start with your name here..."
+                    placeholder="How you want to be called?"
                     required=""
                   />
                   <br />
@@ -56,7 +51,7 @@ export default function Footer() {
                     type="email"
                     name="email"
                     maxLength={40}
-                    placeholder="your@email.com"
+                    placeholder="your.awesome@email.com"
                     required=""
                   />
                   <br />
@@ -79,7 +74,7 @@ export default function Footer() {
                   <input
                     type="hidden"
                     name="_autoresponse"
-                    defaultValue="Hello :) Thank you for reaching out to me! I am going to respond as soon as I read your message. Have a productive day, MK."
+                    defaultValue="Hello, thank you for reaching out to me :) I am going to respond as soon as I read your message. Have a productive day, MK."
                   />
                   <input
                     type="hidden"
@@ -89,7 +84,7 @@ export default function Footer() {
                   <div className="button-wrapper">
                     <button className="cta">
                       <span className="button-text" style={{paddingTop: "2px"}}>
-                        Send
+                        Send night owl
                         <span style={{paddingLeft:"8px"}}>
                         <Image
                           src={"/icons/pidgeon-1.png"}

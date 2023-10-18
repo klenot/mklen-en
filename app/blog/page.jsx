@@ -14,7 +14,7 @@ export default function Blog() {
         <HeroLandingPage
           title={"Writing"}
           sideKick={
-            "The process of writing always reminds me of how little I actually know about the topic."
+            "My focus is on helping you navigate through broad topics of project management and digital marketing."
           }
           button={{
             text:"-",
