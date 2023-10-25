@@ -21,7 +21,7 @@ export default function Blog() {
             link: "-",
           }}
         />
-
+        
         <BlogTileSection 
           h2={"-"}
           perex={

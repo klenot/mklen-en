@@ -1,44 +1,59 @@
-import { getDatabaseWithAnd } from "app/libs/notionServices";
-import Link from "next/link";
-import Image from "next/image";
+"use client"
 
-export default async function ServiceRepeater({
+import Image from "next/image";
+import { getDatabaseWithAnd } from "app/libs/notionServices";
+import { useState, useEffect } from "react";
+import TileSkeleton from "app/components/Shared/tileSkeleton.jsx";
+
+export default function ServiceRepeater({
   filterA,
   categoryA,
   filterB,
   categoryB,
 }) {
-  const services = await getDatabaseWithAnd(
-    process.env.SERVICES_DATABASE_ID,
-    filterA,
-    categoryA,
-    filterB,
-    categoryB
-  );
+  const [services, setServices] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    async function fetchData() {
+      const services = await getDatabaseWithAnd(
+        process.env.SERVICES_DATABASE_ID,
+        filterA,
+        categoryA,
+        filterB,
+        categoryB
+      );
+      setServices(services);
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+  
 
   return (
     <>
       <div className='tile-container'>
-        {services.map((service) => (
-          <Link
+        {isLoading === true ? <TileSkeleton/> :
+        services.map((service) => (
+          <a
             className='tile-wrapper'
             key={service.id}
             href={`/services/${service.properties.Slug.formula.string}`}>
-            <div className='tile-card'>
-            <div className='tile-more-info'>
-                  <div
-                    className={
-                      service.properties.AutoClassGenerator.formula.string
-                    }>
-                    <div className='pill'>
-                      <span className='tile-category-text'>
-                        {service.properties.Category.select.name}
-                      </span>
-                    </div>
+            <div key={service.properties.Slug.id} className='tile-card'>
+              <div className='tile-more-info'>
+                <div
+                  className={
+                    service.properties.AutoClassGenerator.formula.string
+                  }>
+                  <div className='pill'>
+                    <span className='tile-category-text'>
+                      {service.properties.Category.select.name}
+                    </span>
                   </div>
                 </div>
+              </div>
               <div className='tile-image-wrapper'>
-                
                 <Image
                   src={"/images/blog/doge-computer.webp"}
                   width={300}
@@ -60,7 +75,7 @@ export default async function ServiceRepeater({
                 </div>
               </div>
             </div>
-          </Link>
+          </a>
         ))}
       </div>
     </>

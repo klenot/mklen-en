@@ -1,7 +1,5 @@
 "use client";
 
-import { Suspense } from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getDatabaseWithAnd } from "app/libs/notionServices";
@@ -16,6 +14,7 @@ export default function BlogTileRepeater() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     async function fetchData() {
       const posts = await getDatabaseWithAnd(
         process.env.BLOG_DATABASE_ID,
@@ -92,12 +91,13 @@ export default function BlogTileRepeater() {
         </div>
       </div>
       <div className='tile-container'>
-        {posts.map((post) => (
+        {isLoading ? <TileSkeleton/> :
+        posts.map((post) => (
           <a
             className='tile-wrapper'
             key={post.id}
             href={`/blog/${post.properties.Slug.formula.string}`}>
-            <div className='tile-card'>
+            <div key={post.properties.Slug.id} className='tile-card'>
               <div className='tile-more-info'>
                 <div
                   className={post.properties.AutoClassGenerator.formula.string}>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getDatabaseWithOr } from "app/libs/notionServices";
+import SkillSkeleton from "./skillSkeleton";
 
 export default function SkillRepeater() {
   const [filterA, setFilterA] = useState("Showcase");
@@ -10,13 +11,16 @@ export default function SkillRepeater() {
   const [categoryA, setCategoryA] = useState("Showcase");
   const [categoryB, setCategoryB] = useState("Showcase");
   const [skills, setSkills] = useState([])
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     async function fetchData(){
       const skills = await getDatabaseWithOr(process.env.SKILLS_DATABASE_ID, filterA, categoryA, filterB, categoryB)
       setSkills(skills)
+      setLoading(false)
     }
-    fetchData()
+    fetchData();
   }, [categoryA, categoryB]);
 
   function showAll(){
@@ -111,7 +115,8 @@ export default function SkillRepeater() {
             </div>
 
             <div className='skill-list-container'>
-              {skills.map((skill) => (
+              {isLoading === true ? <SkillSkeleton/> :
+              skills.map((skill) => (
                 <div key={skill.id} className='skill-list-item shw man'>
                   <div className='skill-title'>
                     <h3>

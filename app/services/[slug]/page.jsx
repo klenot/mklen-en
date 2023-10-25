@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Image from "next/image";
 import { getBlocks, getPage } from "app/libs/notionServices";
 import { getServiceBySlug } from "app/libs/getPageBySlug.ts";
