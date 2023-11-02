@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en' className='dark' suppressHydrationWarning={true}>
       <Head />
-      <body >
+      <body>
         <Providers>
           <NavBar />
           {children}

@@ -96,8 +96,7 @@ export default function NavBar() {
                 )}
               </div>
             </div>
-            <div
-              id='mobile-menu'
+            <div id='mobile-menu'
               className={
                 isOpen === false
                   ? "mobile-menu-container mobile-menu-hide"

@@ -1,0 +1,168 @@
+.link{
+    font-weight: 400;
+}
+
+.link:hover{
+    color: rgb(255, 226, 171);
+}
+
+
+/* Bento Container and Box styling */
+.bentoContainer {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 1.5rem;
+    padding: 12% 4% 7% 4%;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+.bentoBox {
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: scale 0.14s ease-in-out;
+    justify-content: center;
+    align-items: center;
+}
+.bentoContent{
+    background-color: transparent;
+    z-index: 4;
+    border-radius: 7px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Bento Outline Animation */
+.bentoBox::before,
+.bentoBox::after {
+    border-radius: inherit;
+    content: "";
+    height: 100%;
+    left: 0px;
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    transition: opacity 500ms;
+    width: 100%;
+}
+.bentoBox::before {
+    background: radial-gradient(
+    1000px circle at var(--mouse-x) var(--mouse-y), 
+    rgb(255, 0, 0),
+    transparent 40%
+    );
+    z-index: 3;
+}
+.bentoBox::after {  
+    background: radial-gradient(
+    800px circle at var(--mouse-x) var(--mouse-y), 
+    rgb(255, 115, 115),
+    transparent 40%
+    );
+    z-index: 1;
+}
+.bentoContainer:hover > .bentoBox::after {
+    opacity: 1;
+}
+
+/* Bento Inner Content */
+.bentoInnerContent{
+    background-color: rgb(22, 22, 22);
+    border: solid 0.1rem var(--primary-outline);
+    height: calc(100% - 0.2rem);
+    width: calc(100% - 0.2rem);
+    border-radius: inherit;
+    z-index: 5;
+}
+
+
+.bento1 {
+    grid-area: 1 / 1 / 4 / 4;
+}
+
+    .portraitImage {
+        object-fit: cover;
+        object-position: top;
+        border-radius: inherit;
+        width: 100%;
+        height: 100%;
+    }
+
+.bento2 {
+    grid-area: 1 / 4 / 3 / 7;
+}
+
+
+.bento3 {
+    grid-area: 3 / 4 / 3 / 7;
+}
+
+    .bentoButton{
+        height: 100%;
+        width: 100%;
+    }
+
+    .bentoContent3 {
+        background: var(--primary-bg);
+        border-radius: inherit;
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .bento4 {
+    grid-area: 1 / 7 / 5 / 10;
+
+}
+
+
+.bento5 {
+    grid-area: 4 / 1 / 7 / 7;
+
+}
+
+
+.bento6 {
+    grid-area: 5 / 7 / 7 / 10;
+
+}
+
+.bento2:hover,
+.bento3:hover,
+.bento4:hover,
+.bento5:hover,
+.bento6:hover {
+    scale: 1.02;
+    cursor: pointer;
+}
+.bentoInnerContent:hover{
+    cursor: pointer;
+}
+
+.digitalMarketing, .bio, .certification, .careerPath{
+    padding: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.digitalMarketing p, .bio p, .certification p, .careerPath p {
+    font-size: 1.8rem;
+    line-height: 3rem;
+}
+
+
+/* CV Bottom of the page */
+.signatureWrapper {
+    display: flex;
+    justify-content: flex-end;
+}

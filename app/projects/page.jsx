@@ -14,27 +14,19 @@ export default function Projects() {
   return (
     <>
       <HeroLandingPage
-        h1={"Projects"}
-        perex={
+        title={"Projects"}
+        sideKick={
           "I'm a martech specialist & project manager with a passion for effective digital strategies."
         }
-        buttonText={"-"}
-      />
-      <ContentImage
-        direction={"right"}
-        heading={"Heading 2"}
-        text={
-          "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Nunc tincidunt ante vitae massa. Etiam dictum tincidunt diam. Curabitur vitae diam non enim vestibulum interdum. Morbi scelerisque luctus velit."
-        }
-        image={{
-          url: "/images/projects/ilu-test.png",
-          alt: "Alt text.",
+        button={{
+          text: "-",
+          link: "-"
         }}
       />
       <ProjectSection
-        title={"This is title heading"}
+        title={"-"}
         description={
-          "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+          "-"
         }
         button={{
           text: "cta",
@@ -46,12 +38,6 @@ export default function Projects() {
           filterB: "Publish",
           categoryB: "Published",
         }}
-      />
-      <TextBlock
-        heading={"Heading 2"}
-        text={
-          "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-        }
       />
       <Form
         heading={"Heading 2"}

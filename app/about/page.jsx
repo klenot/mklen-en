@@ -20,30 +20,35 @@ export default function About() {
             "Helping companies create effective digital presence is what I’ve been doing for the last seven years."
           }
           button={{
-            text:"-",
-            link:"-",
+            text: "-",
+            link: "-",
           }}
         />
-        <SkillRepeater />
         <ContentImage
-        anchor={"explore"}
-        direction={"left"}
-        heading={"Career"}
-        text={"Every path is different. If you want to learn more about mine continue to my cv page."}
-        image={{
-          url:"/images/projects/black-hole.jpg",
-          alt:"",
-        }}
-        button={{
-          text: "Curriculum vitae",
-          link: "/about/cv",
-        }}
+          anchor={"explore"}
+          direction={"left"}
+          heading={"Career"}
+          text={
+            "Every path is different. If you want to learn more about mine continue to my cv page."
+          }
+          image={{
+            url: "/images/dev/hackathon-transparent.webp",
+            alt: "",
+          }}
+          button={{
+            text: "Curriculum vitae",
+            link: "/about/cv",
+          }}
+          padding={"none"}
         />
+        <SkillRepeater />
         <BookRepeater
           heading={"Reading"}
-          description={"I am not fast nor a heavy reader, but I do enjoy reading. Do you have any interesting books to discuss?"}
+          description={
+            "I am not fast nor a heavy reader, but I do enjoy reading. Do you have any interesting books to discuss?"
+          }
         />
-        <section id='interest-section' className='pb-10'>
+        <section id='interest-section' className='pt-10 pb-10'>
           <div className='interest-container'>
             <div className='iterest-section'>
               <h2>Interests</h2>

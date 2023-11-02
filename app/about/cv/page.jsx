@@ -1,261 +1,374 @@
-import "styles/cv-styles.css";
+import styles from "styles/cv.module.css";
 import Image from "next/image";
-import NavBar from "app/components/Shared/navBar";
-import SkillRepeater from "app/components/Skills/skillRepeater.jsx"
+import { getBlocks } from "app/libs/notionServices.jsx";
+import HeroCv from "app/components/Cv/heroCv.jsx";
+import SkillRepeater from "app/components/Skills/skillRepeater.jsx";
+import Button from "app/components/Shared/ctaButton.jsx"
 
 export const metadata = {
   title: "Read about my career",
-  description: "I'm a experienced marktech consultant & PMI certified project manager. Find out all about my skills and projects in five minutes on my about page.",
-}
+  description:
+    "I'm a experienced marktech consultant & PMI certified project manager. Find out all about my skills and projects in five minutes on my about page.",
+};
 
-export default function CurriculumVitae() {
+export default async function CurriculumVitae() {
+  const blocks = await getBlocks(process.env.CV_DATABASE_ID);
+
+  const Text = ({ text }) => {
+    if (!text) {
+      return null;
+    }
+    return text.map((value) => {
+      const {
+        annotations: { bold, code, color, italic, strikethrough, underline },
+        text,
+      } = value;
+      return (
+        <span
+          className={[
+            bold ? "bold" : "",
+            code ? "code" : "",
+            italic ? "italic" : "",
+            strikethrough ? "strike-through" : "",
+            underline ? "underline" : "",
+          ].join(" ")}
+          style={color !== "default" ? { color } : {}}
+          key={text.content}>
+          {text.link ? (
+            <a className={styles.link} href={text.link.url}>
+              {text.content}
+              {" 🔗"}
+            </a>
+          ) : (
+            text.content
+          )}
+        </span>
+      );
+    });
+  };
+
+  /* const renderContentTable = (block) => {
+    const { type } = block;
+    const value = block[type];
+
+    switch (type) {
+      case "heading_1":
+        const preQueryh1 = value.rich_text[0].plain_text
+          .replaceAll(" ", "-")
+          .toLowerCase();
+        const queryh1 = preQueryh1.replaceAll(/[^a-zA-Z0-9-]/g, "");
+        return (
+          <div className='table-of-content-item'>
+            <a
+              key={block.id+1}
+              className='table-of-content-item'
+              href={`/blog/${page.properties.Slug.formula.string}#${queryh1}`}>
+              <Text text={value.rich_text} />
+            </a>
+          </div>
+        );
+
+      case "heading_2":
+        const preQueryh2 = value.rich_text[0].plain_text
+          .replaceAll(" ", "-")
+          .toLowerCase();
+        const queryh2 = preQueryh2.replaceAll(/[^a-zA-Z0-9-]/g, "");
+        return (
+          <div className='table-of-content-item'>
+            <a
+              key={block.id+1}
+              className='table-of-content-item'
+              href={`/blog/${page.properties.Slug.formula.string}#${queryh2}`}>
+              <Text text={value.rich_text} />
+            </a>
+          </div>
+        );
+
+      case "heading_3":
+        const preQueryh3 = value.rich_text[0].plain_text
+          .replaceAll(" ", "-")
+          .toLowerCase();
+        const queryh3 = preQueryh3.replaceAll(/[^a-zA-Z0-9-]/g, "");
+        return (
+          <div className='table-of-content-item'>
+            <a
+              key={block.id+1}
+              href={`/blog/${page.properties.Slug.formula.string}#${queryh3}`}>
+              <Text text={value.rich_text} />
+            </a>
+          </div>
+        );
+
+      case "paragraph":
+        return null;
+
+      case "bulleted_list": {
+        return null;
+      }
+      case "numbered_list": {
+        return null;
+      }
+      case "bulleted_list_item":
+        return null;
+      case "numbered_list_item":
+        return null;
+      case "to_do":
+        return null;
+      case "toggle":
+        return null;
+      case "child_page":
+        return null;
+      case "image":
+        return null;
+      case "divider":
+        return null;
+      case "quote":
+        return null;
+      case "code":
+        return null;
+      case "file":
+        return null;
+      case "bookmark":
+        return null;
+      case "table": {
+        return null;
+      }
+      case "column_list": {
+        return null;
+      }
+      case "column": {
+        return null;
+      }
+    }
+  }; */
+
+  const renderBlock = (block) => {
+    const { type, id } = block;
+    const value = block[type];
+
+    switch (type) {
+      case "paragraph":
+        return (
+          <div key={block.id} className='article-section-container'>
+            <p className='article-text'>
+              <Text text={value.rich_text} className='plain-text' />
+            </p>
+          </div>
+        );
+      case "heading_1":
+        const preQueryh1 = value.rich_text[0].plain_text
+          .replaceAll(" ", "-")
+          .toLowerCase();
+        const queryh1 = preQueryh1.replaceAll(/[^a-zA-Z0-9-]/g, "");
+        return (
+          <div key={block.id} className='article-section-container'>
+            <h1 id={queryh1} className='article-h1'>
+              <Text text={value.rich_text} />
+            </h1>
+          </div>
+        );
+      case "heading_2":
+        const preQueryh2 = value.rich_text[0].plain_text
+          .replaceAll(" ", "-")
+          .toLowerCase();
+        const queryh2 = preQueryh2.replaceAll(/[^a-zA-Z0-9-]/g, "");
+        return (
+          <div key={block.id} className='article-section-container'>
+            <h2 id={queryh2} className='article-h2'>
+              <Text text={value.rich_text} />
+            </h2>
+          </div>
+        );
+      case "heading_3":
+        const preQueryh3 = value.rich_text[0].plain_text
+          .replaceAll(" ", "-")
+          .toLowerCase();
+        const queryh3 = preQueryh3.replaceAll(/[^a-zA-Z0-9-]/g, "");
+        return (
+          <div key={block.id} className='article-section-container'>
+            <h3 id={queryh3} className='article-h3'>
+              <Text text={value.rich_text} />
+            </h3>
+          </div>
+        );
+      case "bulleted_list": {
+        return (
+          <div key={block.id} className='article-section-container'>
+            <ul className='article-bullet-list'>
+              {value.children.map((child) => renderBlock(child))}
+            </ul>
+          </div>
+        );
+      }
+      case "numbered_list": {
+        return (
+          <div key={block.id} className='article-section-container'>
+            <ol className='article-numbered-list'>
+              {value.children.map((child) => renderBlock(child))}
+            </ol>
+          </div>
+        );
+      }
+      case "bulleted_list_item":
+      case "numbered_list_item":
+        return (
+          <li key={block.id}>
+            <Text text={value.rich_text} />
+            {!!value.children && renderNestedList(block)}
+          </li>
+        );
+      case "to_do":
+        return (
+          <div key={block.id} className='article-section-container'>
+            <label className='checkbox-label' htmlFor={id}>
+              <input type='checkbox' id={id} defaultChecked={value.checked} />
+              <span className='checkmark'></span>{" "}
+              <Text text={value.rich_text} />
+            </label>
+          </div>
+        );
+      case "toggle":
+        return (
+          <div key={block.id} className='article-section-container'>
+            <details className='article-text'>
+              <summary>
+                <Text className='article-text' text={value.rich_text} />
+              </summary>
+              {block.children?.map((child) => (
+                <div className='toggle-content' key={child.id}>
+                  {renderBlock(child)}
+                </div>
+              ))}
+            </details>
+          </div>
+        );
+      case "child_page":
+        return (
+          <div key={children.id} className='article-section'>
+            <strong>{value.title}</strong>
+            {block.children.map((child) => renderBlock(child))}
+          </div>
+        );
+      case "image":
+        const src =
+          value.type === "external" ? value.external.url : value.file.url;
+        const caption = value.caption ? value.caption[0]?.plain_text : "";
+        return (
+          <div key={block.id} className='article-section-container'>
+            <figure className={styles.signatureWrapper}>
+              <Image
+                src={src}
+                alt={caption}
+                width={300}
+                height={150}
+                style={{
+                  width: "auto",
+                  height: "auto",
+                }}
+              />
+            </figure>
+          </div>
+        );
+      case "divider":
+        return (
+          <div key={block.id} className='article-section-container'>
+            <hr />
+          </div>
+        );
+      case "quote":
+        return (
+          <div key={block.id} className='article-section-container'>
+            <blockquote className='quote'>
+              {"„ "}
+              {value.rich_text[0].plain_text}
+              {" ”"}
+            </blockquote>
+          </div>
+        );
+      case "code":
+        return (
+          <SkillRepeater />
+        );
+      case "file":
+        const src_file =
+          value.type === "external" ? value.external.url : value.file.url;
+        const splitSourceArray = src_file.split("/");
+        const lastElementInArray =
+          splitSourceArray[splitSourceArray.length - 1];
+        const caption_file = value.caption ? value.caption[0]?.plain_text : "";
+        return (
+          <div key={block.id} className='article-section-container'>
+            <figure>
+              <div>
+                📎{" "}
+                <Link href={src_file} passHref>
+                  {lastElementInArray.split("?")[0]}
+                </Link>
+              </div>
+              {caption_file && <figcaption>{caption_file}</figcaption>}
+            </figure>
+          </div>
+        );
+      case "bookmark":
+        const buttonText = value.caption ? value.caption[0]?.plain_text : "";
+        const href = value.url;
+        return (
+          <Button
+            buttonText={buttonText}
+            buttonLink={href}
+            buttonSize={"small"}
+          />
+        );
+      case "table": {
+        return (
+          <table key={block.id}>
+            <tbody>
+              {block.children?.map((child, i) => {
+                const RowElement =
+                  value.has_column_header && i == 0 ? "th" : "td";
+                return (
+                  <tr key={child.id}>
+                    {child.table_row?.cells?.map((cell, i) => {
+                      return (
+                        <RowElement key={`${cell.plain_text}-${i}`}>
+                          <Text text={cell} />
+                        </RowElement>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        );
+      }
+      case "column_list": {
+        return (
+          <div key={block.id} className='article-section-container'>
+            <div className='columns'>
+              {block.children.map((block) => renderBlock(block))}
+            </div>
+          </div>
+        );
+      }
+      case "column": {
+        return (
+          <div key={block.id} className="column article-text">
+              {block.children.map((child) => renderBlock(child))}
+          </div>
+        );
+      }
+      default:
+        return `❌ Unsupported block (${
+          type === "unsupported" ? "unsupported by Notion API" : type
+        })`;
+    }
+  };
+
   return (
     <>
-      <NavBar />
-      <>
-        <section id='cv-hero-section'>
-          <div className='cv-hero-container'>
-            <div className='cv-hero-section-image'>
-              <Image
-                src={"/images/cv/color_square.jpg"}
-                width= {200}
-                height={200}
-                style={{
-                  border: "solid 1px transparent",
-                  borderRadius: "8px"
-                }}
-                alt='A self portrait taken on November 1st in 2020.'
-              />
-            </div>
-            <div className='cv-hero-section'>
-              <div className='cv-perex'>
-                <div className='cv-claim-wrapper'>
-                  <p style={{ fontSize: "1.5rem" }}>I am</p>
-                  <h1 className='cv-claim'>Marek Klenotič</h1>
-                </div>
-                <p className='long-text'>
-                  <br />I know that time is a valuable asset and I am glad that
-                  you are investing a few minutes of yours to me. Thank you for
-                  reviewing my CV.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section id='bio'>
-          <div className='text-section-container'>
-            <div>
-              <div className='text-section section-title-h2'>
-                <h2>BIO</h2>
-              </div>
-              <div className='text-section'>
-                <p className='text-block'>
-                  In 2017 I've applied for the account executive position
-                  in&nbsp;a well known Czech digital marketing agency,
-                  Pria&nbsp;System. s.r.o. Thanks to this given opportunity I
-                  was able to work side by side with content, graphics,
-                  web&nbsp;&amp; app development and digital marketing
-                  professionals. After&nbsp;nearly a year I&nbsp;have been
-                  offered&nbsp;a full time job as an account manager in the
-                  company's branch in Prague. I&nbsp;was coordinating projects
-                  for various clients.
-                </p>
-                <br />
-                <p className='text-block'>
-                  Meanwhile I&nbsp;have finished my studies and graduated from
-                  Thomas Bata University with a masters in economics. At the end
-                  of Covid pandemics outbreak I&nbsp;have applied for a job as a
-                  project manager in In creative, a&nbsp;well established
-                  digital agency in Brno. Besides leading projects for clients
-                  I&nbsp;was developing their strategies as well as helping the
-                  agency to enhance internal processes.
-                </p>
-                <br />
-                <p className='text-block'>
-                  I&nbsp;am currently working as a marketing manager in the
-                  Czech communication platform, Targito.com. My responsibilities
-                  include consulting marketing and communication strategy for
-                  the product &amp;&nbsp;brand as well as bringing the creative
-                  ideas to life. Together with my colleagues I&nbsp;maintain all
-                  digital channels of Targito with emphasis on their
-                  development. I&nbsp;am also responsible for designing all
-                  essential digital marketing processes for the possible future
-                  expansion.
-                </p>
-                <br />
-                <p className='text-block'>
-                  Lately I&nbsp;am also more focused on self growth as
-                  a&nbsp;digital marketing professional. That means taking
-                  available education courses, obtaining hard skills in the main
-                  digital marketing areas and building my own personal brand in
-                  the field.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section id='career'>
-          <div className='text-section-container'>
-            <div>
-              <div className='text-section section-title-h2'>
-                <h2>Career</h2>
-              </div>
-              <div className='text-section section-title-h3'>
-                <h3 className=''>Digital marketing</h3>
-              </div>
-              <div className='text-section'>
-                <p className='text-block'>
-                  Easy Software, Ltd. / Web&nbsp;&amp;&nbsp;marketing specialist
-                  / 2022&nbsp;-&nbsp;to&nbsp;the&nbsp;present
-                </p>
-                <br />
-                <p className='text-block'>
-                  Targito.com, s.r.o / Marketing manager / 2022&nbsp;-&nbsp;2022
-                </p>
-                <br />
-                <p className='text-block'>
-                  In creative, s.r.o. / Project manager / 2021&nbsp;-&nbsp;2022
-                </p>
-                <br />
-                <p className='text-block'>
-                  Pria System, s.r.o. / Account manager / 2017&nbsp;-&nbsp;2019
-                </p>
-                <br />
-              </div>
-            </div>
-          </div>
-        </section>
-        <section id='certification'>
-          <div className='text-section-container'>
-            <div className='text-section text-section-title-h2'>
-              <h2>Certification</h2>
-            </div>
-            <div className='text-section-bullet'>
-              <div className='bullet-wrapper'>
-                <ul className='bullet-list'>
-                  <li className=''>Mimo Web Development</li>
-                  <li className=''>Mimo Python Core Concepts</li>
-                  <li className=''>HubSpot Digital Marketing</li>
-                  <li className=''>Google Display Ads</li>
-                  <li className=''>Google Search Ads</li>
-                  <li className=''>Advanced Google Analytics</li>
-                  <li className=''>Google Tag Manager Basics</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        <SkillRepeater />
-
-        <section id='other-experience'>
-          <div className='text-section-container'>
-            <div>
-              <div className='text-section section-title-h2'>
-                <h2>Other experience</h2>
-              </div>
-              <div className='text-section section-title-h3'>
-                <h3 className=''>Music management</h3>
-              </div>
-              <div className='text-section'>
-                <p className='text-block'>
-                  Band manager / Barbora Poláková / 2021&nbsp;-&nbsp;2022
-                </p>
-                <br />
-                <p className='text-block'>
-                  Music manager / Trocha Klidu / 2017&nbsp;-&nbsp;2021
-                </p>
-                <br />
-              </div>
-              <div className='text-section section-title-h3'>
-                <h3 className=''>Production</h3>
-              </div>
-              <div className='text-section'>
-                <p className='text-block'>
-                  Co-founder of Šumperský majáles / 2017&nbsp;-&nbsp;2019
-                </p>
-                <br />
-                <p className='text-block'>
-                  Production of Zlínský majáles / 2017&nbsp;-&nbsp;2018
-                </p>
-                <br />
-                <p className='text-block'>
-                  Video production / 2017&nbsp;-&nbsp;2020
-                </p>
-                <br />
-                <p className='text-block'>
-                  Student Union UTB / 2015&nbsp;-&nbsp;2019
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section id='more-about-me'>
-          <div className='text-section-container'>
-            <div>
-              <div className='text-section section-title-h2'>
-                <h2>More about me</h2>
-              </div>
-              <div className='text-section'>
-                <p className='text-block'>
-                  I come from a small Czech town in the heart of Jeseniky
-                  mountains. I was always interested in doing various things at
-                  once and didn't really care about common standards for growth.
-                  I am still enjoying having a wide range of interests but I am
-                  more focused on the quality of time spent doing them.
-                </p>
-                <br />
-                <p className='text-block'>
-                  Since I was a child, I’ve been curious about business
-                  mechanics. For that reason I've decided to study economics and
-                  business administration which I really enjoyed. This interest
-                  remained to the present and I get to learn different business
-                  approaches since it is an essential part of doing effective
-                  marketing strategies.
-                </p>
-                <br />
-                <p className='text-block'>
-                  I am comfortable in the environment that motivates creativity
-                  because I really enjoy thinking of new ideas. That includes
-                  business ideas as well as ideas for marketing communication. I
-                  highly value time and freedom.
-                </p>
-                <br />
-                <p className='text-block'>
-                  In my free time I love being with those who are close to me,
-                  taking photos or learning chess.
-                </p>
-              </div>
-              <div className='text-section text-section-image'>
-                <div className="text-section">
-                <Image
-                   src={"/images/cv/signature-mk-light.png"}
-                   width= {300}
-                   height={100}
-                />
-                </div>
-              </div>
-              <div id='download' className='text-section'>
-                <p className='text-block'>
-                  Download my CV in{" "}
-                  <span className='hover-underline-animation'>
-                    <a href='https://drive.google.com/uc?export=download&id=1zTcRFuqaLZnjHeo0Eu4uDhq23Gfs8jO9'>
-                      English
-                    </a>
-                  </span>{" "}
-                  or{" "}
-                  <span className='hover-underline-animation'>
-                    <a href='https://drive.google.com/uc?export=download&id=1Y6rygl_dCLUzVXe03I8TZBsE7vvZar5D'>
-                      Czech
-                    </a>
-                  </span>{" "}
-                  language.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </>
+      <HeroCv />
+      {blocks.map((block) => renderBlock(block))}
     </>
   );
 }

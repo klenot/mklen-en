@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image";
+import Link from "next/link";
 import { getDatabaseWithAnd } from "app/libs/notionServices";
 import { useState, useEffect } from "react";
 import TileSkeleton from "app/components/Shared/tileSkeleton.jsx";
@@ -29,18 +30,16 @@ export default function ServiceRepeater({
     }
     fetchData();
   }, []);
-  
 
   return (
     <>
       <div className='tile-container'>
         {isLoading === true ? <TileSkeleton/> :
         services.map((service) => (
-          <a
+          <Link
             className='tile-wrapper'
-            key={service.id}
             href={`/services/${service.properties.Slug.formula.string}`}>
-            <div key={service.properties.Slug.id} className='tile-card'>
+            <div key={service.id} className='tile-card'>
               <div className='tile-more-info'>
                 <div
                   className={
@@ -55,10 +54,12 @@ export default function ServiceRepeater({
               </div>
               <div className='tile-image-wrapper'>
                 <Image
-                  src={"/images/blog/doge-computer.webp"}
+                  src={service.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : service.properties.Thumbnail.files[0].file.url}
                   width={300}
                   height={200}
-                  alt={"Alt text."}
+                  alt={service.properties.AltText.rich_text[0] === undefined ? "A signature of good fortune." : service.properties.AltText.rich_text[0].plain_text}
+                  /* placeholder="blur" */
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
 
@@ -75,7 +76,7 @@ export default function ServiceRepeater({
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </>

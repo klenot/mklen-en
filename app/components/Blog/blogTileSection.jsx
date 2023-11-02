@@ -28,7 +28,7 @@ export default function BlogTileSection({ h2, perex, buttonText }) {
             <></>
           ) : (
             <div className='blog-section button-wrapper'>
-              <button className='cta'>
+              <button className='cta ctaLarge'>
                 <Link href='/about'>
                   <span className='button-text'>{buttonText}</span>
                 </Link>

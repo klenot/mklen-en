@@ -19,7 +19,7 @@ export default function HeroMain({ title, sideKick, button }) {
           </div>
         </div>
         <div className='hero-section'>
-          <button className='cta'>
+          <button className='cta ctaLarge'>
             <Link href={button.link}>
               <span className="button-text">{button.text}</span>
             </Link>

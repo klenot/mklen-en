@@ -55,15 +55,16 @@ export default async function ProjectRepeater({
         {projects.map((project) => (
           <Link
             className='tile-wrapper'
-            key={project.id}
             href={`/projects/${project.properties.Slug.formula.string}`}>
-            <div className='tile-card'>
+            <div key={project.id} className='tile-card'>
               <div className='tile-image-wrapper'>
                 <Image
-                  src={"/images/blog/doge-computer.webp"}
+                  src={project.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : project.properties.Thumbnail.files[0].file.url}
                   width={300}
                   height={200}
-                  alt={"Alt text."}
+                  alt={project.properties.AltText.rich_text[0] === undefined ? "A signature of good fortune to your projects." : project.properties.AltText.rich_text[0].plain_text}
+                  /* placeholder="blur" */
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
 

@@ -82,21 +82,9 @@ export default function Footer() {
                     defaultValue="New message submitted to mklenotic.com."
                   />
                   <div className="button-wrapper">
-                    <button className="cta">
+                    <button className="cta ctaLarge">
                       <span className="button-text" style={{paddingTop: "2px"}}>
-                        Send night owl
-                        <span style={{paddingLeft:"8px"}}>
-                        <Image
-                          src={"/icons/pidgeon-1.png"}
-                          alt={"The pidgeon."}
-                          width={20}
-                          height={20}
-                          style={{
-                            position: "relative",
-                            top: "2px"
-                          }}
-                        />
-                        </span>
+                        Send
                       </span>
                     </button>
                   </div>

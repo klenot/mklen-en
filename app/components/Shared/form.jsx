@@ -63,8 +63,8 @@ export default function Form({ heading, description }) {
                     defaultValue='New message submitted from mklenotic.com.'
                   />
                   <div className='button-wrapper'>
-                    <button className='cta'>
-                      <span className="button-text">→ submit</span>
+                    <button className='cta ctaLarge'>
+                      <span className="button-text">Submit</span>
                     </button>
                   </div>
                 </form>

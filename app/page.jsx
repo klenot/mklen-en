@@ -29,7 +29,7 @@ export default function Home() {
         heading={"How I can help your business"}
         text={"As a professional with expertise in Martech, Project Management, and Digital Marketing I offer a rare brew of skills to your digital presence. Let's work together and bring life to your ideas."}
         image={{
-          url:"/images/projects/black-hole.jpg",
+          url:"/images/dev/hackathon-transparent.webp",
           alt:"",
         }}
         button={{

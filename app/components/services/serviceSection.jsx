@@ -41,7 +41,7 @@ export default function ServiceSection({
         ) : (
           <div className='service-container'>
             <div className='service-section button-wrapper'>
-              <button className='cta'>
+              <button className='cta ctaLarge'>
                 {button.link === "" ? 
                 <Link href="/">
                 <span className="button-text">{button.text}</span>

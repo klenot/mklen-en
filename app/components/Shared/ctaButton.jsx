@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-export default function Button({ buttonText, buttonLink }) {
+export default function Button({ buttonText, buttonLink, buttonSize }) {
   return (
     <>
       {buttonText === "" ? null : (
         <div className='button-wrapper'>
-          <button className='cta'>
+          <button className={`${"cta"} ${buttonSize === "small" ? "ctaSmall" : "ctaLarge"}`}>
             {buttonLink === "" ? (
               <Link href={"/"}>
                 <span className='button-text'>{buttonText}</span>

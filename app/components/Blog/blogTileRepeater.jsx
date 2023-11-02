@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getDatabaseWithAnd } from "app/libs/notionServices";
 import TileSkeleton from "app/components/Shared/tileSkeleton";
@@ -57,6 +58,13 @@ export default function BlogTileRepeater() {
     setCategoryB("Thoughts");
   }
 
+  function showManagementPosts() {
+    setFilterA("Publish");
+    setCategoryA("Published");
+    setFilterB("Category");
+    setCategoryB("Management");
+  }
+
   return (
     <>
       <div className='tile-filter pt-2 pb-2'>
@@ -89,15 +97,21 @@ export default function BlogTileRepeater() {
             <span>Thoughts</span>
           </button>
         </div>
+        <div>
+          <button
+            onClick={showManagementPosts}
+            className='post-category-thg-filter-button'>
+            <span>Management</span>
+          </button>
+        </div>
       </div>
       <div className='tile-container'>
         {isLoading ? <TileSkeleton/> :
         posts.map((post) => (
-          <a
+          <Link
             className='tile-wrapper'
-            key={post.id}
             href={`/blog/${post.properties.Slug.formula.string}`}>
-            <div key={post.properties.Slug.id} className='tile-card'>
+            <div key={post.id} className='tile-card'>
               <div className='tile-more-info'>
                 <div
                   className={post.properties.AutoClassGenerator.formula.string}>
@@ -110,10 +124,12 @@ export default function BlogTileRepeater() {
               </div>
               <div className='tile-image-wrapper'>
                 <Image
-                  src={"/images/blog/doge-computer.webp"}
+                  src={post.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : post.properties.Thumbnail.files[0].file.url}
                   width={300}
                   height={200}
-                  alt={"Alt text."}
+                  alt={post.properties.AltText.rich_text[0] === undefined ? "A signature of good fortuner to your projects." : post.properties.AltText.rich_text[0].plain_text}
+                  /* placeholder="blur" */
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
               </div>
 
@@ -141,7 +157,7 @@ export default function BlogTileRepeater() {
                 </div>
               </div>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </>
