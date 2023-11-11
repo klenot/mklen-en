@@ -1,5 +1,7 @@
+import NavBar from "app/components/Shared/navBar";
 import HeroLandingPage from "app/components/Shared/heroLandingPage.jsx";
 import BlogTileSection from "app/components/Blog/blogTileSection.jsx";
+import ShortFooter from "app/components/Shared/shortFooter.jsx";
 
 export const metadata = {
   title: "Read through my thoughts about digital marekting and project management",
@@ -10,7 +12,7 @@ export default function Blog() {
   return (
     <>
       <main>
-        
+        <NavBar/>
         <HeroLandingPage
           title={"Writing"}
           sideKick={
@@ -31,6 +33,7 @@ export default function Blog() {
         />
       
       </main>
+      <ShortFooter/>
     </>
   );
 }

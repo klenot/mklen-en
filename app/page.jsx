@@ -1,3 +1,4 @@
+import NavBar from "app/components/Shared/navBar";
 import HeroMain from "app/components/Homepage/heroMain.jsx";
 import ContentImage from "app/components/Shared/contentImage";
 import ServiceSection from "app/components/Services/serviceSection";
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <>
       <main>
+        <NavBar />
         <HeroMain
           title={"My name is Marek"}
           sideKick={

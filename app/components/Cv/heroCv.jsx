@@ -3,6 +3,7 @@
 import styles from "styles/cv.module.css";
 import Image from "next/image";
 import { useEffect } from "react";
+import { useState } from "react";
 import { BentoAnimation } from "../../../public/scripts/bentoAnimation";
 
 export default function HeroCV() {
@@ -10,12 +11,23 @@ export default function HeroCV() {
     BentoAnimation();
   }, []);
 
+  const [rotate, setRotate] = useState(false)
+
   return (
     <>
       <section>
         <div id='bentoContainer' className={styles.bentoContainer}>
-          <div className={`${styles.bentoBox} ${styles.bento1}`}>
-            <div className={styles.bentoInnerContent}>
+          <div onClick={() => setRotate((prevRotate) => !prevRotate)} className={`${styles.bentoBox} ${styles.bento1} ${rotate === false ? null : styles.rotate}`}>
+            <div className={`${styles.bentoInnerImageFront}`}>
+              <Image
+                className={styles.portraitImage}
+                src={"/images/cv/portrait1.png"}
+                width={400}
+                height={400}
+                alt='Portrait of me that I took in my room.'
+              />
+            </div>
+            <div className={`${styles.bentoInnerImageBack}`}>
               <Image
                 className={styles.portraitImage}
                 src={"/images/cv/portrait-color-square.jpg"}
@@ -25,9 +37,9 @@ export default function HeroCV() {
               />
             </div>
           </div>
-          <div className={`${styles.bentoBox} ${styles.bento2}`}>
+          <div onClick={() => document.getElementById('skill-section').scrollIntoView()} className={`${styles.bentoBox} ${styles.bento2}`}>
             <div className={styles.bentoContent}>
-              <div className={styles.bentoInnerContent}>
+              <div className={styles.bentoInnerContentSkills}>
                 <div className={styles.digitalMarketing}>
                   <p>
                     Take a look at
@@ -38,31 +50,30 @@ export default function HeroCV() {
               </div>
             </div>
           </div>
-          <div className={`${styles.bentoBox} ${styles.bento3}`}>
+          <div onClick={() => document.getElementById('bio').scrollIntoView()} className={`${styles.bentoBox} ${styles.bento3}`}>
             <div className={styles.bentoContent}>
-              <div className={styles.bentoInnerContent}>
+              <div className={styles.bentoInnerContentButton}>
                 <button className={styles.bentoButton}>
-                  <a href='/about/cv#bio'>Keep reading</a>
+                  <a href='/about/cv#bio'>About me</a>
                 </button>
               </div>
             </div>
           </div>
-          <div className={`${styles.bentoBox} ${styles.bento4}`}>
+          <div onClick={() => document.getElementById('bio').scrollIntoView()} className={`${styles.bentoBox} ${styles.bento4}`}>
             <div className={styles.bentoContent}>
-              <div className={styles.bentoInnerContent}>
+              <div className={styles.bentoInnerContentBio}>
                 <div className={styles.bio}>
                   <p>
-                    A short version of
-                    <br />
-                    <strong>my story</strong>
+                    A short version<br />of
+                    <strong> my story</strong>
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <div className={`${styles.bentoBox} ${styles.bento5}`}>
+          <div onClick={() => document.getElementById('career').scrollIntoView()} className={`${styles.bentoBox} ${styles.bento5}`}>
             <div className={styles.bentoContent}>
-              <div className={styles.bentoInnerContent}>
+              <div className={styles.bentoInnerContentCareer}>
                 <div className={styles.careerPath}>
                   <p>
                     Here is an insight into
@@ -73,9 +84,9 @@ export default function HeroCV() {
               </div>
             </div>
           </div>
-          <div className={`${styles.bentoBox} ${styles.bento6}`}>
+          <div onClick={() => document.getElementById('certification').scrollIntoView()} className={`${styles.bentoBox} ${styles.bento6}`}>
             <div className={styles.bentoContent}>
-              <div className={styles.bentoInnerContent}>
+              <div className={styles.bentoInnerContentCertification}>
                 <div className={styles.certification}>
                   <p>
                     Obtained

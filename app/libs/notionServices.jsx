@@ -5,13 +5,6 @@ const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
-// export const getDatabase = async (databaseId) => {
-//   const response = await notion.databases.query({
-//     database_id: databaseId,
-//   });
-//   return response.results;
-// };
-
 export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB, categoryB) {
   try {
     const response = await axios.post("http://localhost:3000/api/notion", {
@@ -94,5 +87,10 @@ function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function GenerateKey(){
+  const generatedKey = Math.random().toString(36).slice(2, 7);
+  return generatedKey
 }
 

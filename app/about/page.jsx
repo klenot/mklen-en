@@ -1,3 +1,4 @@
+import NavBar from "app/components/Shared/navBar";
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
 import ContentImage from "app/components/Shared/contentImage";
 import SkillRepeater from "app/components/Skills/skillRepeater";
@@ -14,6 +15,7 @@ export default function About() {
   return (
     <>
       <main>
+        <NavBar/>
         <HeroLandingPage
           title={"About"}
           sideKick={

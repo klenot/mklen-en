@@ -1,8 +1,37 @@
-.link{
+.cvSectionContainer {
+    display: flex;
+    flex-direction: column;
+    padding: var(--mobile-cont-pd);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* TABLET */
+
+@media only screen and (min-width: 767px) {
+
+    .cvSectionContainer {
+        padding: var(--tablet-cont-pd);
+        width: var(--tablet-cont-w);
+    }
+}
+
+
+/* DESKTOP */
+
+@media only screen and (min-width: 1100px) {
+
+    .cvSectionContainer {
+        padding: 0 2rem 0 2rem;
+        width: 75%;
+    }
+}
+
+.link {
     font-weight: 400;
 }
 
-.link:hover{
+.link:hover {
     color: rgb(255, 226, 171);
 }
 
@@ -20,6 +49,7 @@
     margin-right: auto;
     overflow: hidden;
 }
+
 .bentoBox {
     border-radius: 8px;
     display: flex;
@@ -29,7 +59,8 @@
     justify-content: center;
     align-items: center;
 }
-.bentoContent{
+
+.bentoContent {
     background-color: transparent;
     z-index: 4;
     border-radius: 7px;
@@ -50,54 +81,80 @@
     opacity: 0;
     position: absolute;
     top: 0px;
-    transition: opacity 500ms;
+    transition: opacity 400ms;
     width: 100%;
 }
+
 .bentoBox::before {
-    background: radial-gradient(
-    1000px circle at var(--mouse-x) var(--mouse-y), 
-    rgb(255, 0, 0),
-    transparent 40%
-    );
-    z-index: 3;
-}
-.bentoBox::after {  
-    background: radial-gradient(
-    800px circle at var(--mouse-x) var(--mouse-y), 
-    rgb(255, 115, 115),
-    transparent 40%
-    );
+    background: radial-gradient(100px circle at var(--mouse-x) var(--mouse-y),
+            #dbdbdb,
+            transparent 40%);
     z-index: 1;
 }
-.bentoContainer:hover > .bentoBox::after {
-    opacity: 1;
+
+.bentoBox::after {
+    background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y),
+            #6CD8F3,
+            transparent 40%);
+    z-index: 3;
 }
 
-/* Bento Inner Content */
-.bentoInnerContent{
-    background-color: rgb(22, 22, 22);
-    border: solid 0.1rem var(--primary-outline);
-    height: calc(100% - 0.2rem);
-    width: calc(100% - 0.2rem);
-    border-radius: inherit;
-    z-index: 5;
+.bentoContainer:hover > .bentoBox::after {
+    opacity: 1;
 }
 
 
 .bento1 {
     grid-area: 1 / 1 / 4 / 4;
+    position: relative;
 }
 
-    .portraitImage {
-        object-fit: cover;
-        object-position: top;
-        border-radius: inherit;
-        width: 100%;
-        height: 100%;
-    }
+.bento1:hover{
+    cursor: pointer;
+}
+
+.rotate{
+    transform: rotateY(180deg);
+}
+
+.bento1{
+    transition: transform 1500ms;
+    transform-style: preserve-3d;
+}
+
+.bentoInnerImageFront,
+.bentoInnerImageBack{
+    border: solid 0.1rem var(--primary-outline);
+    height: calc(100% - 0.2rem);
+    width: calc(100% - 0.2rem);
+    border-radius: 6px;
+    z-index: 5;
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.bentoInnerImageBack{
+    transform: rotateY(180deg);
+}
+.portraitImage {
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
+}
 
 .bento2 {
     grid-area: 1 / 4 / 3 / 7;
+}
+
+.bentoInnerContentSkills {
+    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)),url(/images/cv/skills2.png);
+    background-size: cover;
+    background-position: top;
+    height: calc(100% - 0.2rem);
+    width: calc(100% - 0.2rem);
+    border-radius: inherit;
 }
 
 
@@ -105,34 +162,68 @@
     grid-area: 3 / 4 / 3 / 7;
 }
 
-    .bentoButton{
-        height: 100%;
-        width: 100%;
-    }
+.bentoButton {
+    height: 100%;
+    width: 100%;
+}
 
-    .bentoContent3 {
-        background: var(--primary-bg);
-        border-radius: inherit;
-        width: 100%;
-        height: 100%;
-    }
+.bentoButton>a {
+    color: var(--primary-text-color);
+    font-size: 2rem;
+}
+
+.bentoInnerContentButton {
+    background:
+        radial-gradient(ellipse at top left, #422b56, transparent),
+        radial-gradient(ellipse at bottom right, #5fdfffcd, transparent 75%),
+        linear-gradient(45deg, #763aad 50% 40%, #23d3ffcd 100% 100%);
+    border-radius: inherit;
+    height: calc(100% - 0.2rem);
+    width: calc(100% - 0.2rem);
+    background-size: fill;
+    background-position: bottom;
+}
 
 
-    .bento4 {
+.bento4 {
     grid-area: 1 / 7 / 5 / 10;
+}
 
+.bentoInnerContentBio {
+    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)),url(/images/cv/bio.png);
+    background-size: cover;
+    background-position: center;
+    height: calc(100% - 0.2rem);
+    width: calc(100% - 0.2rem);
+    border-radius: inherit;
 }
 
 
 .bento5 {
     grid-area: 4 / 1 / 7 / 7;
+}
 
+.bentoInnerContentCareer {
+    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)),url(/images/cv/career2.png);
+    background-size: cover;
+    background-position: center;
+    height: calc(100% - 0.2rem);
+    width: calc(100% - 0.2rem);
+    border-radius: inherit;
 }
 
 
 .bento6 {
     grid-area: 5 / 7 / 7 / 10;
+}
 
+.bentoInnerContentCertification {
+    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)), url(/images/cv/certification1.png);
+    background-size: cover;
+    background-position: center;
+    height: calc(100% - 0.2rem);
+    width: calc(100% - 0.2rem);
+    border-radius: inherit;
 }
 
 .bento2:hover,
@@ -143,21 +234,28 @@
     scale: 1.02;
     cursor: pointer;
 }
-.bentoInnerContent:hover{
+
+.bentoInnerContent:hover {
     cursor: pointer;
 }
 
-.digitalMarketing, .bio, .certification, .careerPath{
-    padding: 4rem;
+.digitalMarketing,
+.bio,
+.certification,
+.careerPath {
+    padding-top: 2vh;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    text-align: left;
+    justify-content: center;
+    text-align: center;
 }
 
-.digitalMarketing p, .bio p, .certification p, .careerPath p {
-    font-size: 1.8rem;
-    line-height: 3rem;
+.digitalMarketing p,
+.bio p,
+.certification p,
+.careerPath p {
+    font-size: 1.4vw;
+    line-height: 2vw;
 }
 
 
@@ -165,4 +263,45 @@
 .signatureWrapper {
     display: flex;
     justify-content: flex-end;
+}
+
+
+.heroButton {
+    align-items: center;
+    appearance: none;
+    background-image: radial-gradient(100% 100% at 100% 10%, #ff0000 0, #e78d05 100%);
+    border: 0;
+    border-radius: 6px;
+    box-sizing: border-box;
+    color: var(--primary-text-color);
+    cursor: pointer;
+    display: inline-flex;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s, transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow, transform;
+    font-size: 2rem;
+    font-weight: var(--heavy-font);
+}
+
+.heroButton:focus {
+    box-shadow: #f47a15 0 0 0 1.5px inset, rgba(66, 44, 35, 0.4) 0 2px 4px, rgba(66, 42, 35, 0.3) 0 7px 13px -3px, #e0733c 0 -3px 0 inset;
+}
+
+.heroButton:active {
+    box-shadow: #e0733c 0 3px 7px inset;
+    transform: translateY(2px);
 }

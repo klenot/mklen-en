@@ -1,10 +1,9 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getDatabaseWithAnd } from "app/libs/notionServices";
 import TileSkeleton from "app/components/Shared/tileSkeleton";
+import BlogTile from "app/components/Blog/blogTile.jsx"
 
 export default function BlogTileRepeater() {
   const [filterA, setFilterA] = useState("Publish");
@@ -108,56 +107,25 @@ export default function BlogTileRepeater() {
       <div className='tile-container'>
         {isLoading ? <TileSkeleton/> :
         posts.map((post) => (
-          <Link
-            className='tile-wrapper'
-            href={`/blog/${post.properties.Slug.formula.string}`}>
-            <div key={post.id} className='tile-card'>
-              <div className='tile-more-info'>
-                <div
-                  className={post.properties.AutoClassGenerator.formula.string}>
-                  <div>
-                    <span className='tile-category-text'>
-                      {post.properties.Category.select.name}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className='tile-image-wrapper'>
-                <Image
-                  src={post.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : post.properties.Thumbnail.files[0].file.url}
-                  width={300}
-                  height={200}
-                  alt={post.properties.AltText.rich_text[0] === undefined ? "A signature of good fortuner to your projects." : post.properties.AltText.rich_text[0].plain_text}
-                  /* placeholder="blur" */
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-
-              <div className='tile-info-wrapper'>
-                <div className='tile-info'>
-                  <div>
-                    <div className='tile-date'>
-                      <div>
-                        <span className='tile-date-text'>
-                          {new Date(
-                            post.properties.PostDate.date.start
-                          ).toLocaleString("en-US", {
-                            month: "short",
-                            day: "2-digit",
-                            year: "numeric",
-                          })}
-                        </span>
-                      </div>
-                    </div>
-                    <h3>{post.properties.PostTitle.title[0].plain_text}</h3>
-                    <p className='pt-1 pb-1'>
-                      {post.properties.PostPerex.rich_text[0].plain_text}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Link>
+          <BlogTile
+            key={post.id} 
+            props={{
+              href:`/blog/${post.properties.Slug.formula.string}`,
+              class:`${post.properties.AutoClassGenerator.formula.string}`,
+              category:`${post.properties.Category.select.name}`,
+              imageSrc: `${post.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : post.properties.Thumbnail.files[0].file.url}`,
+              imageAlt: `${post.properties.AltText.rich_text[0] === undefined ? "A signature of good fortuner to your projects." : post.properties.AltText.rich_text[0].plain_text}`,
+              date: `${new Date(
+                post.properties.PostDate.date.start
+              ).toLocaleString("en-US", {
+                month: "short",
+                day: "2-digit",
+                year: "numeric",
+              })}`,
+              title: `${post.properties.PostTitle.title[0].plain_text}`,
+              perex:`${post.properties.PostPerex.rich_text[0].plain_text}`,
+            }}
+          />
         ))}
       </div>
     </>

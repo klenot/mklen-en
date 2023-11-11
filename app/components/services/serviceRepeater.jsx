@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getDatabaseWithAnd } from "app/libs/notionServices";
 import { useState, useEffect } from "react";
 import TileSkeleton from "app/components/Shared/tileSkeleton.jsx";
+import ServiceTile from "./serviceTile";
 
 export default function ServiceRepeater({
   filterA,
@@ -36,47 +37,18 @@ export default function ServiceRepeater({
       <div className='tile-container'>
         {isLoading === true ? <TileSkeleton/> :
         services.map((service) => (
-          <Link
-            className='tile-wrapper'
-            href={`/services/${service.properties.Slug.formula.string}`}>
-            <div key={service.id} className='tile-card'>
-              <div className='tile-more-info'>
-                <div
-                  className={
-                    service.properties.AutoClassGenerator.formula.string
-                  }>
-                  <div className='pill'>
-                    <span className='tile-category-text'>
-                      {service.properties.Category.select.name}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className='tile-image-wrapper'>
-                <Image
-                  src={service.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : service.properties.Thumbnail.files[0].file.url}
-                  width={300}
-                  height={200}
-                  alt={service.properties.AltText.rich_text[0] === undefined ? "A signature of good fortune." : service.properties.AltText.rich_text[0].plain_text}
-                  /* placeholder="blur" */
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-
-              <div className='tile-info-wrapper'>
-                <div className='tile-info'>
-                  <div>
-                    <h3>
-                      {service.properties.ServiceName.title[0].plain_text}
-                    </h3>
-                    <p className='pt-1 pb-1'>
-                      {service.properties.Description.rich_text[0].plain_text}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Link>
+          <ServiceTile
+            key={service.id}
+            props={{
+              href:`/services/${service.properties.Slug.formula.string}`,
+              categoryName:`${service.properties.Category.select.name}`,
+              categoryClass:`${service.properties.AutoClassGenerator.formula.string}`,
+              serviceName:`${service.properties.ServiceName.title[0].plain_text}`,
+              serviceDescription:`${service.properties.Description.rich_text[0].plain_text}`,
+              srcImage:`${service.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : service.properties.Thumbnail.files[0]?.file.url}`,
+              altImage:`${service.properties.AltText.rich_text[0] === undefined ? "A signature of good fortune." : service.properties.AltText.rich_text[0]?.plain_text}`,
+            }}
+          />
         ))}
       </div>
     </>

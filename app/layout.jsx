@@ -1,6 +1,5 @@
 import "styles/globals.css";
 import Head from "app/components/Shared/head.jsx";
-import NavBar from "app/components/Shared/navBar.jsx";
 import Providers from "app/providers.jsx";
 
 export const metadata = {
@@ -16,7 +15,6 @@ export default function RootLayout({ children }) {
       <Head />
       <body>
         <Providers>
-          <NavBar />
           {children}
         </Providers>
       </body>

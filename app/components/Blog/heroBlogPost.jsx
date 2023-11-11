@@ -1,4 +1,22 @@
-export default function HeroBlogPost({ h1, perex, ToC, readingTime, category }) {
+"use client"
+
+import { useEffect, useState } from "react";
+
+export default function HeroBlogPost({ h1, perex, ToC, category }) {
+  const [readingTime, setReadngTime] = useState();
+  useEffect(() => {
+    function ReadingTime() {
+      const wpm = 225;
+      const articleContainer = document.querySelector(".article-section-container");
+      if (articleContainer) {
+        const blogText = articleContainer.innerText;
+        const words = blogText.trim().split(/\s+/).length;
+        setReadngTime(Math.ceil(words / wpm));
+      }
+    }
+    ReadingTime();
+  }, []);
+
   return (
     <section id='hero-section'>
       <div className='hero-container blog-hero-container'>
@@ -25,12 +43,12 @@ export default function HeroBlogPost({ h1, perex, ToC, readingTime, category }) 
           <hr></hr>
           <div className='columns pt-3'>
             <div className='column'>
-              <p className='article-text'>
-                <span>⏱ {readingTime}</span>
+              <p className='blog-hero-text'>
+                <span>⏱ {readingTime} minutes of reading</span>
               </p>
             </div>
             <div className='column'>
-              <p className='article-text'>
+              <p className='blog-hero-text'>
                 <span>📚 {category}</span>
               </p>
             </div>

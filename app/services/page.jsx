@@ -1,3 +1,4 @@
+import NavBar from "app/components/Shared/navBar";
 import ServiceSection from "app/components/Services/serviceSection";
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
 import Form from "app/components/Shared/form";
@@ -12,6 +13,7 @@ export const metadata = {
 export default function Services() {
   return (
     <>
+      <NavBar/>
       <HeroLandingPage
         title={"Services"}
         sideKick={
