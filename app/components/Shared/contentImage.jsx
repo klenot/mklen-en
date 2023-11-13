@@ -4,13 +4,12 @@ import Button from "app/components/Shared/ctaButton"
 export default function ContentImage({ anchor, direction, padding, heading, text, button, image }) {
   return (
     <>
-      {direction === "right" ? (
         <section id={anchor === "" ? null : anchor} className={padding === "none" ? null : "pt-5 pb-5"}>
-          <div className='content-image-container'>
-          <div className='content-image-section cnt-img-text-wrapper'>
+          <div className={`${"contentImageContainer"} ${direction === "right" ? "contentImageTextRight" : "contentImageTextLeft"}`}>
+          <div className='contentImageTextWrapper'>
             {heading === "-" ? null : <h2 className="pb-2">{heading}</h2>}
             {text === "-" ? null : <p>{text}</p>}
-            <div className = "pt-2">
+            <div className = "pt-3">
             <Button
               buttonText={button.text}
               buttonLink={button.link}
@@ -18,44 +17,18 @@ export default function ContentImage({ anchor, direction, padding, heading, text
             />
             </div>
             </div>
-            <div className='content-image-section cnt-img-media-wrapper-left'>
+            <div className='contentImageMediaWrapper'>
               <Image
-                className='content-image-media'
+                className='contentImagePicture'
                 src={image.url}
                 alt={image.alt}
-                width={300}
-                height={300}
-              />
-            </div>
-            
-          </div>
-        </section>
-      ) : (
-        <section id={anchor === "" ? null : anchor} className={padding === "none" ? null : "pt-5 pb-5"}>
-          <div className='content-image-container cnt-img-right'>
-          <div className='content-image-section cnt-img-text-wrapper'>
-            {heading === "-" ? null : <h2 className="pb-2">{heading}</h2>}
-            {text === "-" ? null : <p>{text}</p>}
-            <div className = "pt-2">
-            <Button
-              buttonText={button.text}
-              buttonLink={button.link}
-              buttonSize={button.size}
-            />
-            </div>
-            </div>
-            <div className='content-image-section cnt-img-media-wrapper-right'>
-              <Image
-                className='content-image-media'
-                src={image.url}
-                alt={image.alt}
-                width={300}
-                height={300}
+                layout={"responsive"}
+                width={400}
+                height={400}
               />
             </div>
           </div>
         </section>
-      )}
     </>
   );
 }

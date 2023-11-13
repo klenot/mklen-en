@@ -27,9 +27,9 @@ export default function Home() {
         />
         <ContentImage
         anchor={"explore"}
-        direction={"left"}
+        direction={"right"}
         heading={"How I can help your business"}
-        text={"As a professional with expertise in Martech, Project Management, and Digital Marketing I offer a rare brew of skills to your digital presence. Let's work together and bring life to your ideas."}
+        text={"As a professional with expertise in Martech, Project Management, and Digital Marketing I offer a rare brew of skills to your digital presence."}
         image={{
           url:"/images/dev/hackathon-transparent.webp",
           alt:"",
@@ -37,6 +37,7 @@ export default function Home() {
         button={{
           text: "Get to know me",
           link: "/about",
+          size: "small",
         }}
         />
         <ServiceSection
