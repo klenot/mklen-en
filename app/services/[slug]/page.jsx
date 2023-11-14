@@ -1,11 +1,13 @@
 import Image from "next/image";
-import { getBlocks, getPage } from "app/libs/notionServices";
+import { getBlocks, getPage, GenerateKey } from "app/libs/notionServices";
 import { getServiceBySlug } from "app/libs/getPageBySlug.ts";
 import HeroServicePage from "app/components/Services/heroServicePage";
+import Button from "app/components/Shared/ctaButton";
 
 export async function generateMetadata({ params }) {
   const slug = await getServiceBySlug(params.slug);
-  const metadescription = slug.properties.MetaDescription.rich_text[0].plain_text;
+  const metadescription =
+    slug.properties.MetaDescription.rich_text[0].plain_text;
   const metatitle = slug.properties.MetaTitle.rich_text[0].plain_text;
 
   return {
@@ -15,7 +17,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ServicePage({ params }) {
-  const slug = await getServiceBySlug (params.slug);
+  const slug = await getServiceBySlug(params.slug);
   const page = await getPage(slug.id);
   const blocks = await getBlocks(slug.id);
 
@@ -40,7 +42,9 @@ export default async function ServicePage({ params }) {
           style={color !== "default" ? { color } : {}}
           key={text.content}>
           {text.link ? (
-            <a className="hover-underline-animation" href={text.link.url}>{text.content}</a>
+            <a className='hover-underline-animation' href={text.link.url}>
+              {text.content}
+            </a>
           ) : (
             text.content
           )}
@@ -56,38 +60,38 @@ export default async function ServicePage({ params }) {
     switch (type) {
       case "paragraph":
         return (
-          <p className="service-text pb-1">
-            <Text text={value.rich_text} className="plain-text"/>
+          <p key={GenerateKey()} className='service-text'>
+            <Text text={value.rich_text} className='plain-text' />
           </p>
         );
       case "heading_1":
         return (
-          <h1 id={block.id} className="service-h1 pb-2">
+          <h1 key={GenerateKey()} className='service-h1'>
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 id={block.id} className="service-h2 pb-2">
+          <h2 key={GenerateKey()} className='service-h2'>
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 id={block.id} className="service-h3 pb-2">
+          <h3 key={GenerateKey()} className='service-h3'>
             <Text text={value.rich_text} />
           </h3>
         );
       case "bulleted_list": {
         return (
-          <ul className="service-bullet-list">
+          <ul key={GenerateKey()} className='service-bullet-list'>
             {value.children.map((child) => renderBlock(child))}
           </ul>
         );
       }
       case "numbered_list": {
         return (
-          <ol className="service-numbered-list">
+          <ol key={GenerateKey()} className='service-numbered-list'>
             {value.children.map((child) => renderBlock(child))}
           </ol>
         );
@@ -102,21 +106,24 @@ export default async function ServicePage({ params }) {
         );
       case "to_do":
         return (
-           <div>
-            <label className="checkbox-label" htmlFor={id}>
-              <input type='checkbox' id={id} defaultChecked={value.checked} /><span className="checkmark"></span>{" "}
+          <div key={GenerateKey()}>
+            <label className='checkbox-label' htmlFor={id}>
+              <input type='checkbox' id={id} defaultChecked={value.checked} />
+              <span className='checkmark'></span>{" "}
               <Text text={value.rich_text} />
             </label>
           </div>
         );
       case "toggle":
         return (
-          <details className="service-text">
+          <details key={GenerateKey()} className='service-text'>
             <summary>
-              <Text className="service-text" text={value.rich_text} />
+              <Text className='service-text' text={value.rich_text} />
             </summary>
             {block.children?.map((child) => (
-              <div className="toggle-content" key={child.id}>{renderBlock(child)}</div>
+              <div className='toggle-content' key={child.id}>
+                {renderBlock(child)}
+              </div>
             ))}
           </details>
         );
@@ -132,22 +139,98 @@ export default async function ServicePage({ params }) {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure className="service-image-container pt-5 pb-5">
-            <img src={src} alt={caption} className="service-img"/>
-            {caption && <figcaption>{caption}</figcaption>}
+          <figure
+            key={GenerateKey()}
+            className='service-image-container'>
+            <Image
+              src={src}
+              alt={caption}
+              width={500}
+              height={500}
+              className='service-img'
+            />
           </figure>
         );
       case "divider":
-        return <hr key={id} />;
+        return <hr className='content-divider' key={GenerateKey()} />;
       case "quote":
         return (
-          <blockquote key={id} className="quote">{'„ '}{value.rich_text[0].plain_text}{" ”"}</blockquote>
+          <blockquote key={GenerateKey()} className='quote'>
+            <Text
+              key={GenerateKey()}
+              text={value.rich_text}
+              className='plain-text'
+            />
+          </blockquote>
         );
+      case "text":
+        return <span>{value.plain_text}</span>;
       case "code":
         return (
-          <pre className="rich-code">
-            <code className="rich-code-content" key={id}>{value.rich_text[0].plain_text}</code>
-          </pre>
+          <div key={GenerateKey()} id='form' className='service-form'>
+            <h2 className='form-h2'>Get in touch.</h2>
+            <form
+              action='https://formsubmit.co/mklen@mklenotic.cz'
+              method='POST'
+              className='form-wrapper'>
+              <label className='form-label' htmlFor='name-input'>
+                First and last name:
+              </label>
+              <input
+                className='form-input'
+                id='name-input'
+                type='text'
+                name='name'
+                maxLength={40}
+                placeholder='Start with your name here...'
+                required=''
+              />
+              <br />
+              <label className='form-label' htmlFor='email-input'>
+                Email:
+              </label>
+              <input
+                className='form-input'
+                id='email-input'
+                type='email'
+                name='email'
+                maxLength={40}
+                placeholder='your@email.com'
+                required=''
+              />
+              <br />
+              <label className='form-label' htmlFor='message-input'>
+                Message:
+              </label>
+              <textarea
+                className='form-input'
+                id='message-input'
+                rows={5}
+                name='message'
+                placeholder='Can we meet online?'
+                maxLength={220}
+                required=''
+                defaultValue={""}
+              />
+              <br />
+              <input type='hidden' name='_next' defaultValue='index.html' />
+              <input
+                type='hidden'
+                name='_autoresponse'
+                defaultValue='Hello :) Thank you for reaching out to me! I am going to respond as soon as I read your message. Have a productive day, MK.'
+              />
+              <input
+                type='hidden'
+                name='_subject'
+                defaultValue='New message submitted from mklenotic.com.'
+              />
+              <div className='button-wrapper'>
+                <button className='cta ctaSmall'>
+                  <span className='button-text'>Submit</span>
+                </button>
+              </div>
+            </form>
+          </div>
         );
       case "file":
         const src_file =
@@ -157,7 +240,7 @@ export default async function ServicePage({ params }) {
           splitSourceArray[splitSourceArray.length - 1];
         const caption_file = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure>
+          <figure key={GenerateKey()}>
             <div>
               📎{" "}
               <Link href={src_file} passHref>
@@ -168,75 +251,19 @@ export default async function ServicePage({ params }) {
           </figure>
         );
       case "bookmark":
+        const buttonText = value.caption ? value.caption[0]?.plain_text : "";
+        const href = value.url;
         return (
-              <div id="form" className="service-form">
-                <h2 className='form-h2'>Get in touch.</h2>
-                <form
-                  action='https://formsubmit.co/mklen@mklenotic.cz'
-                  method='POST'
-                  className='form-wrapper'>
-                  <label className='form-label' htmlFor='name-input'>
-                    First and last name:
-                  </label>
-                  <input
-                    className='form-input'
-                    id='name-input'
-                    type='text'
-                    name='name'
-                    maxLength={40}
-                    placeholder='Start with your name here...'
-                    required=''
-                  />
-                  <br />
-                  <label className='form-label' htmlFor='email-input'>
-                    Email:
-                  </label>
-                  <input
-                    className='form-input'
-                    id='email-input'
-                    type='email'
-                    name='email'
-                    maxLength={40}
-                    placeholder='your@email.com'
-                    required=''
-                  />
-                  <br />
-                  <label className='form-label' htmlFor='message-input'>
-                    Message:
-                  </label>
-                  <textarea
-                    className='form-input'
-                    id='message-input'
-                    rows={5}
-                    name='message'
-                    placeholder='Can we meet online?'
-                    maxLength={220}
-                    required=''
-                    defaultValue={""}
-                  />
-                  <br />
-                  <input type='hidden' name='_next' defaultValue='index.html' />
-                  <input
-                    type='hidden'
-                    name='_autoresponse'
-                    defaultValue='Hello :) Thank you for reaching out to me! I am going to respond as soon as I read your message. Have a productive day, MK.'
-                  />
-                  <input
-                    type='hidden'
-                    name='_subject'
-                    defaultValue='New message submitted from mklenotic.com.'
-                  />
-                  <div className='button-wrapper'>
-                    <button className='cta'>
-                      <span className="button-text">Submit</span>
-                    </button>
-                  </div>
-                </form>
-              </div>
+          <Button
+            key={GenerateKey()}
+            buttonText={buttonText}
+            buttonLink={href}
+            buttonSize={"small"}
+          />
         );
       case "table": {
         return (
-          <table>
+          <table key={GenerateKey()}>
             <tbody>
               {block.children?.map((child, i) => {
                 const RowElement =
@@ -259,14 +286,14 @@ export default async function ServicePage({ params }) {
       }
       case "column_list": {
         return (
-          <div className="columns">
+          <div key={GenerateKey()} className='service-content-image-container'>
             {block.children.map((block) => renderBlock(block))}
           </div>
         );
       }
       case "column": {
         return (
-          <div className="column">
+          <div key={GenerateKey()} className='service-content-image-section'>
             {block.children.map((child) => renderBlock(child))}
           </div>
         );
@@ -277,7 +304,6 @@ export default async function ServicePage({ params }) {
         })`;
     }
   };
- 
 
   return (
     <>

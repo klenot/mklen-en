@@ -1,6 +1,7 @@
 import styles from "styles/cv.module.css";
 import Image from "next/image";
 import { getBlocks, GenerateKey } from "app/libs/notionServices.jsx";
+import NavBar from "app/components/Shared/navBar.jsx"
 import HeroCv from "app/components/Cv/heroCv.jsx";
 import SkillRepeater from "app/components/Skills/skillRepeater.jsx";
 import Button from "app/components/Shared/ctaButton.jsx"
@@ -221,7 +222,7 @@ export default async function CurriculumVitae() {
       }
       case "column_list": {
         return (
-          <div key={GenerateKey()} className='columns'>
+          <div key={GenerateKey()} className={styles.columns}>
             {block.children.map((block) => renderBlock(block))}
           </div>
         );
@@ -242,6 +243,7 @@ export default async function CurriculumVitae() {
 
   return (
     <>
+      <NavBar/>
       <HeroCv />
       <article className={styles.cvSectionContainer}>
           {blocks.map((block) => (

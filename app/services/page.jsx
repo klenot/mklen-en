@@ -1,8 +1,6 @@
 import NavBar from "app/components/Shared/navBar";
 import ServiceSection from "app/components/Services/serviceSection";
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
-import Form from "app/components/Shared/form";
-import TextBlock from "app/components/Shared/textBlock";
 
 export const metadata = {
   title: "My services make your business stand out",

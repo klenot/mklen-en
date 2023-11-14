@@ -204,7 +204,7 @@ export default async function Post({ params }) {
           </figure>
         );
       case "divider":
-        return <hr key={id} />;
+        return <span className="blog-divider">* * *</span>/* <hr key={id} className="blog-divider"/> */;
       case "quote":
         return (
           <blockquote key={id} className='quote'>
