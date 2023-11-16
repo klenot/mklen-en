@@ -1,5 +1,5 @@
 import NavBar from "app/components/Shared/navBar";
-import ServiceSection from "app/components/Services/serviceSection.jsx";
+import ServiceSection from "app/components/Services/service-section.jsx";
 import HeroLandingPage from "app/components/Shared/heroLandingPage";
 
 export const metadata = {

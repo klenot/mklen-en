@@ -1,7 +1,7 @@
 import NavBar from "app/components/Shared/navBar";
 import HeroMain from "app/components/Homepage/heroMain.jsx";
 import ContentImage from "app/components/Shared/contentImage";
-import ServiceSection from "app/components/Services/serviceSection.jsx";
+import ServiceSection from "app/components/Services/service-section.jsx";
 import BlogListSection from "app/components/Blog/blogListSection";
 import Footer from "app/components/Shared/footer";
 
