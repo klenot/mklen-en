@@ -12,7 +12,7 @@ export const notion = new Client({
 
 export const getBlogBySlug = cache((slug: string) => {
   return notion.databases.query({
-      database_id: process.env.BLOG_DATABASE_ID,
+      database_id: process.env.BLOG_DATABASE_ID!,
       filter: {
         property: "Slug",
         rich_text: {
@@ -26,7 +26,7 @@ export const getBlogBySlug = cache((slug: string) => {
 export const getServiceBySlug = cache((slug: string) => {
   return notion.databases
     .query({
-      database_id: process.env.SERVICES_DATABASE_ID,
+      database_id: process.env.SERVICES_DATABASE_ID!,
       filter: {
         property: "Slug",
         rich_text: {
@@ -40,7 +40,7 @@ export const getServiceBySlug = cache((slug: string) => {
 export const getProjectBySlug = cache((slug: string) => {
   return notion.databases
     .query({
-      database_id: process.env.PROJECTS_DATABASE_ID,
+      database_id: process.env.PROJECTS_DATABASE_ID!,
       filter: {
         property: "Slug",
         rich_text: {
