@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "app/libs/notionServicesOld.jsx"
+    "app/libs/notion-services.jsx"
   ],
   "exclude": [
     "node_modules"

@@ -7,7 +7,7 @@ const notion = new Client({
 
 export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB, categoryB) {
   try {
-    const response = await axios.post("http://localhost:3000/api/notion", {
+    const response = await axios.post(`http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/notion`, { /* http://localhost:3000/api/notion */
       operation: "databaseQueryWithOr",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
     });
@@ -20,7 +20,7 @@ export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB,
 
 export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB, categoryB) {
   try {
-    const response = await axios.post("http://localhost:3000/api/notion", {
+    const response = await axios.post(`http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/notion`, { /* http://localhost:3000/api/notion */
       operation: "databaseQueryWithAnd",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
     });
