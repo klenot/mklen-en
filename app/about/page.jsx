@@ -1,8 +1,8 @@
-import NavBar from "app/components/Shared/navBar";
-import HeroLandingPage from "app/components/Shared/heroLandingPage";
-import ContentImage from "app/components/Shared/contentImage";
-import SkillRepeater from "app/components/Skills/skillRepeater";
-import BookRepeater from "app/components/Books/bookRepeater";
+import NavBar from "app/components/Shared/nav-bar-long";
+import HeroLandingPage from "app/components/Shared/hero-landing-page";
+import ContentImage from "app/components/Shared/content-image";
+import SkillRepeater from "app/components/Skills/skill-repeater";
+import BookRepeater from "app/components/Books/book-repeater";
 import "styles/about-styles.css";
 
 export const metadata = {

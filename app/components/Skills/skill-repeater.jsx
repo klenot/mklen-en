@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getDatabaseWithOr } from "app/libs/notionServices";
-import SkillSkeleton from "./skillSkeleton";
+import { getDatabaseWithOr } from "app/libs/notion-services";
+import SkillSkeleton from "app/components/Skills/skill-skeleton.jsx";
 
 export default function SkillRepeater({ props }) {
   const [filterA, setFilterA] = useState("Showcase");

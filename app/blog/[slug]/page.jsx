@@ -1,7 +1,7 @@
-import { getBlocks, getPage, GenerateKey } from "app/libs/notionServices.jsx";
-import { getBlogBySlug } from "app/libs/getPageBySlug.ts";
-import HeroBlogPost from "app/components/Blog/heroBlogPost.jsx";
-import CodeBlock from "app/components/Shared/codeBlock"
+import { getBlocks, getPage, GenerateKey } from "app/libs/notion-services.jsx";
+import { getBlogBySlug } from "app/libs/get-page-by-slug.ts";
+import HeroBlogPost from "app/components/Blog/hero-blog-post.jsx";
+import CodeBlock from "app/components/Shared/code-block"
 
 export async function generateMetadata({ params }) {
   const slug = await getBlogBySlug(params.slug);

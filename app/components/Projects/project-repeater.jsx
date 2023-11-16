@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getDatabaseWithAnd } from "app/libs/notionServices";
+import { getDatabaseWithAnd } from "app/libs/notion-services";
 
 export default async function ProjectRepeater({
   filterA,

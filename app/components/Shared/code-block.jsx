@@ -1,7 +1,7 @@
 "use client";
 
 import "styles/prism-one-dark.css";
-import { copyTextHandler } from "public/scripts/copyCode.js";
+import { copyTextHandler } from "public/scripts/copy-code.js";
 import { useEffect } from "react";
 import Prism from "prismjs";
 import Markdown from "react-markdown";

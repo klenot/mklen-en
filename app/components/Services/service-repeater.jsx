@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { getDatabaseWithAnd } from "app/libs/notionServices";
+import { getDatabaseWithAnd } from "app/libs/notion-services";
 import { useState, useEffect } from "react";
-import TileSkeleton from "app/components/Shared/tileSkeleton.jsx";
-import ServiceTile from "./serviceTile";
+import TileSkeleton from "app/components/Shared/tile-skeleton.jsx";
+import ServiceTile from "app/components/Services/service-tile.jsx";
 
 export default function ServiceRepeater({
   filterA,

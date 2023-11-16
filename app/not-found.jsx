@@ -1,4 +1,4 @@
-import HeroLandingPage from "app/components/Shared/heroLandingPage"
+import HeroLandingPage from "app/components/Shared/hero-landing-page"
 
 export default function NotFound() {
   return (

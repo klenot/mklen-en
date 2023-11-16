@@ -1,8 +1,7 @@
-import Image from "next/image";
-import { getBlocks, getPage, GenerateKey } from "app/libs/notionServices.jsx";
-import { getProjectBySlug } from "app/libs/getPageBySlug.ts";
-import HeroProjectPage from "app/components/Projects/heroProjectPage";
-import CodeBlock from "app/components/Shared/codeBlock";
+import { getBlocks, getPage, GenerateKey } from "app/libs/notion-services.jsx";
+import { getProjectBySlug } from "app/libs/get-page-by-slug.ts";
+import HeroProjectPage from "app/components/Projects/hero-project-page";
+import CodeBlock from "app/components/Shared/code-block";
 
 export async function generateMetadata({ params }) {
   const slug = await getProjectBySlug(params.slug);

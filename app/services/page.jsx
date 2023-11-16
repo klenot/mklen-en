@@ -1,6 +1,6 @@
-import NavBar from "app/components/Shared/navBar";
+import NavBar from "app/components/Shared/nav-bar-long";
 import ServiceSection from "app/components/Services/service-section.jsx";
-import HeroLandingPage from "app/components/Shared/heroLandingPage";
+import HeroLandingPage from "app/components/Shared/hero-landing-page";
 
 export const metadata = {
   title: "My services make your business stand out",

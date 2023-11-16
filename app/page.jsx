@@ -1,9 +1,9 @@
-import NavBar from "app/components/Shared/navBar";
-import HeroMain from "app/components/Homepage/heroMain.jsx";
-import ContentImage from "app/components/Shared/contentImage";
+import NavBar from "app/components/Shared/nav-bar-long";
+import HeroMain from "app/components/Homepage/hero-main.jsx";
+import ContentImage from "app/components/Shared/content-image";
 import ServiceSection from "app/components/Services/service-section.jsx";
-import BlogListSection from "app/components/Blog/blogListSection";
-import Footer from "app/components/Shared/footer";
+import BlogListSection from "app/components/Blog/blog-list-section";
+import Footer from "app/components/Shared/footer-long";
 
 export const metadata = {
   description:

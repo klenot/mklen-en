@@ -1,8 +1,8 @@
 import Image from "next/image";
-import { getBlocks, getPage, GenerateKey } from "app/libs/notionServices";
-import { getServiceBySlug } from "app/libs/getPageBySlug.ts";
-import HeroServicePage from "app/components/Services/heroServicePage";
-import Button from "app/components/Shared/ctaButton";
+import { getBlocks, getPage, GenerateKey } from "app/libs/notion-services";
+import { getServiceBySlug } from "app/libs/get-page-by-slug.ts";
+import HeroServicePage from "app/components/Services/hero-service-page";
+import Button from "app/components/Shared/cta-button";
 
 export async function generateMetadata({ params }) {
   const slug = await getServiceBySlug(params.slug);

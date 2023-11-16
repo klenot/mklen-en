@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getDatabaseWithAnd } from "app/libs/notionServices";
-import TileSkeleton from "app/components/Shared/tileSkeleton";
-import BlogTile from "app/components/Blog/blogTile.jsx"
+import { getDatabaseWithAnd } from "app/libs/notion-services";
+import TileSkeleton from "app/components/Shared/tile-skeleton";
+import BlogTile from "app/components/Blog/blog-tile.jsx"
 
 export default function BlogTileRepeater() {
   const [filterA, setFilterA] = useState("Publish");

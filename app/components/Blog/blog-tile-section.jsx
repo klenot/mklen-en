@@ -1,5 +1,5 @@
 import Link from "next/link";
-import BlogTileRepeater from "./blogTileRepeater";
+import BlogTileRepeater from "./blog-tile-repeater";
 
 export default function BlogTileSection({ h2, perex, buttonText }) {
   return (

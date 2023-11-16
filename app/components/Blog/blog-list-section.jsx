@@ -1,5 +1,5 @@
 import Link from "next/link";
-import BlogListRepeater from "./blogListRepeater";
+import BlogListRepeater from "./blog-list-repeater";
 
 export default function BlogListSection({ title, perex, button, filters }) {
   return (

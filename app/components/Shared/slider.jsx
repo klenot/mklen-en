@@ -8,12 +8,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-
 import "styles/globals.css";
 
 // import required modules
 import { EffectCoverflow, Pagination } from "swiper/modules";
-import { getDatabaseWithOr } from "../../libs/notionServices";
+import { getDatabaseWithOr } from "../../libs/notion-services";
 
 export default function Slider() {
   const [books, setBooks] = useState([]);

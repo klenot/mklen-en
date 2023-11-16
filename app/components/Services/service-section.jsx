@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ServiceRepeater from "./serviceRepeater";
+import ServiceRepeater from "app/components/Services/service-repeater.jsx";
 
 export default function ServiceSection({
   title,

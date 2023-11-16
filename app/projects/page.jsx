@@ -1,7 +1,5 @@
-import HeroLandingPage from "app/components/Shared/heroLandingPage";
-import ContentImage from "app/components/Shared/contentImage";
-import ProjectSection from "app/components/Projects/projectSection";
-import TextBlock from "app/components/Shared/textBlock";
+import HeroLandingPage from "app/components/Shared/hero-landing-page";
+import ProjectSection from "app/components/Projects/project-section";
 import Form from "app/components/Shared/form"
 
 export const metadata = {

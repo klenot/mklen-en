@@ -1,4 +1,4 @@
-import { getDatabaseWithAnd } from "app/libs/notionServices";
+import { getDatabaseWithAnd } from "app/libs/notion-services";
 
 export default async function BlogListRepeater({
   filterA,

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Button from "app/components/Shared/ctaButton";
+import Button from "app/components/Shared/cta-button";
 
 export default function ContentImage({
   anchor,

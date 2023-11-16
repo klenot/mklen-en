@@ -4,7 +4,7 @@ import styles from "styles/cv.module.css";
 import Image from "next/image";
 import { useEffect } from "react";
 import { useState } from "react";
-import { BentoAnimation } from "../../../public/scripts/bentoAnimation";
+import { BentoAnimation } from "../../../public/scripts/bento-animation";
 
 export default function HeroCV() {
   useEffect(() => {

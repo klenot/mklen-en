@@ -1,7 +1,7 @@
-import NavBar from "app/components/Shared/navBar";
-import HeroLandingPage from "app/components/Shared/heroLandingPage.jsx";
-import BlogTileSection from "app/components/Blog/blogTileSection.jsx";
-import ShortFooter from "app/components/Shared/shortFooter.jsx";
+import NavBar from "app/components/Shared/nav-bar-long";
+import HeroLandingPage from "app/components/Shared/hero-landing-page.jsx";
+import BlogTileSection from "app/components/Blog/blog-tile-section.jsx";
+import ShortFooter from "app/components/Shared/footer-short.jsx";
 
 export const metadata = {
   title: "Read through my thoughts about digital marekting and project management",

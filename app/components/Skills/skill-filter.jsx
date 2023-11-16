@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getDatabase } from "app/libs/notionServices.jsx";
+import { getDatabase } from "app/libs/notion-services.jsx";
 
 export default function SkillFilter() {
   const [filter, setFilter] = useState("Showcase");

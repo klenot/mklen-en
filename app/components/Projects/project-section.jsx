@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ProjectRepeater from "./projectRepeater";
+import ProjectRepeater from "app/components/Projects/project-repeater.jsx";
 
 export default function ProjectSection({
   title,
