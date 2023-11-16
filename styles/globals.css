@@ -144,7 +144,10 @@ button {
 
   --post-date-bg: rgb(158, 158, 158);
 
-  --rich-code-bg: #DABCF9;
+  --rich-code-bg: #3d3d3d;
+  --copy-code-button-bg: hsl(220, 13%, 18%);
+  --copy-code-button-outline:#474747;
+  --copy-code-button-hover:#474747;
 
   --shadow-color: #FFAD7A;
 
@@ -185,7 +188,6 @@ button {
 
   --service-category-bg: #FFAD7A;
 
-
   --skill-category-bg: #8891DE;
   --skill-level-bg: #CBFBFE;
 
@@ -196,7 +198,10 @@ button {
 
   --post-date-bg: rgb(112, 112, 112);
 
-  --rich-code-bg: #C9B7F3;
+  --rich-code-bg: #3d3d3d;
+  --copy-code-button-bg: hsl(220, 13%, 18%);
+  --copy-code-button-outline:#474747;
+  --copy-code-button-hover:#474747;
 
   --shadow-color: #FFAD7A;
 
@@ -1073,21 +1078,78 @@ h3 {
   padding: 0.4rem;
 }
 
+.rich-code-container{
+  position: relative;
+}
+
 .rich-code {
   background-color: var(--rich-code-bg);
   font-weight: var(--regular-font);
-  font-size: 1.7rem;
+  font-size: 1.3em;
   border-radius: 8px;
   padding: 1rem;
   line-height: 2.5rem;
+  overflow: hidden;
 }
 
 .rich-code-content {
   display: block;
   padding: 1rem;
   text-wrap: wrap;
+  overflow: auto;
 }
 
+.copy-code-button{
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  padding: 0.5rem 1.2rem 0.5rem 1.2rem;
+  width: max-content;
+  border-radius: 8px;
+  border: solid 0.1rem var(--copy-code-button-outline);
+  background: var(--copy-code-button-bg);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  color: white;
+}
+
+.hide-copy-code-button{
+  display: none;
+}
+
+.copy-code-button:hover{
+  background-color: var(--copy-code-button-hover);
+}
+
+.success-message{
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  padding: 0.5rem 1.2rem 0.5rem 1.2rem;
+  width: max-content;
+  border-radius: 8px;
+  border: solid 0.1rem var(--copy-code-button-outline);
+  background: var(--copy-code-button-bg);
+  display: none;
+  transition: all 1s ease-in-out;
+  color: white;
+}
+
+.show-success-message{
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  padding: 0.5rem 1.2rem 0.5rem 1.2rem;
+  width: max-content;
+  border-radius: 8px;
+  border: solid 0.1rem var(--copy-code-button-outline);
+  background: var(--copy-code-button-bg);
+  transition: all 1s ease-in-out;
+  color: white;
+}
 
 .italic {
   font-style: italic;
@@ -1912,6 +1974,11 @@ li>span {
   justify-content: center;
 }
 
+.hero-info{
+  display: flex;
+  justify-content: space-between;
+}
+
 .article-section-container {
   display: flex;
   flex-direction: column;
@@ -2060,15 +2127,6 @@ li>span {
   min-width: auto;
   font-size: 1.7rem;
   padding: 0.4rem;
-}
-
-.rich-code {
-  background-color: var(--rich-code-bg);
-  font-weight: var(--regular-font);
-  font-size: 1.7rem;
-  border-radius: 8px;
-  padding: 1rem;
-  line-height: 2.5rem;
 }
 
 .rich-code-content {

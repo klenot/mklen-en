@@ -41,7 +41,7 @@ export default function HeroBlogPost({ h1, perex, ToC, category }) {
 
         <div className='hero-section'>
           <hr></hr>
-          <div className='columns pt-3'>
+          <div className='hero-info pt-2'>
             <div className='column'>
               <p className='blog-hero-text'>
                 <span>⏱ {readingTime} minutes of reading</span>

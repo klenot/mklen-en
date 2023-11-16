@@ -1,11 +1,13 @@
 import Image from "next/image";
-import { getBlocks, getPage } from "app/libs/notionServices";
+import { getBlocks, getPage, GenerateKey } from "app/libs/notionServices.jsx";
 import { getProjectBySlug } from "app/libs/getPageBySlug.ts";
 import HeroProjectPage from "app/components/Projects/heroProjectPage";
+import CodeBlock from "app/components/Shared/codeBlock";
 
 export async function generateMetadata({ params }) {
   const slug = await getProjectBySlug(params.slug);
-  const metadescription = slug.properties.MetaDescription.rich_text[0].plain_text;
+  const metadescription =
+    slug.properties.MetaDescription.rich_text[0].plain_text;
   const metatitle = slug.properties.MetaTitle.rich_text[0].plain_text;
 
   return {
@@ -14,10 +16,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-
 export default async function ProjectPage({ params }) {
-
-  const slug = await getProjectBySlug (params.slug);
+  const slug = await getProjectBySlug(params.slug);
   const page = await getPage(slug.id);
   const blocks = await getBlocks(slug.id);
 
@@ -42,7 +42,9 @@ export default async function ProjectPage({ params }) {
           style={color !== "default" ? { color } : {}}
           key={text.content}>
           {text.link ? (
-            <a className="hover-underline-animation" href={text.link.url}>{text.content}</a>
+            <a className='hover-underline-animation' href={text.link.url}>
+              {text.content}
+            </a>
           ) : (
             text.content
           )}
@@ -58,38 +60,38 @@ export default async function ProjectPage({ params }) {
     switch (type) {
       case "paragraph":
         return (
-          <p className="service-text">
-            <Text text={value.rich_text} className="plain-text"/>
+          <p className='service-text'>
+            <Text text={value.rich_text} className='plain-text' />
           </p>
         );
       case "heading_1":
         return (
-          <h1 id={block.id} className="service-h1">
+          <h1 id={block.id} className='service-h1'>
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 id={block.id} className="service-h2">
+          <h2 id={block.id} className='service-h2'>
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 id={block.id} className="service-h3">
+          <h3 id={block.id} className='service-h3'>
             <Text text={value.rich_text} />
           </h3>
         );
       case "bulleted_list": {
         return (
-          <ul className="service-bullet-list">
+          <ul className='service-bullet-list'>
             {value.children.map((child) => renderBlock(child))}
           </ul>
         );
       }
       case "numbered_list": {
         return (
-          <ol className="service-numbered-list">
+          <ol className='service-numbered-list'>
             {value.children.map((child) => renderBlock(child))}
           </ol>
         );
@@ -104,21 +106,24 @@ export default async function ProjectPage({ params }) {
         );
       case "to_do":
         return (
-           <div>
-            <label className="checkbox-label" htmlFor={id}>
-              <input type='checkbox' id={id} defaultChecked={value.checked} /><span className="checkmark"></span>{" "}
+          <div>
+            <label className='checkbox-label' htmlFor={id}>
+              <input type='checkbox' id={id} defaultChecked={value.checked} />
+              <span className='checkmark'></span>{" "}
               <Text text={value.rich_text} />
             </label>
           </div>
         );
       case "toggle":
         return (
-          <details className="service-text">
+          <details className='service-text'>
             <summary>
-              <Text className="service-text" text={value.rich_text} />
+              <Text className='service-text' text={value.rich_text} />
             </summary>
             {block.children?.map((child) => (
-              <div className="toggle-content" key={child.id}>{renderBlock(child)}</div>
+              <div className='toggle-content' key={child.id}>
+                {renderBlock(child)}
+              </div>
             ))}
           </details>
         );
@@ -134,8 +139,8 @@ export default async function ProjectPage({ params }) {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure className="service-image-container">
-            <img src={src} alt={caption} className="service-img"/>
+          <figure className='service-image-container'>
+            <img src={src} alt={caption} className='service-img' />
             {caption && <figcaption>{caption}</figcaption>}
           </figure>
         );
@@ -143,13 +148,15 @@ export default async function ProjectPage({ params }) {
         return <hr key={id} />;
       case "quote":
         return (
-          <blockquote key={id} className="quote">{'„ '}{value.rich_text[0].plain_text}{" ”"}</blockquote>
+          <blockquote key={id} className='quote'>
+            {"„ "}
+            {value.rich_text[0].plain_text}
+            {" ”"}
+          </blockquote>
         );
       case "code":
         return (
-          <pre className="rich-code">
-            <code className="rich-code-content" key={id}>{value.rich_text[0].plain_text}</code>
-          </pre>
+          <CodeBlock key={GenerateKey()} code={value.rich_text[0].plain_text} />
         );
       case "file":
         const src_file =
@@ -171,7 +178,7 @@ export default async function ProjectPage({ params }) {
         );
       case "bookmark":
         return (
-          <section className="form-container">
+          <section className='form-container'>
             <div>
               <div>
                 <h2 className='form-h2'>Get in touch.</h2>
@@ -265,14 +272,14 @@ export default async function ProjectPage({ params }) {
       }
       case "column_list": {
         return (
-          <div className="columns">
+          <div className='columns'>
             {block.children.map((block) => renderBlock(block))}
           </div>
         );
       }
       case "column": {
         return (
-          <div className="column">
+          <div className='column'>
             {block.children.map((child) => renderBlock(child))}
           </div>
         );
@@ -283,7 +290,6 @@ export default async function ProjectPage({ params }) {
         })`;
     }
   };
- 
 
   return (
     <>
