@@ -1,10 +1,10 @@
 import styles from "styles/cv.module.css";
 import Image from "next/image";
-import { getBlocks, GenerateKey } from "app/libs/notionServices.jsx";
-import NavBar from "app/components/Shared/navBar.jsx"
-import HeroCv from "app/components/Cv/heroCv.jsx";
-import SkillRepeater from "app/components/Skills/skillRepeater.jsx";
-import Button from "app/components/Shared/ctaButton.jsx"
+import { getBlocks, GenerateKey } from "app/libs/notion-services.jsx";
+import NavBar from "app/components/Shared/nav-bar-long.jsx"
+import HeroCv from "app/components/Cv/hero-cv.jsx";
+import SkillRepeater from "app/components/Skills/skill-repeater.jsx";
+import Button from "app/components/Shared/cta-button.jsx"
 
 export const metadata = {
   title: "Read about my career",
