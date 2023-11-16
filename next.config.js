@@ -15,7 +15,7 @@ const nextConfig = {
       SERVICES_DATABASE_ID: process.env.SERVICES_DATABASE_ID,
       PROJECTS_DATABASE_ID: process.env.PROJECTS_DATABASE_ID,
       BOOKS_DATABASE_ID: process.env.BOOKS_DATABASE_ID,
-      NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+      NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
     },
 
   };
