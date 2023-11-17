@@ -31,13 +31,13 @@ export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB,
     const response = await axios.post(`${baseUrl}/api/notion`, { /* http://localhost:3000/api/notion */
       operation: "databaseQueryWithOr",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
-    }, {
+    }/* , {
       headers: {
         Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
         "Notion-Version": "2022-06-28",
         "Content-Type": "application/json",
       },
-    });
+    } */);
     return response.data
   } catch (error) {
     console.error("Error fetching database from Notion API:", error);
@@ -64,13 +64,13 @@ export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB
     const response = await axios.post(`${baseUrl}/api/notion`, { /* "http://localhost:3000/api/notion" */ /* `${baseUrl}/api/notion` */
       operation: "databaseQueryWithAnd",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
-    }, {
+    }/* , {
       headers: {
         Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
         "Notion-Version": "2022-06-28",
         "Content-Type": "application/json",
       },
-    });
+    } */);
     return response.data;
   } catch (error) {
     console.error("Error fetching database from Notion API:", error);
