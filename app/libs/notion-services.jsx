@@ -9,11 +9,14 @@ export const getBaseUrl = () => {
   if (process.env.NODE_ENV === 'development') {
     return `${process.env.NEXT_PUBLIC_LOCAL_URL}`
   }
-  return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+  return `https://${process.env.VERCEL_URL || "example.com"}`
 }
 const baseUrl = getBaseUrl()
+console.log(baseUrl)
 
 export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB, categoryB) {  
+  const baseUrl = getBaseUrl();
+  console.log("Base URL for 'getDatabaseWithOr':", baseUrl);
   try {
     const response = await axios.post(`${baseUrl}/api/notion`, { /* http://localhost:3000/api/notion */
       operation: "databaseQueryWithOr",
@@ -28,11 +31,15 @@ export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB,
     return response.data
   } catch (error) {
     console.error("Error fetching database from Notion API:", error);
+    console.log("Full Axios Error:", error.response || error.request || error.message);
     throw error;
   }
+  
 }
 
 export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB, categoryB) {
+  const baseUrl = getBaseUrl();
+  console.log("Base URL for 'getDatabaseWithAnd':", baseUrl);
   try {
     const response = await axios.post(`${baseUrl}/api/notion`, { /* "http://localhost:3000/api/notion" */ /* `${baseUrl}/api/notion` */
       operation: "databaseQueryWithAnd",
@@ -47,8 +54,9 @@ export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB
     return response.data;
   } catch (error) {
     console.error("Error fetching database from Notion API:", error);
+    console.log("Full Axios Error:", error.response || error.request || error.message);
     throw error;
-  }
+  }  
 }
 
 export async function getPage(pageId) {
