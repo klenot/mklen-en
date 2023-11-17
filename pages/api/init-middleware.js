@@ -12,12 +12,3 @@ export default function initMiddleware(middleware) {
       });
     });
 }
-
-// Usage example:
-// const corsMiddleware = initMiddleware(
-//   Cors({
-//     origin: '*',
-//     methods: ['POST'],
-//     allowedHeaders: ['Content-Type'],
-//   })
-// );
