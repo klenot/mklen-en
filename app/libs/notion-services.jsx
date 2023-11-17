@@ -30,9 +30,16 @@ export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB,
     });
     return response.data
   } catch (error) {
+
+    if((error.response && error.response.status === 401)) {
+      console.error("Error fetching database from Notion API - Authorization:", error);
+      console.log("Full Axios Error:", error.response || error.request || error.message);
+    }
+    else {
     console.error("Error fetching database from Notion API:", error);
     console.log("Full Axios Error:", error.response || error.request || error.message);
     throw error;
+    }
   }
   
 }
