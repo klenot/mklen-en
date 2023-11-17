@@ -1,41 +1,27 @@
 // notion.js with CORS implementation
 import { Client } from "@notionhq/client";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from 'next';
+import Cors from 'cors';
+import initMiddleware from "../api/init-middleware.js";
 
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
-/* const getBaseUrl = () => {
-  let baseUrl = '';
-  // Check if the code is running on the client or server side
-  if (typeof window !== 'undefined') {
-    // Client-side logic to get the base URL
-    baseUrl = window.location.origin;
-  } else {
-    // Server-side logic to get the base URL
-    // You might need to customize this based on your server setup
-    baseUrl = `https://${process.env.VERCEL_URL}` || 'http://localhost:3000';
-  }
-} */
+const corsMiddleware = initMiddleware(
+  Cors({
+    origin: '*',
+    methods: ['POST'],
+    allowedHeaders: ['Content-Type'],
+  })
+);
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // Set CORS headers dynamically based on the origin of the incoming request
-  /* const origin = req.headers.origin;
-  const allowedOrigins = [getBaseUrl()];
-  
-  console.log("Request body:", req.body);
-  console.log("Base URL in 'handler':", getBaseUrl());
-
-  if (allowedOrigins.includes(origin!)) {
-    res.setHeader("Access-Control-Allow-Origin", origin!);
-  } */
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  // Use the CORS middleware
+  await corsMiddleware(req, res);
 
   // Check the request method
   if (req.method === "OPTIONS") {
