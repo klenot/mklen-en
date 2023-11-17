@@ -24,7 +24,10 @@ export default async function handler(
   // Use the CORS middleware
   try {
     await corsMiddleware(req, res);
-    console.log('CORS headers:', res.getHeaders()); // Log headers
+    // Explicitly set the CORS header
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // Log the CORS headers
+    console.log('CORS headers:', res.getHeaders());
   } catch (error) {
     console.error('CORS middleware error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
