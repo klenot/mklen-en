@@ -24,7 +24,6 @@ export default async function handler(
   if (allowedOrigins.includes(origin!)) {
     res.setHeader("Access-Control-Allow-Origin", origin!);
   }
-
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -40,6 +39,7 @@ export default async function handler(
     const { operation, data } = req.body;
 
     if (operation === "databaseQueryWithOr") {
+      console.log("Executing databaseQueryWithOr operation");
       const response = await notion.databases.query({
         database_id: data.databaseId,
         filter: {
@@ -60,8 +60,10 @@ export default async function handler(
         },
       }
       );
+      console.log("Response from Notion:", response);
       res.status(200).json(response.results);
     } else if (operation === "databaseQueryWithAnd") {
+      console.log("Executing databaseQueryWithAnd operation");
       const response = await notion.databases.query({
         database_id: data.databaseId,
         filter: {
@@ -81,6 +83,7 @@ export default async function handler(
           ],
         },
       });
+      console.log("Response from Notion:", response);
       res.status(200).json(response.results);
     } else if (operation === "retrievePage") {
       const response = await notion.pages.retrieve({ page_id: data.pageId });
@@ -95,8 +98,13 @@ export default async function handler(
       res.status(400).json({ error: "Invalid operation" });
     }
   } catch (error) {
-    console.error("Error with Notion operation:", error);
-    res.status(500).json({ error: req.body });
+    if (error.response && error.response.status === 401) {
+      console.error("Unauthorized access. Please check your Notion API key.");
+      res.status(401).json({ error: "Unauthorized access." + "Request which is leading to 401 error is:" + req.body });
+    } else {
+      console.error("Error with Notion operation:", error);
+      res.status(500).json({ error: req.body });
+    }
   }
 }
 
