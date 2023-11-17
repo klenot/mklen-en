@@ -18,6 +18,16 @@ export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB,
   const baseUrl = getBaseUrl();
   console.log("Base URL for 'getDatabaseWithOr':", baseUrl);
   try {
+    console.log("Axios Request:", {
+      url: `${baseUrl}/api/notion`,
+      method: 'post',
+      data: { operation: "databaseQueryWithOr", data: { databaseId, filterA, categoryA, filterB, categoryB } },
+      headers: {
+        Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json",
+      },
+    });
     const response = await axios.post(`${baseUrl}/api/notion`, { /* http://localhost:3000/api/notion */
       operation: "databaseQueryWithOr",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
@@ -41,6 +51,16 @@ export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB
   const baseUrl = getBaseUrl();
   console.log("Base URL for 'getDatabaseWithAnd':", baseUrl);
   try {
+    console.log("Axios Request:", {
+      url: `${baseUrl}/api/notion`,
+      method: 'post',
+      data: { operation: "databaseQueryWithAnd", data: { databaseId, filterA, categoryA, filterB, categoryB } },
+      headers: {
+        Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json",
+      },
+    });
     const response = await axios.post(`${baseUrl}/api/notion`, { /* "http://localhost:3000/api/notion" */ /* `${baseUrl}/api/notion` */
       operation: "databaseQueryWithAnd",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
