@@ -9,12 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@notionhq/client": "^2.2.10",
+    "@notionhq/client": "^2.2.13",
     "axios": "^1.4.0",
     "debug": "^4.3.4",
-    "follow-redirects": "^1.15.2",
+    "follow-redirects": "^1.15.3",
     "json": "^11.0.0",
-    "next": "^13.4.15",
+    "next": "^14.0.3",
     "next-themes": "^0.2.1",
     "node.js": "^0.0.1-security",
     "prismjs": "^1.29.0",
