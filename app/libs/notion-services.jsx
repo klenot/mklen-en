@@ -5,16 +5,28 @@ const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
-const getBaseUrl = () => {
+/* const getBaseUrl = () => {
   if (process.env.NODE_ENV === 'development') {
     return 'http://localhost:3000';
   }
-  return /* `https://${process.env.VERCEL_URL || "example.com"}` */ "http://localhost:3000";
-}
+  return `https://${process.env.VERCEL_URL || "example.com"}`;
+} */
 
 export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB, categoryB) {  
-  const baseUrl = getBaseUrl();
+  let baseUrl = '';
+
+  // Check if the code is running on the client or server side
+  if (typeof window !== 'undefined') {
+    // Client-side logic to get the base URL
+    baseUrl = window.location.origin;
+  } else {
+    // Server-side logic to get the base URL
+    // You might need to customize this based on your server setup
+    baseUrl = process.env.VERCEL_URL || 'http://localhost:3000';
+  }
+
   console.log("Base URL for 'getDatabaseWithOr':", baseUrl);
+
   try {
     console.log("Axios Request:", {
       url: `${baseUrl}/api/notion`,
@@ -39,12 +51,23 @@ export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB,
     throw error;
     }
   }
-  
 }
 
 export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB, categoryB) {
-  const baseUrl = getBaseUrl();
+  let baseUrl = '';
+
+  // Check if the code is running on the client or server side
+  if (typeof window !== 'undefined') {
+    // Client-side logic to get the base URL
+    baseUrl = window.location.origin;
+  } else {
+    // Server-side logic to get the base URL
+    // You might need to customize this based on your server setup
+    baseUrl = process.env.VERCEL_URL || 'http://localhost:3000';
+  }
+
   console.log("Base URL for 'getDatabaseWithAnd':", baseUrl);
+
   try {
     console.log("Axios Request:", {
       url: `${baseUrl}/api/notion`,

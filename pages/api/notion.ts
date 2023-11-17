@@ -6,19 +6,25 @@ const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
-const getBaseUrl = () => {
-  if (process.env.NODE_ENV === 'development') {
-    return 'http://localhost:3000';
+/* const getBaseUrl = () => {
+  let baseUrl = '';
+  // Check if the code is running on the client or server side
+  if (typeof window !== 'undefined') {
+    // Client-side logic to get the base URL
+    baseUrl = window.location.origin;
+  } else {
+    // Server-side logic to get the base URL
+    // You might need to customize this based on your server setup
+    baseUrl = process.env.VERCEL_URL || 'http://localhost:3000';
   }
-  return /* `https://${process.env.VERCEL_URL || "example.com"}` */ "http://localhost:3000";
-}
+} */
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   // Set CORS headers dynamically based on the origin of the incoming request
-  const origin = req.headers.origin;
+  /* const origin = req.headers.origin;
   const allowedOrigins = [getBaseUrl()];
   
   console.log("Request body:", req.body);
@@ -26,8 +32,8 @@ export default async function handler(
 
   if (allowedOrigins.includes(origin!)) {
     res.setHeader("Access-Control-Allow-Origin", origin!);
-  }
-
+  } */
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
