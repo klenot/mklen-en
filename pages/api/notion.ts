@@ -100,7 +100,10 @@ export default async function handler(
   } catch (error) {
     if (error.response && error.response.status === 401) {
       console.error("Unauthorized access. Please check your Notion API key.");
-      res.status(401).json({ error: "Unauthorized access." + "Request which is leading to 401 error is:" + req.body });
+      console.log("Request body:", req.body);
+      console.log("Response data:", error.response.data);
+      console.log("Response headers:", error.response.headers);
+      res.status(401).json({ error: "Unauthorized access." });
     } else if (error.response && error.response.status === 429) {
       const retryAfter = error.response.headers['retry-after'];
       console.warn(`Rate limited. Retry after ${retryAfter} seconds.`);
