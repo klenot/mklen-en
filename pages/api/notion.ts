@@ -12,8 +12,6 @@ const getBaseUrl = () => {
   }
   return `https://${process.env.VERCEL_URL || "example.com"}`
 }
-const baseUrl = getBaseUrl()
-console.log(baseUrl)
 
 export default async function handler(
   req: NextApiRequest,
@@ -60,7 +58,8 @@ export default async function handler(
             },
           ],
         },
-      });
+      }
+      );
       res.status(200).json(response.results);
     } else if (operation === "databaseQueryWithAnd") {
       const response = await notion.databases.query({
