@@ -63,7 +63,7 @@ export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB
   } else {
     // Server-side logic to get the base URL
     // You might need to customize this based on your server setup
-    baseUrl = process.env.VERCEL_URL || 'http://localhost:3000';
+    baseUrl = `https://${process.env.VERCEL_URL}` || 'http://localhost:3000';
   }
 
   console.log("Base URL for 'getDatabaseWithAnd':", baseUrl);
