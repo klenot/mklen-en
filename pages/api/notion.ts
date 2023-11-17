@@ -18,12 +18,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   // Set CORS headers dynamically based on the origin of the incoming request
-  const origin = req.headers.origin;
+  /* const origin = req.headers.origin;
   const allowedOrigins = [getBaseUrl()]; // Add other allowed origins if needed
 
   if (allowedOrigins.includes(origin!)) {
     res.setHeader("Access-Control-Allow-Origin", origin!);
-  }
+  } */
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
