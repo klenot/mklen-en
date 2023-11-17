@@ -5,14 +5,12 @@ const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
-export const getBaseUrl = () => {
+const getBaseUrl = () => {
   if (process.env.NODE_ENV === 'development') {
-    return `${process.env.NEXT_PUBLIC_LOCAL_URL}`
+    return 'http://localhost:3000';
   }
-  return `https://${process.env.VERCEL_URL || "example.com"}`
+  return `https://${process.env.VERCEL_URL || "example.com"}`;
 }
-const baseUrl = getBaseUrl()
-console.log(baseUrl)
 
 export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB, categoryB) {  
   const baseUrl = getBaseUrl();

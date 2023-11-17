@@ -8,9 +8,9 @@ const notion = new Client({
 
 const getBaseUrl = () => {
   if (process.env.NODE_ENV === 'development') {
-    return `${process.env.NEXT_PUBLIC_LOCAL_URL}`
+    return 'http://localhost:3000';
   }
-  return `https://${process.env.VERCEL_URL || "example.com"}`
+  return `https://${process.env.VERCEL_URL || "example.com"}`;
 }
 
 export default async function handler(
@@ -18,13 +18,16 @@ export default async function handler(
   res: NextApiResponse
 ) {
   // Set CORS headers dynamically based on the origin of the incoming request
-  /* const origin = req.headers.origin;
-  const allowedOrigins = [getBaseUrl()]; // Add other allowed origins if needed
+  const origin = req.headers.origin;
+  const allowedOrigins = [getBaseUrl()];
+  
+  console.log("Request body:", req.body);
+  console.log("Base URL in 'handler':", getBaseUrl());
 
   if (allowedOrigins.includes(origin!)) {
     res.setHeader("Access-Control-Allow-Origin", origin!);
-  } */
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  }
+
   res.setHeader("Access-Control-Allow-Methods", "POST");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -61,7 +64,6 @@ export default async function handler(
         },
       }
       );
-      console.log("Response from Notion:", response);
       res.status(200).json(response.results);
     } else if (operation === "databaseQueryWithAnd") {
       console.log("Executing databaseQueryWithAnd operation");
@@ -84,7 +86,6 @@ export default async function handler(
           ],
         },
       });
-      console.log("Response from Notion:", response);
       res.status(200).json(response.results);
     } else if (operation === "retrievePage") {
       const response = await notion.pages.retrieve({ page_id: data.pageId });
