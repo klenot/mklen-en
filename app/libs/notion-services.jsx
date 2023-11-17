@@ -13,7 +13,7 @@ export const getBaseUrl = () => {
 }
 const baseUrl = getBaseUrl()
 
-export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB, categoryB) {
+export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB, categoryB) {  
   try {
     const response = await axios.post(`${baseUrl}/api/notion`, { /* http://localhost:3000/api/notion */
       operation: "databaseQueryWithOr",
@@ -25,13 +25,12 @@ export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB,
         "Content-Type": "application/json",
       },
     });
-    return response.data;
+    return response.data
   } catch (error) {
     console.error("Error fetching database from Notion API:", error);
     throw error;
   }
 }
-
 
 export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB, categoryB) {
   try {

@@ -10,6 +10,7 @@ const nextConfig = {
     },
 
     env: {
+      NOTION_API_KEY: process.env.NOTION_API_KEY,
       SKILLS_DATABASE_ID: process.env.SKILLS_DATABASE_ID,
       BLOG_DATABASE_ID: process.env.BLOG_DATABASE_ID,
       SERVICES_DATABASE_ID: process.env.SERVICES_DATABASE_ID,
