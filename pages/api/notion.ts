@@ -20,8 +20,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
   // Use the CORS middleware
-  await corsMiddleware(req, res);
+  try {
+    await corsMiddleware(req, res);
+    console.log('CORS headers:', res.getHeaders()); // Log headers
+  } catch (error) {
+    console.error('CORS middleware error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+    return;
+  }
 
   // Check the request method
   if (req.method === "OPTIONS") {
