@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import initMiddleware from "../api/init-middleware.js";
 import Cors from "cors"
 
+console.log("Notion API Key:", process.env.NOTION_API_KEY);
+
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
@@ -22,7 +24,13 @@ const addCorsHeaders = (handler) => async (req, res) => {
     // Use the CORS middleware
     await corsMiddleware(req, res);
     // Explicitly set the CORS header
+    res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    );
     // Log the CORS headers
     console.log('CORS headers:', res.getHeaders());
   } catch (error) {
@@ -39,6 +47,9 @@ export default addCorsHeaders(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+  console.log('Request body:', req.body);
+  
   // Check the request method
   if (req.method === "OPTIONS") {
     // Respond to preflight request

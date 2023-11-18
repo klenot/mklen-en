@@ -1,6 +1,8 @@
 import axios from "axios";
 import { Client } from "@notionhq/client";
 
+console.log("Notion API Key:", process.env.NOTION_API_KEY);
+
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
@@ -59,7 +61,7 @@ export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB
     // Server-side logic to get the base URL
     // You might need to customize this based on your server setup
     baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
+      ? `https://www.${process.env.VERCEL_URL}`
       : 'http://localhost:3000';
   }
 
