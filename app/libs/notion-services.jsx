@@ -16,7 +16,7 @@ export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB,
     // Server-side logic to get the base URL
     // You might need to customize this based on your server setup
     baseUrl = process.env.VERCEL_URL
-      ? `https://www.${/* process.env.VERCEL_URL */"*.vercel.app"}`
+      ? `https://www.${process.env.VERCEL_URL}`
       : 'http://localhost:3000';
   }
 
@@ -59,7 +59,7 @@ export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB
     // Server-side logic to get the base URL
     // You might need to customize this based on your server setup
     baseUrl = process.env.VERCEL_URL
-      ? `https://www.${/* process.env.VERCEL_URL */"*.vercel.app"}`
+      ? `https://www.${process.env.VERCEL_URL}`
       : 'http://localhost:3000';
   }
 
