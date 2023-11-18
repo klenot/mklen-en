@@ -16,6 +16,7 @@ const nextConfig = {
       BLOG_DATABASE_ID: process.env.BLOG_DATABASE_ID,
       SKILLS_DATABASE_ID: process.env.SKILLS_DATABASE_ID,
       BOOKS_DATABASE_ID: process.env.BOOKS_DATABASE_ID,
+      NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
     },
 
     async headers() {
