@@ -19,8 +19,8 @@ export default function Blog() {
             "My focus is on helping you navigate through broad topics of project management and digital marketing."
           }
           button={{
-            text:"-",
-            link: "-",
+            text:"",
+            link: "",
           }}
         />
         

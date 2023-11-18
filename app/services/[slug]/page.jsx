@@ -60,38 +60,38 @@ export default async function ServicePage({ params }) {
     switch (type) {
       case "paragraph":
         return (
-          <p key={GenerateKey()} className='service-text'>
+          <p key={GenerateKey()} className='landing-page-text'>
             <Text text={value.rich_text} className='plain-text' />
           </p>
         );
       case "heading_1":
         return (
-          <h1 key={GenerateKey()} className='service-h1'>
+          <h1 key={GenerateKey()} className='landing-page-h1'>
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 key={GenerateKey()} className='service-h2'>
+          <h2 key={GenerateKey()} className='landing-page-h2'>
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 key={GenerateKey()} className='service-h3'>
+          <h3 key={GenerateKey()} className='landing-page-h3'>
             <Text text={value.rich_text} />
           </h3>
         );
       case "bulleted_list": {
         return (
-          <ul key={GenerateKey()} className='service-bullet-list'>
+          <ul key={GenerateKey()} className='landing-page-bullet-list'>
             {value.children.map((child) => renderBlock(child))}
           </ul>
         );
       }
       case "numbered_list": {
         return (
-          <ol key={GenerateKey()} className='service-numbered-list'>
+          <ol key={GenerateKey()} className='landing-page-numbered-list'>
             {value.children.map((child) => renderBlock(child))}
           </ol>
         );
@@ -116,9 +116,9 @@ export default async function ServicePage({ params }) {
         );
       case "toggle":
         return (
-          <details key={GenerateKey()} className='service-text'>
+          <details key={GenerateKey()} className='landing-page-text'>
             <summary>
-              <Text className='service-text' text={value.rich_text} />
+              <Text className='landing-page-text' text={value.rich_text} />
             </summary>
             {block.children?.map((child) => (
               <div className='toggle-content' key={child.id}>
@@ -139,15 +139,13 @@ export default async function ServicePage({ params }) {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure
-            key={GenerateKey()}
-            className='service-image-container'>
+          <figure key={GenerateKey()} className='landing-page-image-container'>
             <Image
               src={src}
               alt={caption}
               width={500}
               height={500}
-              className='service-img'
+              className='landing-page-image'
             />
           </figure>
         );
@@ -167,7 +165,7 @@ export default async function ServicePage({ params }) {
         return <span>{value.plain_text}</span>;
       case "code":
         return (
-          <div key={GenerateKey()} id='form' className='service-form'>
+          <div key={GenerateKey()} id='form' className='landing-page-form'>
             <h2 className='form-h2'>Get in touch.</h2>
             <form
               action='https://formsubmit.co/mklen@mklenotic.cz'
@@ -286,14 +284,18 @@ export default async function ServicePage({ params }) {
       }
       case "column_list": {
         return (
-          <div key={GenerateKey()} className='service-content-image-container'>
+          <div
+            key={GenerateKey()}
+            className='landing-page-content-image-container'>
             {block.children.map((block) => renderBlock(block))}
           </div>
         );
       }
       case "column": {
         return (
-          <div key={GenerateKey()} className='service-content-image-section'>
+          <div
+            key={GenerateKey()}
+            className='landing-page-content-image-section'>
             {block.children.map((child) => renderBlock(child))}
           </div>
         );
@@ -313,10 +315,9 @@ export default async function ServicePage({ params }) {
           perex={page.properties.Description.rich_text[0].plain_text}
           buttonText={page.properties.ButtonText.rich_text[0].plain_text}
         />
-
-        <section className='service-container'>
+        <section className='landing-page-container'>
           {blocks.map((block) => (
-            <div className='service-section' key={block.id}>
+            <div className='landing-page-section' key={block.id}>
               {renderBlock(block)}
             </div>
           ))}

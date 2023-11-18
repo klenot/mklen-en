@@ -16,12 +16,12 @@ export default function HeroLandingPage({ title, sideKick, button }) {
             <p className='hero-perex'>{sideKick}</p>
           </div>
         </div>
-        {button.text === "-" ? (
+        {button.text === "" ? (
           null
         ) : (
           <div className='hero-section'>
             <button className='cta ctaLarge'>
-              {button.link === "-" ? (
+              {button.link === "" ? (
                 <Link href={"/"}>
                   <span className="button-text">{button.text}</span>
                 </Link>

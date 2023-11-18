@@ -22,8 +22,8 @@ export default function About() {
             "Helping companies create effective digital presence is what I’ve been doing for the last seven years."
           }
           button={{
-            text: "-",
-            link: "-",
+            text: "",
+            link: "",
           }}
         />
         <ContentImage

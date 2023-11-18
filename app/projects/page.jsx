@@ -1,5 +1,6 @@
 import HeroLandingPage from "app/components/Shared/hero-landing-page";
 import ProjectSection from "app/components/Projects/project-section";
+import NavBar from "app/components/Shared/nav-bar-long.jsx"
 import Form from "app/components/Shared/form"
 
 export const metadata = {
@@ -11,14 +12,15 @@ export const metadata = {
 export default function Projects() {
   return (
     <>
+      <NavBar/>
       <HeroLandingPage
         title={"Projects"}
         sideKick={
           "I'm a martech specialist & project manager with a passion for effective digital strategies."
         }
         button={{
-          text: "-",
-          link: "-"
+          text: "",
+          link: ""
         }}
       />
       <ProjectSection

@@ -10,24 +10,24 @@ export default function ProjectSection({
   return (
     <>
       <section id='project-section'>
-        <div className='service-container'>
+        <div className='landing-page-container'>
           {title === "-" ? (
             <></>
           ) : (
-            <div className='service-section pb-1'>
+            <div className='landing-page-section pb-1'>
               <h2>{title}</h2>
             </div>
           )}
           {description === "-" ? (
             <></>
           ) : (
-            <div className='service-section'>
+            <div className='landing-page-section'>
               <p>{description}</p>
               <br />
             </div>
           )}
         </div>
-        <div className='service-container'>
+        <div className='landing-page-container'>
           <ProjectRepeater
             filterA={filters.filterA}
             categoryA={filters.categoryA}
@@ -39,8 +39,8 @@ export default function ProjectSection({
         {button.text === "-" ? (
           <></>
         ) : (
-          <div className='service-container'>
-            <div className='service-section button-wrapper'>
+          <div className='landing-page-container'>
+            <div className='landing-page-section button-wrapper'>
               <button className='cta ctaLarge'>
                 {button.link === "" ? (
                   <Link href='/'>

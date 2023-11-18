@@ -1,6 +1,8 @@
+import Image from "next/image";
 import { getBlocks, getPage, GenerateKey } from "app/libs/notion-services.jsx";
 import { getProjectBySlug } from "app/libs/get-page-by-slug.ts";
 import HeroProjectPage from "app/components/Projects/hero-project-page";
+import Button from "app/components/Shared/cta-button.jsx";
 import CodeBlock from "app/components/Shared/code-block";
 
 export async function generateMetadata({ params }) {
@@ -59,38 +61,38 @@ export default async function ProjectPage({ params }) {
     switch (type) {
       case "paragraph":
         return (
-          <p className='service-text'>
+          <p key={GenerateKey()} className='landing-page-text'>
             <Text text={value.rich_text} className='plain-text' />
           </p>
         );
       case "heading_1":
         return (
-          <h1 id={block.id} className='service-h1'>
+          <h1 key={GenerateKey()} className='landing-page-h1'>
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 id={block.id} className='service-h2'>
+          <h2 key={GenerateKey()} className='landing-page-h2'>
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 id={block.id} className='service-h3'>
+          <h3 key={GenerateKey()} className='landing-page-h3'>
             <Text text={value.rich_text} />
           </h3>
         );
       case "bulleted_list": {
         return (
-          <ul className='service-bullet-list'>
+          <ul key={GenerateKey()} className='landing-page-bullet-list'>
             {value.children.map((child) => renderBlock(child))}
           </ul>
         );
       }
       case "numbered_list": {
         return (
-          <ol className='service-numbered-list'>
+          <ol key={GenerateKey()} className='landing-page-numbered-list'>
             {value.children.map((child) => renderBlock(child))}
           </ol>
         );
@@ -105,7 +107,7 @@ export default async function ProjectPage({ params }) {
         );
       case "to_do":
         return (
-          <div>
+          <div key={GenerateKey()}>
             <label className='checkbox-label' htmlFor={id}>
               <input type='checkbox' id={id} defaultChecked={value.checked} />
               <span className='checkmark'></span>{" "}
@@ -115,9 +117,9 @@ export default async function ProjectPage({ params }) {
         );
       case "toggle":
         return (
-          <details className='service-text'>
+          <details key={GenerateKey()} className='landing-page-text'>
             <summary>
-              <Text className='service-text' text={value.rich_text} />
+              <Text className='landing-page-text' text={value.rich_text} />
             </summary>
             {block.children?.map((child) => (
               <div className='toggle-content' key={child.id}>
@@ -138,24 +140,33 @@ export default async function ProjectPage({ params }) {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure className='service-image-container'>
-            <img src={src} alt={caption} className='service-img' />
-            {caption && <figcaption>{caption}</figcaption>}
+          <figure key={GenerateKey()} className='landing-page-image-container'>
+            <Image
+              src={src}
+              alt={caption}
+              width={500}
+              height={500}
+              className='landing-page-image'
+            />
           </figure>
         );
       case "divider":
-        return <hr key={id} />;
+        return <hr className='content-divider' key={GenerateKey()} />;
       case "quote":
         return (
-          <blockquote key={id} className='quote'>
-            {"„ "}
-            {value.rich_text[0].plain_text}
-            {" ”"}
+          <blockquote key={GenerateKey()} className='quote'>
+            <Text
+              key={GenerateKey()}
+              text={value.rich_text}
+              className='plain-text'
+            />
           </blockquote>
         );
+      case "text":
+        return <span>{value.plain_text}</span>;
       case "code":
         return (
-          <CodeBlock key={GenerateKey()} code={value.rich_text[0].plain_text} />
+          <CodeBlock/>
         );
       case "file":
         const src_file =
@@ -165,7 +176,7 @@ export default async function ProjectPage({ params }) {
           splitSourceArray[splitSourceArray.length - 1];
         const caption_file = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure>
+          <figure key={GenerateKey()}>
             <div>
               📎{" "}
               <Link href={src_file} passHref>
@@ -176,79 +187,19 @@ export default async function ProjectPage({ params }) {
           </figure>
         );
       case "bookmark":
+        const buttonText = value.caption ? value.caption[0]?.plain_text : "";
+        const href = value.url;
         return (
-          <section className='form-container'>
-            <div>
-              <div>
-                <h2 className='form-h2'>Get in touch.</h2>
-                <form
-                  action='https://formsubmit.co/mklen@mklenotic.cz'
-                  method='POST'
-                  className='form-wrapper'>
-                  <label className='form-label' htmlFor='name-input'>
-                    First and last name:
-                  </label>
-                  <input
-                    className='form-input'
-                    id='name-input'
-                    type='text'
-                    name='name'
-                    maxLength={40}
-                    placeholder='Start with your name here...'
-                    required=''
-                  />
-                  <br />
-                  <label className='form-label' htmlFor='email-input'>
-                    Email:
-                  </label>
-                  <input
-                    className='form-input'
-                    id='email-input'
-                    type='email'
-                    name='email'
-                    maxLength={40}
-                    placeholder='your@email.com'
-                    required=''
-                  />
-                  <br />
-                  <label className='form-label' htmlFor='message-input'>
-                    Message:
-                  </label>
-                  <textarea
-                    className='form-input'
-                    id='message-input'
-                    rows={5}
-                    name='message'
-                    placeholder='Can we meet online?'
-                    maxLength={220}
-                    required=''
-                    defaultValue={""}
-                  />
-                  <br />
-                  <input type='hidden' name='_next' defaultValue='index.html' />
-                  <input
-                    type='hidden'
-                    name='_autoresponse'
-                    defaultValue='Hello :) Thank you for reaching out to me! I am going to respond as soon as I read your message. Have a productive day, MK.'
-                  />
-                  <input
-                    type='hidden'
-                    name='_subject'
-                    defaultValue='New message submitted from mklenotic.com.'
-                  />
-                  <div className='button-wrapper'>
-                    <button className='cta'>
-                      <span>→ submit</span>
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </section>
+          <Button
+            key={GenerateKey()}
+            buttonText={buttonText}
+            buttonLink={href}
+            buttonSize={"small"}
+          />
         );
       case "table": {
         return (
-          <table>
+          <table key={GenerateKey()}>
             <tbody>
               {block.children?.map((child, i) => {
                 const RowElement =
@@ -271,14 +222,18 @@ export default async function ProjectPage({ params }) {
       }
       case "column_list": {
         return (
-          <div className='columns'>
+          <div
+            key={GenerateKey()}
+            className='landing-page-content-image-container'>
             {block.children.map((block) => renderBlock(block))}
           </div>
         );
       }
       case "column": {
         return (
-          <div className='column'>
+          <div
+            key={GenerateKey()}
+            className='landing-page-content-image-section'>
             {block.children.map((child) => renderBlock(child))}
           </div>
         );
@@ -298,10 +253,9 @@ export default async function ProjectPage({ params }) {
           perex={page.properties.Description.rich_text[0].plain_text}
           buttonText={page.properties.ButtonText.rich_text[0].plain_text}
         />
-
-        <section className='service-container'>
+        <section className='landing-page-container'>
           {blocks.map((block) => (
-            <div className='service-section' key={block.id}>
+            <div className='landing-page-section' key={block.id}>
               {renderBlock(block)}
             </div>
           ))}

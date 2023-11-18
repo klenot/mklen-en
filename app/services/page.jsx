@@ -18,8 +18,8 @@ export default function Services() {
           "You can chose from a variation of services from digital marketing strategies to tailoring your company processes by a certified project manager."
         }
         button={{
-          text: "-",
-          link: "-"
+          text: "",
+          link: ""
         }}
       />
       <ServiceSection
