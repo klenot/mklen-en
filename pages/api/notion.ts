@@ -4,8 +4,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import initMiddleware from "../api/init-middleware.js";
 import Cors from "cors"
 
-console.log("Notion API Key:", process.env.NOTION_API_KEY);
-
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
@@ -49,7 +47,7 @@ export default addCorsHeaders(async function handler(
 ) {
 
   console.log('Request body:', req.body);
-  
+
   // Check the request method
   if (req.method === "OPTIONS") {
     // Respond to preflight request
