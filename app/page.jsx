@@ -31,7 +31,7 @@ export default function Home() {
         heading={"How I can help your business"}
         text={"As a professional with expertise in Martech, Project Management, and Digital Marketing I offer a rare brew of skills to your digital presence."}
         image={{
-          url:"/images/dev/hackathon-transparent.webp",
+          url:"/images/homepage/vending-machine-with-books.png",
           alt:"",
         }}
         button={{

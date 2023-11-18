@@ -29,19 +29,19 @@ export default function About() {
         <ContentImage
           anchor={"explore"}
           direction={"left"}
-          heading={"Career"}
+          heading={""}
           text={
             "Every path is different. If you want to learn more about mine continue to my cv page."
           }
           image={{
-            url: "/images/dev/hackathon-transparent.webp",
+            url: "/images/about/cat-flying-on-a-laptop.png",
             alt: "",
           }}
           button={{
             text: "Curriculum vitae",
             link: "/about/cv",
           }}
-          padding={"none"}
+          padding={"yes"}
         />
         <SkillRepeater />
         <BookRepeater
