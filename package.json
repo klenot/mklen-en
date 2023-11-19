@@ -15,7 +15,7 @@
     "debug": "^4.3.4",
     "follow-redirects": "^1.15.3",
     "json": "^11.0.0",
-    "next": "^14.0.3",
+    "next": "^13.4.19",
     "next-themes": "^0.2.1",
     "node.js": "^0.0.1-security",
     "prismjs": "^1.29.0",
