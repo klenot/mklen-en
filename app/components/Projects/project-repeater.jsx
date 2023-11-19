@@ -52,7 +52,7 @@ export default async function ProjectRepeater({
       </div> */}
 
       <div className='tile-container'>
-        {projects.map((project) => (
+        {projects?.map((project) => (
           <Link
             className='tile-wrapper'
             href={`/projects/${project.properties.Slug.formula.string}`}>

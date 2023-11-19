@@ -1,52 +1,44 @@
-import "server-only";
+import axios from "axios";
 
-import { Client } from "@notionhq/client";
-import {
-  PageObjectResponse,
-} from "@notionhq/client/build/src/api-endpoints";
-import { cache } from "react";
+const BLOG_DATABASE_ID = process.env.BLOG_DATABASE_ID;
+const SERVICES_DATABASE_ID = process.env.SERVICES_DATABASE_ID;
+const PROJECTS_DATABASE_ID = process.env.PROJECTS_DATABASE_ID;
 
-export const notion = new Client({
-  auth: process.env.NOTION_API_KEY,
-});
+export const getBlogBySlug = async (slug) => {
+  try {
+    const response = await axios.post("/api/notion", {
+      operation: "getBlogBySlug",
+      data: { slug, databaseId: BLOG_DATABASE_ID },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching blog by slug:", error);
+    throw error;
+  }
+};
 
-export const getBlogBySlug = cache((slug: string) => {
-  return notion.databases.query({
-      database_id: process.env.BLOG_DATABASE_ID!,
-      filter: {
-        property: "Slug",
-        rich_text: {
-          equals: slug,
-        },
-      },
-    })
-    .then((res) => res.results[0] as PageObjectResponse | undefined);
-});
+export const getServiceBySlug = async (slug) => {
+  try {
+    const response = await axios.post("/api/notion", {
+      operation: "getServiceBySlug",
+      data: { slug, databaseId: SERVICES_DATABASE_ID },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching service by slug:", error);
+    throw error;
+  }
+};
 
-export const getServiceBySlug = cache((slug: string) => {
-  return notion.databases
-    .query({
-      database_id: process.env.SERVICES_DATABASE_ID!,
-      filter: {
-        property: "Slug",
-        rich_text: {
-          equals: slug,
-        },
-      },
-    })
-    .then((res) => res.results[0] as PageObjectResponse | undefined);
-});
-
-export const getProjectBySlug = cache((slug: string) => {
-  return notion.databases
-    .query({
-      database_id: process.env.PROJECTS_DATABASE_ID!,
-      filter: {
-        property: "Slug",
-        rich_text: {
-          equals: slug,
-        },
-      },
-    })
-    .then((res) => res.results[0] as PageObjectResponse | undefined);
-});
+export const getProjectBySlug = async (slug) => {
+  try {
+    const response = await axios.post("/api/notion", {
+      operation: "getProjectBySlug",
+      data: { slug, databaseId: PROJECTS_DATABASE_ID },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching project by slug:", error);
+    throw error;
+  }
+};

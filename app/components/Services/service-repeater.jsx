@@ -36,7 +36,7 @@ export default function ServiceRepeater({
     <>
       <div className='tile-container'>
         {isLoading === true ? <TileSkeleton/> :
-        services.map((service) => (
+        services?.map((service) => (
           <ServiceTile
             key={service.id}
             props={{

@@ -1,148 +1,87 @@
 import axios from "axios";
-import { Client } from "@notionhq/client";
 
-const notion = new Client({
-  auth: process.env.NOTION_API_KEY,
+// Use an environment variable for the base URL to handle different environments
+const baseURL = process.env.NEXT_PUBLIC_VERCEL_URL
+  ? `${process.env.NEXT_PUBLIC_VERCEL_URL}/api`
+  : "/api";
+
+export const notion = axios.create({
+  baseURL,
+  headers: {
+    "Content-Type": "application/json; charset=UTF-8",
+  },
 });
 
-export async function getDatabaseWithOr(databaseId, filterA, categoryA, filterB, categoryB) {  
-  let baseUrl = '';
-
-  // Check if the code is running on the client or server side
-  if (typeof window !== 'undefined') {
-    // Client-side logic to get the base URL
-    baseUrl = window.location.origin;
-  } else {
-    // Server-side logic to get the base URL
-    // You might need to customize this based on your server setup
-    baseUrl = process.env.VERCEL_URL
-      ? `https://www.${process.env.VERCEL_URL}`
-      : 'http://localhost:3000';
-  }
-
-  console.log("Base URL for 'getDatabaseWithOr':", baseUrl);
-
+export const getDatabaseWithOr = async (databaseId, filterA, categoryA, filterB, categoryB) => {
+  console.warn("🚀 ~ file: notion-services.jsx:11 ~ getDatabaseWithOr ~ databaseId, filterA, categoryA, filterB, categoryB:", databaseId, filterA, categoryA, filterB, categoryB);
   try {
-    console.log("Axios Request:", {
-      url: `${baseUrl}/api/notion`,
-      method: 'post',
+    const response = await notion.post("/notion", {
       operation: "databaseQueryWithOr",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
     });
-    const response = await axios.post(`${baseUrl}/api/notion`, { /* http://localhost:3000/api/notion */
-      operation: "databaseQueryWithOr",
-      data: { databaseId, filterA, categoryA, filterB, categoryB },
-    });
-    return response.data
+    console.log("🚀 ~ file: notion-services.jsx:16 ~ getDatabaseWithOr ~ response:", response);
+    return response.data;
   } catch (error) {
-
-    if((error.response && error.response.status === 401)) {
-      console.error("Error fetching database from Notion API - Authorization:", error);
-      console.log("Full Axios Error:", error.response || error.request || error.message);
-    }
-    else {
-    console.error("Error fetching database from Notion API:", error);
-    console.log("Full Axios Error:", error.response || error.request || error.message);
-    throw error;
-    }
+    handleNotionError(error);
   }
-}
+};
 
-export async function getDatabaseWithAnd(databaseId, filterA, categoryA, filterB, categoryB) {
-  let baseUrl = '';
-
-  // Check if the code is running on the client or server side
-  if (typeof window !== 'undefined') {
-    // Client-side logic to get the base URL
-    baseUrl = window.location.origin;
-  } else {
-    // Server-side logic to get the base URL
-    // You might need to customize this based on your server setup
-    baseUrl = process.env.VERCEL_URL
-      ? `https://www.${process.env.VERCEL_URL}`
-      : 'http://localhost:3000';
-  }
-
-  console.log("Base URL for 'getDatabaseWithAnd':", baseUrl);
-
+export const getDatabaseWithAnd = async (databaseId, filterA, categoryA, filterB, categoryB) => {
   try {
-    console.log("Axios Request:", {
-      url: `${baseUrl}/api/notion`,
-      method: 'post',
-      operation: "databaseQueryWithAnd",
-      data: { databaseId, filterA, categoryA, filterB, categoryB },
-    });
-    const response = await axios.post(`${baseUrl}/api/notion`, { /* "http://localhost:3000/api/notion" */ /* `${baseUrl}/api/notion` */
+    const response = await notion.post("/notion", {
       operation: "databaseQueryWithAnd",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
     });
     return response.data;
   } catch (error) {
-    console.error("Error fetching database from Notion API:", error);
-    console.log("Full Axios Error:", error.response || error.request || error.message);
-    throw error;
-  }  
-}
+    handleNotionError(error);
+  }
+};
 
-export async function getPage(pageId) {
-  const response = await notion.pages.retrieve({ page_id: pageId });
-  return response
-}
+export const getPage = async (pageId) => {
+  try {
+    const response = await notion.post("/notion", {
+      operation: "getPage",
+      data: { pageId },
+    });
+    return response.data;
+  } catch (error) {
+    handleNotionError(error);
+  }
+};
 
-export async function getBlocks(blockId) {
-  blockId = blockId.replaceAll("-", "");
+// Use this function to update blockId with a standardized format
+const formatBlockId = (blockId) => blockId.replaceAll("-", "");
 
-  const { results } = await notion.blocks.children.list({
-    block_id: blockId,
-    page_size: 150,
-  });
-  /* return results */
+export const getBlocks = async (blockId) => {
+  try {
+    const formattedBlockId = formatBlockId(blockId);
+    const response = await notion.post("/notion", {
+      operation: "getBlocks",
+      data: { blockId: formattedBlockId },
+    });
+    return response.data;
+  } catch (error) {
+    handleNotionError(error);
+  }
+};
 
-  const childBlocks = results.map(async (block) => {
-    if (block.has_children) {
-      const children = await getBlocks(block.id);
-      return { ...block, children };
-    }
-    return block;
-  });
-  
-  return await Promise.all(childBlocks).then((blocks) => {
-    return blocks.reduce((acc, curr) => {
-      if (curr.type === "bulleted_list_item") {
-        if (acc[acc.length - 1]?.type === "bulleted_list") {
-          acc[acc.length - 1][acc[acc.length - 1].type].children?.push(curr);
-        } else {
-          acc.push({
-            id: getRandomInt(10 ** 99, 10 ** 100).toString(),
-            type: "bulleted_list",
-            bulleted_list: { children: [curr] },
-          });
-        }
-      } else if (curr.type === "numbered_list_item") {
-        if (acc[acc.length - 1]?.type === "numbered_list") {
-          acc[acc.length - 1][acc[acc.length - 1].type].children?.push(curr);
-        } else {
-          acc.push({
-            id: getRandomInt(10 ** 99, 10 ** 100).toString(),
-            type: "numbered_list",
-            numbered_list: { children: [curr] },
-          });
-        }
-      } else {
-        acc.push(curr);
-      }
-      return acc;
-    }, []);
-  });
-}
-
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-export function GenerateKey(){
+export const GenerateKey = () => {
   const generatedKey = Math.random().toString(36).slice(2, 7);
-  return generatedKey
+  return generatedKey;
+};
+
+// Add this function to handle Notion API errors
+function handleNotionError(error) {
+  if (error.response && error.response.status === 401) {
+    console.error("Unauthorized access. Please check your Notion API key.");
+    // Handle unauthorized error
+  } else if (error.response && error.response.status === 429) {
+    const retryAfter = error.response.headers["retry-after"] || "unknown";
+    console.warn(`Rate limited. Retry after ${retryAfter} seconds.`);
+    // Handle rate limit error
+  } else {
+    console.error("Error with Notion API:", error);
+    // Handle other errors
+  }
 }

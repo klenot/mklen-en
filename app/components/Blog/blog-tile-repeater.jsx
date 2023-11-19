@@ -106,7 +106,7 @@ export default function BlogTileRepeater() {
       </div>
       <div className='tile-container'>
         {isLoading ? <TileSkeleton/> :
-        posts.map((post) => (
+        posts?.map((post) => (
           <BlogTile
             key={post.id} 
             props={{

@@ -92,14 +92,14 @@ export default async function CurriculumVitae() {
       case "bulleted_list": {
         return (
           <ul key={GenerateKey()} className='article-bullet-list'>
-            {value.children.map((child) => renderBlock(child))}
+            {value.children?.map((child) => renderBlock(child))}
           </ul>
         );
       }
       case "numbered_list": {
         return (
           <ol className='article-numbered-list'>
-            {value.children.map((child) => renderBlock(child))}
+            {value.children?.map((child) => renderBlock(child))}
           </ol>
         );
       }
@@ -223,14 +223,14 @@ export default async function CurriculumVitae() {
       case "column_list": {
         return (
           <div key={GenerateKey()} className={styles.columns}>
-            {block.children.map((block) => renderBlock(block))}
+            {block.children?.map((block) => renderBlock(block))}
           </div>
         );
       }
       case "column": {
         return (
           <div key={GenerateKey()} className='column'>
-            {block.children.map((child) => renderBlock(child))}
+            {block.children?.map((child) => renderBlock(child))}
           </div>
         );
       }
@@ -246,7 +246,7 @@ export default async function CurriculumVitae() {
       <NavBar/>
       <HeroCv />
       <article className={styles.cvSectionContainer}>
-          {blocks.map((block) => (
+          {blocks?.map((block) => (
             <div key={block.id} className='article-section'>
               {renderBlock(block)}
             </div>

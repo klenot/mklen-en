@@ -17,7 +17,7 @@ export default async function BlogListRepeater({
   return (
     <>
       <div className='blog-list-container'>
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <a
             className='blog-list-item'
             key={post.id}
