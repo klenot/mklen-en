@@ -43,7 +43,12 @@ export default function About() {
           }}
           padding={"none"}
         />
-        <SkillRepeater />
+        <SkillRepeater
+          filterA={"Showcase"}
+          categoryA={"Showcase"}
+          filterB={"Showcase"}
+          categoryB={"Showcase"}
+         />
         <BookRepeater
           heading={"Reading"}
           description={
