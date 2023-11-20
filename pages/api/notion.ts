@@ -27,7 +27,7 @@ export default async function handler(
   try {
     // Determine the type of Notion operation based on the request body
     const { operation, data } = req.body;
-    console.log("🚀 ~ file: notion.ts:25 ~ peration, data:", operation, data);
+    console.log("🚀 ~ file: notion.ts:25 ~ operation, data:", operation, data);
 
     if (operation === "databaseQueryWithOr") {
       console.log("Executing databaseQueryWithOr operation");

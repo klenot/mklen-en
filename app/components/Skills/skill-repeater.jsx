@@ -156,7 +156,7 @@ export default function SkillRepeater({ props }) {
                 {isLoading === true ? (
                   <SkillSkeleton />
                 ) : (
-                  skills.map((skill) => (
+                  skills?.map((skill) => (
                     <div key={skill.id} className='skill-list-item shw man'>
                       <div className='skill-title'>
                         <h3>

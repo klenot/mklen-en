@@ -12,7 +12,7 @@ import "styles/globals.css";
 
 // import required modules
 import { EffectCoverflow, Pagination } from "swiper/modules";
-import { getDatabaseWithOr } from "../../libs/notion-services";
+import { getDatabaseWithOr } from "app/libs/notion-services";
 
 export default function Slider() {
   const [books, setBooks] = useState([]);
@@ -51,7 +51,7 @@ export default function Slider() {
         pagination={false}
         modules={[EffectCoverflow, Pagination]}
         className='mySwiper'>
-        {books.map((book) => (
+        {books?.map((book) => (
           <SwiperSlide key={book.id}>
             <img src={book.properties.BookCover.files[0].file.url} />
           </SwiperSlide>

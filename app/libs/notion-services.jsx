@@ -32,6 +32,7 @@ export const getDatabaseWithAnd = async (databaseId, filterA, categoryA, filterB
       operation: "databaseQueryWithAnd",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
     });
+    console.log("🚀 ~ file: notion-services.jsx:35 ~ getDatabaseWithAnd ~ response:", response);
     return response.data;
   } catch (error) {
     handleNotionError(error);

@@ -1362,12 +1362,9 @@ li>span {
 /* TILE SECTION ----------------------------------------------------------------------------- */
 
 .tile-container {
-  /*   display: flex;
-  flex-flow: row wrap; */
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
-  grid-auto-rows: 1fr;
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+  grid-gap: 3rem;
 }
 
 .tile-filter {
