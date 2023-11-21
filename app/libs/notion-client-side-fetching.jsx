@@ -13,7 +13,6 @@ export const notion = axios.create({
 });
 
 export const getDatabaseWithOr = async (databaseId, filterA, categoryA, filterB, categoryB) => {
-  console.warn("🚀 ~ file: notion-client-side-fetching ~ getDatabaseWithOr ~ databaseId, filterA, categoryA, filterB, categoryB:", databaseId, filterA, categoryA, filterB, categoryB);
   try {
     const response = await notion.post("/notion", {
       operation: "databaseQueryWithOr",
@@ -27,13 +26,13 @@ export const getDatabaseWithOr = async (databaseId, filterA, categoryA, filterB,
 };
 
 export const getDatabaseWithAnd = async (databaseId, filterA, categoryA, filterB, categoryB) => {
-  try {
-    const response = await notion.post("/notion", {
-      operation: "databaseQueryWithAnd",
-      data: { databaseId, filterA, categoryA, filterB, categoryB },
-    });
-    console.log("🚀 ~ file: notion-client-side-fetching.jsx:35 ~ getDatabaseWithAnd ~ response:", response);
-    return response.data;
+    try {
+      const response = await notion.post("/notion", {
+        operation: "databaseQueryWithAnd",
+        data: { databaseId, filterA, categoryA, filterB, categoryB },
+      });
+      console.log("🚀 ~ file: notion-client-side-fetching.jsx:35 ~ getDatabaseWithAnd ~ response:", response);
+      return response.data;
   } catch (error) {
     handleNotionError(error);
   }
@@ -75,7 +74,7 @@ export const GenerateKey = () => {
 // Add this function to handle Notion API errors
 function handleNotionError(error) {
   if (error.response && error.response.status === 401) {
-    console.error("Unauthorized access. Please check your Notion API key.");
+    console.error("Unauthorized access. Check the Notion API key.");
     // Handle unauthorized error
   } else if (error.response && error.response.status === 429) {
     const retryAfter = error.response.headers["retry-after"] || "unknown";

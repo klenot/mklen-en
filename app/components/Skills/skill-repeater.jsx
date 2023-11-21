@@ -224,8 +224,8 @@ export default function SkillRepeater() {
           </div>
         </section>
       ) : ( */}
-        <section id='skill-section' className='pt-5 pb-5'>
-          <div className='skill-section-container'>
+      <section id='skill-section' className='pt-5 pb-5'>
+        <div className='skill-section-container'>
           <div>
             <div className='skill-section pb-2'>
               <h2>Skills</h2>
@@ -360,8 +360,8 @@ export default function SkillRepeater() {
               </div>
             </div>
           </div>
-          </div>
-        </section>
+        </div>
+      </section>
       {/* )} */}
     </>
   );

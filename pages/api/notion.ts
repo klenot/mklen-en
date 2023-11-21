@@ -50,6 +50,7 @@ export default async function handler(
         },
       });
       res.status(200).json(response.results);
+      return;
     } else if (operation === "databaseQueryWithAnd") {
       console.log("Executing databaseQueryWithAnd operation");
       const response = await notion.databases.query({
