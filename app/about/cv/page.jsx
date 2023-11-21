@@ -1,6 +1,6 @@
 import styles from "styles/cv.module.css";
 import Image from "next/image";
-import { getBlocks, GenerateKey } from "app/libs/notion-services.jsx";
+import { getBlocks, GenerateKey } from "app/libs/notion-server-side-fetching.jsx";
 import NavBar from "app/components/Shared/nav-bar-long.jsx"
 import HeroCv from "app/components/Cv/hero-cv.jsx";
 import SkillRepeater from "app/components/Skills/skill-repeater.jsx";
