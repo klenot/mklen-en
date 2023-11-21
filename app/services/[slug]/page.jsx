@@ -1,14 +1,17 @@
 import Image from "next/image";
-import { getBlocks, getPage, GenerateKey } from "app/libs/notion-services";
-import { getServiceBySlug } from "app/libs/get-page-by-slug.ts";
+import { getPageBySlug, getBlocks, getPage, GenerateKey } from "app/libs/notion-server-side-fetching.jsx";  
 import HeroServicePage from "app/components/Services/hero-service-page";
 import Button from "app/components/Shared/cta-button";
 
+const databaseId = process.env.SERVICES_DATABASE_ID;
+
 export async function generateMetadata({ params }) {
-  const slug = await getServiceBySlug(params.slug);
+  console.log(params.slug)
+  const slug = await getPageBySlug(params.slug, databaseId);
+  console.log(slug)
   const metadescription =
-    slug.properties.MetaDescription.rich_text[0].plain_text;
-  const metatitle = slug.properties.MetaTitle.rich_text[0].plain_text;
+    slug.results[0].properties.MetaDescription.rich_text[0].plain_text;
+  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0].plain_text;
 
   return {
     title: metatitle,
@@ -17,7 +20,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ServicePage({ params }) {
-  const slug = await getServiceBySlug(params.slug);
+  const slugObject = await getPageBySlug(params.slug, databaseId);
+  const slug = slugObject.results[0];
   const page = await getPage(slug.id);
   const blocks = await getBlocks(slug.id);
 
@@ -309,13 +313,13 @@ export default async function ServicePage({ params }) {
     <>
       <main>
         <HeroServicePage
-          h1={page.properties.ServiceName.title[0].plain_text}
+          title={page.properties.ServiceName.title[0].plain_text}
           perex={page.properties.Description.rich_text[0].plain_text}
           buttonText={page.properties.ButtonText.rich_text[0].plain_text}
         />
 
         <section className='service-container'>
-          {blocks.map((block) => (
+          {blocks?.map((block) => (
             <div className='service-section' key={block.id}>
               {renderBlock(block)}
             </div>

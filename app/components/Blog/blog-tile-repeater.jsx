@@ -1,6 +1,6 @@
 "use client";
 
-import { getDatabaseWithAnd } from "app/libs/notion-services";
+import { getDatabaseWithAnd } from "app/libs/notion-client-side-fetching.jsx";
 import { useEffect, useState } from "react";
 import TileSkeleton from "app/components/Shared/tile-skeleton";
 import BlogTile from "app/components/Blog/blog-tile.jsx"

@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getDatabaseWithOr } from "app/libs/notion-services";
+import { getDatabaseWithOr } from "app/libs/notion-client-side-fetching.jsx";
 import SkillSkeleton from "app/components/Skills/skill-skeleton.jsx";
 
 export default function SkillRepeater() {
   const [filterA, setFilterA] = useState("Showcase");
-  const [filterB, setFilterB] = useState("Showcase");
   const [categoryA, setCategoryA] = useState("Showcase");
+  const [filterB, setFilterB] = useState("Showcase");
   const [categoryB, setCategoryB] = useState("Showcase");
   const [skills, setSkills] = useState([]);
   const [isLoading, setLoading] = useState(true);

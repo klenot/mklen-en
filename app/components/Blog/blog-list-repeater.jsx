@@ -1,6 +1,6 @@
 "use client"
 
-import { getDatabaseWithAnd } from "app/libs/notion-services";
+import { getDatabaseWithAnd } from "app/libs/notion-client-side-fetching.jsx";
 import { useEffect, useState } from "react";
 
 export default function BlogListRepeater({
@@ -9,7 +9,9 @@ export default function BlogListRepeater({
   filterB,
   categoryB,
 }) {
-const [posts, setPosts] = useState([]);
+
+  const [posts, setPosts] = useState([]);
+
 useEffect(() => {
   async function fetchData() {
     const posts = await getDatabaseWithAnd(

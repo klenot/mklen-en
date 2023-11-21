@@ -6,20 +6,20 @@ const baseURL = process.env.NEXT_PUBLIC_VERCEL_URL
   : "/api";
 
 export const notion = axios.create({
-  baseURL,
+  baseURL, // '/api'
   headers: {
     "Content-Type": "application/json; charset=UTF-8",
   },
 });
 
 export const getDatabaseWithOr = async (databaseId, filterA, categoryA, filterB, categoryB) => {
-  console.warn("🚀 ~ file: notion-services.jsx:11 ~ getDatabaseWithOr ~ databaseId, filterA, categoryA, filterB, categoryB:", databaseId, filterA, categoryA, filterB, categoryB);
+  console.warn("🚀 ~ file: notion-client-side-fetching ~ getDatabaseWithOr ~ databaseId, filterA, categoryA, filterB, categoryB:", databaseId, filterA, categoryA, filterB, categoryB);
   try {
     const response = await notion.post("/notion", {
       operation: "databaseQueryWithOr",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
     });
-    console.log("🚀 ~ file: notion-services.jsx:16 ~ getDatabaseWithOr ~ response:", response);
+    console.log("🚀 ~ file: notion-client-side-fetching ~ getDatabaseWithOr ~ response:", response);
     return response.data;
   } catch (error) {
     handleNotionError(error);

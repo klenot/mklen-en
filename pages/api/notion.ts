@@ -1,4 +1,3 @@
-// notion.js without CORS middleware
 import { Client } from "@notionhq/client";
 import { NextApiRequest, NextApiResponse } from "next";
 

@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "app/libs/notion-services.jsx"
+    "app/libs/notion-client-side-fetching.jsx"
   ],
   "exclude": [
     "node_modules"

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function HeroServicePage({ h1, perex, buttonText }) {
+export default function HeroServicePage({ title, perex, buttonText }) {
 
   return (
     <section>
@@ -8,7 +8,7 @@ export default function HeroServicePage({ h1, perex, buttonText }) {
         <div className='hero-section'>
           <h1>
             <span className='hero-claim'>
-              <span className='service-hero-claim'>{h1}</span>
+              <span className='service-hero-claim'>{title}</span>
             </span>
           </h1>
         </div>

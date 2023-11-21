@@ -1,13 +1,14 @@
-import { getBlocks, getPage, GenerateKey } from "app/libs/notion-services.jsx";
-import { getBlogBySlug } from "app/libs/get-page-by-slug.ts";
+import { getPageBySlug, getBlocks, getPage, GenerateKey } from "app/libs/notion-server-side-fetching.jsx";
 import HeroBlogPost from "app/components/Blog/hero-blog-post.jsx";
 import CodeBlock from "app/components/Shared/code-block"
 
+const databaseId = process.env.BLOG_DATABASE_ID
+
 export async function generateMetadata({ params }) {
-  const slug = await getBlogBySlug(params.slug);
+  const slug = await getPageBySlug(params.slug, databaseId);
   const metadescription =
-    slug.properties.MetaDescription.rich_text[0].plain_text;
-  const metatitle = slug.properties.MetaTitle.rich_text[0].plain_text;
+    slug.results[0].properties.MetaDescription.rich_text[0].plain_text;
+  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0].plain_text;
 
   return {
     title: metatitle,
@@ -16,7 +17,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Post({ params }) {
-  const slug = await getBlogBySlug(params.slug);
+  const slugObject = await getPageBySlug(params.slug, databaseId);
+  const slug = slugObject.results[0];
   const page = await getPage(slug.id);
   const blocks = await getBlocks(slug.id);
 
@@ -293,11 +295,8 @@ export default async function Post({ params }) {
     <>
       <main>
         <HeroBlogPost
-          h1={page.properties.PostTitle.title[0].plain_text}
+          title={page.properties.PostTitle.title[0].plain_text}
           perex={page.properties.PostPerex.rich_text[0].plain_text}
-          firstHeadingAnchor={
-            "http://localhost:3000/blog/80397377-91ea-4363-bd30-40f3dedb9a21#50a4eee2-30a9-48e4-81be-922b0f40a770"
-          }
           ToC={
             <div className='hero-section table-of-contents-section'>
               <label className="table-of-contents-roll-down" htmlFor='touch'>
@@ -305,7 +304,7 @@ export default async function Post({ params }) {
               </label>
               <input type='checkbox' id='touch' />
               <ul className='slide'>
-                {blocks.map((block) => {
+                {blocks?.map((block) => {
                   const renderedBlock = renderContentTable(block);
                   return renderedBlock ? (
                     <div key={block.id} className='table-of-contents-item'>
@@ -319,7 +318,7 @@ export default async function Post({ params }) {
           category={page.properties.Category.select.name}
         />
         <article className='article-section-container'>
-          {blocks.map((block) => (
+          {blocks?.map((block) => (
             <div key={block.id} className='article-section'>
               {renderBlock(block)}
             </div>

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { getDatabaseWithAnd } from "app/libs/notion-services";
+import { getDatabaseWithAnd } from "app/libs/notion-client-side-fetching.jsx";
 import { useState, useEffect } from "react";
 import TileSkeleton from "app/components/Shared/tile-skeleton.jsx";
 import ServiceTile from "app/components/Services/service-tile.jsx";
