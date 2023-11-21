@@ -1,4 +1,4 @@
-import Slider from "app/components/Shared/slider";
+import Slider from "app/components/Books/book-slider.jsx";
 
 export default function BookRepeater({ heading, description }) {
   return (

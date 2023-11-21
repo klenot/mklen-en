@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getDatabaseWithOr } from "app/libs/notion-services";
+import { getDatabaseWithOr } from "app/libs/notion-client-side-fetching.jsx";
 import SkillSkeleton from "app/components/Skills/skill-skeleton.jsx";
 
-export default function SkillRepeater({ props }) {
+export default function SkillRepeater() {
   const [filterA, setFilterA] = useState("Showcase");
-  const [filterB, setFilterB] = useState("Showcase");
   const [categoryA, setCategoryA] = useState("Showcase");
+  const [filterB, setFilterB] = useState("Showcase");
   const [categoryB, setCategoryB] = useState("Showcase");
   const [skills, setSkills] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -34,7 +34,6 @@ export default function SkillRepeater({ props }) {
     setCategoryA("Showcase");
     setFilterB("Showcase");
     setCategoryB("Showcase");
-    console.log(skills);
   }
   function showCoding() {
     setFilterA("Category");
@@ -87,7 +86,7 @@ export default function SkillRepeater({ props }) {
 
   return (
     <>
-      {props === undefined ? (
+      {/* {props === undefined ? (
         <section id='skill-section' className='pt-10 pb-10'>
           <div className='skill-section-container'>
             <div className='skill-section pb-2'>
@@ -156,7 +155,7 @@ export default function SkillRepeater({ props }) {
                 {isLoading === true ? (
                   <SkillSkeleton />
                 ) : (
-                  skills.map((skill) => (
+                  skills?.map((skill) => (
                     <div key={skill.id} className='skill-list-item shw man'>
                       <div className='skill-title'>
                         <h3>
@@ -224,8 +223,9 @@ export default function SkillRepeater({ props }) {
             </div>
           </div>
         </section>
-      ) : (
-        <section id='skill-section' className='pt-5 pb-5'>
+      ) : ( */}
+      <section id='skill-section' className='pt-5 pb-5'>
+        <div className='skill-section-container'>
           <div>
             <div className='skill-section pb-2'>
               <h2>Skills</h2>
@@ -293,7 +293,7 @@ export default function SkillRepeater({ props }) {
                 {isLoading === true ? (
                   <SkillSkeleton />
                 ) : (
-                  skills.map((skill) => (
+                  skills?.map((skill) => (
                     <div key={skill.id} className='skill-list-item shw man'>
                       <div className='skill-title'>
                         <h3>
@@ -360,8 +360,9 @@ export default function SkillRepeater({ props }) {
               </div>
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
+      {/* )} */}
     </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
+import { getDatabaseWithAnd } from "app/libs/notion-client-side-fetching.jsx";
 import { useEffect, useState } from "react";
-import { getDatabaseWithAnd } from "app/libs/notion-services";
 import TileSkeleton from "app/components/Shared/tile-skeleton";
 import BlogTile from "app/components/Blog/blog-tile.jsx"
 
@@ -106,7 +106,7 @@ export default function BlogTileRepeater() {
       </div>
       <div className='tile-container'>
         {isLoading ? <TileSkeleton/> :
-        posts.map((post) => (
+        posts?.map((post) => (
           <BlogTile
             key={post.id} 
             props={{

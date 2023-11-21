@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getDatabaseWithAnd } from "app/libs/notion-services";
+import { getDatabaseWithAnd } from "app/libs/notion-client-side-fetching.jsx";
 
 export default async function ProjectRepeater({
   filterA,
@@ -52,7 +52,7 @@ export default async function ProjectRepeater({
       </div> */}
 
       <div className='tile-container'>
-        {projects.map((project) => (
+        {projects?.map((project) => (
           <Link
             className='tile-wrapper'
             href={`/projects/${project.properties.Slug.formula.string}`}>

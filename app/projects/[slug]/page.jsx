@@ -1,15 +1,13 @@
-import Image from "next/image";
 import { getBlocks, getPage, GenerateKey } from "app/libs/notion-services.jsx";
-import { getProjectBySlug } from "app/libs/get-page-by-slug.ts";
 import HeroProjectPage from "app/components/Projects/hero-project-page";
 import Button from "app/components/Shared/cta-button.jsx";
 import CodeBlock from "app/components/Shared/code-block";
 
 export async function generateMetadata({ params }) {
-  const slug = await getProjectBySlug(params.slug);
+  const slug = await getPageBySlug(params.slug, databaseId);
   const metadescription =
-    slug.properties.MetaDescription.rich_text[0].plain_text;
-  const metatitle = slug.properties.MetaTitle.rich_text[0].plain_text;
+    slug.results[0].properties.MetaDescription.rich_text[0].plain_text;
+  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0].plain_text;
 
   return {
     title: metatitle,
@@ -18,7 +16,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProjectPage({ params }) {
-  const slug = await getProjectBySlug(params.slug);
+  const slugObject = await getPageBySlug(params.slug, databaseId);
+  const slug = slugObject.results[0];
   const page = await getPage(slug.id);
   const blocks = await getBlocks(slug.id);
 

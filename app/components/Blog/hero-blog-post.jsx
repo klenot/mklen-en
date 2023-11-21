@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function HeroBlogPost({ h1, perex, ToC, category }) {
+export default function HeroBlogPost({ title, perex, ToC, category }) {
   const [readingTime, setReadngTime] = useState();
   useEffect(() => {
     function ReadingTime() {
@@ -24,7 +24,7 @@ export default function HeroBlogPost({ h1, perex, ToC, category }) {
           <div className='hero-section'>
             <h1>
               <span className='hero-claim'>
-                <span className='hero-claim'>{h1}</span>
+                <span className='hero-claim'>{title}</span>
               </span>
             </h1>
           </div>

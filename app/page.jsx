@@ -5,6 +5,8 @@ import ServiceSection from "app/components/Services/service-section.jsx";
 import BlogListSection from "app/components/Blog/blog-list-section";
 import Footer from "app/components/Shared/footer-long";
 
+import BlogListRepeater from "app/components/Blog/blog-list-repeater.jsx"
+
 export const metadata = {
   description:
     "As someone who's been in the world of marketing tech and project management for a while, I'm here to share my insights and know-how with you.",

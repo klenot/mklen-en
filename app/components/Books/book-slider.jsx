@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -12,7 +12,7 @@ import "styles/globals.css";
 
 // import required modules
 import { EffectCoverflow, Pagination } from "swiper/modules";
-import { getDatabaseWithOr } from "../../libs/notion-services";
+import { getDatabaseWithOr } from "app/libs/notion-client-side-fetching.jsx";
 
 export default function Slider() {
   const [books, setBooks] = useState([]);
@@ -51,7 +51,7 @@ export default function Slider() {
         pagination={false}
         modules={[EffectCoverflow, Pagination]}
         className='mySwiper'>
-        {books.map((book) => (
+        {books?.map((book) => (
           <SwiperSlide key={book.id}>
             <img src={book.properties.BookCover.files[0].file.url} />
           </SwiperSlide>

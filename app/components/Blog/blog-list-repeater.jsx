@@ -1,23 +1,35 @@
-import { getDatabaseWithAnd } from "app/libs/notion-services";
+"use client"
 
-export default async function BlogListRepeater({
+import { getDatabaseWithAnd } from "app/libs/notion-client-side-fetching.jsx";
+import { useEffect, useState } from "react";
+
+export default function BlogListRepeater({
   filterA,
   categoryA,
   filterB,
   categoryB,
 }) {
-  const posts = await getDatabaseWithAnd(
-    process.env.BLOG_DATABASE_ID,
-    filterA,
-    categoryA,
-    filterB,
-    categoryB
-  );
+
+  const [posts, setPosts] = useState([]);
+
+useEffect(() => {
+  async function fetchData() {
+    const posts = await getDatabaseWithAnd(
+      process.env.BLOG_DATABASE_ID,
+      filterA,
+      categoryA,
+      filterB,
+      categoryB
+    );
+    setPosts(posts);
+  }
+  fetchData();
+}, []);
 
   return (
     <>
       <div className='blog-list-container'>
-        {posts.map((post) => (
+        {posts?.map((post) => (
           <a
             className='blog-list-item'
             key={post.id}
