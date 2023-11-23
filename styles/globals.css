@@ -117,13 +117,8 @@ button {
 
   --primary-outline: #2e2e2e;
 
-  --button-primary-color: #ffad7a;
-  --button-outline-color: #d36a2d;
-  --button-secondary-color: #0a0a0a;
-  --button-boxShadow: 4px 4px 0px 0px #ffab7c;
-  --button-hover-color: #ff9354;
-  --button-hover-boxShadow: none;
-  --button-hover-text: black;
+  --button-bg: linear-gradient(to right, #934bd0 0%, #61dcfb 100%);
+  --button-boxShadow: linear-gradient(to right, #934bd0 0%, #61dcfb 100%);
 
   --tile-backgroundGradient: linear-gradient(49.21deg, #2e769d 19.87%, #3e9c55 58.46%, #9de1b4 97.05%);
   --tile-boxShadow: 4px 4px 0px 0px #9de1b4;
@@ -173,12 +168,8 @@ button {
 
   --primary-outline: #353535;
 
-  --button-primary-color: #E9FBFA;
-  --button-outline-color: #1c1c1c;
-  --button-secondary-color: #ffffff;
-  --button-hover-color: #ddfaf8;
-  --button-hover-boxShadow: 4px 4px 30px -20px #424242;
-  --button-hover-text: #353535;
+  --button-bg: linear-gradient(to right, rgb(255, 178, 96) 50%, #b058fc 100%);
+  --button-boxShadow: none;
 
   --tile-backgroundGradient: radial-gradient(46.28% 66.31% at 66.95% 58.35%, #e6e6f7 0%, #e7edfa 50%, #e9fbfa 100%);
   --tile-boxShadow: 4px 4px 0px 0px #d2d2f9;
@@ -400,11 +391,10 @@ button {
   padding-bottom: 2%;
 }
 
-.cta:hover {
+.cta:hover, .cta:focus{
   scale: 1.02;
-  transition: 0.2s ease;
-  box-shadow: var(--button-hover-boxShadow);
-  background-color: var(--button-hover-color);
+  border: solid 0.1rem var(--primary-outline);
+  /* background-image: linear-gradient(to right, #61dcfb 0%, #934bd0 100%); */
 }
 
 .cta {
@@ -414,9 +404,36 @@ button {
   width: max-content;
   font-weight: var(--regular-font);
   cursor: pointer;
-  border: solid 0.1rem var(--button-outline-color);
-  background-color: var(--button-primary-color);
-  box-shadow: var(--button-boxShadow);
+  border: solid 0.1rem var(--primary-outline);
+  background:  var( --button-bg);
+  transition: background-color 1s;
+  transition: border 2s;
+  position: relative;
+}
+
+.light .cta {
+  box-shadow: 4px 4px 0px var(--primary-outline);
+  transition: box-shadow 0.25s;
+}
+
+.light .cta:hover {
+  box-shadow: none;
+}
+
+.cta::before {
+  content: "";
+  position: absolute;
+  z-index: -5;
+  inset: -1px;
+  transform: translate(3px, 3px);
+  background: var(--button-boxShadow);
+  filter: blur(10px);
+  border-radius: 4px;
+  transition: opacity 0.5s;
+}
+
+.cta:hover::before{
+  opacity: 0;
 }
 
 .ctaLarge {
@@ -437,10 +454,6 @@ button {
   color: var(--primary-text-color);
   display: flex;
   justify-content: center;
-}
-
-.cta:hover span {
-  color: var(--button-hover-text);
 }
 
 
@@ -518,18 +531,6 @@ a>p {
 .nav-item {
   font-weight: var(--thin-font);
   cursor: pointer;
-}
-
-.hover {
-  font-weight: var(--heavy-font);
-}
-
-.hover-adjacent {
-  font-weight: var(--bold-font);
-}
-
-.hovered-more-adjacent {
-  font-weight: var(--regular-font);
 }
 
 .nav-section>span {

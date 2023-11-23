@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getBlocks, GenerateKey } from "app/libs/notion-server-side-fetching.jsx";
+import { getBlocks } from "app/libs/notion-server-side-fetching.jsx";
 import NavBar from "app/components/Shared/nav-bar-long.jsx";
 import HeroLandingPage from "app/components/Shared/hero-landing-page.jsx";
 import ShortFooter from "app/components/Shared/footer-short.jsx";

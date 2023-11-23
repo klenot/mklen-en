@@ -8,7 +8,7 @@ import "styles/about-styles.css";
 export const metadata = {
   title: "Get to know me",
   description:
-    "I'm a experienced marktech consultant & PMI certified project manager. Find out all about my skills and projects in five minutes on my about page.",
+    "I'm experienced MarkTech consultant & certified project manager. Find out all about my skills and projects on this page.",
 };
 
 export default function About() {
@@ -29,7 +29,7 @@ export default function About() {
         <ContentImage
           anchor={"explore"}
           direction={"left"}
-          heading={"This is heading"}
+          heading={"Curriculum vitae"}
           text={
             "Everyone has an interestig story in the background. Here is a window to mine."
           }
@@ -38,7 +38,7 @@ export default function About() {
             alt: "Extaordinarily smart purpleish cat is jumping on levitating books.",
           }}
           button={{
-            text: "Curriculum vitae",
+            text: "Take a look",
             link: "/about/cv",
           }}
           padding={"pb-10"}
