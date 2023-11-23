@@ -3,9 +3,9 @@ export default function Form({ heading, description }) {
       <>
         <div className="pt-5 pb-5">
             <div className="text-section-container">
-              {heading === "-" ? null :
+              {heading === "" ? null :
               <h2 className='form-h2'>{heading}</h2>}
-              {description === "-" ? null :
+              {description === "" ? null :
               <p className='text-section'>{description}</p>}
                 <form
                   action='https://formsubmit.co/mklen@mklenotic.cz'

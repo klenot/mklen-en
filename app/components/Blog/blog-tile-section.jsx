@@ -6,16 +6,16 @@ export default function BlogTileSection({ h2, perex, buttonText }) {
     <>
       <section id='blog-section' className='pb-5'>
         <div className='blog-section-container'>
-          {h2 === "-" ? (
-            <></>
+          {h2 === "" ? (
+            null
           ) : (
             <div className='blog-section pb-2'>
               <h2>{h2}</h2>
             </div>
           )}
 
-          {perex === "-" ? (
-            <></>
+          {perex === "" ? (
+            null
           ) : (
             <div className='blog-section pb-2'>
               <p>{perex}</p>
@@ -24,8 +24,8 @@ export default function BlogTileSection({ h2, perex, buttonText }) {
 
           <BlogTileRepeater />
 
-          {buttonText === "-" ? (
-            <></>
+          {buttonText === "" ? (
+            null
           ) : (
             <div className='blog-section button-wrapper'>
               <button className='cta ctaLarge'>

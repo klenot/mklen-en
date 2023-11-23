@@ -106,11 +106,10 @@ export default async function Post({ params }) {
   const renderBlock = (block) => {
     const { type, id } = block;
     const value = block[type];
-
     switch (type) {
       case "paragraph":
         return (
-          <p key={GenerateKey()} className='article-text'>
+          <p key={Math.random()} className='article-text'>
             <Text text={value.rich_text} className='plain-text' />
           </p>
         );
@@ -120,7 +119,7 @@ export default async function Post({ params }) {
           .toLowerCase();
         const queryh1 = preQueryh1.replaceAll(/[^a-zA-Z0-9-]/g, "");
         return (
-          <h1 key={GenerateKey()} id={queryh1} className='article-h1'>
+          <h1 key={Math.random()} id={queryh1} className='article-h1'>
             <Text text={value.rich_text} />
           </h1>
         );
@@ -130,7 +129,7 @@ export default async function Post({ params }) {
           .toLowerCase();
         const queryh2 = preQueryh2.replaceAll(/[^a-zA-Z0-9-]/g, "");
         return (
-          <h2 key={GenerateKey()} id={queryh2} className='article-h2'>
+          <h2 key={Math.random()} id={queryh2} className='article-h2'>
             <Text text={value.rich_text} />
           </h2>
         );
@@ -140,20 +139,20 @@ export default async function Post({ params }) {
           .toLowerCase();
         const queryh3 = preQueryh3.replaceAll(/[^a-zA-Z0-9-]/g, "");
         return (
-          <h3 key={GenerateKey()} id={queryh3} className='article-h3'>
+          <h3 key={Math.random()} id={queryh3} className='article-h3'>
             <Text text={value.rich_text} />
           </h3>
         );
       case "bulleted_list": {
         return (
-          <ul key={GenerateKey()} className='article-bullet-list'>
+          <ul key={Math.random()} className='article-bullet-list'>
             {value.children.map((child) => renderBlock(child))}
           </ul>
         );
       }
       case "numbered_list": {
         return (
-          <ol key={GenerateKey()} className='article-numbered-list'>
+          <ol key={Math.random()} className='article-numbered-list'>
             {value.children.map((child) => renderBlock(child))}
           </ol>
         );
@@ -168,7 +167,7 @@ export default async function Post({ params }) {
         );
       case "to_do":
         return (
-          <div key={GenerateKey()}>
+          <div key={Math.random()}>
             <label className='checkbox-label' htmlFor={id}>
               <input type='checkbox' id={id} defaultChecked={value.checked} />
               <span className='checkmark'></span>{" "}
@@ -178,7 +177,7 @@ export default async function Post({ params }) {
         );
       case "toggle":
         return (
-          <details  key={GenerateKey()} className='article-text'>
+          <details  key={Math.random()} className='article-text'>
             <summary>
               <Text className='article-text' text={value.rich_text} />
             </summary>
@@ -191,7 +190,7 @@ export default async function Post({ params }) {
         );
       case "child_page":
         return (
-          <div key={GenerateKey()} className='aricle-section'>
+          <div key={Math.random()} className='aricle-section'>
             <strong>{value.title}</strong>
             {block.children.map((child) => renderBlock(child))}
           </div>
@@ -201,7 +200,7 @@ export default async function Post({ params }) {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure key={GenerateKey()} className='article-image-container'>
+          <figure key={Math.random()} className='article-image-container'>
             <img src={src} alt={caption} className='article-img' />
             {caption && <figcaption>{caption}</figcaption>}
           </figure>
@@ -210,7 +209,7 @@ export default async function Post({ params }) {
         return <span className="blog-divider">* * *</span>/* <hr key={id} className="blog-divider"/> */;
       case "quote":
         return (
-          <blockquote key={GenerateKey()} className='quote'>
+          <blockquote key={Math.random()} className='quote'>
             
             {value.rich_text[0].plain_text}
             
@@ -218,7 +217,7 @@ export default async function Post({ params }) {
         );
       case "code":
         return (
-          <CodeBlock key={GenerateKey()}
+          <CodeBlock key={Math.random()}
             code={value.rich_text[0].plain_text}
           />
         );
@@ -230,7 +229,7 @@ export default async function Post({ params }) {
           splitSourceArray[splitSourceArray.length - 1];
         const caption_file = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure key={GenerateKey()}>
+          <figure key={Math.random()}>
             <div>
               📎{" "}
               <Link href={src_file} passHref>
@@ -243,13 +242,13 @@ export default async function Post({ params }) {
       case "bookmark":
         const href = value.url;
         return (
-          <a key={GenerateKey()} href={href} target='_blank'>
+          <a key={Math.random()} href={href} target='_blank'>
             {href}
           </a>
         );
       case "table": {
         return (
-          <table key={GenerateKey()}>
+          <table key={Math.random()}>
             <tbody>
               {block.children?.map((child, i) => {
                 const RowElement =
@@ -272,14 +271,14 @@ export default async function Post({ params }) {
       }
       case "column_list": {
         return (
-          <div key={GenerateKey()} className='columns'>
+          <div key={Math.random()} className='columns'>
             {block.children.map((block) => renderBlock(block))}
           </div>
         );
       }
       case "column": {
         return (
-          <div key={GenerateKey()} className='column'>
+          <div key={Math.random()} className='column'>
             {block.children.map((child) => renderBlock(child))}
           </div>
         );

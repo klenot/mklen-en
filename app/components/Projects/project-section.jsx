@@ -11,15 +11,15 @@ export default function ProjectSection({
     <>
       <section id='project-section'>
         <div className='landing-page-container'>
-          {title === "-" ? (
-            <></>
+          {title === "" ? (
+            null
           ) : (
             <div className='landing-page-section pb-1'>
               <h2>{title}</h2>
             </div>
           )}
-          {description === "-" ? (
-            <></>
+          {description === "" ? (
+            null
           ) : (
             <div className='landing-page-section'>
               <p>{description}</p>
@@ -36,8 +36,8 @@ export default function ProjectSection({
           />
         </div>
 
-        {button.text === "-" ? (
-          <></>
+        {button.text === "" ? (
+          null
         ) : (
           <div className='landing-page-container'>
             <div className='landing-page-section button-wrapper'>

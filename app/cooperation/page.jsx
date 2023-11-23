@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getBlocks, GenerateKey } from "app/libs/notion-services.jsx";
+import { getBlocks, GenerateKey } from "app/libs/notion-server-side-fetching.jsx";
 import NavBar from "app/components/Shared/nav-bar-long.jsx";
 import HeroLandingPage from "app/components/Shared/hero-landing-page.jsx";
 import ShortFooter from "app/components/Shared/footer-short.jsx";
@@ -53,38 +53,38 @@ export default async function Cooperation() {
     switch (type) {
       case "paragraph":
         return (
-          <p key={GenerateKey()} className='landing-page-text'>
+          <p key={Math.random()} className='landing-page-text'>
             <Text text={value.rich_text} className='plain-text' />
           </p>
         );
       case "heading_1":
         return (
-          <h1 key={GenerateKey()} className='landing-page-h1'>
+          <h1 key={Math.random()} className='landing-page-h1'>
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 key={GenerateKey()} className='landing-page-h2'>
+          <h2 key={Math.random()} className='landing-page-h2'>
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 key={GenerateKey()} className='landing-page-h3'>
+          <h3 key={Math.random()} className='landing-page-h3'>
             <Text text={value.rich_text} />
           </h3>
         );
       case "bulleted_list": {
         return (
-          <ul key={GenerateKey()} className='landing-page-bullet-list'>
+          <ul key={Math.random()} className='landing-page-bullet-list'>
             {value.children.map((child) => renderBlock(child))}
           </ul>
         );
       }
       case "numbered_list": {
         return (
-          <ol key={GenerateKey()} className='landing-page-numbered-list'>
+          <ol key={Math.random()} className='landing-page-numbered-list'>
             {value.children.map((child) => renderBlock(child))}
           </ol>
         );
@@ -99,7 +99,7 @@ export default async function Cooperation() {
         );
       case "to_do":
         return (
-          <div key={GenerateKey()}>
+          <div key={Math.random()}>
             <label className='checkbox-label' htmlFor={id}>
               <input type='checkbox' id={id} defaultChecked={value.checked} />
               <span className='checkmark'></span>{" "}
@@ -109,7 +109,7 @@ export default async function Cooperation() {
         );
       case "toggle":
         return (
-          <details key={GenerateKey()} className='landing-page-text'>
+          <details key={Math.random()} className='landing-page-text'>
             <summary>
               <Text className='landing-page-text' text={value.rich_text} />
             </summary>
@@ -132,7 +132,7 @@ export default async function Cooperation() {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure key={GenerateKey()} className='landing-page-image-container'>
+          <figure key={Math.random()} className='landing-page-image-container'>
             <Image
               src={src}
               alt={caption}
@@ -143,12 +143,12 @@ export default async function Cooperation() {
           </figure>
         );
       case "divider":
-        return <hr className='content-divider' key={GenerateKey()} />;
+        return <hr className='content-divider' key={Math.random()} />;
       case "quote":
         return (
-          <blockquote key={GenerateKey()} className='quote'>
+          <blockquote key={Math.random()} className='quote'>
             <Text
-              key={GenerateKey()}
+              key={Math.random()}
               text={value.rich_text}
               className='plain-text'
             />
@@ -158,7 +158,7 @@ export default async function Cooperation() {
         return <span>{value.plain_text}</span>;
       case "code":
         return (
-          <div key={GenerateKey()} id='form' className='landing-page-form'>
+          <div key={Math.random()} id='form' className='landing-page-form'>
             <h2 className='form-h2'>Get in touch.</h2>
             <form
               action='https://formsubmit.co/mklen@mklenotic.cz'
@@ -231,7 +231,7 @@ export default async function Cooperation() {
           splitSourceArray[splitSourceArray.length - 1];
         const caption_file = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure key={GenerateKey()}>
+          <figure key={Math.random()}>
             <div>
               📎{" "}
               <Link href={src_file} passHref>
@@ -246,7 +246,7 @@ export default async function Cooperation() {
         const href = value.url;
         return (
           <Button
-            key={GenerateKey()}
+            key={Math.random()}
             buttonText={buttonText}
             buttonLink={href}
             buttonSize={"small"}
@@ -254,7 +254,7 @@ export default async function Cooperation() {
         );
       case "table": {
         return (
-          <table key={GenerateKey()}>
+          <table key={Math.random()}>
             <tbody>
               {block.children?.map((child, i) => {
                 const RowElement =
@@ -278,7 +278,7 @@ export default async function Cooperation() {
       case "column_list": {
         return (
           <div
-            key={GenerateKey()}
+            key={Math.random()}
             className='landing-page-content-image-container'>
             {block.children.map((block) => renderBlock(block))}
           </div>
@@ -287,7 +287,7 @@ export default async function Cooperation() {
       case "column": {
         return (
           <div
-            key={GenerateKey()}
+            key={Math.random()}
             className='landing-page-content-image-section'>
             {block.children.map((child) => renderBlock(child))}
           </div>

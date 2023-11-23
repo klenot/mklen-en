@@ -23,12 +23,12 @@ export default function Services() {
         }}
       />
       <ServiceSection
-        title={"-"}
+        title={""}
         description={
-          "-"
+          ""
         }
         button={{
-          text: "-",
+          text: "",
           link: ""
         }}
         filters={{

@@ -1,22 +1,38 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { getDatabaseWithAnd } from "app/libs/notion-client-side-fetching.jsx";
+import {
+  getDatabaseWithAnd,
+  GenerateKey,
+} from "app/libs/notion-client-side-fetching.jsx";
+import { useEffect, useState } from "react";
+import TileSkeleton from "app/components/Shared/tile-skeleton";
 
-export default async function ProjectRepeater({
-  filterA,
-  categoryA,
-  filterB,
-  categoryB,
-}) {
-  /* const projects = await getProjects(); */
-  const projects = await getDatabaseWithAnd(
-      process.env.PROJECTS_DATABASE_ID,
-      filterA,
-      categoryA,
-      filterB,
-      categoryB
-    );
-  
+export default function ProjectRepeater() {
+  const [filterA, setFilterA] = useState("Publish");
+  const [filterB, setFilterB] = useState("Publish");
+  const [categoryA, setCategoryA] = useState("Published");
+  const [categoryB, setCategoryB] = useState("Published");
+  const [projects, setProjects] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    async function fetchData() {
+      const projects = await getDatabaseWithAnd(
+        process.env.PROJECTS_DATABASE_ID,
+        filterA,
+        categoryA,
+        filterB,
+        categoryB
+      );
+      setProjects(projects);
+      setLoading(false);
+    }
+    fetchData();
+  }, []);
+
   return (
     <>
       {/* <div className='tile-filter pt-2 pb-2'>
@@ -52,32 +68,15 @@ export default async function ProjectRepeater({
       </div> */}
 
       <div className='tile-container'>
-        {projects?.map((project) => (
-          <Link
-            className='tile-wrapper'
-            href={`/projects/${project.properties.Slug.formula.string}`}>
-            <div key={project.id} className='tile-card'>
-              <div className='tile-image-wrapper'>
-                <Image
-                  src={project.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : project.properties.Thumbnail.files[0].file.url}
-                  width={300}
-                  height={200}
-                  alt={project.properties.AltText.rich_text[0] === undefined ? "A signature of good fortune to your projects." : project.properties.AltText.rich_text[0].plain_text}
-                  /* placeholder="blur" */
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-
-              <div className='tile-info-wrapper'>
-                <div className='tile-info'>
-                  <div>
-                    <h3>{project.properties.ProjectName.title[0].plain_text}</h3>
-                    <p className='pt-1 pb-1'>
-                      {project.properties.Description.rich_text[0].plain_text}
-                    </p>
-                  </div>
-                </div>
-
+        {isLoading ? (
+          <TileSkeleton />
+        ) : (
+          projects?.map((project) => (
+            <Link
+              key={GenerateKey()}
+              className='tile-wrapper'
+              href={`/projects/${project.properties.Slug.formula.string}`}>
+              <div key={project.id} className='tile-card'>
                 <div className='tile-more-info'>
                   <div
                     className={
@@ -85,7 +84,7 @@ export default async function ProjectRepeater({
                     }>
                     <div className='pill'>
                       <span className='tile-category-text'>
-                        {project.properties.Category.multi_select[0].name}
+                        {project.properties.Category.select.name}
                       </span>
                     </div>
                   </div>
@@ -104,13 +103,43 @@ export default async function ProjectRepeater({
                     </div>
                   </div> */}
                 </div>
+
+                <div className='tile-image-wrapper'>
+                  <Image
+                    src={
+                      project.properties.Thumbnail.files[0] === undefined
+                        ? "/images/cv/podpis_mk_grey1.png"
+                        : project.properties.Thumbnail.files[0].file.url
+                    }
+                    width={300}
+                    height={200}
+                    alt={
+                      project.properties.AltText.rich_text[0] === undefined
+                        ? "A signature of good fortune to your projects."
+                        : project.properties.AltText.rich_text[0].plain_text
+                    }
+                    /* placeholder="blur" */
+                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                  />
+                </div>
+
+                <div className='tile-info-wrapper'>
+                  <div className='tile-info'>
+                    <div>
+                      <h3>
+                        {project.properties.ProjectName.title[0].plain_text}
+                      </h3>
+                      <p className='pt-1 pb-1'>
+                        {project.properties.Description.rich_text[0].plain_text}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          ))
+        )}
       </div>
     </>
   );
-
-
 }

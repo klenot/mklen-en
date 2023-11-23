@@ -18,7 +18,7 @@ export const getDatabaseWithOr = async (databaseId, filterA, categoryA, filterB,
       operation: "databaseQueryWithOr",
       data: { databaseId, filterA, categoryA, filterB, categoryB },
     });
-    console.log("🚀 ~ file: notion-client-side-fetching ~ getDatabaseWithOr ~ response:", response);
+    /* console.log("🚀 ~ file: notion-client-side-fetching ~ getDatabaseWithOr ~ response:", response); */
     return response.data;
   } catch (error) {
     handleNotionError(error);
@@ -31,7 +31,7 @@ export const getDatabaseWithAnd = async (databaseId, filterA, categoryA, filterB
         operation: "databaseQueryWithAnd",
         data: { databaseId, filterA, categoryA, filterB, categoryB },
       });
-      console.log("🚀 ~ file: notion-client-side-fetching.jsx:35 ~ getDatabaseWithAnd ~ response:", response);
+      /* console.log("🚀 ~ file: notion-client-side-fetching.jsx:35 ~ getDatabaseWithAnd ~ response:", response); */
       return response.data;
   } catch (error) {
     handleNotionError(error);

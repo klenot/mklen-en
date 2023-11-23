@@ -68,7 +68,7 @@ export default function BlogTileRepeater() {
     <>
       <div className='tile-filter pt-2 pb-2'>
         <div>
-          <button onClick={showAll} className='post-category-filter-button'>
+          <button onClick={showAll} className='filter-button'>
             <span>All</span>
           </button>
         </div>
@@ -76,7 +76,7 @@ export default function BlogTileRepeater() {
         <div>
           <button
             onClick={showProjectManagementPosts}
-            className='post-category-pm-filter-button'>
+            className='filter-button'>
             <span>Project management</span>
           </button>
         </div>
@@ -84,7 +84,7 @@ export default function BlogTileRepeater() {
         <div>
           <button
             onClick={showProductivityPosts}
-            className='post-category-prod-filter-button'>
+            className='filter-button'>
             <span>Productivity</span>
           </button>
         </div>
@@ -92,14 +92,14 @@ export default function BlogTileRepeater() {
         <div>
           <button
             onClick={showThoughtsPosts}
-            className='post-category-thg-filter-button'>
+            className='filter-button'>
             <span>Thoughts</span>
           </button>
         </div>
         <div>
           <button
             onClick={showManagementPosts}
-            className='post-category-thg-filter-button'>
+            className='filter-button'>
             <span>Management</span>
           </button>
         </div>

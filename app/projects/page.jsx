@@ -24,9 +24,9 @@ export default function Projects() {
         }}
       />
       <ProjectSection
-        title={"-"}
+        title={""}
         description={
-          "-"
+          ""
         }
         button={{
           text: "cta",

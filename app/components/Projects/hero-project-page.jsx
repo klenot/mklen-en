@@ -1,29 +1,22 @@
 import Link from "next/link";
 
-export default function HeroProjectPage({ h1, perex, buttonText, heroLink }) {
+export default function HeroProjectPage({ title, sideKick, button }) {
 
   return (
     <section>
-      <div className='service-hero-container'>
+      <div className='project-hero-container'>
         <div className='hero-section'>
           <h1>
             <span className='hero-claim'>
-              <span className='hero-claim'>{h1}</span>
+              <span className='hero-claim'>{title}</span>
             </span>
           </h1>
         </div>
         <div className='hero-section'>
           <div>
-            <p className='hero-perex'>{perex}</p>
+            <p className='hero-perex'>{sideKick}</p>
           </div>
         </div>
-        {buttonText === "-" ? <></> : <div className='hero-section'>
-          <button className='cta'>
-            <Link href={heroLink}>
-              <span>{buttonText}</span>
-            </Link>
-          </button>
-        </div>}
       </div>
     </section>
   );

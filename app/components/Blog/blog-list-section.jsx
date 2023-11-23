@@ -4,14 +4,14 @@ import BlogListRepeater from "./blog-list-repeater";
 export default function BlogListSection({ title, perex, button, filters }) {
   return (
     <>
-      <section id='blog-section' className='pt-10 pb-10'>
+      <section id='blog-section' className='pt-5 pb-5'>
         <div className='blog-section-container'>
-          <div className='blog-section pb-2'>
+          {title === "" ? null : <div className='blog-section'>
             <h2>{title}</h2>
-          </div>
-          <div className='blog-section pb-2'>
+          </div>}
+         {perex === "" ? null : <div className='blog-section'>
             <p>{perex}</p>
-          </div>
+          </div>}
 
           <BlogListRepeater
             filterA={filters.filterA}
@@ -20,10 +20,10 @@ export default function BlogListSection({ title, perex, button, filters }) {
             categoryB={filters.categoryB}
           />
 
-          {button.text === "-" ? (
-            <></>
+          {button.text === "" ? (
+            null
           ) : (
-            <div className="pt-2">
+            <div>
               <div className='blog-section button-wrapper'>
                 <button className='cta ctaLarge'>
                   {button.link === "" ? (

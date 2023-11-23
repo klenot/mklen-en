@@ -29,25 +29,28 @@ export default function About() {
         <ContentImage
           anchor={"explore"}
           direction={"left"}
-          heading={""}
+          heading={"This is heading"}
           text={
-            "Every path is different. If you want to learn more about mine continue to my cv page."
+            "Everyone has an interestig story in the background. Here is a window to mine."
           }
           image={{
             url: "/images/about/cat-flying-on-a-laptop.png",
-            alt: "",
+            alt: "Extaordinarily smart purpleish cat is jumping on levitating books.",
           }}
           button={{
             text: "Curriculum vitae",
             link: "/about/cv",
           }}
-          padding={"yes"}
+          padding={"pb-10"}
         />
         <SkillRepeater
           filterA={"Showcase"}
           categoryA={"Showcase"}
           filterB={"Showcase"}
           categoryB={"Showcase"}
+          props={{
+            container: "yes",
+          }}
          />
         <BookRepeater
           heading={"Reading"}

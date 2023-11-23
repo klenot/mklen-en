@@ -18,14 +18,12 @@ export default function HeroBlogPost({ title, perex, ToC, category }) {
   }, []);
 
   return (
-    <section id='hero-section'>
-      <div className='hero-container blog-hero-container'>
+    <section>
+      <div className='blog-hero-container'>
         <div>
           <div className='hero-section'>
-            <h1>
-              <span className='hero-claim'>
-                <span className='hero-claim'>{title}</span>
-              </span>
+            <h1 className="blog-title">
+              {title}
             </h1>
           </div>
 

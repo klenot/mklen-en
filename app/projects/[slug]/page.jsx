@@ -1,13 +1,22 @@
-import { getBlocks, getPage, GenerateKey } from "app/libs/notion-services.jsx";
-import HeroProjectPage from "app/components/Projects/hero-project-page";
-import Button from "app/components/Shared/cta-button.jsx";
+import Image from "next/image";
+import {
+  getPageBySlug,
+  getBlocks,
+  getPage,
+  GenerateKey,
+} from "app/libs/notion-server-side-fetching.jsx";
+import HeroProjectPage from "app/components/Projects/hero-project-page.jsx";
+import Button from "app/components/Shared/cta-button";
 import CodeBlock from "app/components/Shared/code-block";
+
+const databaseId = process.env.PROJECTS_DATABASE_ID;
 
 export async function generateMetadata({ params }) {
   const slug = await getPageBySlug(params.slug, databaseId);
   const metadescription =
     slug.results[0].properties.MetaDescription.rich_text[0].plain_text;
-  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0].plain_text;
+  const metatitle =
+    slug.results[0].properties.MetaTitle.rich_text[0].plain_text;
 
   return {
     title: metatitle,
@@ -40,7 +49,7 @@ export default async function ProjectPage({ params }) {
             underline ? "underline" : "",
           ].join(" ")}
           style={color !== "default" ? { color } : {}}
-          key={text.content}>
+          key={Math.random()}>
           {text.link ? (
             <a className='hover-underline-animation' href={text.link.url}>
               {text.content}
@@ -60,38 +69,38 @@ export default async function ProjectPage({ params }) {
     switch (type) {
       case "paragraph":
         return (
-          <p key={GenerateKey()} className='landing-page-text'>
+          <p key={Math.random()} className='landing-page-text'>
             <Text text={value.rich_text} className='plain-text' />
           </p>
         );
       case "heading_1":
         return (
-          <h1 key={GenerateKey()} className='landing-page-h1'>
+          <h1 key={Math.random()} className='landing-page-h1'>
             <Text text={value.rich_text} />
           </h1>
         );
       case "heading_2":
         return (
-          <h2 key={GenerateKey()} className='landing-page-h2'>
+          <h2 key={Math.random()} className='landing-page-h2'>
             <Text text={value.rich_text} />
           </h2>
         );
       case "heading_3":
         return (
-          <h3 key={GenerateKey()} className='landing-page-h3'>
+          <h3 key={Math.random()} className='landing-page-h3'>
             <Text text={value.rich_text} />
           </h3>
         );
       case "bulleted_list": {
         return (
-          <ul key={GenerateKey()} className='landing-page-bullet-list'>
+          <ul key={Math.random()} className='landing-page-bullet-list'>
             {value.children.map((child) => renderBlock(child))}
           </ul>
         );
       }
       case "numbered_list": {
         return (
-          <ol key={GenerateKey()} className='landing-page-numbered-list'>
+          <ol key={Math.random()} className='landing-page-numbered-list'>
             {value.children.map((child) => renderBlock(child))}
           </ol>
         );
@@ -99,14 +108,14 @@ export default async function ProjectPage({ params }) {
       case "bulleted_list_item":
       case "numbered_list_item":
         return (
-          <li key={block.id}>
+          <li key={Math.random()}>
             <Text text={value.rich_text} />
             {!!value.children && renderNestedList(block)}
           </li>
         );
       case "to_do":
         return (
-          <div key={GenerateKey()}>
+          <div key={Math.random()}>
             <label className='checkbox-label' htmlFor={id}>
               <input type='checkbox' id={id} defaultChecked={value.checked} />
               <span className='checkmark'></span>{" "}
@@ -116,12 +125,12 @@ export default async function ProjectPage({ params }) {
         );
       case "toggle":
         return (
-          <details key={GenerateKey()} className='landing-page-text'>
+          <details key={Math.random()} className='landing-page-text'>
             <summary>
               <Text className='landing-page-text' text={value.rich_text} />
             </summary>
             {block.children?.map((child) => (
-              <div className='toggle-content' key={child.id}>
+              <div className='toggle-content' key={Math.random()}>
                 {renderBlock(child)}
               </div>
             ))}
@@ -139,7 +148,7 @@ export default async function ProjectPage({ params }) {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure key={GenerateKey()} className='landing-page-image-container'>
+          <figure key={Math.random()} className='landing-page-image-container'>
             <Image
               src={src}
               alt={caption}
@@ -150,22 +159,24 @@ export default async function ProjectPage({ params }) {
           </figure>
         );
       case "divider":
-        return <hr className='content-divider' key={GenerateKey()} />;
+        return <hr className='content-divider' key={Math.random()} />;
       case "quote":
         return (
-          <blockquote key={GenerateKey()} className='quote'>
+          <blockquote key={Math.random()} className='quote'>
             <Text
-              key={GenerateKey()}
+              key={Math.random()}
               text={value.rich_text}
               className='plain-text'
             />
           </blockquote>
         );
       case "text":
-        return <span>{value.plain_text}</span>;
+        return <span key={Math.random()}>{value.plain_text}</span>;
       case "code":
         return (
-          <CodeBlock/>
+          <CodeBlock key={Math.random()}
+          code={value.rich_text[0].plain_text}
+        />
         );
       case "file":
         const src_file =
@@ -175,7 +186,7 @@ export default async function ProjectPage({ params }) {
           splitSourceArray[splitSourceArray.length - 1];
         const caption_file = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure key={GenerateKey()}>
+          <figure key={Math.random()}>
             <div>
               📎{" "}
               <Link href={src_file} passHref>
@@ -190,7 +201,7 @@ export default async function ProjectPage({ params }) {
         const href = value.url;
         return (
           <Button
-            key={GenerateKey()}
+            key={Math.random()}
             buttonText={buttonText}
             buttonLink={href}
             buttonSize={"small"}
@@ -198,7 +209,7 @@ export default async function ProjectPage({ params }) {
         );
       case "table": {
         return (
-          <table key={GenerateKey()}>
+          <table key={Math.random()}>
             <tbody>
               {block.children?.map((child, i) => {
                 const RowElement =
@@ -207,7 +218,7 @@ export default async function ProjectPage({ params }) {
                   <tr key={child.id}>
                     {child.table_row?.cells?.map((cell, i) => {
                       return (
-                        <RowElement key={`${cell.plain_text}-${i}`}>
+                        <RowElement key={Math.random()}>
                           <Text text={cell} />
                         </RowElement>
                       );
@@ -222,7 +233,7 @@ export default async function ProjectPage({ params }) {
       case "column_list": {
         return (
           <div
-            key={GenerateKey()}
+            key={Math.random()}
             className='landing-page-content-image-container'>
             {block.children.map((block) => renderBlock(block))}
           </div>
@@ -231,7 +242,7 @@ export default async function ProjectPage({ params }) {
       case "column": {
         return (
           <div
-            key={GenerateKey()}
+            key={Math.random()}
             className='landing-page-content-image-section'>
             {block.children.map((child) => renderBlock(child))}
           </div>
@@ -248,13 +259,12 @@ export default async function ProjectPage({ params }) {
     <>
       <main>
         <HeroProjectPage
-          h1={page.properties.ProjectName.title[0].plain_text}
-          perex={page.properties.Description.rich_text[0].plain_text}
-          buttonText={page.properties.ButtonText.rich_text[0].plain_text}
+          title={page.properties.ProjectName.title[0].plain_text}
+          sideKick={page.properties.Description.rich_text[0].plain_text}
         />
         <section className='landing-page-container'>
-          {blocks.map((block) => (
-            <div className='landing-page-section' key={block.id}>
+          {blocks?.map((block) => (
+            <div className='landing-page-section' key={Math.random()}>
               {renderBlock(block)}
             </div>
           ))}

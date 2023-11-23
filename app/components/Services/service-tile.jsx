@@ -8,23 +8,12 @@ export default function ServiceTile({ props }) {
         className='tile-wrapper'
         href={props.href}>
         <div className='tile-card'>
-          <div className='tile-more-info'>
-            <div
-              className={props.categoryClass}>
-              <div className='pill'>
-                <span className='tile-category-text'>
-                  {props.categoryName}
-                </span>
-              </div>
-            </div>
-          </div>
           <div className='tile-image-wrapper'>
             <Image
               src={props.srcImage}
               width={300}
               height={200}
               alt={props.altImage}
-              /* placeholder="blur" */
               sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             />
           </div>

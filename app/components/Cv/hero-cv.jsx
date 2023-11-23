@@ -37,7 +37,7 @@ export default function HeroCV() {
               />
             </div>
           </div>
-          <div onClick={() => document.getElementById('skill-section').scrollIntoView()} className={`${styles.bentoBox} ${styles.bento2}`}>
+          <div onClick={() => document.getElementById('skills').scrollIntoView()} className={`${styles.bentoBox} ${styles.bento2}`}>
             <div className={styles.bentoContent}>
               <div className={styles.bentoInnerContentSkills}>
                 <div className={styles.digitalMarketing}>

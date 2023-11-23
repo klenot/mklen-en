@@ -6,20 +6,21 @@ export default function ServiceSection({
   description,
   button,
   filters,
+  margin,
 }) {
   return (
     <>
-      <section className="pb-5">
+      <section className={margin === "" ? null : "mt-5 mb-5"}>
         <div className='landing-page-container'>
-          {title === "-" ? (
-            <></>
+          {title === "" ? (
+            null
           ) : (
-            <div className='landing-page-section pt-10 pb-1'>
+            <div className='landing-page-section'>
               <h2>{title}</h2>
             </div>
           )}
-          {description === "-" ? (
-            <></>
+          {description === "" ? (
+            null
           ) : (
             <div className='landing-page-section'>
               <p>{description}</p>
@@ -36,8 +37,8 @@ export default function ServiceSection({
           />
         </div>
 
-        {button.text === "-" ? (
-          <></>
+        {button.text === "" ? (
+          null
         ) : (
           <div className='landing-page-container'>
             <div className='landing-page-section button-wrapper'>

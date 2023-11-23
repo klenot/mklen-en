@@ -14,7 +14,7 @@ export default function ContentImage({
     <>
       <section
         id={anchor === "" ? null : anchor}
-        className={padding === "none" ? null : "pt-5 pb-5"}>
+        className={padding === "" ? null : padding}>
         <div
           className={`${"contentImageContainer"} ${
             direction === "right"
@@ -37,12 +37,8 @@ export default function ContentImage({
               className='contentImagePicture'
               src={image.url}
               alt={image.alt}
-              width={400}
-              height={400}
-              style={{
-                width: "500px",
-                height: "auto",
-              }}
+              width={300}
+              height={300}
             />
           </div>
         </div>

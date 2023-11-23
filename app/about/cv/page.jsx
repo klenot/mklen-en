@@ -162,11 +162,15 @@ export default async function CurriculumVitae() {
         );
       case "code":
         return (
+          <>
+          <h2 id="skills" style={{fontWeight: "600"}} className="pt-10">Skills</h2>
+          <p className="pt-2">I try to suck a bit less every day.</p>
           <SkillRepeater
             props={{
-              withContainer: "no"
+              container: "no"
             }}
           />
+          </>
         );
       case "file":
         const src_file =
