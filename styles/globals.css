@@ -129,7 +129,7 @@ button {
   --tile-bg: linear-gradient(to right, #934bd0 0%, #61dcfb 100%);
   --tile-shadow: linear-gradient(to right, #934bd0 0%, #61dcfb 100%);
 
-  --category-bg: #1e1e1e;
+  --category-bg: #131313;
   --category-outline: #2e2e2e;
   --category-shadow: none;
 
@@ -137,8 +137,8 @@ button {
   --skeleton-animation-start: rgb(78, 78, 78);
   --skeleton-animation-end: rgb(50, 50, 50);
 
-  --skill-category-bg: #CBFBFE;
-  --skill-level-bg: #DABCF9;
+  --skill-category-bg: #92e9ff;
+  --skill-level-bg: #c98bff;
 
   --post-date-bg: rgb(158, 158, 158);
 
@@ -171,7 +171,7 @@ button {
   --button-bg: linear-gradient(to right, rgb(255, 178, 96) 50%, #b058fc 100%);
   --button-boxShadow: none;
 
-  --blog-list-container-shadow: linear-gradient(to right, rgb(255, 178, 96) 50%, #b058fc 100%);
+  --blog-list-container-shadow: linear-gradient(to right, rgb(255, 178, 96) 50%, rgb(255, 178, 96) 100%);
 
   --tile-hover-boxShadow: 4px 4px 35px -15px #717171;
   --tile-info-backgroundColor: rgb(220, 220, 220);
@@ -179,7 +179,7 @@ button {
   --tile-bg: linear-gradient(to right, rgb(255, 178, 96) 50%, #b058fc 100%);
   --tile-shadow: none;
 
-  --category-bg: linear-gradient(to right, #e2e2e2 50%, #e2e2e2 100%);
+  --category-bg: #FFAD7A;
   --category-shadow: none;
 
   --skeleton-card-bg: rgb(208, 208, 208);
@@ -188,8 +188,8 @@ button {
 
   --service-category-bg: #FFAD7A;
 
-  --skill-category-bg: #8891DE;
-  --skill-level-bg: #CBFBFE;
+  --skill-category-bg: rgb(255, 193, 127);
+  --skill-level-bg: #ff8a42;
 
   --post-date-bg: rgb(112, 112, 112);
 
@@ -936,7 +936,20 @@ a>p {
 .filter-button span {
   font-size: 1.4rem;
   font-weight: var(--regular-font);
-  color: var(--primary-text-color);
+  color: var(--secondary-text-color);
+}
+
+.filter-button{
+  display: flex;
+  width: fit-content;
+  padding: 0.1rem 0.6rem 0.2rem 0.6rem;
+  height: fit-content;
+  border-radius: 4px;
+  text-align: center;
+  background: var(--skill-category-bg);
+  border-radius: 4px;
+  border: 0.1rem solid var(--primary-outline);
+  box-shadow: 2px 2px 1px var(--skill-category-bg);
 }
 
 .category {
@@ -949,7 +962,7 @@ a>p {
   background: var(--category-bg);
   border-radius: 4px;
   border: 0.1rem solid var(--primary-outline);
-  box-shadow: var(--category-shadow);
+  box-shadow: 2px 2px 1px var(--category-shadow);
 }
 
 .category span {
@@ -2494,8 +2507,34 @@ li>span {
   border: solid 1px var(--primary-outline);
   border-radius: 7px;
   margin-top: 3%;
-  box-shadow: 5px 5px 0px var(--shadow-color);
+  position: relative;
+  background-color: var(--primary-bg);
 }
+
+.skill-list-container::before{
+  content: "";
+  position: absolute;
+  z-index: -5;
+  inset: -1px;
+  transform: translate(3px, 3px);
+  background: var(--blog-list-container-shadow);
+  filter: blur(10px);
+  border-radius: 4px;
+  transition: opacity 0.5s;
+}
+
+.light .skill-list-container::before {
+  content: "";
+  position: absolute;
+  z-index: -5;
+  inset: -1px;
+  transform: translate(4px, 4px);
+  background: var(--blog-list-container-shadow);
+  filter: blur(0px);
+  border-radius: 8px;
+  transition: opacity 0.5s;
+}
+
 
 .skill-list-item {
   display: flex;
@@ -2561,7 +2600,7 @@ li>span {
   padding: 0.1rem 0.6rem 0.2rem 0.6rem;
   border: solid 0.1rem var(--primary-outline);
   border-radius: 4px;
-  box-shadow: 2px 2px 1px var(--skill-category-bg);
+  box-shadow: 2px 2px 1px var(--skill-level-bg);
 }
 
 .skill-category span,
