@@ -6,11 +6,11 @@ export default function ServiceSection({
   description,
   button,
   filters,
-  margin,
+  padding,
 }) {
   return (
     <>
-      <section className={margin === "" ? null : "mt-5 mb-5"}>
+      <section className={padding === "" ? null : padding}>
         <div className='landing-page-container'>
           {title === "" ? (
             null

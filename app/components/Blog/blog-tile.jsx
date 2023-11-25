@@ -5,7 +5,7 @@ export default function BlogTile({ props }) {
   return (
     <>
       <Link className='tile-wrapper' href={props.href}>
-        <div className='tile-card'>
+        <div className={"tile-card tile-bg"}>
           <div className='tile-image-wrapper'>
             <Image
               src={props.imageSrc}

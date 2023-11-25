@@ -36,7 +36,7 @@ useEffect(() => {
             href={`/blog/${post.properties.Slug.formula.string}`}>
             <div key={post.properties.Slug.id}>
               <div
-                className={post.properties.AutoClassGenerator.formula.string}>
+                className={"category"}>
                 <div>
                   <span>{post.properties.Category.select.name}</span>
                 </div>

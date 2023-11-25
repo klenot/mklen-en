@@ -26,10 +26,10 @@ export default async function handler(
   try {
     // Determine the type of Notion operation based on the request body
     const { operation, data } = req.body;
-    console.log("🚀 ~ file: notion.ts:25 ~ operation, data:", operation, data);
+    /* console.log("🚀 ~ file: notion.ts:25 ~ operation, data:", operation, data); */
 
     if (operation === "databaseQueryWithOr") {
-      console.log("Executing databaseQueryWithOr operation");
+      /* console.log("Executing databaseQueryWithOr operation"); */
       const response = await notion.databases.query({
         database_id: data.databaseId,
         filter: {
@@ -52,7 +52,7 @@ export default async function handler(
       res.status(200).json(response.results);
       return;
     } else if (operation === "databaseQueryWithAnd") {
-      console.log("Executing databaseQueryWithAnd operation");
+      /* console.log("Executing databaseQueryWithAnd operation"); */
       const response = await notion.databases.query({
         database_id: data.databaseId,
         filter: {

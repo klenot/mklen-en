@@ -23,7 +23,7 @@ export default function Services() {
         }}
       />
       <ServiceSection
-        title={""}
+        title={"Digital marketing"}
         description={
           ""
         }
@@ -34,8 +34,25 @@ export default function Services() {
         filters={{
           filterA: "Publish",
           categoryA: "Published",
-          filterB: "Publish",
-          categoryB: "Published",
+          filterB: "Category",
+          categoryB: "Digital marketing",
+        }}
+        padding={"pb-10"}
+      />
+      <ServiceSection
+        title={"Project management"}
+        description={
+          ""
+        }
+        button={{
+          text: "",
+          link: ""
+        }}
+        filters={{
+          filterA: "Publish",
+          categoryA: "Published",
+          filterB: "Category",
+          categoryB: "Project management",
         }}
       />
     </>

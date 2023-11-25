@@ -42,7 +42,6 @@ export default function ServiceRepeater({
             props={{
               href:`/services/${service.properties.Slug.formula.string}`,
               categoryName:`${service.properties.Category.select.name}`,
-              categoryClass:`${service.properties.AutoClassGenerator.formula.string}`,
               serviceName:`${service.properties.ServiceName.title[0].plain_text}`,
               serviceDescription:`${service.properties.Description.rich_text[0].plain_text}`,
               srcImage:`${service.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : service.properties.Thumbnail.files[0]?.file.url}`,

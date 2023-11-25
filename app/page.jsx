@@ -46,7 +46,7 @@ export default function Home() {
         <ServiceSection
           title={"How I can help your business"}
           description={
-            "As an individual with expertise in martech, project management and digital marketing I offer a rare brew of skills to your digital presence."
+            "As an individual with expertise in martech, project management and digital marketing I offer a rare blend of skills to your digital presence."
           }
           button={{
             text: "All services",

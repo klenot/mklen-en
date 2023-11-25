@@ -68,7 +68,7 @@ export default function BlogTileRepeater() {
     <>
       <div className='tile-filter pt-2 pb-2'>
         <div>
-          <button onClick={showAll} className='filter-button'>
+          <button onClick={showAll} className='filter-button category'>
             <span>All</span>
           </button>
         </div>
@@ -76,7 +76,7 @@ export default function BlogTileRepeater() {
         <div>
           <button
             onClick={showProjectManagementPosts}
-            className='filter-button'>
+            className='filter-button category'>
             <span>Project management</span>
           </button>
         </div>
@@ -84,7 +84,7 @@ export default function BlogTileRepeater() {
         <div>
           <button
             onClick={showProductivityPosts}
-            className='filter-button'>
+            className='filter-button category'>
             <span>Productivity</span>
           </button>
         </div>
@@ -92,14 +92,14 @@ export default function BlogTileRepeater() {
         <div>
           <button
             onClick={showThoughtsPosts}
-            className='filter-button'>
+            className='filter-button category'>
             <span>Thoughts</span>
           </button>
         </div>
         <div>
           <button
             onClick={showManagementPosts}
-            className='filter-button'>
+            className='filter-button category'>
             <span>Management</span>
           </button>
         </div>
@@ -112,18 +112,17 @@ export default function BlogTileRepeater() {
             props={{
               href:`/blog/${post.properties.Slug.formula.string}`,
               class:`${post.properties.AutoClassGenerator.formula.string}`,
-              category:`${post.properties.Category.select.name}`,
               imageSrc: `${post.properties.Thumbnail.files[0] === undefined ? "/images/cv/podpis_mk_grey1.png" : post.properties.Thumbnail.files[0].file.url}`,
               imageAlt: `${post.properties.AltText.rich_text[0] === undefined ? "A signature of good fortuner to your projects." : post.properties.AltText.rich_text[0].plain_text}`,
               date: `${new Date(
-                post.properties.PostDate.date.start
+                post.properties.PostDate.date === null ? Date() : post.properties.PostDate.date.start
               ).toLocaleString("en-US", {
                 month: "short",
                 day: "2-digit",
                 year: "numeric",
               })}`,
               title: `${post.properties.PostTitle.title[0].plain_text}`,
-              perex:`${post.properties.PostPerex.rich_text[0].plain_text}`,
+              perex:`${post.properties.PostPerex.rich_text[0] === undefined ? "" : post.properties.PostPerex.rich_text[0].plain_text}`,
             }}
           />
         ))}
