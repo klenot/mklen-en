@@ -31,7 +31,7 @@ export default function About() {
           direction={"left"}
           heading={"Curriculum vitae"}
           text={
-            "Everyone has an interestig story in the background. Here is a window to mine."
+            "Everyone has an interesting background story. Here is a window to mine."
           }
           image={{
             url: "/images/about/cat-flying-on-a-laptop.png",
@@ -77,9 +77,10 @@ export default function About() {
                 <p>Duolingo</p>
                 <p>Learning</p>
                 <p>Reading</p>
+                <p>Coding</p>
               </div>
               <div className='interest-item text-align-right'>
-                <p>Surfing</p>
+                <p>Surf</p>
                 <p>Running</p>
                 <p>Badminton</p>
                 <p>Meditation</p>

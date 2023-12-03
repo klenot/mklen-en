@@ -22,7 +22,7 @@ export default function ContentImage({
               : "contentImageTextLeft"
           }`}>
           <div className='contentImageTextWrapper'>
-            {heading === "-" ? null : <h2 className='pb-2'>{heading}</h2>}
+            {heading === "-" ? null : <h2>{heading}</h2>}
             {text === "-" ? null : <p>{text}</p>}
             <div className='pt-3'>
               <Button

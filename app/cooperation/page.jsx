@@ -6,9 +6,9 @@ import ShortFooter from "app/components/Shared/footer-short.jsx";
 import Button from "app/components/Shared/cta-button.jsx";
 
 export const metadata = {
-  title: "I aim for and efficient cooperation",
+  title: "Cooperation guidelines",
   description:
-    "I'm a experienced marktech consultant & PMI certified project manager. Find out all about my skills and projects in five minutes on my about page.",
+    "I aim for mutually benefitial cooperation. Read about my core values and get a sense of what cooperation you can expect.",
 };
 
 export default async function Cooperation() {
@@ -33,10 +33,10 @@ export default async function Cooperation() {
             underline ? "underline" : "",
           ].join(" ")}
           style={color !== "default" ? { color } : {}}
-          key={text.content}>
+          key={Math.random()}>
           {text.link ? (
             <a className='hover-underline-animation' href={text.link.url}>
-              {text.content}
+              {Math.random()}
             </a>
           ) : (
             text.content
@@ -92,7 +92,7 @@ export default async function Cooperation() {
       case "bulleted_list_item":
       case "numbered_list_item":
         return (
-          <li key={block.id}>
+          <li key={Math.random()}>
             <Text text={value.rich_text} />
             {!!value.children && renderNestedList(block)}
           </li>
@@ -159,7 +159,7 @@ export default async function Cooperation() {
       case "code":
         return (
           <div key={Math.random()} id='form' className='landing-page-form'>
-            <h2 className='form-h2'>Get in touch.</h2>
+            <h2 className='form-h2'>Reach out to me directly</h2>
             <form
               action='https://formsubmit.co/mklen@mklenotic.cz'
               method='POST'
@@ -260,7 +260,7 @@ export default async function Cooperation() {
                 const RowElement =
                   value.has_column_header && i == 0 ? "th" : "td";
                 return (
-                  <tr key={child.id}>
+                  <tr key={Math.random()}>
                     {child.table_row?.cells?.map((cell, i) => {
                       return (
                         <RowElement key={`${cell.plain_text}-${i}`}>
@@ -305,7 +305,7 @@ export default async function Cooperation() {
       <NavBar/>
       <main>
         <HeroLandingPage
-          title={"Cooperation guidelines"}
+          title={"Cooperation"}
           sideKick={""}
           button={{
             text: "",

@@ -4,7 +4,7 @@ import BlogTileRepeater from "./blog-tile-repeater";
 export default function BlogTileSection({ h2, perex, buttonText }) {
   return (
     <>
-      <section id='blog-section' className='pb-5'>
+      <section className='blog-tile-section'>
         <div className='blog-section-container'>
           {h2 === "" ? (
             null

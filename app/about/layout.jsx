@@ -6,7 +6,13 @@ export default function AboutLayout({ children }) {
       <main>
         {children}
 
-        <Footer />
+        <Footer
+          props={{
+            title: "The goal",
+            message1:"I am open to new experiences.",
+            message2: "",
+          }}
+        />
       </main>
     </>
   );

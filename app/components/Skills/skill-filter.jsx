@@ -10,8 +10,6 @@ export default function SkillFilter() {
   useEffect(() => {
     async function fetchData(){
       const skills = await getDatabase(process.env.SKILLS_DATABASE_ID, filter, category)
-      console.log(filter, category)
-      console.log(skills)
     }
     fetchData()
   }, [category]);

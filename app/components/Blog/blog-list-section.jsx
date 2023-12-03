@@ -4,7 +4,7 @@ import BlogListRepeater from "./blog-list-repeater";
 export default function BlogListSection({ title, perex, button, filters }) {
   return (
     <>
-      <section id='blog-section' className='pt-5 pb-5'>
+      <section className='blog-list-section'>
         <div className='blog-section-container'>
           {title === "" ? null : <div className='blog-section'>
             <h2>{title}</h2>

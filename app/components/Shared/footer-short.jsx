@@ -99,7 +99,7 @@ export default function ShortFooter() {
               <div className="footer-bottom">
                 <div className="footer-bottom-container">
                 <p>
-                    {currentYear} © Created in Prague with Next.js & Notion {" "}
+                    {currentYear} © Handcrafted in Prague with Next.js & Notion
                   </p>
                 </div>
               </div>
