@@ -51,8 +51,9 @@ export default async function ProjectPage({ params }) {
           style={color !== "default" ? { color } : {}}
           key={Math.random()}>
           {text.link ? (
-            <a className='hover-underline-animation' href={text.link.url}>
+            <a className="link" href={text.link.url}>
               {text.content}
+              {" 🔗"}
             </a>
           ) : (
             text.content
@@ -69,7 +70,7 @@ export default async function ProjectPage({ params }) {
     switch (type) {
       case "paragraph":
         return (
-          <p key={Math.random()} className='landing-page-text'>
+          <p key={Math.random()} className='landing-page-text project-text'>
             <Text text={value.rich_text} className='plain-text' />
           </p>
         );
@@ -174,9 +175,7 @@ export default async function ProjectPage({ params }) {
         return <span key={Math.random()}>{value.plain_text}</span>;
       case "code":
         return (
-          <CodeBlock key={Math.random()}
-          code={value.rich_text[0].plain_text}
-        />
+          <CodeBlock key={Math.random()} code={value.rich_text[0].plain_text} />
         );
       case "file":
         const src_file =
