@@ -23,10 +23,6 @@ section {
   scroll-margin-top: 10rem;
 }
 
-section:last-of-type {
-  margin-bottom: 5rem;
-}
-
 p,
 h1,
 h2,
@@ -1031,7 +1027,6 @@ a>p {
   padding: var(--mobile-cont-pd);
   margin-left: auto;
   margin-right: auto;
-  height: 70vh;
   padding-top: 5rem;
   padding-bottom: 5rem;
 }
@@ -1051,20 +1046,34 @@ a>p {
   margin-right: auto;
 }
 
+.landing-page-section:has(.landing-page-h3.landing-page-text) > .landing-page-section:has(.landing-page-content-image-container){
+  margin-bottom: 0;
+}
+
 .landing-page-section:has(h1) {
-  margin-top: 7rem;
+  margin-top: 10rem;
   margin-bottom: 0;
 }
 
-.landing-page-section:has(h2) {
-  margin-top: 7rem;
+.landing-page-section:has(.landing-page-content-image-container){
+  margin: 10rem 0;
+}
+
+.landing-page-section:has(.landing-page-h2){
+  margin-top: 10rem;
+}
+
+.landing-page-section:has(.landing-page-h3){
+  margin: 0;
+}
+
+.landing-page-section:has(.landing-page-h2, .landing-page-h3) + .landing-page-section:has(.landing-page-content-image-container){
+  margin-top: 0;
+}
+
+.landing-page-section:last-of-type{
   margin-bottom: 0;
 }
-
-.landing-page-section:has(h2) + .landing-page-section:has(h3){
-  margin-top: 1.5rem;
-}
-
 
 .landing-page-section:has(h3) {
   margin-top: 7rem;
@@ -1072,7 +1081,11 @@ a>p {
 }
 
 .landing-page-content-image-section{
-  margin-top: 2.5rem;
+  margin: 2.5rem 0;
+}
+
+.landing-page-content-image-container:last-of-type > .landing-page-content-image-section:nth-child(1){
+  margin-bottom: 0;
 }
 
 .landing-page-section:has(.landing-page-text) {
@@ -1105,9 +1118,7 @@ a>p {
   flex-direction: column-reverse;
 }
 
-.landing-page-section:has(.landing-page-content-image-container) + .landing-page-section:has(h1, h2, h3){
-  margin-top: 0;
-}
+
 
 .landing-page-section:has(.landing-page-form) + .landing-page-section:has(h1, h2, h3){
   margin-top: 0;
@@ -1119,16 +1130,18 @@ a>p {
 }
 
 .landing-page-content-image-section>.button-wrapper {
-  margin-top: 2rem;
-}
-
-.landing-page-content-image-section:has(blockquote) {
-  text-align: center;
+  margin: 2rem 0;
 }
 
 @media only screen and (min-width: 767px) {
+
+  .landing-page-section:has(.landing-page-h2) + .landing-page-section > .landing-page-content-image-container{
+    margin-top: 0rem;
+  }
+
   .landing-page-content-image-container {
     flex-direction: row;
+    margin-top: 5rem;
     gap: 4rem;
   }
 
@@ -1139,12 +1152,16 @@ a>p {
 
   .landing-page-content-image-section {
     width: 50%;
-    margin-top: 0rem;
   }
 
   .landing-page-section:has(.landing-page-image-container) + .landing-page-section:has(.landing-page-text){
     margin-top: 2.5rem;
   }
+
+  .quote{
+    margin: 2rem 0;
+  }
+
 }
 
 @media only screen and (min-width: 1100px) {}
@@ -1303,6 +1320,8 @@ a>p {
   width: -moz-fit-content;
   width: 100%;
   line-height: 4rem;
+  margin: 2rem 0;
+  text-align: center;
 }
 .quote > span{
   color: var(--quote-text-color);
@@ -1400,6 +1419,10 @@ details {
 }
 
 .landing-page-content-image-section > details {
+  margin: 6rem 0;
+}
+
+.landing-page-content-image-section:has(img){
   margin: 1.5rem 0;
 }
 
@@ -1415,10 +1438,6 @@ details > p {
 .column>.button-wrapper {
   margin-top: 2rem;
   margin-bottom: 2rem;
-}
-
-.landing-page-section:has(.button-wrapper) {
-  margin: 0;
 }
 
 @media only screen and (max-width: 600px) and (min-width: 350px) {
@@ -1806,7 +1825,7 @@ li>span {
 
 .blog-list-section{
   margin-top: 15rem;
-  padding-bottom: 10rem;
+  padding-bottom: 15rem;
 }
 
 .blog-filter {
@@ -2010,7 +2029,7 @@ li>span {
 
   .blog-list-section{
     margin-top: 15rem;
-    padding-bottom: 5rem;
+    padding-bottom: 10rem;
   }
 
 }
@@ -2225,6 +2244,11 @@ div:has(.content-divider) {
   margin-top: 10rem;
   margin-bottom: 10rem;
   width: 5rem;
+}
+
+.light .content-divider{
+  height: 2px;
+  background-color: #2e2e2e;
 }
 
 .landing-page-section:has(.content-divider) + .landing-page-section:has(h1,h2,h3){
@@ -2928,6 +2952,7 @@ textarea::placeholder {
   flex-wrap: wrap;
   column-gap: 1.5rem;
   justify-content: flex-start;
+  row-gap: 1rem;
 }
 
 .form-cta {

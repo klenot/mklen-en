@@ -14,9 +14,9 @@ const databaseId = process.env.PROJECTS_DATABASE_ID;
 export async function generateMetadata({ params }) {
   const slug = await getPageBySlug(params.slug, databaseId);
   const metadescription =
-    slug.results[0].properties.MetaDescription.rich_text[0].plain_text;
+    slug.results[0].properties?.MetaDescription.rich_text[0].plain_text;
   const metatitle =
-    slug.results[0].properties.MetaTitle.rich_text[0].plain_text;
+    slug.results[0].properties?.MetaTitle.rich_text[0].plain_text;
 
   return {
     title: metatitle,
