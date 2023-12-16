@@ -1047,7 +1047,7 @@ a>p {
 }
 
 .landing-page-section:has(.landing-page-h3.landing-page-text) > .landing-page-section:has(.landing-page-content-image-container){
-  margin-bottom: 0;
+  margin-bottom: 0rem;
 }
 
 .landing-page-section:has(h1) {
@@ -1063,12 +1063,12 @@ a>p {
   margin-top: 10rem;
 }
 
-.landing-page-section:has(.landing-page-h3){
-  margin: 0;
-}
-
 .landing-page-section:has(.landing-page-h2, .landing-page-h3) + .landing-page-section:has(.landing-page-content-image-container){
   margin-top: 0;
+}
+
+.landing-page-section:has(.landing-page-h2, .landing-page-h3) + .landing-page-section{
+  margin-bottom: 0;
 }
 
 .landing-page-section:last-of-type{
