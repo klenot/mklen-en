@@ -8,8 +8,8 @@ const databaseId = process.env.SERVICES_DATABASE_ID;
 export async function generateMetadata({ params }) {
   const slug = await getPageBySlug(params.slug, databaseId);
   const metadescription =
-    slug.results[0].properties.MetaDescription.rich_text[0].plain_text;
-  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0].plain_text;
+  slug.results[0].properties.MetaDescription.rich_text[0]?.plain_text;
+  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0]?.plain_text;
 
   return {
     title: metatitle,
@@ -313,9 +313,9 @@ export default async function ServicePage({ params }) {
     <>
       <main>
         <HeroServicePage
-          title={page.properties.ServiceName.title[0].plain_text}
-          perex={page.properties.Description.rich_text[0].plain_text}
-          buttonText={page.properties.ButtonText.rich_text[0].plain_text}
+          title={page.properties.ServiceName.title[0]?.plain_text}
+          perex={page.properties.Description.rich_text[0]?.plain_text}
+          buttonText={page.properties.ButtonText.rich_text[0] === undefined ? "" : page.properties.ButtonText.rich_text[0]?.plain_text}
         />
 
         <section className='landing-page-container'>

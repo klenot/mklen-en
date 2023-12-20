@@ -12,7 +12,8 @@ export const metadata = {
 };
 
 export default async function Cooperation() {
-  const blocks = await getBlocks(process.env.COOP_DATABASE_ID);
+  const pageId = process.env.COOP_DATABASE_ID;
+  const blocks = await getBlocks(pageId);
 
   const Text = ({ text }) => {
     if (!text) {
@@ -127,21 +128,21 @@ export default async function Cooperation() {
             {block.children.map((child) => renderBlock(child))}
           </div>
         );
-      case "image":
-        const src =
-          value.type === "external" ? value.external.url : value.file.url;
-        const caption = value.caption ? value.caption[0]?.plain_text : "";
-        return (
-          <figure key={Math.random()} className='landing-page-image-container'>
-            <Image
-              src={src}
-              alt={caption}
-              width={500}
-              height={500}
-              className='landing-page-image'
-            />
-          </figure>
-        );
+        case "image":
+          const src =
+            value.type === "external" ? value.external.url : value.file.url;
+          const caption = value.caption ? value.caption[0]?.plain_text : "";
+          return (
+            <figure key={Math.random()} className='landing-page-image-container'>
+              <Image
+                src={src}
+                alt={caption}
+                width={500}
+                height={500}
+                className='landing-page-image'
+              />
+            </figure>
+          );
       case "divider":
         return <hr className='content-divider' key={Math.random()} />;
       case "quote":
@@ -305,7 +306,8 @@ export default async function Cooperation() {
       <NavBar/>
       <main>
         <HeroLandingPage
-          title={"Cooperation"}
+          className={"break-all"}
+          title={<div style={{"word-break": "break-all"}}>Cooperation</div>}
           sideKick={""}
           button={{
             text: "",

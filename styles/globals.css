@@ -1072,6 +1072,7 @@ a>p {
 
 .landing-page-section:has(.landing-page-h2, .landing-page-h3) + .landing-page-section{
   margin-bottom: 0;
+  margin-top: 1.5rem;
 }
 
 .landing-page-section:last-of-type{

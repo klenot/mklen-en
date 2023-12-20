@@ -17,7 +17,7 @@ export default function HeroServicePage({ title, perex, buttonText }) {
             <p className='hero-perex'>{perex}</p>
           </div>
         </div>
-        {buttonText === "-" ? <></> : <div className='hero-section'>
+        {buttonText === "" ? null : <div className='hero-section'>
           <button className='cta'>
             <Link href='/about'>
               <span className="button-text">{buttonText}</span>
