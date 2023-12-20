@@ -168,7 +168,7 @@ export default async function ServicePage({ params }) {
       case "code":
         return (
           <div key={Math.random()} id='form' className='landing-page-form'>
-            <h2 className='form-h2'>Get in touch.</h2>
+            <h2 className='form-h2'>Get in touch</h2>
             <form
               action='https://formsubmit.co/mklen@mklenotic.cz'
               method='POST'

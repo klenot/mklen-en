@@ -9,7 +9,7 @@ import Button from "app/components/Shared/cta-button.jsx"
 export const metadata = {
   title: "Read about my career",
   description:
-    "I'm a experienced marktech consultant & PMI certified project manager. Find out all about my skills and projects in five minutes on my about page.",
+    "I'm a experienced marktech consultant & PMI certified project manager. Read about my career journey on this page.",
 };
 
 export default async function CurriculumVitae() {
@@ -55,7 +55,7 @@ export default async function CurriculumVitae() {
     switch (type) {
       case "paragraph":
         return (
-          <p className='article-text'>
+          <p key={Math.random()} className='article-text'>
             <Text text={value.rich_text} className='plain-text' />
           </p>
         );
@@ -91,7 +91,7 @@ export default async function CurriculumVitae() {
         );
       case "bulleted_list": {
         return (
-          <ul key={GenerateKey()} className='article-bullet-list'>
+          <ul key={Math.random()} className='article-bullet-list'>
             {value.children?.map((child) => renderBlock(child))}
           </ul>
         );
@@ -106,14 +106,14 @@ export default async function CurriculumVitae() {
       case "bulleted_list_item":
       case "numbered_list_item":
         return (
-          <li key={GenerateKey()}>
+          <li key={Math.random()}>
             <Text text={value.rich_text} />
             {!!value.children && renderNestedList(block)}
           </li>
         );
       case "to_do":
         return (
-          <div key={GenerateKey()}>
+          <div key={Math.random()}>
             <label className='checkbox-label' htmlFor={id}>
               <input type='checkbox' id={id} defaultChecked={value.checked} />
               <span className='checkmark'></span>{" "}
@@ -146,7 +146,7 @@ export default async function CurriculumVitae() {
           value.type === "external" ? value.external.url : value.file.url;
         const caption = value.caption ? value.caption[0]?.plain_text : "";
         return (
-          <figure key={GenerateKey()} className='article-image-container'>
+          <figure key={Math.random()} className='article-image-container'>
             <Image src={src} width={600} height={200} alt={caption} className='article-img' />  
           </figure>
         );
@@ -181,7 +181,7 @@ export default async function CurriculumVitae() {
         const caption_file = value.caption ? value.caption[0]?.plain_text : "";
         return (
           <figure >
-            <div key={GenerateKey()}>
+            <div key={Math.random()}>
               📎{" "}
               <Link href={src_file} passHref>
                 {lastElementInArray.split("?")[0]}
@@ -195,7 +195,7 @@ export default async function CurriculumVitae() {
         const href = value.url;
         return (
           <Button
-          key={GenerateKey()}
+          key={Math.random()}
             buttonText={buttonText}
             buttonLink={href}
             buttonSize={"small"}
@@ -226,14 +226,14 @@ export default async function CurriculumVitae() {
       }
       case "column_list": {
         return (
-          <div key={GenerateKey()} className={styles.columns}>
+          <div key={Math.random()} className={styles.columns}>
             {block.children?.map((block) => renderBlock(block))}
           </div>
         );
       }
       case "column": {
         return (
-          <div key={GenerateKey()} className='column'>
+          <div key={Math.random()} className='column'>
             {block.children?.map((child) => renderBlock(child))}
           </div>
         );

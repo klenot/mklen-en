@@ -16,6 +16,7 @@ const nextConfig = {
     SKILLS_DATABASE_ID: process.env.SKILLS_DATABASE_ID,
     BOOKS_DATABASE_ID: process.env.BOOKS_DATABASE_ID,
     COOP_DATABASE_ID: process.env.COOP_DATABASE_ID,
+    CV_DATABASE_ID: process.env.CV_DATABASE_ID,
   },
 };
 
