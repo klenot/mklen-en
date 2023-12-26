@@ -166,9 +166,13 @@ export default async function ServicePage({ params }) {
       case "text":
         return <span>{value.plain_text}</span>;
       case "code":
+        const heading = value.caption ? value.caption[0]?.plain_text : "";
         return (
           <div key={Math.random()} id='form' className='landing-page-form'>
-            <h2 className='form-h2'>Get in touch</h2>
+            <h2 className='landing-page-h2 mb-2'>{heading}</h2>
+            <p key={Math.random()} className='landing-page-form-text'>
+              <Text text={value.rich_text} className='plain-text' />
+            </p>
             <form
               action='https://formsubmit.co/mklen@mklenotic.cz'
               method='POST'
