@@ -20,7 +20,7 @@ export default function Form({ heading, description }) {
                     type='text'
                     name='name'
                     maxLength={40}
-                    placeholder='Start with your name here...'
+                    placeholder='How you want to be called?'
                     required=''
                   />
                   <br />
@@ -33,7 +33,7 @@ export default function Form({ heading, description }) {
                     type='email'
                     name='email'
                     maxLength={40}
-                    placeholder='your@email.com'
+                    placeholder='Can we meet online?'
                     required=''
                   />
                   <br />
@@ -51,7 +51,7 @@ export default function Form({ heading, description }) {
                     defaultValue={""}
                   />
                   <br />
-                  <input type='hidden' name='_next' defaultValue='http://localhost:3000/message-sent' />
+                  <input type='hidden' name='_next' defaultValue='https://www.mklenotic.com/message-sent' />
                   <input
                     type='hidden'
                     name='_autoresponse'

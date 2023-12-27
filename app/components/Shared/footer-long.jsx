@@ -81,7 +81,7 @@ export default function Footer({ props }) {
                 <input
                   type='hidden'
                   name='_next'
-                  defaultValue='https://www.mklen.com/message-sent'
+                  defaultValue='https://www.mklenotic.com/message-sent'
                 />
                 <input
                   type='hidden'

@@ -11,7 +11,7 @@ export default function MessageSent() {
     <>
       <div className='message-sent'>
         <HeroLandingPage
-          title={"Message has been sent"}
+          title={"Message has been sent 🚀"}
           sideKick={
             "Your message is on its way to me. I am going to respond as soon as I read it."
           }
