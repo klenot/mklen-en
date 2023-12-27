@@ -34,11 +34,11 @@ export default function Footer({ props }) {
               )}
               <br />
               <br />
-              <p className='contact-info'>+420 734 540 226</p>
-              <p className='contact-info'>mklen@mklenotic.cz</p>
+              <p className='contact-info'>+420 734 *** ***</p>
+              <p className='contact-info'>mklen(at)mklenotic.cz</p>
               <p className='contact-info' style={{ paddingBottom: "10%" }}>
                 Download my{" "}
-                <span className='hover-underline-animation'>contact</span>.
+                <a href="https://drive.google.com/uc?export=download&id=1AJJsjFDY0JaM4qlk2lURp8mm4DUKnkom"><span className='hover-underline-animation'>contact</span></a>.
               </p>
             </div>
             <div className='footer-section'>
@@ -81,7 +81,7 @@ export default function Footer({ props }) {
                 <input
                   type='hidden'
                   name='_next'
-                  defaultValue='http://localhost:3000/message-sent'
+                  defaultValue='https://www.mklen.com/message-sent'
                 />
                 <input
                   type='hidden'

@@ -69,6 +69,29 @@ export async function getBlocks(pageId) {
   });
 }
 
+export async function getDatabase(databaseId, filterA, categoryA, filterB, categoryB){
+  const response = await notion.databases.query({
+    database_id: databaseId,
+    filter: {
+      or: [
+        {
+          property: filterA,
+          select: {
+            equals: categoryA,
+          },
+        },
+        {
+          property: filterB,
+          select: {
+            equals: categoryB,
+          },
+        },
+      ],
+    },
+  });
+  return response
+}
+
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);

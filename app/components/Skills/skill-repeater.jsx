@@ -299,7 +299,7 @@ export default function SkillRepeater({ props }) {
                                 style={{
                                   position: "relative",
                                   top: "4px",
-                                  borderRadius: "8px",
+                                  borderRadius: "2px",
                                 }}
                               />
                             )}
@@ -309,8 +309,8 @@ export default function SkillRepeater({ props }) {
                           <div className='skill-perex'>
                             <p>
                               {
-                                skill.properties.Description.rich_text[0]
-                                  .plain_text
+                                skill.properties.Description.rich_text[0] === undefined ? "" :
+                                skill.properties.Description.rich_text[0].plain_text
                               }
                             </p>
                           </div>
