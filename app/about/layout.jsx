@@ -8,7 +8,7 @@ export default function AboutLayout({ children }) {
 
         <Footer
           props={{
-            title: "The goal",
+            title: "Discovery",
             message1:"I am open to new experiences.",
             message2: "",
           }}

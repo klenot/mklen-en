@@ -7,9 +7,9 @@ import SkillRepeater from "app/components/Skills/skill-repeater.jsx";
 import Button from "app/components/Shared/cta-button.jsx"
 
 export const metadata = {
-  title: "Read about my career",
+  title: "Career journey",
   description:
-    "I'm an experienced MarTech consultant & PMI certified project manager and here is a window to my carrer journey.",
+    "I'm an experienced MarTech consultant & PMI certified project manager and here is a window to my career journey.",
 };
 
 export default async function CurriculumVitae() {
@@ -150,7 +150,7 @@ export default async function CurriculumVitae() {
               <Image
                 src={src}
                 alt={caption}
-                width={500}
+                width={1500}
                 height={500}
                 className='landing-page-image'
               />

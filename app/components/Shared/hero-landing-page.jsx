@@ -11,11 +11,11 @@ export default function HeroLandingPage({ title, sideKick, button }) {
             </span>
           </h1>
         </div>
-        <div className='hero-section'>
+        {sideKick === "" ? null : <div className='hero-section'>
           <div>
             <p className='hero-perex'>{sideKick}</p>
           </div>
-        </div>
+        </div>}
         {button.text === "" ? (
           null
         ) : (

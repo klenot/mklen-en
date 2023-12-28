@@ -307,7 +307,7 @@ export default async function Cooperation() {
       <main>
         <HeroLandingPage
           className={"break-all"}
-          title={<div style={{"word-break": "break-all"}}>Cooperation</div>}
+          title={<div style={{"word-break": "break-all", "font-size": "0.7em"}}>Cooperation</div>}
           sideKick={""}
           button={{
             text: "",
