@@ -4,7 +4,7 @@ import Providers from "app/providers.jsx";
 
 export const metadata = {
   title: {
-    default: "I'll shape your digital marketing | Marek Klenotič",
+    default: "I'm shaping digital presence | Marek Klenotič",
     template: "%s | Marek Klenotič",
   },
 };

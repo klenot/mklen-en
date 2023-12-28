@@ -7,7 +7,7 @@ import Footer from "app/components/Shared/footer-long";
 
 export const metadata = {
   description:
-    "As someone who's been in the world of marketing tech and project management for a while, I'm here to share my insights and know-how with you.",
+    "I'm an experienced MarTech and project management professional based in Prague. I offer range of services that will help you shape your digital presence and support your business vision.",
 };
 
 export default function Home() {
