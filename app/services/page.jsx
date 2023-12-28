@@ -37,7 +37,7 @@ export default function Services() {
           filterB: "Category",
           categoryB: "Digital marketing",
         }}
-        padding={"pb-10"}
+        padding={"pt-5 pb-10"}
       />
       <ServiceSection
         title={"Project management"}

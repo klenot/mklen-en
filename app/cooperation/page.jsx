@@ -128,21 +128,21 @@ export default async function Cooperation() {
             {block.children.map((child) => renderBlock(child))}
           </div>
         );
-        case "image":
-          const src =
-            value.type === "external" ? value.external.url : value.file.url;
-          const caption = value.caption ? value.caption[0]?.plain_text : "";
-          return (
-            <figure key={Math.random()} className='landing-page-image-container'>
-              <Image
-                src={src}
-                alt={caption}
-                width={500}
-                height={500}
-                className='landing-page-image'
-              />
-            </figure>
-          );
+      case "image":
+        const src =
+          value.type === "external" ? value.external.url : value.file.url;
+        const caption = value.caption ? value.caption[0]?.plain_text : "";
+        return (
+          <figure key={Math.random()} className='landing-page-image-container'>
+            <Image
+              src={src}
+              alt={caption}
+              width={500}
+              height={500}
+              className='landing-page-image'
+            />
+          </figure>
+        );
       case "divider":
         return <hr className='content-divider' key={Math.random()} />;
       case "quote":

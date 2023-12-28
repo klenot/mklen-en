@@ -871,7 +871,7 @@ a>p {
 }
 
 .landing-page-section:has(.landing-page-form){
-  margin-top: 15rem;
+  margin-bottom: 15rem;
 }
 
 .landing-page-form {
@@ -879,7 +879,7 @@ a>p {
 }
 
 .landing-page-section:has(.landing-page-form):last-of-type{
-  margin-bottom: 5rem;
+  margin-bottom: 10rem;
 }
 
 @media only screen and (min-width: 767px) {
@@ -1022,7 +1022,7 @@ a>p {
   padding: var(--mobile-cont-pd);
   margin-left: auto;
   margin-right: auto;
-  padding-top: 5rem;
+  padding-top: 15rem;
   padding-bottom: 5rem;
 }
 
@@ -1174,8 +1174,6 @@ a>p {
   font-weight: var(--bold-font);
   scroll-margin-top: 10rem;
 }
-
-
 
 .landing-page-text {
   font-size: 1.7rem;
@@ -2143,7 +2141,7 @@ li>span {
 }
 
 #touch:checked+.slide {
-  max-height: 50rem;
+  max-height: 70rem;
 }
 
 .table-of-contents-roll-down {

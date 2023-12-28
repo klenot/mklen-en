@@ -9,7 +9,7 @@ import Button from "app/components/Shared/cta-button.jsx"
 export const metadata = {
   title: "Read about my career",
   description:
-    "I'm a experienced marktech consultant & PMI certified project manager. Read about my career journey on this page.",
+    "I'm an experienced MarTech consultant & PMI certified project manager and here is a window to my carrer journey.",
 };
 
 export default async function CurriculumVitae() {
@@ -141,15 +141,21 @@ export default async function CurriculumVitae() {
             {block.children.map((child) => renderBlock(child))}
           </div>
         );
-      case "image":
-        const src =
-          value.type === "external" ? value.external.url : value.file.url;
-        const caption = value.caption ? value.caption[0]?.plain_text : "";
-        return (
-          <figure key={Math.random()} className='article-image-container'>
-            <Image src={src} width={600} height={200} alt={caption} className='article-img' />  
-          </figure>
-        );
+        case "image":
+          const src =
+            value.type === "external" ? value.external.url : value.file.url;
+          const caption = value.caption ? value.caption[0]?.plain_text : "";
+          return (
+            <figure key={Math.random()} className='landing-page-image-container'>
+              <Image
+                src={src}
+                alt={caption}
+                width={500}
+                height={500}
+                className='landing-page-image'
+              />
+            </figure>
+          );
       case "divider":
         return <hr />;
       case "quote":

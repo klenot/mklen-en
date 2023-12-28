@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link";
 
 export default function BlogFooter() {
@@ -99,19 +98,7 @@ export default function BlogFooter() {
               <div className="footer-bottom">
                 <div className="footer-bottom-container">
                 <p>
-                    {currentYear} © Created in Prague with Next.js & Notion {" "}
-                    <span>
-                      <Image
-                        src={"/icons/disclaimer-macbook.png"}
-                        alt={"Macbook Pro as a disclaimer icon."}
-                        width={19}
-                        height={19}
-                        style={{
-                          position: "relative",
-                          top: "4px"
-                        }}
-                      />
-                    </span>
+                    {currentYear} © Handcrafted in Prague with Next.js & Notion
                   </p>
                 </div>
               </div>

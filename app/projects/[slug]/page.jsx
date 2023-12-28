@@ -3,7 +3,6 @@ import {
   getPageBySlug,
   getBlocks,
   getPage,
-  GenerateKey,
 } from "app/libs/notion-server-side-fetching.jsx";
 import HeroProjectPage from "app/components/Projects/hero-project-page.jsx";
 import Button from "app/components/Shared/cta-button";
