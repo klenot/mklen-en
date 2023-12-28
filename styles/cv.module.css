@@ -176,7 +176,7 @@
 }
 
 .bentoInnerContentSkills {
-    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)), url(/images/cv/skills2.png);
+    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)), url(/images/cv/skills.png);
     background-size: cover;
     background-position: top;
     height: calc(100% - 0.2rem);
@@ -231,7 +231,7 @@
 }
 
 .bentoInnerContentCareer {
-    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)), url(/images/cv/career2.png);
+    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)), url(/images/cv/career.png);
     background-size: cover;
     background-position: center;
     height: calc(100% - 0.2rem);
@@ -245,7 +245,7 @@
 }
 
 .bentoInnerContentCertification {
-    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)), url(/images/cv/certification1.png);
+    background-image: linear-gradient(to top, rgba(245, 246, 252, 0), rgba(23, 23, 23, 0.549)), url(/images/cv/certification.png);
     background-size: cover;
     background-position: center;
     height: calc(100% - 0.2rem);

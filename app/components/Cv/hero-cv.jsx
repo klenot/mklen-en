@@ -21,7 +21,7 @@ export default function HeroCV() {
             <div className={`${styles.bentoInnerImageFront}`}>
               <Image
                 className={styles.portraitImage}
-                src={"/images/cv/portrait1.png"}
+                src={"/images/cv/portrait.png"}
                 width={400}
                 height={400}
                 alt='Portrait of me that I took in my room.'
