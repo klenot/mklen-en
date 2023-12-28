@@ -871,7 +871,7 @@ a>p {
 }
 
 .landing-page-section:has(.landing-page-form){
-  margin-bottom: 15rem;
+  margin-top: 15rem;
 }
 
 .landing-page-form {

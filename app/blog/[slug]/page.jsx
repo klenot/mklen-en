@@ -206,15 +206,17 @@ export default async function Post({ params }) {
           </figure>
         );
       case "divider":
-        return <span className="blog-divider">* * *</span>/* <hr key={id} className="blog-divider"/> */;
-      case "quote":
-        return (
-          <blockquote key={Math.random()} className='quote'>
-            
-            {value.rich_text[0].plain_text}
-            
-          </blockquote>
-        );
+        return <span className="blog-divider">* * *</span>;
+        case "quote":
+          return (
+            <blockquote key={Math.random()} className='quote'>
+              <Text
+                key={Math.random()}
+                text={value.rich_text}
+                className='plain-text'
+              />
+            </blockquote>
+          );
       case "code":
         return (
           <CodeBlock key={Math.random()}

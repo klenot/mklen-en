@@ -27,7 +27,7 @@ export default async function ProjectPage({ params }) {
   const slugObject = await getPageBySlug(params.slug, databaseId);
   const slug = slugObject.results[0];
   const page = await getPage(slug.id);
-  const blocks = await getBlocks(slug.id);
+  const blocks = await getBlocks(slug.id, { next: { revalidate: 43200 } });
 
   const Text = ({ text }) => {
     if (!text) {
