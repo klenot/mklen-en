@@ -13,7 +13,7 @@ export const metadata = {
 
 export default async function Cooperation() {
   const pageId = process.env.COOP_DATABASE_ID;
-  const blocks = await getBlocks(pageId, { next: { revalidate: 43200 } });
+  const blocks = await getBlocks(pageId, { next: { revalidate: 600 } });
 
   const Text = ({ text }) => {
     if (!text) {

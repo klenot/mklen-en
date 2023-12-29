@@ -1,6 +1,6 @@
 import styles from "styles/cv.module.css";
 import Image from "next/image";
-import { getBlocks, GenerateKey } from "app/libs/notion-server-side-fetching.jsx";
+import { getBlocks } from "app/libs/notion-server-side-fetching.jsx";
 import NavBar from "app/components/Shared/nav-bar-long.jsx"
 import HeroCv from "app/components/Cv/hero-cv.jsx";
 import SkillRepeater from "app/components/Skills/skill-repeater.jsx";
@@ -13,7 +13,7 @@ export const metadata = {
 };
 
 export default async function CurriculumVitae() {
-  const blocks = await getBlocks(process.env.CV_DATABASE_ID);
+  const blocks = await getBlocks(process.env.CV_DATABASE_ID, { next: { revalidate: 600 } });
 
   const Text = ({ text }) => {
     if (!text) {
