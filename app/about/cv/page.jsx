@@ -12,8 +12,10 @@ export const metadata = {
     "I'm an experienced MarTech consultant & PMI certified project manager and here is a window to my career journey.",
 };
 
+export const revalidate = 600
+
 export default async function CurriculumVitae() {
-  const blocks = await getBlocks(process.env.CV_DATABASE_ID, { next: { revalidate: 600 } });
+  const blocks = await getBlocks(process.env.CV_DATABASE_ID);
 
   const Text = ({ text }) => {
     if (!text) {
