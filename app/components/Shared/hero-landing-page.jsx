@@ -20,7 +20,7 @@ export default function HeroLandingPage({ title, sideKick, button }) {
           null
         ) : (
           <div className='hero-section'>
-            <button className='cta ctaLarge'>
+            <button data-umami-event={button.text} className='cta ctaLarge'>
               {button.link === "" ? (
                 <Link href={"/"}>
                   <span className="button-text">{button.text}</span>
