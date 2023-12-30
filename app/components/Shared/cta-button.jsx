@@ -5,7 +5,7 @@ export default function Button({ buttonText, buttonLink, buttonSize }) {
     <>
       {buttonText === "" ? null : (
         <div className='button-wrapper'>
-          <button className={`${"cta"} ${buttonSize === "small" ? "ctaSmall" : "ctaLarge"}`}>
+          <button data-umami-event={buttonText} className={`${"cta"} ${buttonSize === "small" ? "ctaSmall" : "ctaLarge"}`}>
             {buttonLink === "" ? (
               <Link href={"/"}>
                 <span className='button-text'>{buttonText}</span>
