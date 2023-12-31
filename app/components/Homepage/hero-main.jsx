@@ -19,7 +19,7 @@ export default function HeroMain({ title, sideKick, button }) {
           </div>
         </div>
         <div className='hero-section'>
-          <button data-umami-event={button.text} className='cta ctaLarge'>
+          <button data-umami-event={"{"+`${button.text}`+"}"} className='cta ctaLarge'>
             <Link href={button.link}>
               <span className="button-text">{button.text}</span>
             </Link>

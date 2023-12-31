@@ -63,7 +63,7 @@ export default function Form({ heading, description }) {
                     defaultValue='New message submitted from mklenotic.com.'
                   />
                   <div className='button-wrapper'>
-                    <button className='cta ctaLarge'>
+                    <button data-umami-event={"{"+"Form submit"+"}"} className='cta ctaLarge'>
                       <span className="button-text">Submit</span>
                     </button>
                   </div>
