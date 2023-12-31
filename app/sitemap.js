@@ -32,7 +32,7 @@ export default async function sitemap() {
     url: `${URL}/blog/${post.properties.Slug.formula.string}`,
     lastModified: `${new Date(
       post.properties.LastEditedTime === null ? Date() : post.properties.LastEditedTime.last_edited_time
-    )}`,
+    ).toISOString()}`,
     changeFrequency: 'monthly',
     priority: 0.7,
   }));
@@ -41,7 +41,7 @@ export default async function sitemap() {
     url: `${URL}/services/${service.properties.Slug.formula.string}`,
     lastModified: `${new Date(
       service.properties.LastEditedTime === null ? Date() : service.properties.LastEditedTime.last_edited_time
-    )}`,
+    ).toISOString()}`,
     changeFrequency: 'monthly',
     priority: 0.8,
   }));
@@ -50,7 +50,7 @@ export default async function sitemap() {
     url: `${URL}/projects/${project.properties.Slug.formula.string}`,
     lastModified: `${new Date(
       project.properties.LastEditedTime === null ? Date() : project.properties.LastEditedTime.last_edited_time
-    )}`,
+    ).toISOString()}`,
     changeFrequency: 'yearly',
     priority: 0.5,
   }));
