@@ -41,7 +41,6 @@ export default function BlogTileRepeater() {
     setCategoryA("Published");
     setFilterB("Category");
     setCategoryB("Project management");
-    () => umami.track("Show Project Management Posts")
   }
 
   function showProductivityPosts() {
