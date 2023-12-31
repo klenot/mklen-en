@@ -32,11 +32,7 @@ export default async function sitemap() {
     url: `${URL}/blog/${post.properties.Slug.formula.string}`,
     lastModified: `${new Date(
       post.properties.LastEditedTime === null ? Date() : post.properties.LastEditedTime.last_edited_time
-    ).toLocaleString("en-US", {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    })}`,
+    )}`,
     changeFrequency: 'monthly',
     priority: 0.7,
   }));
@@ -45,11 +41,7 @@ export default async function sitemap() {
     url: `${URL}/services/${service.properties.Slug.formula.string}`,
     lastModified: `${new Date(
       service.properties.LastEditedTime === null ? Date() : service.properties.LastEditedTime.last_edited_time
-    ).toLocaleString("en-US", {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    })}`,
+    )}`,
     changeFrequency: 'monthly',
     priority: 0.8,
   }));
@@ -58,22 +50,14 @@ export default async function sitemap() {
     url: `${URL}/projects/${project.properties.Slug.formula.string}`,
     lastModified: `${new Date(
       project.properties.LastEditedTime === null ? Date() : project.properties.LastEditedTime.last_edited_time
-    ).toLocaleString("en-US", {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    })}`,
+    )}`,
     changeFrequency: 'yearly',
     priority: 0.5,
   }));
 
   const routes = ["", "/services", "/about", "/about/cv", "/blog", "/projects", "/cooperation"].map((route) => ({
     url: `${URL}${route}`,
-    lastModified: new Date().toLocaleString("en-US", {
-      month: "short",
-      day: "2-digit",
-      year: "numeric",
-    }),
+    lastModified: new Date(),
     changeFrequency: 'yearly',
     priority: 1,
   }));
