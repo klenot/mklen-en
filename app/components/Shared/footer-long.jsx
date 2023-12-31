@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer({ props }) {
@@ -38,7 +37,7 @@ export default function Footer({ props }) {
               <p className='contact-info'>mklen(at)mklenotic.cz</p>
               <p className='contact-info' style={{ paddingBottom: "10%" }}>
                 Download my{" "}
-                <a href="https://drive.google.com/uc?export=download&id=1AJJsjFDY0JaM4qlk2lURp8mm4DUKnkom"><span className='hover-underline-animation'>contact</span></a>.
+                <a onClick={() => umami.track("Footer Contact Download")} href="https://drive.google.com/uc?export=download&id=1AJJsjFDY0JaM4qlk2lURp8mm4DUKnkom"><span className='hover-underline-animation'>contact</span></a>.
               </p>
             </div>
             <div className='footer-section'>
@@ -86,7 +85,7 @@ export default function Footer({ props }) {
                 <input
                   type='hidden'
                   name='_autoresponse'
-                  defaultValue='Hello, thank you for reaching out to me :) I am going to respond as soon as I read your message. Have a productive day, MK.'
+                  defaultValue='Hello, thank you for reaching out to me 👋🏻 I am going to respond as soon as I read your message. Marek'
                 />
                 <input
                   type='hidden'
@@ -94,7 +93,7 @@ export default function Footer({ props }) {
                   defaultValue='New message submitted to mklenotic.com.'
                 />
                 <div className='button-wrapper'>
-                  <button className='cta ctaLarge'>
+                  <button onClick={() => umami.track("Footer Form Submit")} className='cta ctaLarge'>
                     <span className='button-text' style={{ paddingTop: "2px" }}>
                       Send
                     </span>
@@ -108,6 +107,7 @@ export default function Footer({ props }) {
               <nav className='footer-list'>
                 <li>
                   <Link
+                    onClick={() => umami.track("Footer Click About")}
                     className='footer-link hover-underline-animation'
                     href='/about'>
                     About
@@ -115,6 +115,7 @@ export default function Footer({ props }) {
                 </li>
                 <li>
                   <Link
+                    onClick={() => umami.track("Footer Click Projects")}
                     className='footer-link hover-underline-animation'
                     href='/projects'>
                     Projects
@@ -122,6 +123,7 @@ export default function Footer({ props }) {
                 </li>
                 <li>
                   <Link
+                    onClick={() => umami.track("Footer Click Services")}
                     className='footer-link hover-underline-animation'
                     href='/services'>
                     Services
@@ -129,6 +131,7 @@ export default function Footer({ props }) {
                 </li>
                 <li>
                   <Link
+                    onClick={() => umami.track("Footer Click Cooperation")}
                     className='footer-link hover-underline-animation'
                     href='/cooperation'>
                     Cooperation
@@ -136,6 +139,7 @@ export default function Footer({ props }) {
                 </li>
                 <li>
                   <Link
+                    onClick={() => umami.track("Footer Click Blog")}
                     className='footer-link hover-underline-animation'
                     href='/blog'>
                     Blog
@@ -147,6 +151,7 @@ export default function Footer({ props }) {
               <nav className='footer-list'>
                 <li>
                   <Link
+                    onClick={() => umami.track("Footer Click Facebook")}
                     className='footer-link hover-underline-animation'
                     href='https://www.facebook.com/klenoticmarek'
                     target='”_blank”'>
@@ -155,6 +160,7 @@ export default function Footer({ props }) {
                 </li>
                 <li>
                   <Link
+                    onClick={() => umami.track("Footer Click LinkedIn")}
                     className='footer-link hover-underline-animation'
                     href='https://www.linkedin.com/in/klenoticmarek/'
                     target='”_blank”'>
@@ -163,6 +169,7 @@ export default function Footer({ props }) {
                 </li>
                 <li>
                   <Link
+                    onClick={() => umami.track("Footer Click Instagram")}
                     className='footer-link hover-underline-animation'
                     href='https://www.instagram.com/mklenotic/?hl=cs'
                     target='”_blank”'>
@@ -171,6 +178,7 @@ export default function Footer({ props }) {
                 </li>
                 <li>
                   <Link
+                    onClick={() => umami.track("Footer Click Github")}
                     className='footer-link hover-underline-animation'
                     href='https://github.com/klenot'
                     target='”_blank”'>
