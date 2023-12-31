@@ -116,18 +116,6 @@ export default function ShortNavBar() {
                   <li className='nav-item-mobile'>
                     <Link href='/blog'>Blog</Link>
                   </li>
-                  <li className='nav-item-mobile'>
-                    <Link href='#'>
-                      <Image
-                        src={"/icons/czech-flag-icon.png"}
-                        alt={
-                          "Czech Repuplic flag standing for the translation into Czech."
-                        }
-                        width={20}
-                        height={20}
-                      />
-                    </Link>
-                  </li>
                 </ul>
                 <div>
                   <Image
