@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer({ props }) {
@@ -86,7 +85,7 @@ export default function Footer({ props }) {
                 <input
                   type='hidden'
                   name='_autoresponse'
-                  defaultValue='Hello, thank you for reaching out to me :) I am going to respond as soon as I read your message. Have a productive day, MK.'
+                  defaultValue='Hello, thank you for reaching out to me 👋🏻 I am going to respond as soon as I read your message. Marek'
                 />
                 <input
                   type='hidden'
