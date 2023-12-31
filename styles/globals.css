@@ -1328,7 +1328,7 @@ a>p {
   width: -moz-fit-content;
   width: 100%;
   line-height: 4rem;
-  margin: 2rem 0;
+  margin: 4rem 0;
   text-align: center;
 }
 .quote > span{
@@ -2079,6 +2079,7 @@ li>span {
 }
 
 .article-section-container:last-of-type {
+  padding-top: 5rem;
   padding-bottom: 10rem;
 }
 
@@ -2093,7 +2094,7 @@ li>span {
 .article-image-container {
   height: auto;
   width: var(--mobile-sect-pd);
-  margin: 2rem 0 2rem 0;
+  margin: 4rem 0 4rem 0;
 }
 
 .article-img {
@@ -2269,6 +2270,7 @@ div:has(.content-divider) {
 }
 
 .blog-divider {
+  margin: 6rem 0;
   font-size: 1.5em;
   letter-spacing: 0.4rem;
 }
