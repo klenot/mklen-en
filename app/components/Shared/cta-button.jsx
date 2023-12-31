@@ -1,3 +1,5 @@
+"use client"
+
 import Link from "next/link";
 
 export default function Button({ buttonText, buttonLink, buttonSize }) {
@@ -5,7 +7,7 @@ export default function Button({ buttonText, buttonLink, buttonSize }) {
     <>
       {buttonText === "" ? null : (
         <div className='button-wrapper'>
-          <button className={`${"cta"} ${buttonSize === "small" ? "ctaSmall" : "ctaLarge"}`}>
+          <button onClick={() => umami.track({buttonText})} className={`${"cta"} ${buttonSize === "small" ? "ctaSmall" : "ctaLarge"}`}>
             {buttonLink === "" ? (
               <Link data-umami-event={buttonText} href={"/"}>
                 <span className='button-text'>{buttonText}</span>
