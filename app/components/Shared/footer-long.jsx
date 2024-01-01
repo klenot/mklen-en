@@ -43,7 +43,7 @@ export default function Footer({ props }) {
             <div className='footer-section'>
               <h3 className='section-title-h3'>Get in touch</h3>
               <form
-                action='https://formsubmit.co/mklen@mklenotic.cz'
+                action='https://formsubmit.co/6421f614d7be08be4dcc51fa8f3c0e69'
                 method='POST'
                 className='form-wrapper'>
                 <label htmlFor='name-input'>First and last name:</label>
