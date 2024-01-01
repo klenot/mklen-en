@@ -8,7 +8,7 @@ export default function Form({ heading, description }) {
               {description === "" ? null :
               <p className='text-section'>{description}</p>}
                 <form
-                  action='https://formsubmit.co/mklen@mklenotic.cz'
+                  action='https://formsubmit.co/6421f614d7be08be4dcc51fa8f3c0e69'
                   method='POST'
                   className='form-wrapper'>
                   <label className='form-label' htmlFor='name-input'>
