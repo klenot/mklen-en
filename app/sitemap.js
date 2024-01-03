@@ -2,7 +2,7 @@
 
 import { getDatabase } from "app/libs/notion-server-side-fetching.jsx";
 
-const URL = "https://mklenotic.com";
+const URL = "https://www.mklenotic.com";
 
 export default async function sitemap() {
   const postsData = await getDatabase(
