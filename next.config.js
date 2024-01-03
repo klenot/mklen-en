@@ -21,6 +21,32 @@ const nextConfig = {
     COOP_DATABASE_ID: process.env.COOP_DATABASE_ID,
     CV_DATABASE_ID: process.env.CV_DATABASE_ID,
   },
+
+  redirects: async () => {
+    return [
+      {
+        source: "/services/guidelines",
+        destination: "/cooperation",
+        permanent: true,
+      },
+      {
+        source: "/about/skills",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/about/projects",
+        destination: "/projects",
+        permanent: true,
+      },
+      {
+        source: "/services/project-management",
+        destination: "/services/project-management-consultation",
+        permanent: false,
+      }
+    ]
+  }
+
 };
 
 module.exports = nextConfig;
