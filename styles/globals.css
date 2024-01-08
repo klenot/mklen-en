@@ -2174,6 +2174,10 @@ li>span {
   scroll-margin-top: 10rem;
 }
 
+.article-section:has(.article-h2) + .article-section > .article-h3{
+  margin-top: 0;
+}
+
 .article-h3 {
   margin-top: 7rem;
   font-size: 3rem;
@@ -2269,8 +2273,12 @@ div:has(.content-divider) {
   justify-content: center;
 }
 
+.article-section:has(.blog-divider) + .article-section:has(.article-h2) > .article-h2, .article-h3{
+  margin-top: 0;
+}
+
 .blog-divider {
-  margin: 6rem 0;
+  margin: 10rem 0;
   font-size: 1.5em;
   letter-spacing: 0.4rem;
 }
