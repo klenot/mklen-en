@@ -2273,7 +2273,7 @@ div:has(.content-divider) {
   justify-content: center;
 }
 
-.article-section:has(.blog-divider) + .article-section:has(.article-h2) > .article-h2, .article-h3{
+.article-section:has(.blog-divider) + .article-section:has(.article-h2) > .article-h2{
   margin-top: 0;
 }
 
@@ -2385,13 +2385,26 @@ details>p {
   line-height: 3rem;
 }
 
+.article-bullet-list:first-child{
+  padding-top: 1.5rem;
+}
+
 .article-numbered-list {
   font-size: 1.7rem;
   position: relative;
-  left: 3.2rem;
+  left: 4rem;
   font-weight: var(--bold-font);
   line-height: 3rem;
   width: 85%;
+}
+
+.article-numbered-list>li {
+  padding-bottom: 1.5rem;
+  line-height: 3rem;
+}
+
+.article-numbered-list:first-child{
+  padding-top: 1.5rem;
 }
 
 .toggle-content {
