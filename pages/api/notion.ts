@@ -55,6 +55,12 @@ export default async function handler(
       /* console.log("Executing databaseQueryWithAnd operation"); */
       const response = await notion.databases.query({
         database_id: data.databaseId,
+        sorts: [
+          {
+            property: "PostDate",
+            direction: "descending"
+          }
+        ],
         filter: {
           and: [
             {
