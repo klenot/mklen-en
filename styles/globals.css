@@ -1221,8 +1221,6 @@ a>p {
 .code {
   background: var(--secondary-bg);
   border-radius: 8px;
-  /* -webkit-overflow-scrolling: touch;
-  overflow-x: scroll; */
   max-width: 100%;
   min-width: auto;
   font-size: 1.7rem;
@@ -2000,7 +1998,23 @@ li>span {
   padding: 1rem 0 0.5rem 0;
 }
 
+.pagination{
+  display: flex;
+  gap: 2rem;
+  font-size: 2rem;
+  font-weight: var(--thin-font);
+  justify-content: center;
+  margin-top: 5rem;
+}
 
+.page-number:hover{
+  scale: 1.1;
+}
+
+.selected-page{
+  transform: scale(1.2);
+  font-weight: var(--regular-font);
+}
 
 
 /* BLOG SECTION - TABLET */
@@ -2221,8 +2235,6 @@ li>span {
 .code {
   background: var(--secondary-bg);
   border-radius: 8px;
-  /* -webkit-overflow-scrolling: touch;
-  overflow-x: scroll; */
   max-width: 100%;
   min-width: auto;
   font-size: 1.7rem;
