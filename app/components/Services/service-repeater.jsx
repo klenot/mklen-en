@@ -1,7 +1,4 @@
 "use client"
-
-import Image from "next/image";
-import Link from "next/link";
 import { getDatabaseWithAnd } from "app/libs/notion-client-side-fetching.jsx";
 import { useState, useEffect } from "react";
 import TileSkeleton from "app/components/Shared/tile-skeleton.jsx";
@@ -15,6 +12,7 @@ export default function ServiceRepeater({
 }) {
   const [services, setServices] = useState([]);
   const [isLoading, setLoading] = useState(true);
+  const sort = "LastEditedTime";
 
   useEffect(() => {
     setLoading(true);
@@ -24,7 +22,8 @@ export default function ServiceRepeater({
         filterA,
         categoryA,
         filterB,
-        categoryB
+        categoryB,
+        sort
       );
       setServices(services);
       setLoading(false);

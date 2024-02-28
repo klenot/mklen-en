@@ -11,6 +11,7 @@ export default function BlogListRepeater({
 }) {
 
   const [posts, setPosts] = useState([]);
+  const sort = "PostDate";
 
 useEffect(() => {
   async function fetchData() {
@@ -19,7 +20,8 @@ useEffect(() => {
       filterA,
       categoryA,
       filterB,
-      categoryB
+      categoryB,
+      sort
     );
     setPosts(posts);
   }
@@ -47,7 +49,7 @@ useEffect(() => {
               </div>
 
               <div className='post-perex'>
-                <p>{post.properties.PostPerex.rich_text[0].plain_text}</p>
+                <p>{post.properties.PostPerex.rich_text[0]?.plain_text}</p>
               </div>
 
               <div className='post-date'>

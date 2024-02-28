@@ -11,6 +11,7 @@ export default function BlogTileRepeater() {
   const [filterB, setFilterB] = useState("Publish");
   const [categoryA, setCategoryA] = useState("Published");
   const [categoryB, setCategoryB] = useState("Published");
+  const sort = "PostDate"
   const [posts, setPosts] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +25,8 @@ export default function BlogTileRepeater() {
         filterA,
         categoryA,
         filterB,
-        categoryB
+        categoryB,
+        sort
       );
       setPosts(posts);
       setLoading(false);

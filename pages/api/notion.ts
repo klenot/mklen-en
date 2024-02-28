@@ -57,7 +57,7 @@ export default async function handler(
         database_id: data.databaseId,
         sorts: [
           {
-            property: "PostDate",
+            property: data.sort,
             direction: "descending"
           }
         ],

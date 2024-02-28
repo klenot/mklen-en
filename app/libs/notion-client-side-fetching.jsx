@@ -25,11 +25,11 @@ export const getDatabaseWithOr = async (databaseId, filterA, categoryA, filterB,
   }
 };
 
-export const getDatabaseWithAnd = async (databaseId, filterA, categoryA, filterB, categoryB) => {
+export const getDatabaseWithAnd = async (databaseId, filterA, categoryA, filterB, categoryB, sort) => {
     try {
       const response = await notion.post("/notion", {
         operation: "databaseQueryWithAnd",
-        data: { databaseId, filterA, categoryA, filterB, categoryB },
+        data: { databaseId, filterA, categoryA, filterB, categoryB, sort },
       });
       /* console.log("🚀 ~ file: notion-client-side-fetching.jsx:35 ~ getDatabaseWithAnd ~ response:", response); */
       return response.data;
