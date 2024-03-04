@@ -7,8 +7,8 @@ const databaseId = process.env.BLOG_DATABASE_ID
 export async function generateMetadata({ params }) {
   const slug = await getPageBySlug(params.slug, databaseId);
   const metadescription =
-    slug.results[0].properties.MetaDescription.rich_text[0].plain_text;
-  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0].plain_text;
+    slug.results[0].properties.MetaDescription.rich_text[0]?.plain_text;
+  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0]?.plain_text;
 
   return {
     title: metatitle,
@@ -296,8 +296,8 @@ export default async function Post({ params }) {
     <>
       <main>
         <HeroBlogPost
-          title={page.properties.PostTitle.title[0].plain_text}
-          perex={page.properties.PostPerex.rich_text[0].plain_text}
+          title={page.properties.PostTitle.title[0]?.plain_text}
+          perex={page.properties.PostPerex.rich_text[0]?.plain_text}
           ToC={
             <div className='hero-section table-of-contents-section'>
               <label className="table-of-contents-roll-down" htmlFor='touch'>

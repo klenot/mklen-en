@@ -30,7 +30,6 @@ export default function BlogTileRepeater() {
       );
       setPosts(posts);
       setLoading(false);
-      console.log(posts);
     }
     fetchData();
   }, [categoryA, categoryB]);

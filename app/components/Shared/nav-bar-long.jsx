@@ -15,15 +15,18 @@ export default function NavBar() {
     setOpen(false);
   }, [pathname]);
 
-  const openMenu = () => {
-    !isOpen ? setOpen(true) : setOpen(false);
+  useEffect(() => {
     const menuButton = document.getElementById("burger-icon");
-    const menu = document.getElementById("menu");
+    const menu = document.getElementById("mobile-menu");
     document.addEventListener("click", (event) => {
       if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
         setOpen(false);
       }
     });
+  }, []);
+
+  const openMenu = () => {
+    setOpen(!isOpen);
   };
 
   function toggleTheme() {
@@ -102,30 +105,74 @@ export default function NavBar() {
                   ? "mobile-menu-container mobile-menu-hide"
                   : "mobile-menu-container mobile-menu-display"
               }>
-              <div id='menu' className='mobile-menu'>
-                <ul className='nav-list'>
-                  <li className='nav-item-mobile'>
-                    <Link href='/'>Home</Link>
-                  </li>
-                  <li className='nav-item-mobile'>
-                    <Link href='/about'>About</Link>
-                  </li>
-                  <li className='nav-item-mobile'>
-                    <Link href='/services'>Services</Link>
-                  </li>
-                  <li className='nav-item-mobile'>
-                    <Link href='/blog'>Blog</Link>
-                  </li>
-                </ul>
-                <div>
+              {theme === "light" ? (
+                <img
+                  className='mobile-menu-bg-image'
+                  src={"/images/navbar/vertigo-light.png"}
+                  alt='Vertigo background.'
+                />
+              ) : (
+                <img
+                  className='mobile-menu-bg-image'
+                  src={"/images/navbar/vertigo-dark.png"}
+                  alt='Vertigo background.'
+                />
+              )}
+              <div className='mobile-menu-elements-container'>
+                <div className='mobile-menu-cancel'>
                   <Image
                     id='close-menu-icon'
                     src={"/icons/navbar/close-menu-icon.svg"}
                     onClick={openMenu}
-                    width={30}
-                    height={30}
+                    width={50}
+                    height={50}
                     alt='Close the menu icon.'
                   />
+                </div>
+                <div className='mobile-menu-items-container'>
+                  <ul className='nav-list'>
+                    <li className='nav-item-mobile'>
+                      <Link href='/'>Home</Link>
+                    </li>
+                    <li className='nav-item-mobile'>
+                      <Link href='/about'>About</Link>
+                    </li>
+                    <li className='nav-item-mobile'>
+                      <Link href='/services'>Services</Link>
+                    </li>
+                    <li className='nav-item-mobile'>
+                      <Link href='/blog'>Blog</Link>
+                    </li>
+                  </ul>
+                  <div className='mobile-menu-social-icons'>
+                    <a href='https://www.instagram.com/mklenotic/?hl=en'>
+                      <Image
+                        className='mobile-menu-icons'
+                        src={"/icons/navbar/instagram-icon.png"}
+                        width={25}
+                        height={25}
+                        alt='Insatgram icon.'
+                      />
+                    </a>
+                    <a href='https://www.linkedin.com/in/klenoticmarek/'>
+                      <Image
+                        className='mobile-menu-icons'
+                        src={"/icons/navbar/linkedin-icon.png"}
+                        width={25}
+                        height={25}
+                        alt='LinkednIn icon.'
+                      />
+                    </a>
+                    <a href='https://github.com/klenot'>
+                      <Image
+                        className='mobile-menu-icons'
+                        src={"/icons/navbar/github-icon.png"}
+                        width={25}
+                        height={25}
+                        alt='Github icon.'
+                      />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

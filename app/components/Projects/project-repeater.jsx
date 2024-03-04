@@ -13,6 +13,7 @@ export default function ProjectRepeater() {
   const [filterB, setFilterB] = useState("Publish");
   const [categoryA, setCategoryA] = useState("Published");
   const [categoryB, setCategoryB] = useState("Published");
+  const sort = "PublishDate"
   const [projects, setProjects] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
@@ -24,7 +25,8 @@ export default function ProjectRepeater() {
         filterA,
         categoryA,
         filterB,
-        categoryB
+        categoryB,
+        sort
       );
       setProjects(projects);
       setLoading(false);
