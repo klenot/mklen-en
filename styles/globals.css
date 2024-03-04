@@ -706,11 +706,12 @@ a>p {
   .mobile-menu-container {
     position: fixed;
     right: -80%;
-    top: 0;
+    top: 2px;
     bottom: 0;
     background: var(--primary-bg);
     border-radius: 15px 0 0 15px;
-    height: 100vh;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
     width: 50%;
     transition: right 0.5s ease;
     filter: drop-shadow(-5px 0px 0px var(--category-outline));
