@@ -18,17 +18,6 @@ export async function generateStaticParams() {
   }))
 }
 
-
-/* const blogs = await getDatabase(
-  databaseId,
-  "Publish",
-  "Published",
-  "Publish",
-  "Published",
-);
-
-console.log(blogs.results[0].properties.Slug) */
-
 export async function generateMetadata({ params }) {
   const slug = await getPageBySlug(params.slug, databaseId);
   const metatitle = slug.results[0].properties.MetaTitle.rich_text[0]?.plain_text;

@@ -1,10 +1,10 @@
-import { getDatabase } from "app/libs/notion-server-side-fetching.jsx";
+import { getDatabaseWithAnd } from "app/libs/notion-server-side-fetching.jsx";
 import Link from "next/link";
 
 const databaseId = process.env.BLOG_DATABASE_ID;
 
 export async function generateStaticParams() {
-  const blogs = await getDatabase(
+  const blogs = await getDatabaseWithAnd(
     databaseId,
     "Publish",
     "Published",
@@ -23,7 +23,8 @@ export default async function BlogListRepeater({
   filterB,
   categoryB,
 }) {
-  const posts = await getDatabase(
+  
+  const posts = await getDatabaseWithAnd(
     databaseId,
     filterA,
     categoryA,
