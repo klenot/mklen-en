@@ -1,14 +1,39 @@
-import { getPageBySlug, getBlocks, getPage, GenerateKey } from "app/libs/notion-server-side-fetching.jsx";
+import { getPageBySlug, getBlocks, getPage, getDatabase } from "app/libs/notion-server-side-fetching.jsx";
 import HeroBlogPost from "app/components/Blog/hero-blog-post.jsx";
-import CodeBlock from "app/components/Shared/code-block"
+import CodeBlock from "app/components/Shared/code-block";
 
-const databaseId = process.env.BLOG_DATABASE_ID
+const databaseId = process.env.BLOG_DATABASE_ID;
+
+export async function generateStaticParams() {
+  const blogs = await getDatabase(
+    databaseId,
+    "Publish",
+    "Published",
+    "Publish",
+    "Published"
+  );
+ 
+  return blogs.results.map((blog) => ({
+    slug: blog.properties.Slug.formula.string,
+  }))
+}
+
+
+/* const blogs = await getDatabase(
+  databaseId,
+  "Publish",
+  "Published",
+  "Publish",
+  "Published",
+);
+
+console.log(blogs.results[0].properties.Slug) */
 
 export async function generateMetadata({ params }) {
   const slug = await getPageBySlug(params.slug, databaseId);
+  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0]?.plain_text;
   const metadescription =
     slug.results[0].properties.MetaDescription.rich_text[0]?.plain_text;
-  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0]?.plain_text;
 
   return {
     title: metatitle,

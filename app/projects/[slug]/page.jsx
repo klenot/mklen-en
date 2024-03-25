@@ -3,12 +3,27 @@ import {
   getPageBySlug,
   getBlocks,
   getPage,
+  getDatabase,
 } from "app/libs/notion-server-side-fetching.jsx";
 import HeroProjectPage from "app/components/Projects/hero-project-page.jsx";
 import Button from "app/components/Shared/cta-button";
 import CodeBlock from "app/components/Shared/code-block";
 
 const databaseId = process.env.PROJECTS_DATABASE_ID;
+
+export async function generateStaticParams() {
+  const pages = await getDatabase(
+    databaseId,
+    "Publish",
+    "Published",
+    "Publish",
+    "Published"
+  );
+ 
+  return pages.results.map((page) => ({
+    slug: page.properties.Slug.formula.string,
+  }))
+}
 
 export async function generateMetadata({ params }) {
   const slug = await getPageBySlug(params.slug, databaseId);
