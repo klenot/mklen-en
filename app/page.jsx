@@ -6,11 +6,13 @@ import BlogListSection from "app/components/Blog/blog-list-section";
 import Footer from "app/components/Shared/footer-long";
 
 export const metadata = {
+  title: "I'm shaping digital presence | Marek Klenotič",
   description:
     "I'm an experienced MarTech and project management professional based in Prague. I offer range of services that will help you shape your digital presence and support your business vision.",
 };
 
 export default function Home() {
+
   return (
     <>
       <main>

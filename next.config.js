@@ -21,6 +21,7 @@ const nextConfig = {
     BOOKS_DATABASE_ID: process.env.BOOKS_DATABASE_ID,
     COOP_DATABASE_ID: process.env.COOP_DATABASE_ID,
     CV_DATABASE_ID: process.env.CV_DATABASE_ID,
+    GTM_ID: process.env.GTM_ID,
   },
 
   redirects: async () => {

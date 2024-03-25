@@ -1,6 +1,8 @@
 import "styles/globals.css";
-import Head from "app/components/Shared/head.jsx";
+import MainHead from "app/components/Shared/head.jsx";
 import Providers from "app/providers.jsx";
+import CookieConsent from "app/components/Shared/cookie-consent.jsx";
+
 
 export const metadata = {
   title: {
@@ -12,10 +14,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en' className='dark' suppressHydrationWarning={true}>
-      <Head />
+      <MainHead />
       <body>
         <Providers>
           {children}
+          <CookieConsent />
         </Providers>
       </body>
     </html>

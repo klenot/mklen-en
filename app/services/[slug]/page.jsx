@@ -168,7 +168,6 @@ export default async function ServicePage({ params }) {
       case "code":
         const heading = value.caption ? value.caption[0]?.plain_text : "";
         const text = value.rich_text[0]
-        console.log(text)
         return (
           <div key={Math.random()} id='form' className='landing-page-form'>
             <h2 className='landing-page-h2 pb-2'>{heading}</h2>
