@@ -1,4 +1,9 @@
-import { getPageBySlug, getBlocks, getPage, getDatabase } from "app/libs/notion-server-side-fetching.jsx";
+import {
+  getPageBySlug,
+  getBlocks,
+  getPage,
+  getDatabase,
+} from "app/libs/notion-server-side-fetching.jsx";
 import HeroBlogPost from "app/components/Blog/hero-blog-post.jsx";
 import CodeBlock from "app/components/Shared/code-block";
 
@@ -12,15 +17,16 @@ export async function generateStaticParams() {
     "Publish",
     "Published"
   );
- 
+
   return blogs.results.map((blog) => ({
     slug: blog.properties.Slug.formula.string,
-  }))
+  }));
 }
 
 export async function generateMetadata({ params }) {
   const slug = await getPageBySlug(params.slug, databaseId);
-  const metatitle = slug.results[0].properties.MetaTitle.rich_text[0]?.plain_text;
+  const metatitle =
+    slug.results[0].properties.MetaTitle.rich_text[0]?.plain_text;
   const metadescription =
     slug.results[0].properties.MetaDescription.rich_text[0]?.plain_text;
 
@@ -58,7 +64,8 @@ export default async function Post({ params }) {
           key={text.content}>
           {text.link ? (
             <a className='blog-link' href={text.link.url}>
-              {text.content}{" 🔗"}
+              {text.content}
+              {" 🔗"}
             </a>
           ) : (
             text.content
@@ -122,11 +129,28 @@ export default async function Post({ params }) {
     const value = block[type];
     switch (type) {
       case "paragraph":
-        return (
-          <p key={Math.random()} className='article-text'>
-            <Text text={value.rich_text} className='plain-text' />
-          </p>
-        );
+        const textContent = value.rich_text
+          .map((textObj) => textObj.text.content)
+          .join("");
+        const imageTagRegex = /<image>(.*?)<\/image><cap>(.*?)<\/cap>/g;
+        const match = imageTagRegex.exec(textContent);
+
+        if (match) {
+          const imageUrl = match[1];
+          const caption = match[2];
+          return (
+            <figure key={Math.random()} className='article-image-container'>
+              <img src={imageUrl} alt={caption} className='article-img' />
+              {caption && <figcaption>{caption}</figcaption>}
+            </figure>
+          );
+        } else {
+          return (
+            <p key={Math.random()} className='article-text'>
+              <Text text={value.rich_text} className='plain-text' />
+            </p>
+          );
+        }
       case "heading_1":
         const preQueryh1 = value.rich_text[0].plain_text
           .replaceAll(" ", "-")
@@ -191,7 +215,7 @@ export default async function Post({ params }) {
         );
       case "toggle":
         return (
-          <details  key={Math.random()} className='article-text'>
+          <details key={Math.random()} className='article-text'>
             <summary>
               <Text className='article-text' text={value.rich_text} />
             </summary>
@@ -220,22 +244,20 @@ export default async function Post({ params }) {
           </figure>
         );
       case "divider":
-        return <span className="blog-divider">* * *</span>;
-        case "quote":
-          return (
-            <blockquote key={Math.random()} className='quote'>
-              <Text
-                key={Math.random()}
-                text={value.rich_text}
-                className='plain-text'
-              />
-            </blockquote>
-          );
+        return <span className='blog-divider'>* * *</span>;
+      case "quote":
+        return (
+          <blockquote key={Math.random()} className='quote'>
+            <Text
+              key={Math.random()}
+              text={value.rich_text}
+              className='plain-text'
+            />
+          </blockquote>
+        );
       case "code":
         return (
-          <CodeBlock key={Math.random()}
-            code={value.rich_text[0].plain_text}
-          />
+          <CodeBlock key={Math.random()} code={value.rich_text[0].plain_text} />
         );
       case "file":
         const src_file =
@@ -314,7 +336,7 @@ export default async function Post({ params }) {
           perex={page.properties.PostPerex.rich_text[0]?.plain_text}
           ToC={
             <div className='hero-section table-of-contents-section'>
-              <label className="table-of-contents-roll-down" htmlFor='touch'>
+              <label className='table-of-contents-roll-down' htmlFor='touch'>
                 <span>In this article</span>
               </label>
               <input type='checkbox' id='touch' />

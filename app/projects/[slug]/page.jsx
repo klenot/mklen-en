@@ -83,11 +83,28 @@ export default async function ProjectPage({ params }) {
 
     switch (type) {
       case "paragraph":
-        return (
-          <p key={Math.random()} className='landing-page-text project-text'>
-            <Text text={value.rich_text} className='plain-text' />
-          </p>
-        );
+        const textContent = value.rich_text
+          .map((textObj) => textObj.text.content)
+          .join("");
+        const imageTagRegex = /<image>(.*?)<\/image><cap>(.*?)<\/cap>/g;
+        const match = imageTagRegex.exec(textContent);
+
+        if (match) {
+          const imageUrl = match[1];
+          const caption = match[2];
+          return (
+            <figure key={Math.random()} className='article-image-container'>
+              <img src={imageUrl} alt={caption} className='article-img' />
+              {caption && <figcaption>{caption}</figcaption>}
+            </figure>
+          );
+        } else {
+          return (
+            <p key={Math.random()} className='article-text'>
+              <Text text={value.rich_text} className='plain-text' />
+            </p>
+          );
+        }
       case "heading_1":
         return (
           <h1 key={Math.random()} className='landing-page-h1'>
