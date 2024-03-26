@@ -86,8 +86,14 @@ export default async function ServicePage({ params }) {
           const caption = match[2];
           return (
             <figure key={Math.random()} className='article-image-container'>
-              <img src={imageUrl} alt={caption} className='article-img' />
-              {caption && <figcaption>{caption}</figcaption>}
+              <Image
+                src={`/images/services/${imageUrl}`}
+                alt={caption}
+                className='article-img'
+                width={1000}
+                height={1000}
+              />
+              {/* {caption && <figcaption>{caption}</figcaption>} */}
             </figure>
           );
         } else {

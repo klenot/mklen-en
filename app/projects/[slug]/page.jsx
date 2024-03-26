@@ -94,7 +94,13 @@ export default async function ProjectPage({ params }) {
           const caption = match[2];
           return (
             <figure key={Math.random()} className='article-image-container'>
-              <img src={imageUrl} alt={caption} className='article-img' />
+              <Image
+                src={`/images/projects/${imageUrl}`}
+                alt={caption}
+                className='article-img'
+                width={1000}
+                height={1000}
+              />
               {caption && <figcaption>{caption}</figcaption>}
             </figure>
           );

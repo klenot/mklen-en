@@ -1228,6 +1228,13 @@ a>p {
   border-radius: 15px;
 }
 
+.cv-page-image {
+  width: 350px;
+  height: auto;
+  border: solid 1px transparent;
+  border-radius: 15px;
+}
+
 .landing-page-content-image-container {
   display: flex;
   flex-direction: column-reverse;

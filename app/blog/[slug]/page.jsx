@@ -6,6 +6,7 @@ import {
 } from "app/libs/notion-server-side-fetching.jsx";
 import HeroBlogPost from "app/components/Blog/hero-blog-post.jsx";
 import CodeBlock from "app/components/Shared/code-block";
+import Image from "next/image";
 
 const databaseId = process.env.BLOG_DATABASE_ID;
 
@@ -140,7 +141,13 @@ export default async function Post({ params }) {
           const caption = match[2];
           return (
             <figure key={Math.random()} className='article-image-container'>
-              <img src={imageUrl} alt={caption} className='article-img' />
+              <Image
+                src={`/images/blog/${imageUrl}`}
+                alt={caption}
+                className='article-img'
+                width={1000}
+                height={1000}
+              />
               {caption && <figcaption>{caption}</figcaption>}
             </figure>
           );

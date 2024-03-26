@@ -67,7 +67,13 @@ export default async function CurriculumVitae() {
           const caption = match[2];
           return (
             <figure key={Math.random()} className='article-image-container'>
-              <img src={imageUrl} alt={caption} className='article-img' />
+              <Image
+                src={`/images/cv/${imageUrl}`}
+                alt={caption}
+                className='cv-page-image'
+                width={750}
+                height={250}
+              />
               {caption && <figcaption>{caption}</figcaption>}
             </figure>
           );
