@@ -3,7 +3,6 @@ import HeroLandingPage from "app/components/Shared/hero-landing-page.jsx";
 import BlogTileSection from "app/components/Blog/blog-tile-section.jsx";
 import ContentImage from "app/components/Shared/content-image";
 import ShortFooter from "app/components/Shared/footer-short.jsx";
-import Form from "app/components/Shared/form.jsx";
 
 export const metadata = {
   title:
