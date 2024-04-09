@@ -3,7 +3,7 @@ const nextConfig = {
     domains: ['example.s3.us-west-2.amazonaws.com'],
   }, */
   images: {
-    unoptimized: true,
+    unoptimized: false,
     remotePatterns: [
       {
         protocol: "https",
