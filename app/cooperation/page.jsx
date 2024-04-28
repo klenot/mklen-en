@@ -157,73 +157,78 @@ export default async function Cooperation() {
         );
       case "text":
         return <span>{value.plain_text}</span>;
-      case "code":
-        return (
-          <div key={Math.random()} id='form' className='landing-page-form'>
-            <h2 className='form-h2'>Reach out to me directly</h2>
-            <form
-              action='https://formsubmit.co/mklen@mklenotic.cz'
-              method='POST'
-              className='form-wrapper'>
-              <label className='form-label' htmlFor='name-input'>
-                First and last name:
-              </label>
-              <input
-                className='form-input'
-                id='name-input'
-                type='text'
-                name='name'
-                maxLength={40}
-                placeholder='Start with your name here...'
-                required=''
-              />
-              <br />
-              <label className='form-label' htmlFor='email-input'>
-                Email:
-              </label>
-              <input
-                className='form-input'
-                id='email-input'
-                type='email'
-                name='email'
-                maxLength={40}
-                placeholder='your@email.com'
-                required=''
-              />
-              <br />
-              <label className='form-label' htmlFor='message-input'>
-                Message:
-              </label>
-              <textarea
-                className='form-input'
-                id='message-input'
-                rows={5}
-                name='message'
-                placeholder='Can we meet online?'
-                maxLength={220}
-                required=''
-                defaultValue={""}
-              />
-              <br />
-              <input type='hidden' name='_next' defaultValue='index.html' />
-              <input
-                type='hidden'
-                name='_autoresponse'
-                defaultValue='Hello :) Thank you for reaching out to me! I am going to respond as soon as I read your message. Have a productive day, MK.'
-              />
-              <input
-                type='hidden'
-                name='_subject'
-                defaultValue='New message submitted from mklenotic.com.'
-              />
-              <div className='button-wrapper'>
-                <button className='cta ctaSmall'>
-                  <span className='button-text'>Submit</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        );
+        case "code":
+          const heading = value.caption ? value.caption[0]?.plain_text : "";
+          const text = value.rich_text[0]
+          return (
+            <div key={Math.random()} id='form' className='landing-page-form'>
+              <h2 className='landing-page-h2 pb-2'>{heading}</h2>
+              {value.rich_text[0] === undefined ? null : <p key={Math.random()} className='landing-page-form-text pb-2'>
+                <Text text={value.rich_text} className='plain-text' />
+              </p>}
+              <form
+                action='https://formsubmit.co/mklen@mklenotic.cz'
+                method='POST'
+                className='form-wrapper'>
+                <label className='form-label' htmlFor='name-input'>
+                  First and last name:
+                </label>
+                <input
+                  className='form-input'
+                  id='name-input'
+                  type='text'
+                  name='name'
+                  maxLength={40}
+                  placeholder='Start with your name here...'
+                  required=''
+                />
+                <br />
+                <label className='form-label' htmlFor='email-input'>
+                  Email:
+                </label>
+                <input
+                  className='form-input'
+                  id='email-input'
+                  type='email'
+                  name='email'
+                  maxLength={40}
+                  placeholder='your@email.com'
+                  required=''
+                />
+                <br />
+                <label className='form-label' htmlFor='message-input'>
+                  Message:
+                </label>
+                <textarea
+                  className='form-input'
+                  id='message-input'
+                  rows={5}
+                  name='message'
+                  placeholder='Can we meet online?'
+                  maxLength={220}
+                  required=''
+                  defaultValue={""}
+                />
+                <br />
+                <input type='hidden' name='_next' defaultValue='index.html' />
+                <input
+                  type='hidden'
+                  name='_autoresponse'
+                  defaultValue='Hello :) Thank you for reaching out to me! I am going to respond as soon as I read your message. Have a productive day, MK.'
+                />
+                <input
+                  type='hidden'
+                  name='_subject'
+                  defaultValue='New message submitted from mklenotic.com.'
+                />
+                <div className='button-wrapper'>
+                  <button className='cta ctaSmall'>
+                    <span className='button-text'>Submit</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          );
       case "file":
         const src_file =
           value.type === "external" ? value.external.url : value.file.url;
