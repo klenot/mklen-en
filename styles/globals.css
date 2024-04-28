@@ -62,6 +62,10 @@ ul {
   list-style-type: none;
 }
 
+li{
+  padding: 1rem 0 1rem 0;
+}
+
 input {
   border: none;
   border-bottom: solid 1px var(--primary-text-color);
@@ -2554,7 +2558,7 @@ details>p {
 }
 
 li>span {
-  font-weight: var(--thin-font);
+  font-weight: var(--regular-font);
 }
 
 
