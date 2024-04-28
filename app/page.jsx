@@ -30,7 +30,7 @@ export default function Home() {
         <ContentImage
           anchor={"explore"}
           direction={"right"}
-          heading={"Get to know each other first?"}
+          heading={"Get to Know Each Other"}
           text={
             "I understand, we don’t know each other yet. I would like to do a first step to change that."
           }
@@ -46,7 +46,7 @@ export default function Home() {
           padding={"pb-10"}
         />
         <ServiceSection
-          title={"How I can help your business"}
+          title={"I Can Help Your Business"}
           description={
             "As an individual with expertise in martech, project management and digital marketing I offer a rare blend of skills to your digital presence."
           }
