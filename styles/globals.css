@@ -55,7 +55,7 @@ h3 {
 }
 
 p {
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
 }
 
 ul {
@@ -424,12 +424,12 @@ button {
 
 .ctaLarge {
   height: 4.5rem;
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
 }
 
 .ctaSmall {
   height: 3.5rem;
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
 }
 
 .dark .button-text {
@@ -912,7 +912,7 @@ a>p {
 
 .hero-perex {
   font-weight: var(--thin-font);
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
 }
 
 
@@ -1590,7 +1590,7 @@ div>.article-section-container {
 
 
 .landing-page-bullet-list {
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
   font-weight: var(--regular-font);
   position: relative;
   left: 2rem;
@@ -2337,7 +2337,7 @@ li>span {
 }
 
 .article-text {
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
   letter-spacing: -0.2px;
   line-height: 3rem;
   text-align: left;
@@ -2520,7 +2520,7 @@ details>p {
 
 .article-bullet-list {
   margin-top: 1rem;
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
   font-weight: var(--regular-font);
   position: relative;
   left: 3rem;
@@ -3117,7 +3117,7 @@ textarea::placeholder {
   row-gap: 2rem;
   list-style-type: none;
   font-weight: var(--light-font);
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
   flex-direction: row;
   flex-wrap: wrap;
   column-gap: 1.5rem;
@@ -3128,7 +3128,7 @@ textarea::placeholder {
   display: flex;
   list-style-type: none;
   font-weight: var(--light-font);
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
   flex-direction: row;
   flex-wrap: wrap;
   column-gap: 1.5rem;
@@ -3137,7 +3137,7 @@ textarea::placeholder {
 }
 
 .form-cta {
-  font-size: 1.5rem;
+  font-size: clamp(1.7rem, 2.5vw, 2rem);
   max-height: 4rem;
 }
 
