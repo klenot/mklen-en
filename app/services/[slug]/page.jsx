@@ -110,8 +110,10 @@ export default async function ServicePage({ params }) {
           </h1>
         );
       case "heading_2":
+        const headingText = value.rich_text[0].plain_text;
+        const headingId = headingText.toLowerCase().replace(/\s+/g, '-');
         return (
-          <h2 key={Math.random()} className='landing-page-h2'>
+          <h2 key={Math.random()} className='landing-page-h2' id={headingId}>
             <Text text={value.rich_text} />
           </h2>
         );
@@ -358,6 +360,11 @@ export default async function ServicePage({ params }) {
           title={page.properties.ServiceName.title[0]?.plain_text}
           perex={page.properties.Description.rich_text[0]?.plain_text}
           buttonText={page.properties.ButtonText.rich_text[0] === undefined ? "" : page.properties.ButtonText.rich_text[0]?.plain_text}
+          buttonLink={page.properties.ButtonText.rich_text[0] === undefined ? "" : page.properties.ButtonLink.rich_text[0]?.plain_text}
+          image={{
+            src: page.properties.Thumbnail.files[0] === undefined ? "" : page.properties.Thumbnail.files[0].file.url,
+            alt: page.properties.ServiceName.title[0]?.plain_text + "hero image"}
+          }
         />
 
         <section className='landing-page-container'>

@@ -55,7 +55,7 @@ h3 {
 }
 
 p {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 ul {
@@ -63,7 +63,7 @@ ul {
 }
 
 li{
-  padding: 1rem 0 1rem 0;
+  padding: 0.5rem 0 0.5rem 0;
 }
 
 input {
@@ -423,8 +423,8 @@ button {
 }
 
 .ctaLarge {
-  height: 5.5rem;
-  font-size: 2rem;
+  height: 4.5rem;
+  font-size: 1.5rem;
 }
 
 .ctaSmall {
@@ -873,15 +873,14 @@ a>p {
 
 .hero-claim {
   font-size: 2em;
-  line-height: 6rem;
-  word-spacing: -1.5rem;
+  font-size: clamp(3rem, 5rem, 7rem);
   font-weight: var(--bold-font);
 }
 
 .hero-claim-animated-text::before {
   content: '';
   font-weight: var(--bold-font);
-  font-size: 2em;
+  font-size: clamp(3rem, 5rem, 7rem);
   animation: animated-text infinite 20s;
 }
 
@@ -913,7 +912,7 @@ a>p {
 
 .hero-perex {
   font-weight: var(--thin-font);
-  font-size: 2.5rem;
+  font-size: 1.5rem;
 }
 
 
@@ -1143,17 +1142,26 @@ a>p {
   flex-direction: column;
   justify-content: flex-end;
   padding: var(--mobile-cont-pd);
+  padding-top: 10rem;
+  padding-bottom: 4rem;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 15rem;
-  padding-bottom: 5rem;
+  gap: 1.5rem;
+  height: 50wh;
 }
 
 .service-hero-claim {
-  padding-bottom: 1rem;
-  font-size: 1.3em;
-  line-height: 5rem;
+  font-size: clamp(0.5rem, 4vh, 8rem);
   font-weight: var(--bold-font);
+}
+
+.service-hero-image{
+  height: 50vh;
+  position: relative;
+}
+
+.service-hero-button-wrapper{
+  margin: 2rem 0;
 }
 
 .landing-page-section-container {
@@ -1582,16 +1590,12 @@ div>.article-section-container {
 
 
 .landing-page-bullet-list {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   font-weight: var(--regular-font);
   position: relative;
   left: 2rem;
   list-style-type: disc;
-  line-height: 3rem;
-}
-
-.landing-page-bullet-list>li {
-  margin: 1rem 0;
+  line-height: 2.5rem;
 }
 
 .dark .landing-page-bullet-list>li>span {
@@ -1624,8 +1628,8 @@ li>span {
     padding: var(--tablet-cont-pd);
     width: var(--tablet-cont-w);
     height: auto;
-    padding-top: 10rem;
-    padding-bottom: 10rem;
+    padding-top: 13rem;
+    padding-bottom: 6rem;
   }
 
   .landing-page-section-container {
@@ -1645,7 +1649,7 @@ li>span {
     padding: var(--desktop-cont-pd);
     width: var(--desktop-cont-w);
     padding-top: 15rem;
-    padding-bottom: 10rem;
+    padding-bottom: 8rem;
     height: auto;
   }
 
@@ -2333,9 +2337,9 @@ li>span {
 }
 
 .article-text {
-  font-size: 2rem;
+  font-size: 1.5rem;
   letter-spacing: -0.2px;
-  line-height: 3.2rem;
+  line-height: 3rem;
   text-align: left;
   word-spacing: -0.2rem;
   white-space: pre-wrap;
@@ -2516,7 +2520,7 @@ details>p {
 
 .article-bullet-list {
   margin-top: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: var(--regular-font);
   position: relative;
   left: 3rem;
