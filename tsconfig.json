@@ -13,23 +13,37 @@
     "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "app/*": [
+        "./app/*"
+      ],
+      "styles/*": [
+        "./styles/*"
+      ]
+    },
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "app/libs/notion-client-side-fetching.jsx"
+    "app/libs/notion-client-side-fetching.jsx",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

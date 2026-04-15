@@ -7,7 +7,23 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "**",
+        hostname: "www.mklenotic.com",
+      },
+      {
+        protocol: "https",
+        hostname: "mklenotic.com",
+      },
+      {
+        protocol: "https",
+        hostname: "secure.notion-static.com",
+      },
+      {
+        protocol: "https",
+        hostname: "prod-files-secure.s3.us-west-2.amazonaws.com",
+      },
+      {
+        protocol: "https",
+        hostname: "arch.agency",
       },
     ],
   },
