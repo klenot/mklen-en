@@ -1,5 +1,5 @@
 import "styles/globals.css";
-import "styles/arch-benchmark.css";
+import "styles/bento.css";
 import MainHead from "app/components/Shared/head.jsx";
 import Providers from "app/providers.jsx";
 import CookieConsent from "app/components/Shared/cookie-consent.jsx";
