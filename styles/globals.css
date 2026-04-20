@@ -31,12 +31,9 @@ p, h1, h2, h3, li, a, button, label, input {
 }
 
 span { color: inherit; }
-
 ul { list-style-type: none; }
-
 input { outline: none; }
 select, textarea { outline: none; }
-
 button { cursor: pointer; }
 
 /* Not-found page */

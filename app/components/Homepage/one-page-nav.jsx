@@ -1,50 +1,76 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const NAV_ITEMS = [
-  { href: "#case-studies", label: "Case studies" },
-  { href: "#process", label: "Process" },
+  { href: "#case-studies", label: "Projects" },
+  { href: "#blog", label: "Blog" },
   { href: "#contact", label: "Contact" },
-  { href: "https://mklenotic.com", label: "Site", external: true },
 ];
 
 export default function OnePageNav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const [cubeVisible, setCubeVisible] = useState(false);
+  const navRef = useRef(null);
   const close = () => setMenuOpen(false);
 
+  useEffect(() => {
+    const hero = document.getElementById("hero");
+    if (!hero) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setCollapsed(!entry.isIntersecting),
+      { threshold: 0.6 }
+    );
+    io.observe(hero);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const cube = document.querySelector(".bento-card--blog-cube");
+    if (!cube) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setCubeVisible(entry.isIntersecting),
+      { threshold: 0.01, rootMargin: "0px 0px -95% 0px" }
+    );
+    io.observe(cube);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav || !collapsed || !cubeVisible) {
+      if (nav) nav.style.top = "";
+      return;
+    }
+    const cube = document.querySelector(".bento-card--blog-cube");
+    if (!cube) return;
+
+    let raf;
+    const update = () => {
+      const r = cube.getBoundingClientRect();
+      nav.style.top = `${Math.max(0, r.top)}px`;
+      raf = requestAnimationFrame(update);
+    };
+    raf = requestAnimationFrame(update);
+    return () => {
+      cancelAnimationFrame(raf);
+      nav.style.top = "";
+    };
+  }, [collapsed, cubeVisible]);
+
   return (
-    <header className="bento-nav">
+    <header ref={navRef} className={`bento-nav${collapsed ? " collapsed" : ""}`}>
       <a href="#hero" className="logo" onClick={close}>
-        mklenotic
+        <img src="/m-key.png" alt="mklenotic" className="logo-img" />
       </a>
 
       <nav>
-        {NAV_ITEMS.map((item) =>
-          item.external ? (
-            <a
-              key={item.href}
-              href={item.href}
-              className="external"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <span>{item.label}</span>
-              <svg viewBox="0 0 9 9" fill="none" aria-hidden>
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M6.1894 1.75H1.50006V0.25H8.75006V7.5H7.25006V2.81066L2.03039 8.03033L0.969727 6.96967L6.1894 1.75Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </a>
-          ) : (
-            <a key={item.href} href={item.href}>
-              {item.label}
-            </a>
-          )
-        )}
+        {NAV_ITEMS.map((item) => (
+          <a key={item.href} href={item.href}>
+            {item.label}
+          </a>
+        ))}
       </nav>
 
       <button
@@ -60,13 +86,7 @@ export default function OnePageNav() {
 
       <div id="mobile-menu" className={`mobile-menu${menuOpen ? " open" : ""}`}>
         {NAV_ITEMS.map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            target={item.external ? "_blank" : undefined}
-            rel={item.external ? "noreferrer" : undefined}
-            onClick={close}
-          >
+          <a key={item.href} href={item.href} onClick={close}>
             {item.label}
           </a>
         ))}
