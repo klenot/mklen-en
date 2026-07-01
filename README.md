@@ -1,20 +1,36 @@
-# Welcome to my personal website 👋🏻
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-I started this project to learn more about the technical side of creating web applications. What began as a basic HTML and CSS project ended up as a Next.js site using Notion as its CMS.
+## Getting Started
 
-It is also worth mentioning that the inspiration for this project came from a really cool service called super.so, which I had used before creating the new site.
+First, run the development server:
 
-## Why Notion?
-I find using Notion really convenient. I also use Notion with many integrations that help me unify my system into one productivity center. Using Notion to control the site content is a big time-saver for me.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## Project Specifications
-- **Framework:** Next.js 14
-- **CMS:** Notion.so
-- **Forms:** Formsubmit.io
-- **Analytics:** Umami.is
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Do you need help?
-I do not consider myself as someone experienced in web development. That might be an opportunity for somebody who started similarly, without any previous knowledge and just went for it. **If you have any questions regarding this project, hit me up** at klenoticmarek@gmail.com; I'll do my best to answer your questions.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-[Enjoy the site](https://www.mklenotic.com/) 🚀
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
