@@ -2,10 +2,7 @@ import ProjectCard from "@/components/elements/ProjectCard";
 
 export default function Projects() {
   return (
-    <section
-      id="projects"
-      className="flex justify-center border border-red-500 py-16 shrink-0"
-    >
+    <section id="projects" className="flex justify-center py-16 shrink-0">
       <div className="flex flex-col items-center w-full max-w-[1200px] px-4">
         {/* this wrapper hugs the cards; heading + grid both align to its left edge */}
         <div className="inline-flex flex-col gap-4">

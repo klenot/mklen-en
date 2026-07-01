@@ -17,7 +17,7 @@ export default function Navbar() {
         <a
           key={item.label}
           href={item.href}
-          className="font-mono text-sm font-medium text-gray-500 w-fit"
+          className="font-mono text-xs font-medium text-black w-fit"
         >
           {item.label}
         </a>
