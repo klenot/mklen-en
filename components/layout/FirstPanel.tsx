@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useMeasuredHeight } from "@/hooks/useMeasuredHeight";
 
 /**
  * The 1st panel overlays the pinned 2nd panel (absolute, z-10) and scrolls away.
@@ -14,20 +14,7 @@ export default function FirstPanel({
 }: {
   children: React.ReactNode;
 }) {
-  const ref = useRef<HTMLElement>(null);
-  const [height, setHeight] = useState(0);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const update = () => setHeight(el.offsetHeight);
-    update();
-
-    const observer = new ResizeObserver(update);
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, height } = useMeasuredHeight<HTMLElement>();
 
   return (
     <>
