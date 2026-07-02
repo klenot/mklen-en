@@ -1,6 +1,6 @@
 export default function Experiences() {
   return (
-    <section id="experiences" className="m-4">
+    <section id="experiences" className="mx-4 mt-4">
       {/* Liquid glass panel: pure ~20px backdrop blur (no color tint), with an
           orange refractive edge and a top specular highlight. */}
       <div className="relative flex min-h-[60vh] items-center justify-center overflow-hidden rounded-4xl border border-orange-500/50 bg-black/20 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)] backdrop-blur-xl">
