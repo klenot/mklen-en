@@ -1,6 +1,7 @@
 import FirstPanel from "@/components/layout/FirstPanel";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
+import Blog from "@/components/sections/Blog";
 import Contact from "@/components/sections/Contact";
 import Experiences from "@/components/sections/Experiences";
 import Hero from "@/components/sections/Hero";
@@ -23,6 +24,7 @@ export default function Home() {
           className="sticky top-0 z-0 min-h-dvh bg-white flex flex-col items-center justify-center"
         >
           <Projects />
+          <Blog />
         </section>
 
         {/* 1st panel: overlays from the very top (z-10) and scrolls away, uncovering
