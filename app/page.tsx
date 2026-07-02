@@ -1,5 +1,6 @@
 import FirstPanel from "@/components/layout/FirstPanel";
 import Footer from "@/components/layout/Footer";
+import ContactOverlay from "@/components/layout/ContactOverlay";
 import Navbar from "@/components/layout/Navbar";
 import Blog from "@/components/sections/Blog";
 import GameSection from "@/components/game/GameSection";
@@ -35,7 +36,12 @@ export default function Home() {
           <div className="flex items-center justify-center w-full sticky top-0 z-0">
             <Navbar />
           </div>
-          <div className="relative z-10 bg-orange-400 rounded-3xl">
+          <div
+            className="relative z-10 rounded-3xl"
+            style={{
+              background: "linear-gradient(to bottom, #0082FF, #110058)",
+            }}
+          >
             <HeroServices />
             <PathAnimation />
 
@@ -60,16 +66,16 @@ export default function Home() {
           boundary so it can never take the rest of the page down. */}
       <GameSection />
 
-      {/* Contact stage: its own single sticky screen, pinned while the footer slides
-          up over it. The footer's spacer lives in this container so Contact stays
-          pinned for exactly the footer's reveal distance. Keep this ~one viewport
-          tall for the same reason as the reveal stage above. */}
+      {/* Contact stage: Contact is fixed (z-40 > z-30) and only fades in once
+          the game section is fully scrolled off-screen. The spacer provides enough
+          scroll room for the game to leave the viewport before the footer arrives. */}
       <div className="relative">
-        <div className="sticky top-0 z-0 min-h-dvh bg-white flex flex-col items-center justify-center">
+        <div className="h-[80vh]" aria-hidden />
+        <ContactOverlay afterSelector="#game">
           <Contact />
-        </div>
+        </ContactOverlay>
 
-        {/* Footer: hidden below the fold, slides up over the pinned Contact screen. */}
+        {/* Footer: slides up over the white background, but under the Contact content. */}
         <Footer />
       </div>
     </main>

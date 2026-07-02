@@ -40,7 +40,7 @@ export default function PostItem({
         boxShadow: shadow,
         transitionDelay: `${delay}ms`,
       }}
-      className="flex cursor-pointer items-start gap-4 bg-white px-4 py-3 transition-[transform,box-shadow] duration-500 ease-out will-change-transform"
+      className="flex cursor-pointer items-start gap-4 bg-white pr-4 py-3 transition-[transform,box-shadow] duration-500 ease-out will-change-transform"
     >
       <div className="flex min-w-0 flex-1 flex-col wrap-break-words">
         <h3 className="text-base font-medium font-mono text-black">{title}</h3>

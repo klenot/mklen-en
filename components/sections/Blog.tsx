@@ -5,8 +5,8 @@ export default function Blog() {
     <section id="blog" className="flex justify-center py-16 shrink-0">
       <div className="flex flex-col items-center w-full max-w-[1200px] px-4">
         {/* wrapper hugs the list; heading, list and CTA all share its width */}
-        <div className="inline-flex flex-col gap-4 w-full max-w-[640px]">
-          <h2 className="text-2xl font-mono font-bold text-black">Blog</h2>
+        <div className="flex flex-col gap-4 w-full max-w-[640px]">
+          <h2 className="text-4xl font-mono font-bold text-black mb-4">Blog</h2>
 
           <BlogList />
 

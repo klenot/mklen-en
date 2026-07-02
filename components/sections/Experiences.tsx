@@ -7,7 +7,7 @@ export default function Experiences() {
         <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/20 to-transparent" />
 
         <div className="relative flex flex-col items-center gap-10 px-6 py-24 text-center">
-          <p className="font-mono text-lg text-black md:text-2xl">
+          <p className="font-mono text-lg text-white md:text-2xl">
             Got experience, got the <span className="font-bold">juice</span>.
           </p>
 

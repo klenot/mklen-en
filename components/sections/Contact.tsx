@@ -12,6 +12,7 @@ export default function Contact({
   workEndHour?: number;
 }) {
   const [now, setNow] = useState<Date | null>(null);
+  const [footerProgress, setFooterProgress] = useState(0);
 
   useEffect(() => {
     setNow(new Date());
@@ -19,7 +20,33 @@ export default function Contact({
     return () => clearInterval(id);
   }, []);
 
-  // Sunday (day 0) has no working hours.
+  useEffect(() => {
+    let frame = 0;
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const scrolled = window.scrollY + window.innerHeight;
+        const remaining = document.documentElement.scrollHeight - scrolled;
+        const footer = document.getElementById("contact-footer");
+        const h = footer?.offsetHeight ?? 0;
+        if (h) {
+          const next = Math.min(1, Math.max(0, 1 - remaining / h));
+          setFooterProgress(next);
+        }
+      });
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, []);
+
   const isWorking =
     now !== null &&
     now.getDay() !== 0 &&
@@ -34,14 +61,14 @@ export default function Contact({
       })
     : "--:--";
 
+  const textColor = `rgb(${Math.round(255 * footerProgress)}, ${Math.round(255 * footerProgress)}, ${Math.round(255 * footerProgress)})`;
+
   return (
     <section
       id="contact"
-      className="flex shrink-0 items-center justify-center py-24"
+      className="relative flex shrink-0 items-center justify-center py-24"
     >
       <div className="flex flex-col items-center gap-8 text-center">
-        {/* status line + CTA share a w-fit column so the button (w-full) stretches to
-            the width of the text above; the text's px padding makes it slightly exceed. */}
         <div className="flex w-fit flex-col items-stretch gap-5">
           <p className="px-4 font-mono font-medium text-black">
             It&apos;s {time} and I&apos;m{" "}
@@ -51,9 +78,6 @@ export default function Contact({
             .
           </p>
 
-          {/* Keycap 3D: a second black pill sits under the button, offset to the
-              bottom-right to create depth. On hover the button slides into it,
-              closing the gap so it reads as pressed. */}
           <div className="relative w-full">
             <span
               aria-hidden
@@ -68,7 +92,10 @@ export default function Contact({
           </div>
         </div>
 
-        <p className="font-light font-mono text-xs text-black">
+        <p
+          className="font-light font-mono text-xs"
+          style={{ color: textColor, transition: "color 0.1s ease-out" }}
+        >
           My brain cells are for hire.
           <br />
           Let&apos;s connect and make it happen.
