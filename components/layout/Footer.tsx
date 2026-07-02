@@ -48,8 +48,8 @@ export default function Footer() {
         }}
         className="fixed inset-x-0 bottom-0 z-30 bg-orange-500 text-black rounded-t-3xl"
       >
-        <div className="mx-auto flex w-full max-w-[1200px] items-end justify-center gap-3 px-6 pt-16 pb-6 font-mono text-sm">
-          <span>mklenotic.com</span>
+        <div className="mx-auto flex w-full max-w-[1200px] items-end justify-center gap-3 px-6 pt-48 pb-3 font-mono text-xs">
+          <span>vibecoded</span>
           <span aria-hidden>|</span>
           <span>© {new Date().getFullYear()}</span>
         </div>

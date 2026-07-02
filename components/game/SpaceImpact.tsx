@@ -35,18 +35,20 @@ const COLOR_FLAME = "#f97316"; // orange-500
 type Sprite = string[];
 type Palette = Record<string, string>;
 
-// Ship: black hull (X), blue cockpit (o), orange thrusters (e).
+// Ship: solid-black hull styled after the classic Space Impact craft.
+// Built from a top half mirrored around the center (x-axis) row.
+// The exhaust flame is drawn separately behind it.
 // prettier-ignore
 const SHIP: Sprite = [
-  "eXX      ",
-  "XXXXX    ",
-  "XXXXoXXX ",
-  "XXXXoXXXX",
-  "XXXXoXXX ",
-  "XXXXX    ",
-  "eXX      ",
+  "XX        ",
+  " XX XXX   ",
+  "  X XX X  ",
+  " X XXXX XX",
+  "  X XX X  ",
+  " XX XXX   ",
+  "XX        ",
 ];
-const SHIP_PALETTE: Palette = { X: "#000000", o: COLOR_BULLET, e: COLOR_FLAME };
+const SHIP_PALETTE: Palette = { X: "#000000" };
 
 type Variant = { sprite: Sprite; palette: Palette; speedMul: number };
 
@@ -447,9 +449,12 @@ export default function SpaceImpact() {
 
       {status === "idle" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white text-center">
-          <h3 className="font-mono text-2xl font-bold tracking-widest text-black">
-            SPACE IMPACT
-          </h3>
+          <div className="flex flex-col items-center gap-1">
+            <p className="font-sans text-xs italic text-black">always aim for</p>
+            <h3 className="font-mono text-2xl font-bold tracking-widest text-black">
+              SPACE IMPACT
+            </h3>
+          </div>
           <p className="max-w-xs font-mono text-xs font-light text-black/50">
             survive 60 seconds. arrows to fly, space to shoot. you have 3 lives.
           </p>

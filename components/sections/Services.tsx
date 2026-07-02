@@ -35,10 +35,11 @@ export default function Services({
     ["1.5rem", "0rem", "0rem", "1.5rem"]
   );
 
-  // text fades in once full-bleed, then out again before the section shrinks
+  // text fades in as the rectangle reaches vertical center (~0.5 scroll progress),
+  // holds through full-bleed, then out again before the section shrinks
   const textOpacity = useTransform(
     scrollYProgress,
-    [0.45, 0.6, 0.72, 0.82],
+    [0.38, 0.5, 0.72, 0.82],
     [0, 1, 1, 0]
   );
 
