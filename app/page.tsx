@@ -5,11 +5,10 @@ import Blog from "@/components/sections/Blog";
 import GameSection from "@/components/game/GameSection";
 import Contact from "@/components/sections/Contact";
 import Experiences from "@/components/sections/Experiences";
-import Hero from "@/components/sections/Hero";
+import HeroServices from "@/components/sections/HeroServices";
 import PathAnimation from "@/components/sections/PathAnimation";
 import Projects from "@/components/sections/Projects";
 import Reviews from "@/components/sections/Reviews";
-import Services from "@/components/sections/Services";
 
 export default function Home() {
   return (
@@ -37,8 +36,7 @@ export default function Home() {
             <Navbar />
           </div>
           <div className="relative z-10 bg-orange-400 rounded-3xl">
-            <Hero />
-            <Services />
+            <HeroServices />
             <PathAnimation />
 
             {/* Reviews stage: the glass Experiences panel sticks as a ceiling
