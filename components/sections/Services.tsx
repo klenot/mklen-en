@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import type { RefObject } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
-import { SPREAD_BREAKPOINTS } from "./serviceReveal";
+import { SPREAD_BREAKPOINTS, SPREAD_OFFSET } from "./serviceReveal";
 
 export default function Services({
   sectionRef,
@@ -15,11 +15,9 @@ export default function Services({
   const ref = sectionRef ?? internalRef;
 
   // progress 0 → section entering from the bottom, 1 → section leaving past the top
-  // NOTE: offset must match CircleField's useScroll offset for SPREAD_BREAKPOINTS
-  // to line up between the box width and the circle travel.
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    offset: SPREAD_OFFSET,
   });
 
   // rest (inset) → spread to full-bleed → hold → shrink back to rest

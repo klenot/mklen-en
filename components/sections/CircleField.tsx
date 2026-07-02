@@ -8,7 +8,7 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import { SPREAD_BREAKPOINTS } from "./serviceReveal";
+import { SPREAD_BREAKPOINTS, SPREAD_OFFSET } from "./serviceReveal";
 
 // how many circles start in the hero vs. already in the box
 const HERO_COUNT = 7;
@@ -99,6 +99,11 @@ export default function CircleField({
   const overlayRef = useRef<HTMLDivElement>(null);
   const elsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const visibleRef = useRef(true);
+  // cached viewport dims (drift scales with vmin) — refreshed on resize instead
+  // of read from `window` every frame
+  const viewportRef = useRef({ w: 1, h: 1 });
+  // circles reveal (opacity 0 → 1) exactly once, on the first valid placement
+  const revealedRef = useRef(false);
 
   const reduced = useReducedMotion();
   const circles = useMemo(() => makeCircles(), []);
@@ -107,7 +112,7 @@ export default function CircleField({
   // circle travel: full-bleed (marginX 0) => 1 (in box), inset => 0 (at top)
   const { scrollYProgress } = useScroll({
     target: servicesRef,
-    offset: ["start end", "end start"],
+    offset: SPREAD_OFFSET,
   });
   const travel = useTransform(
     scrollYProgress,
@@ -139,7 +144,9 @@ export default function CircleField({
     const heroH = Math.max(1, bandTop);
 
     const p = rest ? 0 : clamp01(travel.get());
-    const vmin = Math.min(window.innerWidth, window.innerHeight) / 100;
+    const { w, h } = viewportRef.current;
+    const vmin = Math.min(w, h) / 100;
+    const reveal = !revealedRef.current;
 
     for (let i = 0; i < circles.length; i++) {
       const el = elsRef.current[i];
@@ -171,11 +178,25 @@ export default function CircleField({
       el.style.transform = `translate3d(${baseX + dx}px, ${
         baseY + dy
       }px, 0) translate(-50%, -50%)`;
-      el.style.opacity = "1";
+      if (reveal) el.style.opacity = "1";
     }
+
+    revealedRef.current = true;
   };
 
-  // animated path (skips work while the overlay is off-screen)
+  // keep the cached viewport dims fresh (used for vmin-scaled drift)
+  useEffect(() => {
+    const update = () => {
+      viewportRef.current = { w: window.innerWidth, h: window.innerHeight };
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  // animated path (skips work while the overlay is off-screen). useAnimationFrame
+  // can't be called conditionally, so under reduced motion the loop stays
+  // registered but early-returns to a no-op (placement is done by the effect below).
   useAnimationFrame((t) => {
     if (reduced) return;
     if (!visibleRef.current) return;
