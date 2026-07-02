@@ -1,23 +1,36 @@
 "use client";
 
 import { useRef } from "react";
+import type { RefObject } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
+import { SPREAD_BREAKPOINTS } from "./serviceReveal";
 
-export default function Services() {
-  const ref = useRef<HTMLElement>(null);
+export default function Services({
+  sectionRef,
+}: {
+  // Optional shared ref so CircleField can key off the exact same scroll.
+  sectionRef?: RefObject<HTMLElement | null>;
+}) {
+  const internalRef = useRef<HTMLElement>(null);
+  const ref = sectionRef ?? internalRef;
 
   // progress 0 → section entering from the bottom, 1 → section leaving past the top
+  // NOTE: offset must match CircleField's useScroll offset for SPREAD_BREAKPOINTS
+  // to line up between the box width and the circle travel.
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
 
   // rest (inset) → spread to full-bleed → hold → shrink back to rest
-  const marginX = useTransform(
-    scrollYProgress,
-    [0, 0.3, 0.45, 0.7, 0.85, 1],
-    ["1rem", "1rem", "0rem", "0rem", "1rem", "1rem"]
-  );
+  const marginX = useTransform(scrollYProgress, SPREAD_BREAKPOINTS, [
+    "1rem",
+    "1rem",
+    "0rem",
+    "0rem",
+    "1rem",
+    "1rem",
+  ]);
   const borderRadius = useTransform(
     scrollYProgress,
     [0.3, 0.45, 0.7, 0.85],
@@ -35,13 +48,13 @@ export default function Services() {
     <section ref={ref} id="services" className="py-4">
       <motion.div
         style={{ marginLeft: marginX, marginRight: marginX, borderRadius }}
-        className="flex aspect-video items-center justify-center overflow-hidden bg-black"
+        className="relative aspect-video overflow-hidden bg-black"
       >
         <motion.p
           style={{ opacity: textOpacity }}
-          className="font-mono text-white"
+          className="absolute inset-x-0 bottom-[12px] px-6 text-center font-mono text-white"
         >
-          Some text
+          Today&apos;s digital space is made for people of many talents.
         </motion.p>
       </motion.div>
     </section>
