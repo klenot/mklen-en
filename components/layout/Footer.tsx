@@ -1,38 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { useMeasuredHeight } from "@/hooks/useMeasuredHeight";
+import { useThrottledScroll } from "@/hooks/useThrottledScroll";
 
 export default function Footer() {
   const { ref, height } = useMeasuredHeight<HTMLElement>();
   const [progress, setProgress] = useState(0);
 
-  useEffect(() => {
-    if (!height) return;
-
-    let frame = 0;
-    const onScroll = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        const scrolled = window.scrollY + window.innerHeight;
-        const remaining = document.documentElement.scrollHeight - scrolled;
-        // 0 while > footer height from the bottom, 1 exactly at the bottom
-        const next = Math.min(1, Math.max(0, 1 - remaining / height));
-        setProgress(next);
-      });
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, [height]);
+  useThrottledScroll(
+    useCallback(() => {
+      if (!height) return;
+      const scrolled = window.scrollY + window.innerHeight;
+      const remaining = document.documentElement.scrollHeight - scrolled;
+      const next = Math.min(1, Math.max(0, 1 - remaining / height));
+      setProgress(next);
+    }, [height]),
+    [height],
+  );
 
   return (
     <>

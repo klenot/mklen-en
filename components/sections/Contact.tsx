@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+import { useThrottledScroll } from "@/hooks/useThrottledScroll";
 
 const OFFSET_AFTER_GAME = 150;
 
@@ -23,43 +25,27 @@ export default function Contact({
     return () => clearInterval(id);
   }, []);
 
-  useEffect(() => {
-    let frame = 0;
+  useThrottledScroll(
+    useCallback(() => {
+      const viewportBottom = window.scrollY + window.innerHeight;
 
-    const onScroll = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        const viewportBottom = window.scrollY + window.innerHeight;
+      const game = document.getElementById("game");
+      if (game) {
+        const gameBottom =
+          game.getBoundingClientRect().top + window.scrollY + game.clientHeight;
+        setVisible(viewportBottom > gameBottom + OFFSET_AFTER_GAME);
+      }
 
-        // Show contact 150px after the game section ends
-        const game = document.getElementById("game");
-        if (game) {
-          const gameBottom =
-            game.getBoundingClientRect().top + window.scrollY + game.clientHeight;
-          setVisible(viewportBottom > gameBottom + OFFSET_AFTER_GAME);
-        }
-
-        // Footer slide-up progress
-        const footer = document.getElementById("contact-footer");
-        const footerH = footer?.offsetHeight ?? 0;
-        if (footerH) {
-          const remaining =
-            document.documentElement.scrollHeight - viewportBottom;
-          setFooterProgress(Math.min(1, Math.max(0, 1 - remaining / footerH)));
-        }
-      });
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, []);
+      const footer = document.getElementById("contact-footer");
+      const footerH = footer?.offsetHeight ?? 0;
+      if (footerH) {
+        const remaining =
+          document.documentElement.scrollHeight - viewportBottom;
+        setFooterProgress(Math.min(1, Math.max(0, 1 - remaining / footerH)));
+      }
+    }, []),
+    [],
+  );
 
   const isWorking =
     now !== null &&

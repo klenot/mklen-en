@@ -11,12 +11,13 @@ function RichTextRenderer({ segments }: { segments: RichText[] }) {
 
         if (segment.code) {
           node = (
-            <code className="rounded bg-black/[0.05] px-[0.4em] py-[0.15em] text-[0.875em] font-mono text-black">
+            <code className="rounded bg-black/5 px-[0.4em] py-[0.15em] text-[0.875em] font-mono text-black">
               {node}
             </code>
           );
         }
-        if (segment.bold) node = <strong className="font-semibold">{node}</strong>;
+        if (segment.bold)
+          node = <strong className="font-semibold">{node}</strong>;
         if (segment.italic) node = <em>{node}</em>;
         if (segment.strikethrough) node = <s>{node}</s>;
         if (segment.underline) node = <u>{node}</u>;
@@ -53,7 +54,7 @@ function HighlightedCode({
         dangerouslySetInnerHTML={{ __html: html }}
       />
       {caption && (
-        <figcaption className="mt-[0.625rem] text-[0.8125rem] font-mono text-black/70 leading-normal">
+        <figcaption className="mt-2.5 text-[0.8125rem] font-mono text-black/70 leading-normal">
           {caption}
         </figcaption>
       )}
@@ -61,13 +62,7 @@ function HighlightedCode({
   );
 }
 
-function PlainCode({
-  text,
-  caption,
-}: {
-  text: string;
-  caption?: string;
-}) {
+function PlainCode({ text, caption }: { text: string; caption?: string }) {
   return (
     <figure className="blog-block-spacing">
       <pre className="overflow-x-auto rounded-md border border-black/10 bg-[#fafafa] p-[1.25em]">
@@ -76,7 +71,7 @@ function PlainCode({
         </code>
       </pre>
       {caption && (
-        <figcaption className="mt-[0.625rem] text-[0.8125rem] font-mono text-black/70 leading-normal">
+        <figcaption className="mt-2.5 text-[0.8125rem] font-mono text-black/70 leading-normal">
           {caption}
         </figcaption>
       )}
@@ -93,7 +88,7 @@ function ImageBlock({ url, caption }: { url: string; caption?: string }) {
         className="w-full rounded-md border border-black/10"
       />
       {caption && (
-        <figcaption className="mt-[0.625rem] text-[0.8125rem] font-mono text-black/70 leading-normal">
+        <figcaption className="mt-2.5 text-[0.8125rem] font-mono text-black/70 leading-normal">
           {caption}
         </figcaption>
       )}
@@ -162,14 +157,20 @@ function ToggleBlock({
         </span>
         <RichTextRenderer segments={text} />
       </summary>
-      <div className="mt-[0.75rem] pl-[1.25em] border-l-2 border-black/10">
+      <div className="mt-3 pl-[1.25em] border-l-2 border-black/10">
         <BlockRenderer blocks={children} codeHtmlMap={codeHtmlMap} />
       </div>
     </details>
   );
 }
 
-function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtmlMap: Record<number, string> }) {
+function BlockRenderer({
+  blocks,
+  codeHtmlMap,
+}: {
+  blocks: NotionBlock[];
+  codeHtmlMap: Record<number, string>;
+}) {
   const elements: React.ReactNode[] = [];
   let i = 0;
 
@@ -192,9 +193,7 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
         <Tag
           key={`list-${i}`}
           className={`blog-list-spacing flex flex-col gap-[0.35em] pl-0 ${
-            listType === "numbered_list_item"
-              ? "list-decimal"
-              : "list-disc"
+            listType === "numbered_list_item" ? "list-decimal" : "list-disc"
           } list-inside marker:text-black`}
         >
           {items.map((item, j) => (
@@ -207,7 +206,7 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
               )}
             </li>
           ))}
-        </Tag>
+        </Tag>,
       );
       continue;
     }
@@ -219,7 +218,10 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
         i++;
       }
       elements.push(
-        <ul key={`todo-${i}`} className="blog-list-spacing flex flex-col gap-[0.4em]">
+        <ul
+          key={`todo-${i}`}
+          className="blog-list-spacing flex flex-col gap-[0.4em]"
+        >
           {items.map((item, j) => {
             if (item.type !== "to_do") return null;
             return (
@@ -231,7 +233,9 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
                 />
                 <span
                   className={`text-[1rem] leading-[1.75] font-mono ${
-                    item.checked ? "text-black/50 line-through" : "text-[#1a1a1a]"
+                    item.checked
+                      ? "text-black/50 line-through"
+                      : "text-[#1a1a1a]"
                   }`}
                 >
                   <RichTextRenderer segments={item.text} />
@@ -239,7 +243,7 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
               </li>
             );
           })}
-        </ul>
+        </ul>,
       );
       continue;
     }
@@ -249,7 +253,7 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
         elements.push(
           <h1 key={i} className="blog-h1">
             <RichTextRenderer segments={block.text} />
-          </h1>
+          </h1>,
         );
         break;
 
@@ -257,7 +261,7 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
         elements.push(
           <h2 key={i} className="blog-h2">
             <RichTextRenderer segments={block.text} />
-          </h2>
+          </h2>,
         );
         break;
 
@@ -265,7 +269,7 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
         elements.push(
           <h3 key={i} className="blog-h3">
             <RichTextRenderer segments={block.text} />
-          </h3>
+          </h3>,
         );
         break;
 
@@ -273,7 +277,7 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
         elements.push(
           <p key={i} className="blog-paragraph">
             <RichTextRenderer segments={block.text} />
-          </p>
+          </p>,
         );
         break;
 
@@ -284,7 +288,7 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
             className="blog-block-spacing border-l-[3px] border-black pl-[1em] text-[1rem] leading-[1.75] font-mono text-[#1a1a1a]"
           >
             <RichTextRenderer segments={block.text} />
-          </blockquote>
+          </blockquote>,
         );
         break;
 
@@ -300,13 +304,13 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
             <p className="text-[0.9375rem] leading-[1.7] font-mono text-[#1a1a1a]">
               <RichTextRenderer segments={block.text} />
             </p>
-          </aside>
+          </aside>,
         );
         break;
 
       case "divider":
         elements.push(
-          <hr key={i} className="blog-divider border-none h-px bg-black/10" />
+          <hr key={i} className="blog-divider border-none h-px bg-black/10" />,
         );
         break;
 
@@ -317,22 +321,18 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
               key={i}
               html={codeHtmlMap[i]}
               caption={block.caption}
-            />
+            />,
           );
         } else {
           elements.push(
-            <PlainCode
-              key={i}
-              text={block.text}
-              caption={block.caption}
-            />
+            <PlainCode key={i} text={block.text} caption={block.caption} />,
           );
         }
         break;
 
       case "image":
         elements.push(
-          <ImageBlock key={i} url={block.url} caption={block.caption} />
+          <ImageBlock key={i} url={block.url} caption={block.caption} />,
         );
         break;
 
@@ -353,7 +353,7 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
                 {block.caption}
               </span>
             )}
-          </a>
+          </a>,
         );
         break;
 
@@ -368,13 +368,18 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
             className="blog-block-spacing text-center text-[1.125rem] font-mono text-black py-[0.5em]"
           >
             {block.expression}
-          </div>
+          </div>,
         );
         break;
 
       case "toggle":
         elements.push(
-          <ToggleBlock key={i} text={block.text} children={block.children} codeHtmlMap={codeHtmlMap} />
+          <ToggleBlock
+            key={i}
+            text={block.text}
+            children={block.children}
+            codeHtmlMap={codeHtmlMap}
+          />,
         );
         break;
 
@@ -388,7 +393,13 @@ function BlockRenderer({ blocks, codeHtmlMap }: { blocks: NotionBlock[]; codeHtm
   return <>{elements}</>;
 }
 
-export default function NotionRenderer({ blocks, codeHtmlMap = {} }: { blocks: NotionBlock[]; codeHtmlMap?: Record<number, string> }) {
+export default function NotionRenderer({
+  blocks,
+  codeHtmlMap = {},
+}: {
+  blocks: NotionBlock[];
+  codeHtmlMap?: Record<number, string>;
+}) {
   return (
     <div className="blog-content">
       <BlockRenderer blocks={blocks} codeHtmlMap={codeHtmlMap} />
