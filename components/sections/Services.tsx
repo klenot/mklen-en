@@ -7,9 +7,10 @@ import { SPREAD_BREAKPOINTS, SPREAD_OFFSET } from "./serviceReveal";
 
 export default function Services({
   sectionRef,
+  boxRef,
 }: {
-  // Optional shared ref so CircleField can key off the exact same scroll.
   sectionRef?: RefObject<HTMLElement | null>;
+  boxRef?: RefObject<HTMLDivElement | null>;
 }) {
   const internalRef = useRef<HTMLElement>(null);
   const ref = sectionRef ?? internalRef;
@@ -31,21 +32,22 @@ export default function Services({
   ]);
   const borderRadius = useTransform(
     scrollYProgress,
-    [0.3, 0.45, 0.7, 0.85],
+    [0.15, 0.25, 0.80, 0.90],
     ["1.5rem", "0rem", "0rem", "1.5rem"]
   );
 
-  // text fades in as the rectangle reaches vertical center (~0.5 scroll progress),
-  // holds through full-bleed, then out again before the section shrinks
+  // text fades in once circles have settled, holds through the rest of
+  // the full-bleed phase, then out before shrinking
   const textOpacity = useTransform(
     scrollYProgress,
-    [0.38, 0.5, 0.72, 0.82],
+    [0.34, 0.42, 0.72, 0.78],
     [0, 1, 1, 0]
   );
 
   return (
-    <section ref={ref} id="services" className="py-4">
+    <section ref={ref} id="services" className="pb-[50vh] pt-4">
       <motion.div
+        ref={boxRef}
         style={{ marginLeft: marginX, marginRight: marginX, borderRadius }}
         className="relative aspect-video overflow-hidden bg-black"
       >

@@ -1,13 +1,11 @@
 import FirstPanel from "@/components/layout/FirstPanel";
 import Footer from "@/components/layout/Footer";
-import ContactOverlay from "@/components/layout/ContactOverlay";
 import Navbar from "@/components/layout/Navbar";
 import Blog from "@/components/sections/Blog";
 import GameSection from "@/components/game/GameSection";
 import Contact from "@/components/sections/Contact";
 import Experiences from "@/components/sections/Experiences";
-import HeroServices from "@/components/sections/HeroServices";
-import PathAnimation from "@/components/sections/PathAnimation";
+import HeroServicesPath from "@/components/sections/HeroServicesPath";
 import Projects from "@/components/sections/Projects";
 import Reviews from "@/components/sections/Reviews";
 
@@ -21,7 +19,6 @@ export default function Home() {
           fold lives after this stage in normal flow instead. */}
       <div className="relative">
         <section
-          id="2nd-panel"
           className="sticky top-0 z-0 min-h-dvh bg-white flex flex-col items-center justify-center"
         >
           <Projects />
@@ -42,8 +39,7 @@ export default function Home() {
               background: "linear-gradient(to bottom, #0082FF, #110058)",
             }}
           >
-            <HeroServices />
-            <PathAnimation />
+            <HeroServicesPath />
 
             {/* Reviews stage: the glass Experiences panel sticks as a ceiling
                 (z-30) while the Reviews section (z-10) scrolls its 3D cards up
@@ -66,16 +62,12 @@ export default function Home() {
           boundary so it can never take the rest of the page down. */}
       <GameSection />
 
-      {/* Contact stage: Contact is fixed (z-40 > z-30) and only fades in once
-          the game section is fully scrolled off-screen. The spacer provides enough
-          scroll room for the game to leave the viewport before the footer arrives. */}
+      {/* Contact + Footer stage: Contact is fixed (z-40) and fades in 150px
+          after the game section scrolls off. The spacer gives enough scroll room
+          for the game to leave the viewport before the footer arrives. */}
       <div className="relative">
         <div className="h-[80vh]" aria-hidden />
-        <ContactOverlay afterSelector="#game">
-          <Contact />
-        </ContactOverlay>
-
-        {/* Footer: slides up over the white background, but under the Contact content. */}
+        <Contact />
         <Footer />
       </div>
     </main>

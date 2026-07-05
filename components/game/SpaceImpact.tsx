@@ -119,8 +119,14 @@ const rand = (a: number, b: number) => a + Math.random() * (b - a);
 const randInt = (n: number) => Math.floor(Math.random() * n);
 
 function overlap(
-  ax: number, ay: number, aw: number, ah: number,
-  bx: number, by: number, bw: number, bh: number
+  ax: number,
+  ay: number,
+  aw: number,
+  ah: number,
+  bx: number,
+  by: number,
+  bw: number,
+  bh: number,
 ) {
   return ax < bx + bw && ax + aw > bx && ay < by + bh && ay + ah > by;
 }
@@ -130,7 +136,7 @@ function drawSprite(
   sprite: Sprite,
   x: number,
   y: number,
-  palette: Palette
+  palette: Palette,
 ) {
   const px = Math.round(x);
   const py = Math.round(y);
@@ -240,7 +246,7 @@ export default function SpaceImpact() {
         last = performance.now(); // avoid a huge dt on resume
         if (!visible) keys.clear();
       },
-      { threshold: 0.35 }
+      { threshold: 0.35 },
     );
     io.observe(canvas);
 
@@ -317,8 +323,14 @@ export default function SpaceImpact() {
           const es = VARIANTS[en.vi].sprite;
           if (
             overlap(
-              shipX, shipY, SHIP_W, SHIP_H,
-              en.x, en.y, spriteW(es), spriteH(es)
+              shipX,
+              shipY,
+              SHIP_W,
+              SHIP_H,
+              en.x,
+              en.y,
+              spriteW(es),
+              spriteH(es),
             )
           ) {
             enemies.splice(ei, 1);
@@ -353,7 +365,8 @@ export default function SpaceImpact() {
       ctx.clearRect(0, 0, W, H);
 
       ctx.fillStyle = COLOR_STAR;
-      for (const s of stars) ctx.fillRect(Math.round(s.x), Math.round(s.y), 1, 1);
+      for (const s of stars)
+        ctx.fillRect(Math.round(s.x), Math.round(s.y), 1, 1);
 
       ctx.fillStyle = COLOR_BULLET;
       for (const b of bullets) {
@@ -375,7 +388,7 @@ export default function SpaceImpact() {
             Math.round(shipX) - SCALE * 2,
             Math.round(shipY) + SHIP_H / 2 - SCALE,
             SCALE * 2,
-            SCALE * 2
+            SCALE * 2,
           );
         }
         drawSprite(ctx, SHIP, shipX, shipY, SHIP_PALETTE);
@@ -450,7 +463,9 @@ export default function SpaceImpact() {
       {status === "idle" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white text-center">
           <div className="flex flex-col items-center gap-1">
-            <p className="font-sans text-xs italic text-black">always aim for</p>
+            <p className="font-sans text-xs italic text-black">
+              are you ready for
+            </p>
             <h3 className="font-mono text-2xl font-bold tracking-widest text-black">
               SPACE IMPACT
             </h3>
@@ -460,7 +475,7 @@ export default function SpaceImpact() {
           </p>
           <button
             onClick={start}
-            className="font-mono text-sm text-black underline decoration-2 underline-offset-4 transition-colors hover:text-blue-500"
+            className="cursor-pointer font-mono text-sm text-black underline decoration-2 underline-offset-4 transition-colors hover:text-blue-500"
           >
             press to play
           </button>

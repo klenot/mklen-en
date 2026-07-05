@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+const OFFSET_AFTER_GAME = 150;
+
 export default function Contact({
   workStartHour = 10,
   workEndHour = 16,
@@ -12,6 +14,7 @@ export default function Contact({
   workEndHour?: number;
 }) {
   const [now, setNow] = useState<Date | null>(null);
+  const [visible, setVisible] = useState(false);
   const [footerProgress, setFooterProgress] = useState(0);
 
   useEffect(() => {
@@ -22,17 +25,28 @@ export default function Contact({
 
   useEffect(() => {
     let frame = 0;
+
     const onScroll = () => {
       if (frame) return;
       frame = requestAnimationFrame(() => {
         frame = 0;
-        const scrolled = window.scrollY + window.innerHeight;
-        const remaining = document.documentElement.scrollHeight - scrolled;
+        const viewportBottom = window.scrollY + window.innerHeight;
+
+        // Show contact 150px after the game section ends
+        const game = document.getElementById("game");
+        if (game) {
+          const gameBottom =
+            game.getBoundingClientRect().top + window.scrollY + game.clientHeight;
+          setVisible(viewportBottom > gameBottom + OFFSET_AFTER_GAME);
+        }
+
+        // Footer slide-up progress
         const footer = document.getElementById("contact-footer");
-        const h = footer?.offsetHeight ?? 0;
-        if (h) {
-          const next = Math.min(1, Math.max(0, 1 - remaining / h));
-          setFooterProgress(next);
+        const footerH = footer?.offsetHeight ?? 0;
+        if (footerH) {
+          const remaining =
+            document.documentElement.scrollHeight - viewportBottom;
+          setFooterProgress(Math.min(1, Math.max(0, 1 - remaining / footerH)));
         }
       });
     };
@@ -64,43 +78,54 @@ export default function Contact({
   const textColor = `rgb(${Math.round(255 * footerProgress)}, ${Math.round(255 * footerProgress)}, ${Math.round(255 * footerProgress)})`;
 
   return (
-    <section
-      id="contact"
-      className="relative flex shrink-0 items-center justify-center py-24"
+    <div
+      className="fixed inset-x-0 top-0 z-40 flex items-center justify-center pointer-events-none"
+      style={{ paddingTop: "25vh", paddingBottom: "25vh" }}
     >
-      <div className="flex flex-col items-center gap-8 text-center">
-        <div className="flex w-fit flex-col items-stretch gap-5">
-          <p className="px-4 font-mono font-medium text-black">
-            It&apos;s {time} and I&apos;m{" "}
-            <span className="italic">
-              {isWorking ? "currently working" : "currently resting"}
-            </span>
-            .
-          </p>
+      <section
+        id="contact"
+        className="relative flex shrink-0 items-center justify-center py-24 pointer-events-auto"
+        style={{
+          opacity: visible ? 1 : 0,
+          pointerEvents: visible ? "auto" : "none",
+          transition: "opacity 0.6s ease-out",
+        }}
+      >
+        <div className="flex flex-col items-center gap-8 text-center">
+          <div className="flex w-fit flex-col items-stretch gap-5">
+            <p className="px-4 font-mono font-medium text-black">
+              It&apos;s {time} and I&apos;m{" "}
+              <span className="italic">
+                {isWorking ? "currently working" : "currently resting"}
+              </span>
+              .
+            </p>
 
-          <div className="relative w-full">
-            <span
-              aria-hidden
-              className="pointer-events-none absolute inset-0 translate-x-[2px] translate-y-[6px] rounded-full border-2 border-black bg-white"
-            />
-            <a
-              href="mailto:hello@mklenotic.com"
-              className="relative block w-full rounded-full bg-black px-8 py-5 text-center font-mono text-lg text-white md:text-2xl transition-transform duration-150 ease-out hover:translate-x-[2px] hover:translate-y-[6px] active:translate-x-2 active:translate-y-2"
-            >
-              get in touch
-            </a>
+            <div className="relative w-full">
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0 translate-x-[2px] translate-y-[6px] rounded-full border-2 border-black"
+                style={{ background: "linear-gradient(to right, #FF8008, #FFC837)" }}
+              />
+              <a
+                href="mailto:hello@mklenotic.com"
+                className="relative block w-full rounded-full bg-black px-8 py-5 text-center font-mono text-lg text-white md:text-2xl transition-transform duration-150 ease-out hover:translate-x-[2px] hover:translate-y-[6px] active:translate-x-2 active:translate-y-2"
+              >
+                get in touch
+              </a>
+            </div>
           </div>
-        </div>
 
-        <p
-          className="font-light font-mono text-xs"
-          style={{ color: textColor, transition: "color 0.1s ease-out" }}
-        >
-          My brain cells are for hire.
-          <br />
-          Let&apos;s connect and make it happen.
-        </p>
-      </div>
-    </section>
+          <p
+            className="font-light font-mono text-xs"
+            style={{ color: textColor, transition: "color 0.1s ease-out" }}
+          >
+            My brain cells are for hire.
+            <br />
+            Let&apos;s connect and make it happen.
+          </p>
+        </div>
+      </section>
+    </div>
   );
 }
