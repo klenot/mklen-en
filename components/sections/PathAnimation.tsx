@@ -30,7 +30,7 @@ export default function PathAnimation({
   const pathOpacity = useTransform(scrollYProgress, [0, 0.85], [0.3, 1]);
 
   return (
-    <section ref={ref} className="relative h-[250vh]">
+    <section ref={ref} className="relative h-[200vh]">
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         <svg
           ref={svgRef}

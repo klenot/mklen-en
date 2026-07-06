@@ -107,7 +107,7 @@ function ReviewCard({
         scale,
         opacity,
       }}
-      className="absolute top-0 w-[150px] origin-bottom rounded-2xl border border-white/10 bg-black p-4 text-white shadow-[0_12px_40px_-8px_rgba(255,255,255,0.28),0_30px_60px_-20px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.18)]"
+      className="absolute top-0 w-[150px] origin-bottom rounded-2xl border border-white/10 bg-black p-4 text-white shadow-[0_12px_40px_-8px_rgba(0,100,200,0.35),0_30px_60px_-20px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.18)]"
     >
       <div className="size-9 rounded-full bg-white/15 ring-1 ring-white/25" />
       <p className="mt-3 font-mono text-sm font-bold leading-tight text-white">

@@ -45,7 +45,7 @@ export default function Services({
   );
 
   return (
-    <section ref={ref} id="services" className="pb-[50vh] pt-4">
+    <section ref={ref} id="services" className="pb-[15vh] pt-4">
       <motion.div
         ref={boxRef}
         style={{ marginLeft: marginX, marginRight: marginX, borderRadius }}

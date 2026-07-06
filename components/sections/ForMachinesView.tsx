@@ -3,6 +3,7 @@
 import { useMemo, useState, useCallback } from "react";
 import { useViewMode } from "@/hooks/useViewMode";
 import { forMachinesMd } from "@/data/for-machines-content";
+import ViewToggle from "@/components/layout/ViewToggle";
 
 function renderLine(line: string): React.ReactNode {
   const parts: React.ReactNode[] = [];
@@ -117,7 +118,7 @@ function CopyButton() {
   return (
     <button
       onClick={handleCopy}
-      className="fixed top-5 right-5 z-110 p-2 rounded-md border border-neutral-700 bg-black text-neutral-400 hover:text-white hover:border-neutral-500 transition-colors"
+      className="p-2 rounded-md border border-neutral-700 bg-black text-neutral-400 hover:text-white hover:border-neutral-500 transition-colors"
       aria-label="Copy to clipboard"
     >
       {copied ? (
@@ -142,8 +143,11 @@ export default function ForMachinesView() {
 
   return (
     <div className="fixed inset-0 z-100 overflow-auto bg-black">
-      <CopyButton />
-      <div className="max-w-[800px] mx-auto px-6 py-20 pb-32 font-mono text-sm flex flex-col gap-10">
+      <div className="max-w-[800px] mx-auto px-6 pt-5 flex items-center justify-end gap-3">
+        <ViewToggle />
+        <CopyButton />
+      </div>
+      <div className="max-w-[800px] mx-auto px-6 pt-10 pb-32 font-mono text-sm flex flex-col gap-10">
         {sections.map((section, idx) => (
           <div key={idx} className="flex w-full">
             <div className="shrink-0 w-px bg-neutral-800" />

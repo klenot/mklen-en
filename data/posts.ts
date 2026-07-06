@@ -7,6 +7,7 @@ export type Post = {
   category: string;
   date: string;
   tag: "blog" | "project";
+  coverImage?: string;
 };
 
 export const POSTS: Post[] = [

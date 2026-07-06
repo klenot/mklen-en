@@ -21,7 +21,9 @@ const HOLD_DURATION = 2500;
 export default function Hero() {
   const [index, setIndex] = useState(0);
   const [text, setText] = useState("");
-  const [phase, setPhase] = useState<"typing" | "holding" | "erasing">("typing");
+  const [phase, setPhase] = useState<"typing" | "holding" | "erasing">(
+    "typing",
+  );
 
   useEffect(() => {
     const current = TEXTS[index];
@@ -55,11 +57,37 @@ export default function Hero() {
   }, [text, phase, index]);
 
   return (
-    <section id="hero" className="flex h-[75vh] rounded-3xl">
-      <div className="flex items-center w-full justify-center">
-        <h2 className="flex items-center font-mono text-black text-xl">
+    <section
+      id="hero"
+      className="relative flex h-[55vh] overflow-hidden rounded-t-3xl"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage: "url('/abstract-gradient-texture-bg.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          maskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 mix-blend-multiply"
+        style={{
+          background: "linear-gradient(to bottom, #0082FF, #110058)",
+          maskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+        }}
+      />
+      <div className="flex items-center w-full justify-center relative">
+        <h2 className="flex items-center font-mono text-white text-xl">
           {text}
-          <span className="ml-1 inline-block h-8 w-[3px] animate-pulse rounded-full" style={{ backgroundColor: "#FF8008" }} />
+          <span
+            className="ml-1 inline-block h-8 w-[3px] animate-pulse rounded-full"
+            style={{ backgroundColor: "#FF8008" }}
+          />
         </h2>
       </div>
     </section>

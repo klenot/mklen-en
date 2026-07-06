@@ -3,8 +3,8 @@
 import { useState, useCallback } from "react";
 import type { NavItem } from "@/components/layout/navItems";
 
-const MAX_LIFT = 6;
-const FALLOFF = 0.55;
+const MAX_LIFT = 12;
+const FALLOFF = 0.6;
 
 export default function WaveNavLink({ item }: { item: NavItem }) {
   const [hovered, setHovered] = useState<number | null>(null);
@@ -57,10 +57,10 @@ export default function WaveNavLink({ item }: { item: NavItem }) {
       href={item.href}
       onClick={handleClick}
       onMouseLeave={() => setHovered(null)}
-      className="font-mono text-xs font-regular text-black w-fit px-4 cursor-pointer"
+      className="font-mono text-xs font-regular text-black w-fit px-4 cursor-pointer flex flex-col items-center"
     >
       {letters.map((char, i) => {
-        const lift =
+        const shift =
           hovered === null
             ? 0
             : MAX_LIFT * Math.pow(FALLOFF, Math.abs(i - hovered));
@@ -69,9 +69,10 @@ export default function WaveNavLink({ item }: { item: NavItem }) {
             key={i}
             onMouseEnter={() => setHovered(i)}
             style={{
-              display: "inline-block",
-              transform: `translateY(-${lift}px)`,
+              display: "block",
+              transform: `translateX(${shift}px)`,
               transition: "transform 150ms ease-out",
+              lineHeight: 1.1,
             }}
           >
             {char}

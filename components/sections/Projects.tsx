@@ -1,8 +1,10 @@
 import ProjectCard from "@/components/elements/ProjectCard";
-import { getPostsByTag } from "@/data/posts";
+import { getPostsFromNotion } from "@/lib/notion";
 
-export default function Projects() {
-  const projects = getPostsByTag("project");
+export default async function Projects() {
+  const projects = await getPostsFromNotion("project");
+
+  if (projects.length === 0) return null;
 
   return (
     <section id="projects" className="flex w-full justify-center pt-24 pb-16 shrink-0">
@@ -18,6 +20,7 @@ export default function Projects() {
                 slug={project.slug}
                 headline={project.title}
                 description={project.description}
+                coverImage={project.coverImage}
               />
             ))}
 

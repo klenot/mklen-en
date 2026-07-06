@@ -34,6 +34,8 @@ export type BlogPost = {
   category: string;
   date: string;
   readingTime: string;
-  cover?: string;
+  coverImage?: string;
+  metaTitle?: string;
+  metaDescription?: string;
   blocks: NotionBlock[];
 };

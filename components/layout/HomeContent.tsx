@@ -1,32 +1,35 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { ViewModeProvider } from "@/hooks/useViewMode";
-import ViewToggle from "@/components/layout/ViewToggle";
 import ForMachinesView from "@/components/sections/ForMachinesView";
 import FirstPanel from "@/components/layout/FirstPanel";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
-import Blog from "@/components/sections/Blog";
 import GameSection from "@/components/game/GameSection";
 import Experiences from "@/components/sections/Experiences";
 import HeroServicesPath from "@/components/sections/HeroServicesPath";
-import Projects from "@/components/sections/Projects";
 import Reviews from "@/components/sections/Reviews";
 
-export default function HomeContent() {
+export default function HomeContent({
+  blogSection,
+  projectsSection,
+}: {
+  blogSection: ReactNode;
+  projectsSection: ReactNode;
+}) {
   return (
     <ViewModeProvider>
-      <ViewToggle />
       <ForMachinesView />
       <main className="bg-white">
         <div className="relative">
           <section className="sticky top-0 z-0 min-h-dvh bg-white flex flex-col items-center justify-center">
-            <Projects />
-            <Blog />
+            {projectsSection}
+            {blogSection}
           </section>
 
           <FirstPanel>
-            <div className="flex items-center justify-center w-full sticky top-0 z-0">
+            <div className="flex items-center justify-center w-full sticky top-0 z-0 bg-white">
               <Navbar />
             </div>
             <div
@@ -38,6 +41,26 @@ export default function HomeContent() {
               <HeroServicesPath />
 
               <div className="relative pb-6">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 rounded-b-3xl"
+                  style={{
+                    backgroundImage: "url('/bg-gradient-long.webp')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "top center",
+                    maskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
+                    WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 rounded-b-3xl mix-blend-multiply"
+                  style={{
+                    background: "linear-gradient(to bottom, #0082FF, #110058)",
+                    maskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
+                    WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
+                  }}
+                />
                 <div className="sticky top-4 z-30">
                   <Experiences />
                 </div>
@@ -49,7 +72,9 @@ export default function HomeContent() {
           </FirstPanel>
         </div>
 
-        <GameSection />
+        <div className="relative z-10 bg-white">
+          <GameSection />
+        </div>
 
         <Footer />
       </main>
