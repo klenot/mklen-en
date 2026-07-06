@@ -89,10 +89,15 @@ function makeCircles(): Circle[] {
 
   for (let i = 0; i < HERO_COUNT; i++) {
     const s = slots[BOX_COUNT + i];
+    // Spread circles toward top/bottom, away from center text line
+    const rawY = pick(0, 1);
+    const fromY = rawY < 0.5
+      ? pick(0.08, 0.38)
+      : pick(0.62, 0.92);
     circles.push({
       origin: "hero",
-      fromX: pick(0.08, 0.92),
-      fromY: pick(0.3, 0.7),
+      fromX: pick(0.25, 0.95),
+      fromY,
       toX: s.x,
       toY: s.y,
       ...motionProps(),

@@ -27,12 +27,12 @@ export default function Navbar() {
       id="navbar"
       className="flex flex-col items-center bg-white py-2 px-12 max-w-3xl"
     >
-      <div className="mb-1 absolute right-2 top-2 flex flex-col items-end gap-5">
+      <div className="mb-1 absolute right-2 top-2 flex flex-col items-end gap-3">
         <ViewToggle />
         <div className="font-mono text-xs text-black flex flex-col items-end">
           <span
             onClick={copyEmail}
-            className="font-regular mb-5 cursor-pointer hover:text-gray-400 transition-colors"
+            className="font-regular mb-3 cursor-pointer hover:text-gray-400 transition-colors"
           >
             {copied ? "email copied" : "marek@mklenotic.com"}
           </span>
