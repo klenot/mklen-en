@@ -56,9 +56,9 @@ export default function Footer({
         className="relative z-10 flex min-h-[70vh] flex-col items-center justify-center gap-8 rounded-b-3xl bg-white px-6 pb-16 text-center"
       >
         <div className="flex w-fit flex-col items-stretch gap-5">
-          <p className="px-4 font-mono font-medium text-black">
+          <p className="px-4 font-mono font-regular text-black">
             It&apos;s {time} and I&apos;m{" "}
-            <span className="italic">
+            <span className="italic font-bold">
               {isWorking ? "currently working" : "currently resting"}
             </span>
             .
@@ -86,7 +86,7 @@ export default function Footer({
           </div>
         </div>
 
-        <p className="font-light font-mono text-xs text-black/50">
+        <p className="font-regular font-mono text-xs text-black">
           My brain cells are for hire.
           <br />
           Let&apos;s connect and make it happen.

@@ -17,7 +17,7 @@ export default async function Blog() {
 
           <Link
             href="/blog"
-            className="mt-12 self-end pr-4 text-xs font-light font-mono text-black/60 transition-colors hover:text-blue-500"
+            className="mt-12 self-end pr-4 text-xs font-light font-mono text-black transition-all duration-500 hover:font-medium hover:[text-shadow:0_0_0.4px_currentColor,0_0_0.4px_currentColor]"
           >
             see all
           </Link>
