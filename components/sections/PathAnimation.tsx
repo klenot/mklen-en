@@ -4,7 +4,7 @@ import { useRef } from "react";
 import type { RefObject } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 
-export const PATH =
+const PATH =
   "M 95,68 C 55,175 95,300 205,335 C 335,375 330,205 460,240 C 545,263 585,150 670,135 C 775,117 800,300 850,410";
 
 export const PATH_START = { x: 95, y: 68 };

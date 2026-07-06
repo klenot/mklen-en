@@ -96,10 +96,6 @@ export const POSTS: Post[] = [
   },
 ];
 
-export function getPostBySlug(slug: string): Post | undefined {
-  return POSTS.find((p) => p.slug === slug);
-}
-
 export function getPostsByTag(tag: Post["tag"]): Post[] {
   return POSTS.filter((p) => p.tag === tag);
 }

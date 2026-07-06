@@ -475,7 +475,7 @@ export default function SpaceImpact() {
           </p>
           <button
             onClick={start}
-            className="cursor-pointer font-mono text-sm text-black underline decoration-2 underline-offset-4 transition-colors hover:text-blue-500"
+            className="font-mono text-sm text-black underline decoration-2 underline-offset-4 transition-colors hover:text-blue-500"
           >
             press to play
           </button>

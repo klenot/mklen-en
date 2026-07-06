@@ -32,9 +32,7 @@ export default function WaveNavLink({ item }: { item: NavItem }) {
       // stuck visual position via getBoundingClientRect — not useful for scroll.
       // Scroll to where the first panel ends (revealing the 2nd panel) plus
       // the target's offset within the sticky container.
-      const stickyParent = target.closest<HTMLElement>(
-        '[class*="sticky"]'
-      );
+      const stickyParent = target.closest<HTMLElement>('[class*="sticky"]');
       if (stickyParent) {
         const firstPanel = document.getElementById("1st-panel");
         if (firstPanel) {
@@ -51,7 +49,7 @@ export default function WaveNavLink({ item }: { item: NavItem }) {
       const top = target.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({ top, behavior: "smooth" });
     },
-    [item.href]
+    [item.href],
   );
 
   return (
@@ -59,7 +57,7 @@ export default function WaveNavLink({ item }: { item: NavItem }) {
       href={item.href}
       onClick={handleClick}
       onMouseLeave={() => setHovered(null)}
-      className="font-mono text-xs font-medium text-black w-fit px-4"
+      className="font-mono text-xs font-regular text-black w-fit px-4 cursor-pointer"
     >
       {letters.map((char, i) => {
         const lift =

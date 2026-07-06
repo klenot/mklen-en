@@ -66,6 +66,15 @@ function makeCircles(): Circle[] {
 
   const circles: Circle[] = [];
 
+  const motionProps = () => ({
+    sizeVmin: pick(0.9, 1.6),
+    dax: pick(0.6, 1.4),
+    day: pick(0.6, 1.4),
+    fx: pick(0.0004, 0.0009),
+    fy: pick(0.0004, 0.0009),
+    phase: pick(0, Math.PI * 2),
+  });
+
   for (let i = 0; i < BOX_COUNT; i++) {
     const s = slots[i];
     circles.push({
@@ -74,12 +83,7 @@ function makeCircles(): Circle[] {
       fromY: s.y,
       toX: s.x,
       toY: s.y,
-      sizeVmin: pick(0.9, 1.6),
-      dax: pick(0.6, 1.4),
-      day: pick(0.6, 1.4),
-      fx: pick(0.0004, 0.0009),
-      fy: pick(0.0004, 0.0009),
-      phase: pick(0, Math.PI * 2),
+      ...motionProps(),
     });
   }
 
@@ -91,12 +95,7 @@ function makeCircles(): Circle[] {
       fromY: pick(0.3, 0.7),
       toX: s.x,
       toY: s.y,
-      sizeVmin: pick(0.9, 1.6),
-      dax: pick(0.6, 1.4),
-      day: pick(0.6, 1.4),
-      fx: pick(0.0004, 0.0009),
-      fy: pick(0.0004, 0.0009),
-      phase: pick(0, Math.PI * 2),
+      ...motionProps(),
     });
   }
 

@@ -59,7 +59,7 @@ export default function Hero() {
       <div className="flex items-center w-full justify-center">
         <h2 className="flex items-center font-mono text-black text-xl">
           {text}
-          <span className="ml-1 inline-block h-8 w-[3px] animate-pulse rounded-full bg-blue-500" />
+          <span className="ml-1 inline-block h-8 w-[3px] animate-pulse rounded-full" style={{ backgroundColor: "#FF8008" }} />
         </h2>
       </div>
     </section>

@@ -45,7 +45,7 @@ export default function PostItem({
     >
       <Link
         href={`/blog/${slug}`}
-        className="group flex cursor-pointer items-start gap-4 bg-white pr-4 py-3"
+        className="group flex items-start gap-4 bg-white pr-4 py-3"
       >
         <div className="flex min-w-0 flex-1 flex-col wrap-break-words">
           <h3 className="text-base font-mono text-black transition-[font-weight] duration-300 ease-out font-medium group-hover:font-bold">{title}</h3>

@@ -13,7 +13,7 @@ export default function Blog() {
 
           <Link
             href="/blog"
-            className="mt-12 self-end text-xs font-light font-mono text-black/60 transition-colors hover:text-blue-500"
+            className="mt-12 self-end pr-4 text-xs font-light font-mono text-black/60 transition-colors hover:text-blue-500"
           >
             see all
           </Link>
