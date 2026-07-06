@@ -464,14 +464,15 @@ export default function SpaceImpact() {
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white text-center">
           <div className="flex flex-col items-center gap-1">
             <p className="font-sans text-xs italic text-black">
-              are you ready for
+              before you leave
             </p>
             <h3 className="font-mono text-2xl font-bold tracking-widest text-black">
-              SPACE IMPACT
+              What is life if not fun?
             </h3>
           </div>
           <p className="max-w-xs font-mono text-xs font-light text-black/50">
-            survive 60 seconds. arrows to fly, space to shoot. you have 3 lives.
+            Survive 60 seconds. Use arrows to fly, space to shoot. You have 3
+            lives.
           </p>
           <button
             onClick={start}

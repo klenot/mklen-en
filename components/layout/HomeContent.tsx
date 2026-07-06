@@ -29,7 +29,7 @@ export default function HomeContent({
           </section>
 
           <FirstPanel>
-            <div className="flex items-center justify-center w-full sticky top-0 z-0 bg-white">
+            <div className="flex items-center justify-start w-full sticky top-0 z-0 bg-white">
               <Navbar />
             </div>
             <div
@@ -48,8 +48,10 @@ export default function HomeContent({
                     backgroundImage: "url('/bg-gradient-long.webp')",
                     backgroundSize: "cover",
                     backgroundPosition: "top center",
-                    maskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
-                    WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
+                    maskImage:
+                      "linear-gradient(to bottom, transparent 0%, black 30%)",
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, transparent 0%, black 30%)",
                   }}
                 />
                 <div
@@ -57,8 +59,10 @@ export default function HomeContent({
                   className="pointer-events-none absolute inset-0 rounded-b-3xl mix-blend-multiply"
                   style={{
                     background: "linear-gradient(to bottom, #0082FF, #110058)",
-                    maskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
-                    WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
+                    maskImage:
+                      "linear-gradient(to bottom, transparent 0%, black 30%)",
+                    WebkitMaskImage:
+                      "linear-gradient(to bottom, transparent 0%, black 30%)",
                   }}
                 />
                 <div className="sticky top-4 z-30">
