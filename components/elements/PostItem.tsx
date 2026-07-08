@@ -10,7 +10,6 @@ function trim(text: string, max: number = MAX_DESC) {
 
 export default function PostItem({
   slug,
-  icon,
   title,
   description,
   category,

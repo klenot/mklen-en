@@ -24,7 +24,7 @@ function blogPostProps(
 export function usePageEngagement(pathname: string) {
   const firedRef = useRef(new Set<number>());
   const maxDepthRef = useRef(0);
-  const startRef = useRef(Date.now());
+  const startRef = useRef(0);
   const sentRef = useRef(false);
   const pathnameRef = useRef(pathname);
 
