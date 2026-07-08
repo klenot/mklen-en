@@ -1,4 +1,5 @@
 import { Client } from "@notionhq/client";
+import { APIResponseError } from "@notionhq/client/build/src/errors";
 import type {
   PageObjectResponse,
   BlockObjectResponse,
@@ -7,8 +8,43 @@ import type {
 import type { Post } from "@/data/types";
 import type { BlogPost, NotionBlock, RichText } from "@/data/notion-types";
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const DATA_SOURCE_ID = process.env.NOTION_DATABASE_ID!;
+function isNotionConfigured() {
+  return Boolean(process.env.NOTION_API_KEY && process.env.NOTION_DATABASE_ID);
+}
+
+function getNotionClient() {
+  return new Client({ auth: process.env.NOTION_API_KEY });
+}
+
+function getDataSourceId() {
+  return process.env.NOTION_DATABASE_ID!;
+}
+
+async function withNotion<T>(label: string, fallback: T, fn: () => Promise<T>): Promise<T> {
+  if (!isNotionConfigured()) {
+    console.warn(`[notion] Skipping ${label}: NOTION_API_KEY or NOTION_DATABASE_ID is missing`);
+    return fallback;
+  }
+
+  try {
+    return await fn();
+  } catch (error) {
+    const message =
+      error instanceof APIResponseError
+        ? `${error.code}: ${error.message}`
+        : error instanceof Error
+          ? error.message
+          : String(error);
+
+    if (process.env.CI === "true") {
+      console.warn(`[notion] Skipping ${label} in CI: ${message}`);
+      return fallback;
+    }
+
+    console.error(`[notion] Failed ${label}: ${message}`);
+    throw error;
+  }
+}
 
 function richTextToPlain(rt: RichTextItemResponse[]): string {
   return rt.map((r) => r.plain_text).join("");
@@ -151,6 +187,7 @@ function extractPageMeta(page: PageObjectResponse) {
 }
 
 async function fetchBlockChildren(blockId: string): Promise<BlockObjectResponse[]> {
+  const notion = getNotionClient();
   const blocks: BlockObjectResponse[] = [];
   let cursor: string | undefined;
 
@@ -284,77 +321,83 @@ async function transformBlocks(blocks: BlockObjectResponse[]): Promise<NotionBlo
 export async function getPostsFromNotion(
   placement?: "blog" | "project",
 ): Promise<Post[]> {
-  const placementValue = placement === "project" ? "Projects" : placement === "blog" ? "Blog" : undefined;
+  return withNotion("getPostsFromNotion", [], async () => {
+    const notion = getNotionClient();
+    const placementValue = placement === "project" ? "Projects" : placement === "blog" ? "Blog" : undefined;
 
-  const filter: Record<string, unknown> = {
-    and: [
-      {
+    const filter: Record<string, unknown> = {
+      and: [
+        {
+          property: "published",
+          select: { equals: "Published" },
+        },
+        ...(placementValue
+          ? [{ property: "placement", select: { equals: placementValue } }]
+          : []),
+      ],
+    };
+
+    const resp = await notion.dataSources.query({
+      data_source_id: getDataSourceId(),
+      filter: filter as never,
+      sorts: [{ property: "date", direction: "descending" }],
+    });
+
+    return (resp.results as PageObjectResponse[]).map((page) => {
+      const meta = extractPageMeta(page);
+      return {
+        slug: meta.slug,
+        icon: meta.icon,
+        title: meta.title,
+        description: meta.description,
+        content: meta.description,
+        category: meta.category,
+        date: meta.date,
+        updatedAt: meta.updatedAt,
+        tag: (meta.placement.toLowerCase() === "projects" ? "project" : "blog") as "blog" | "project",
+        coverImage: meta.coverImage,
+      };
+    });
+  });
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  return withNotion("getBlogPostBySlug", null, async () => {
+    const notion = getNotionClient();
+    const resp = await notion.dataSources.query({
+      data_source_id: getDataSourceId(),
+      filter: {
         property: "published",
         select: { equals: "Published" },
       },
-      ...(placementValue
-        ? [{ property: "placement", select: { equals: placementValue } }]
-        : []),
-    ],
-  };
+      sorts: [{ property: "date", direction: "descending" }],
+    });
 
-  const resp = await notion.dataSources.query({
-    data_source_id: DATA_SOURCE_ID,
-    filter: filter as never,
-    sorts: [{ property: "date", direction: "descending" }],
-  });
+    const page = (resp.results as PageObjectResponse[]).find((p) => {
+      const meta = extractPageMeta(p);
+      return meta.slug === slug;
+    });
 
-  return (resp.results as PageObjectResponse[]).map((page) => {
+    if (!page) return null;
+
     const meta = extractPageMeta(page);
+    const rawBlocks = await fetchBlockChildren(page.id);
+    const blocks = await transformBlocks(rawBlocks);
+
     return {
       slug: meta.slug,
       icon: meta.icon,
       title: meta.title,
       description: meta.description,
-      content: meta.description,
       category: meta.category,
       date: meta.date,
-      updatedAt: meta.updatedAt,
-      tag: (meta.placement.toLowerCase() === "projects" ? "project" : "blog") as "blog" | "project",
+      readingTime: estimateReadingTime(blocks),
       coverImage: meta.coverImage,
+      metaTitle: meta.metaTitle,
+      metaDescription: meta.metaDescription,
+      blocks,
     };
   });
-}
-
-export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  const resp = await notion.dataSources.query({
-    data_source_id: DATA_SOURCE_ID,
-    filter: {
-      property: "published",
-      select: { equals: "Published" },
-    },
-    sorts: [{ property: "date", direction: "descending" }],
-  });
-
-  const page = (resp.results as PageObjectResponse[]).find((p) => {
-    const meta = extractPageMeta(p);
-    return meta.slug === slug;
-  });
-
-  if (!page) return null;
-
-  const meta = extractPageMeta(page);
-  const rawBlocks = await fetchBlockChildren(page.id);
-  const blocks = await transformBlocks(rawBlocks);
-
-  return {
-    slug: meta.slug,
-    icon: meta.icon,
-    title: meta.title,
-    description: meta.description,
-    category: meta.category,
-    date: meta.date,
-    readingTime: estimateReadingTime(blocks),
-    coverImage: meta.coverImage,
-    metaTitle: meta.metaTitle,
-    metaDescription: meta.metaDescription,
-    blocks,
-  };
 }
 
 export async function getAllSlugs(): Promise<string[]> {

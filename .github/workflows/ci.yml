@@ -7,6 +7,10 @@ on:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    env:
+      NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+      NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+      NEXT_PUBLIC_MIXPANEL_TOKEN: ${{ secrets.NEXT_PUBLIC_MIXPANEL_TOKEN }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
