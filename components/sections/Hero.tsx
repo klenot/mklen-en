@@ -40,15 +40,17 @@ export default function Hero() {
     }
 
     if (phase === "holding") {
-      setPhase("erasing");
-      return;
+      const timer = setTimeout(() => setPhase("erasing"), 0);
+      return () => clearTimeout(timer);
     }
 
     // erasing
     if (text === "") {
-      setIndex((prev) => (prev + 1) % TEXTS.length);
-      setPhase("typing");
-      return;
+      const timer = setTimeout(() => {
+        setIndex((prev) => (prev + 1) % TEXTS.length);
+        setPhase("typing");
+      }, 0);
+      return () => clearTimeout(timer);
     }
     const timer = setTimeout(() => {
       setText(current.slice(0, text.length - 1));

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import PostItem from "@/components/elements/PostItem";
-import type { Post } from "@/data/posts";
+import type { Post } from "@/data/types";
 
 // how far each tile rises based on its distance from the hovered one, so the
 // row behaves like a pressure-sensitive floor — the neighbours lift, but less

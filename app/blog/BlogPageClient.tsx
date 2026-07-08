@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import BlogList from "@/components/elements/BlogList";
-import type { Post } from "@/data/posts";
+import type { Post } from "@/data/types";
 
 export default function BlogPageClient({ posts }: { posts: Post[] }) {
   const [query, setQuery] = useState("");

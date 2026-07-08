@@ -18,6 +18,7 @@ import {
   SPREAD_OFFSET,
 } from "./serviceReveal";
 import { PATH_START, PATH_END, VIEWBOX } from "./PathAnimation";
+import { clamp01, smoothstep } from "@/lib/math";
 
 const CIRCLE_LOGOS: { file: string; size: number }[] = [
   // --- BOX (services) circles ---
@@ -153,9 +154,6 @@ function makeCircles(): Circle[] {
 }
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
-// smooth easing for the detach travel
-const easeInOut = (t: number) => t * t * (3 - 2 * t);
 
 export default function CircleField({
   servicesRef,
@@ -284,7 +282,7 @@ export default function CircleField({
 
     const p = rest ? 0 : clamp01(travel.get());
     const pt = rest ? 0 : clamp01(pathTravel.get());
-    const ptEased = easeInOut(pt);
+    const ptEased = smoothstep(pt);
     const { w, h } = viewportRef.current;
     const vmin = Math.min(w, h) / 100;
     const reveal = !revealedRef.current;

@@ -10,12 +10,12 @@ export default function Navbar() {
   const [hoveredGlobal, setHoveredGlobal] = useState<number | null>(null);
   const letterRefs = useRef<Map<number, HTMLSpanElement>>(new Map());
 
-  let offset = 0;
-  const offsets = NAV_ITEMS.map((item) => {
-    const start = offset;
-    offset += item.label.length;
-    return start;
-  });
+  const offsets = NAV_ITEMS.reduce<number[]>((acc, _item, index) => {
+    const start =
+      index === 0 ? 0 : acc[index - 1] + NAV_ITEMS[index - 1].label.length;
+    acc.push(start);
+    return acc;
+  }, []);
 
   const registerLetterRef = useCallback(
     (globalIndex: number, el: HTMLSpanElement | null) => {

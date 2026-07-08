@@ -1,4 +1,5 @@
 import type { UseScrollOptions } from "motion/react";
+import { smoothstep } from "@/lib/math";
 
 // Scroll keyframes (fractions of the Services section's own scroll progress,
 // measured with SPREAD_OFFSET) describing the black box as it spreads to
@@ -22,13 +23,6 @@ export const CIRCLE_TRAVEL_VALUES = [0, 0, 1, 1, 0, 0] as const;
 // breakpoints above to mean the same thing in both. Shared here so the whole
 // coupling contract (keyframes + offset) lives in one place and can't drift.
 export const SPREAD_OFFSET: UseScrollOptions["offset"] = ["start end", "end start"];
-
-const clamp01 = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v);
-
-export const smoothstep = (t: number) => {
-  const c = clamp01(t);
-  return c * c * (3 - 2 * c);
-};
 
 export function interpolateProgress(
   progress: number,

@@ -4,7 +4,7 @@ import type {
   BlockObjectResponse,
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import type { Post } from "@/data/posts";
+import type { Post } from "@/data/types";
 import type { BlogPost, NotionBlock, RichText } from "@/data/notion-types";
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });

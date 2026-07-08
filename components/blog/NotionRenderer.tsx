@@ -136,11 +136,11 @@ function TableBlock({ rows }: { rows: string[][] }) {
 
 function ToggleBlock({
   text,
-  children,
+  blocks,
   codeHtmlMap,
 }: {
   text: RichText[];
-  children: NotionBlock[];
+  blocks: NotionBlock[];
   codeHtmlMap: Record<number, string>;
 }) {
   const [open, setOpen] = useState(false);
@@ -158,7 +158,7 @@ function ToggleBlock({
         <RichTextRenderer segments={text} />
       </summary>
       <div className="mt-3 pl-[1.25em] border-l-2 border-black/10">
-        <BlockRenderer blocks={children} codeHtmlMap={codeHtmlMap} />
+        <BlockRenderer blocks={blocks} codeHtmlMap={codeHtmlMap} />
       </div>
     </details>
   );
@@ -377,7 +377,7 @@ function BlockRenderer({
           <ToggleBlock
             key={i}
             text={block.text}
-            children={block.children}
+            blocks={block.children}
             codeHtmlMap={codeHtmlMap}
           />,
         );

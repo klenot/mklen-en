@@ -16,9 +16,12 @@ export default function Footer({
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    setNow(new Date());
+    const bootstrap = window.setTimeout(() => setNow(new Date()), 0);
     const id = setInterval(() => setNow(new Date()), 30_000);
-    return () => clearInterval(id);
+    return () => {
+      clearTimeout(bootstrap);
+      clearInterval(id);
+    };
   }, []);
 
   useEffect(() => {
