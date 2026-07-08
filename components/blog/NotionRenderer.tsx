@@ -81,16 +81,30 @@ function PlainCode({ text, caption }: { text: string; caption?: string }) {
 }
 
 function ImageBlock({ url, caption }: { url: string; caption?: string }) {
+  const [loaded, setLoaded] = useState(false);
+
   return (
     <figure className="blog-block-spacing">
-      <Image
-        src={url}
-        alt={caption || ""}
-        width={1200}
-        height={800}
-        className="h-auto w-full rounded-md border border-black/10"
-        sizes="(max-width: 640px) 100vw, 640px"
-      />
+      <div className="relative overflow-hidden rounded-md border border-black/10">
+        <div
+          aria-hidden
+          className={`absolute inset-0 animate-pulse bg-black/6 transition-opacity duration-300 ${
+            loaded ? "pointer-events-none opacity-0" : "opacity-100"
+          }`}
+        />
+        <Image
+          src={url}
+          alt={caption || ""}
+          width={1200}
+          height={800}
+          loading="lazy"
+          onLoad={() => setLoaded(true)}
+          className={`relative h-auto w-full transition-opacity duration-300 ${
+            loaded ? "opacity-100" : "opacity-0"
+          }`}
+          sizes="(max-width: 640px) 100vw, 640px"
+        />
+      </div>
       {caption && (
         <figcaption className="mt-2.5 text-[0.8125rem] font-mono text-black/70 leading-normal">
           {caption}
