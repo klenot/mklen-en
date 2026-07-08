@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { trackEvent } from "@/lib/mixpanel";
+import { useNavigatingLink } from "@/hooks/useNavigatingLink";
 
 const MAX_DESC = 150;
 
@@ -37,14 +37,14 @@ export default function PostItem({
   onHoverStart?: () => void;
   onHoverEnd?: () => void;
 }) {
-  const router = useRouter();
   const href = `/blog/${slug}`;
+  const { isPending, navigate, prefetch } = useNavigatingLink(href);
 
   return (
     <li
       onMouseEnter={() => {
         onHoverStart?.();
-        router.prefetch(href);
+        prefetch();
       }}
       onMouseLeave={onHoverEnd}
       style={{
@@ -52,26 +52,30 @@ export default function PostItem({
         boxShadow: shadow,
         transitionDelay: `${delay}ms`,
       }}
-      className="transition-[transform,box-shadow] duration-500 ease-out will-change-transform"
+      className="relative transition-[transform,box-shadow] duration-500 ease-out will-change-transform"
     >
       <Link
         href={href}
         prefetch
-        onClick={() =>
+        onClick={(e) => {
           trackEvent("blog_post_clicked", {
             slug,
             title,
             category,
             source,
-          })
-        }
-        className="group flex items-start gap-4 bg-white py-3 pr-4"
+          });
+          navigate(e);
+        }}
+        aria-busy={isPending}
+        className={`group flex items-start gap-4 bg-white py-3 pr-4 ${
+          isPending ? "pointer-events-none opacity-50" : ""
+        }`}
       >
         <div className="flex min-w-0 flex-1 flex-col wrap-break-words">
-          <h3 className="text-base font-mono font-medium text-black transition-[font-weight] duration-300 ease-out group-hover:font-bold">
+          <h3 className="font-mono text-base font-medium text-black transition-[font-weight] duration-300 ease-out group-hover:font-bold">
             {title}
           </h3>
-          <p className="text-sm font-light font-mono text-black/60">
+          <p className="font-mono text-sm font-light text-black/60">
             {trim(description)}
           </p>
         </div>
@@ -80,11 +84,16 @@ export default function PostItem({
           <span className="rounded-full border border-black/15 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wide text-black/70">
             {category}
           </span>
-          <time className="text-[10px] font-light font-mono text-black/40">
+          <time className="font-mono text-[10px] font-light text-black/40">
             {date}
           </time>
         </div>
       </Link>
+      {isPending ? (
+        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[10px] text-black/40">
+          loading…
+        </span>
+      ) : null}
     </li>
   );
 }
