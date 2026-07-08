@@ -3,13 +3,16 @@
 import { useRef } from "react";
 import type { RefObject } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { PATH_HORIZONTAL, PATH_VERTICAL } from "./pathConfig";
 
-const PATH =
-  "M 95,68 C 55,175 95,300 205,335 C 335,375 330,205 460,240 C 545,263 585,150 670,135 C 775,117 800,300 850,410";
-
-export const PATH_START = { x: 95, y: 68 };
-export const PATH_END = { x: 850, y: 410 };
-export const VIEWBOX = { w: 1006, h: 505 };
+export {
+  PATH_HORIZONTAL,
+  PATH_VERTICAL,
+  PATH_START,
+  PATH_END,
+  VIEWBOX,
+} from "./pathConfig";
 
 export default function PathAnimation({
   svgRef,
@@ -20,6 +23,8 @@ export default function PathAnimation({
 }) {
   const internalRef = useRef<HTMLElement>(null);
   const ref = sectionRef ?? internalRef;
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const path = isDesktop ? PATH_HORIZONTAL : PATH_VERTICAL;
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -34,17 +39,21 @@ export default function PathAnimation({
       <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden">
         <svg
           ref={svgRef}
-          viewBox="0 0 1006 505"
+          viewBox={`0 0 ${path.viewBox.w} ${path.viewBox.h}`}
           fill="none"
           preserveAspectRatio="xMidYMid meet"
-          className="h-full w-full max-w-[1006px]"
+          className={
+            isDesktop
+              ? "h-full w-full max-w-[1006px]"
+              : "h-[80vh] w-auto max-w-[min(280px,85vw)]"
+          }
         >
           <defs>
             <mask id="path-reveal">
               <motion.path
-                d={PATH}
+                d={path.d}
                 stroke="white"
-                strokeWidth={40}
+                strokeWidth={isDesktop ? 40 : 50}
                 fill="none"
                 pathLength={1}
                 strokeDasharray="1 1"
@@ -54,9 +63,9 @@ export default function PathAnimation({
           </defs>
 
           <path
-            d={PATH}
+            d={path.d}
             stroke="black"
-            strokeWidth={3}
+            strokeWidth={isDesktop ? 3 : 4}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeDasharray="10 12"
@@ -64,9 +73,9 @@ export default function PathAnimation({
           />
 
           <motion.path
-            d={PATH}
+            d={path.d}
             stroke="black"
-            strokeWidth={3}
+            strokeWidth={isDesktop ? 3 : 4}
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeDasharray="10 12"
@@ -75,7 +84,7 @@ export default function PathAnimation({
           />
         </svg>
 
-        <p className="pointer-events-none absolute px-4 text-center font-mono text-lg text-black md:text-2xl">
+        <p className="pointer-events-none absolute max-w-[min(280px,85vw)] px-4 text-center font-mono text-base leading-snug text-black md:max-w-none md:text-lg md:leading-normal lg:text-2xl">
           You just need to connect the dots.
         </p>
       </div>

@@ -54,7 +54,7 @@ export default function Services({
       <motion.div
         ref={boxRef}
         style={{ marginLeft: marginX, marginRight: marginX, borderRadius }}
-        className="relative aspect-video overflow-hidden bg-black"
+        className="relative aspect-[9/16] overflow-hidden bg-black md:aspect-video"
       >
         <motion.p
           style={{ opacity: textOpacity }}

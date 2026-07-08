@@ -8,6 +8,7 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type Review = {
   name: string;
@@ -16,8 +17,6 @@ type Review = {
   photo?: string;
 };
 
-// Varying text lengths on purpose: the card grows with its content, so the
-// staggered heights read as a loose grid rather than a tidy row.
 const REVIEWS: Review[] = [
   {
     name: "Lukáš Hubka",
@@ -34,12 +33,12 @@ const REVIEWS: Review[] = [
   {
     name: "Miroslav Pecka",
     role: "Web & Analytics Consultant",
-    text: "I appreciate Marek’s enthusiasm and business-oriented way of thinking. Combined with his ability to understand how things work technically and to communicate and translate information to and from the company, I consider Marek a very valuable member of the Easy Software marketing team.",
+    text: "I appreciate Marek's enthusiasm and business-oriented way of thinking. Combined with his ability to understand how things work technically and to communicate and translate information to and from the company, I consider Marek a very valuable member of the Easy Software marketing team.",
   },
   {
     name: "Martin Štěpaník",
     role: "ex-CEO Targito",
-    text: "Marek has extensive knowledge in the field of digital marketing. At Targito, he significantly contributed to finalizing and launching the company’s new website. We look forward to further collaboration with Marek in the areas of digital marketing!",
+    text: "Marek has extensive knowledge in the field of digital marketing. At Targito, he significantly contributed to finalizing and launching the company's new website. We look forward to further collaboration with Marek in the areas of digital marketing!",
   },
   {
     name: "Michaela Zedníková",
@@ -55,12 +54,10 @@ const REVIEWS: Review[] = [
     name: "Mikoláš Voborský",
     role: "Founder at Apadore",
     photo: "/reviews/mikolas.jpg",
-    text: "We were able to make a great progress in the early stages of our marketing efforts thanks to Marek’s wide expertise.",
+    text: "We were able to make a great progress in the early stages of our marketing efforts thanks to Marek's wide expertise.",
   },
 ];
 
-// Up to 4 columns across the stage. Each column is a horizontal anchor (% of
-// stage width); cards are centered on it. Reduce this to 3 if it feels crowded.
 const COLUMN_X = [15, 38, 62, 85];
 const COLUMNS = COLUMN_X.length;
 
@@ -69,83 +66,102 @@ function ReviewCard({
   index,
   progress,
   viewportH,
+  isDesktop,
 }: {
   review: Review;
   index: number;
   progress: MotionValue<number>;
   viewportH: number;
+  isDesktop: boolean;
 }) {
   const col = index % COLUMNS;
+  const isEven = index % 2 === 0;
 
-  // Each card owns a slice of the scroll so they cross the frame at different
-  // times — "mostly not on the same line".
   const stagger = 0.085;
   const start = Math.min(index * stagger, 0.5);
   const end = Math.min(start + 0.55, 1);
   const mid = (start + end) / 2;
 
-  // Float from below the bottom edge up past the top, where it slips under the
-  // glass ceiling. Transform translate can't take vh, so we drive it in px.
   const y = useTransform(
     progress,
     [start, end],
-    [viewportH * 1.15, -viewportH * 1.25]
+    [viewportH * 1.15, -viewportH * 1.25],
   );
   const opacity = useTransform(
     progress,
     [start, start + 0.05, end - 0.1, end],
-    [0, 1, 1, 0]
+    [0, 1, 1, 0],
   );
-  // 3D: tilts toward you low, levels out, plus a gentle depth swell.
-  const rotateX = useTransform(progress, [start, end], [14, -10]);
-  const z = useTransform(progress, [start, mid, end], [-140, 60, -100]);
-  const scale = useTransform(progress, [start, mid, end], [0.84, 1, 0.9]);
+  const rotateX = useTransform(progress, [start, end], isDesktop ? [14, -10] : [0, 0]);
+  const rotateZ = useTransform(
+    progress,
+    [start, mid, end],
+    isDesktop ? [0, 0, 0] : isEven ? [-3, 0, 2] : [3, 0, -2],
+  );
+  const z = useTransform(
+    progress,
+    [start, mid, end],
+    isDesktop ? [-140, 60, -100] : [0, 0, 0],
+  );
+  const scale = useTransform(
+    progress,
+    [start, mid, end],
+    isDesktop ? [0.84, 1, 0.9] : [0.92, 1, 0.95],
+  );
+
+  const xOffset = isDesktop ? "-50%" : isEven ? "calc(-50% - 18px)" : "calc(-50% + 18px)";
 
   return (
     <motion.div
       style={{
-        left: `${COLUMN_X[col]}%`,
-        x: "-50%",
+        left: isDesktop ? `${COLUMN_X[col]}%` : "50%",
+        x: xOffset,
         y,
         z,
         rotateX,
+        rotateZ,
         scale,
         opacity,
       }}
-      className="absolute top-0 w-[150px] origin-bottom rounded-2xl border border-white/10 bg-black p-4 text-white shadow-[0_12px_40px_-8px_rgba(0,100,200,0.35),0_30px_60px_-20px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.18)]"
+      className="absolute top-0 w-[min(320px,calc(100vw-32px))] origin-bottom rounded-2xl border border-white/10 bg-black p-3 text-white shadow-[0_12px_40px_-8px_rgba(0,100,200,0.35),0_30px_60px_-20px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.18)] md:w-[340px] md:p-4"
     >
-      <div className="relative size-9 overflow-hidden rounded-full bg-white/15 ring-1 ring-white/25">
-        {review.photo ? (
-          <Image
-            src={review.photo}
-            alt={review.name}
-            fill
-            className="object-cover"
-            sizes="36px"
-          />
-        ) : null}
+      <div className="flex items-center gap-2.5">
+        <div className="relative size-8 shrink-0 overflow-hidden rounded-full bg-white/15 ring-1 ring-white/25 md:size-9">
+          {review.photo ? (
+            <Image
+              src={review.photo}
+              alt={review.name}
+              fill
+              className="object-cover"
+              sizes="36px"
+            />
+          ) : null}
+        </div>
+        <div className="min-w-0">
+          <p className="truncate font-mono text-sm font-bold leading-tight text-white">
+            {review.name}
+          </p>
+          <p className="truncate font-mono text-[11px] font-light text-white/70 md:text-xs">
+            {review.role}
+          </p>
+        </div>
       </div>
-      <p className="mt-3 font-mono text-sm font-bold leading-tight text-white">
-        {review.name}
+      <p className="mt-2 line-clamp-4 text-xs leading-snug text-white/90 md:line-clamp-5 md:text-sm">
+        {review.text}
       </p>
-      <p className="font-mono text-xs font-light text-white/70">
-        {review.role}
-      </p>
-      <p className="mt-2 text-sm leading-snug text-white/90">{review.text}</p>
     </motion.div>
   );
 }
 
 export default function Reviews() {
   const ref = useRef<HTMLElement>(null);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  // progress 0 → stage pins at the top, 1 → stage about to release
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end end"],
   });
 
-  // Transform translate needs px, so we mirror the viewport height in.
   const [viewportH, setViewportH] = useState(0);
   useEffect(() => {
     const update = () => setViewportH(window.innerHeight);
@@ -156,11 +172,13 @@ export default function Reviews() {
 
   return (
     <section ref={ref} id="reviews" className="relative h-[320vh]">
-      {/* Pinned stage: freezes in the middle while cards float by. Perspective
-          + preserve-3d give the cards real depth as they rise. */}
       <div
         className="sticky top-0 h-dvh overflow-hidden"
-        style={{ perspective: "1200px", transformStyle: "preserve-3d" }}
+        style={
+          isDesktop
+            ? { perspective: "1200px", transformStyle: "preserve-3d" }
+            : undefined
+        }
       >
         {viewportH > 0 &&
           REVIEWS.map((review, i) => (
@@ -170,6 +188,7 @@ export default function Reviews() {
               index={i}
               progress={scrollYProgress}
               viewportH={viewportH}
+              isDesktop={isDesktop}
             />
           ))}
       </div>

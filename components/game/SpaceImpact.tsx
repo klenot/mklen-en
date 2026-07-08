@@ -461,16 +461,16 @@ export default function SpaceImpact() {
       )}
 
       {status === "idle" && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white text-center">
-          <div className="flex flex-col items-center gap-1">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white px-4 text-center">
+          <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-1">
             <p className="font-sans text-xs italic text-black">
               before you leave
             </p>
-            <h3 className="font-mono text-2xl font-bold tracking-widest text-black">
+            <h3 className="font-mono text-lg font-bold tracking-wide text-black sm:text-2xl sm:tracking-widest">
               What is life if not fun?
             </h3>
           </div>
-          <p className="max-w-xs font-mono text-xs font-light text-black/50">
+          <p className="mx-auto max-w-[min(320px,calc(100vw-32px))] font-mono text-xs font-light leading-relaxed text-black/50 sm:max-w-xs">
             Survive 60 seconds. Use arrows to fly, space to shoot. You have 3
             lives.
           </p>
@@ -484,8 +484,8 @@ export default function SpaceImpact() {
       )}
 
       {(status === "won" || status === "lost") && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/70 text-center backdrop-blur-[1px]">
-          <h3 className="font-mono text-4xl font-bold tracking-widest text-black">
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/70 px-4 text-center backdrop-blur-[1px]">
+          <h3 className="font-mono text-2xl font-bold tracking-wide text-black sm:text-4xl sm:tracking-widest">
             {status === "won" ? "You nerd!" : "Game over"}
           </h3>
           <button

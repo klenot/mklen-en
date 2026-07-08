@@ -83,11 +83,11 @@ export default function Hero() {
           WebkitMaskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
         }}
       />
-      <div className="flex items-center w-full justify-center relative">
-        <h2 className="flex items-center font-mono text-white text-xl">
+      <div className="relative flex w-full items-center justify-center px-6">
+        <h2 className="mx-auto max-w-[16rem] text-balance text-center font-mono text-lg leading-snug text-white sm:max-w-xs sm:text-xl md:max-w-md md:text-xl">
           {text}
           <span
-            className="ml-1 inline-block h-8 w-[3px] animate-pulse rounded-full"
+            className="ml-0.5 inline-block h-[1em] w-[3px] animate-pulse rounded-full align-middle"
             style={{ backgroundColor: "#FF8008" }}
           />
         </h2>

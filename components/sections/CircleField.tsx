@@ -17,7 +17,8 @@ import {
   interpolateProgress,
   SPREAD_OFFSET,
 } from "./serviceReveal";
-import { PATH_START, PATH_END, VIEWBOX } from "./PathAnimation";
+import { PATH_HORIZONTAL, PATH_VERTICAL } from "./pathConfig";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { clamp01, smoothstep } from "@/lib/math";
 
 const CIRCLE_LOGOS: { file: string; size: number }[] = [
@@ -52,6 +53,49 @@ const PATH_CIRCLE_NEXTJS = 14;
 
 const BOX_COUNT = 9;
 const HERO_COUNT = 13;
+
+function buildMobileHeroSlots(count: number): { x: number; y: number }[] {
+  const rand = mulberry32(9080701);
+  const pick = (a: number, b: number) => a + rand() * (b - a);
+
+  const aboveCount = Math.ceil(count / 2);
+  const minDist = 0.11;
+  const slots: { x: number; y: number }[] = [];
+
+  for (let i = 0; i < count; i++) {
+    const isAbove = i < aboveCount;
+    const yMin = isAbove ? 0.08 : 0.64;
+    const yMax = isAbove ? 0.32 : 0.92;
+    const xMin = isAbove ? 0.2 : 0.22;
+    const xMax = isAbove ? 0.8 : 0.78;
+
+    let placed = false;
+    for (let attempt = 0; attempt < 48; attempt++) {
+      const x = pick(xMin, xMax);
+      const y = pick(yMin, yMax);
+      const crowded = slots.some((s) => {
+        const dx = s.x - x;
+        const dy = s.y - y;
+        return dx * dx + dy * dy < minDist * minDist;
+      });
+      if (!crowded) {
+        slots.push({ x, y });
+        placed = true;
+        break;
+      }
+    }
+    if (!placed) {
+      slots.push({
+        x: pick(xMin, xMax),
+        y: pick(yMin, yMax),
+      });
+    }
+  }
+
+  return slots;
+}
+
+const MOBILE_HERO_SLOTS = buildMobileHeroSlots(HERO_COUNT);
 
 function mulberry32(seed: number) {
   let a = seed >>> 0;
@@ -186,11 +230,15 @@ export default function CircleField({
     bandH: 0,
     heroW: 0,
     heroH: 0,
+    heroSectionTop: 0,
+    heroSectionH: 0,
     valid: false,
   });
 
   const reduced = useReducedMotion();
   const circles = useMemo(() => makeCircles(), []);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const pathConfig = isDesktop ? PATH_HORIZONTAL : PATH_VERTICAL;
 
   // Phase 1: circles fall into the box (existing behavior)
   const { scrollYProgress } = useScroll({
@@ -227,12 +275,12 @@ export default function CircleField({
     if (!svg) return null;
     const svgRect = svg.getBoundingClientRect();
 
-    const scaleX = svgRect.width / VIEWBOX.w;
-    const scaleY = svgRect.height / VIEWBOX.h;
+    const scaleX = svgRect.width / pathConfig.viewBox.w;
+    const scaleY = svgRect.height / pathConfig.viewBox.h;
     const scale = Math.min(scaleX, scaleY);
 
-    const renderedW = VIEWBOX.w * scale;
-    const renderedH = VIEWBOX.h * scale;
+    const renderedW = pathConfig.viewBox.w * scale;
+    const renderedH = pathConfig.viewBox.h * scale;
     const offsetX = (svgRect.width - renderedW) / 2;
     const offsetY = (svgRect.height - renderedH) / 2;
 
@@ -258,6 +306,11 @@ export default function CircleField({
     }
 
     const padX = bRect.width * 0.04;
+    const heroEl = document.getElementById("hero");
+    const heroRect = heroEl?.getBoundingClientRect();
+    const heroSectionTop = heroRect ? heroRect.top - oRect.top : 0;
+    const heroSectionH = heroRect?.height ?? Math.max(1, bRect.top - oRect.top);
+
     layoutRef.current = {
       overlayLeft: oRect.left,
       overlayTop: oRect.top,
@@ -267,6 +320,8 @@ export default function CircleField({
       bandH: bRect.height,
       heroW: oRect.width,
       heroH: Math.max(1, bRect.top - oRect.top),
+      heroSectionTop,
+      heroSectionH,
       valid: true,
     };
     // Refs are stable; measureLayout reads layout from the DOM each call.
@@ -279,7 +334,7 @@ export default function CircleField({
       if (!layoutRef.current.valid) return;
     }
 
-    const { overlayLeft, bandLeft, bandW, bandTop, bandH, heroW, heroH } =
+    const { overlayLeft, bandLeft, bandW, bandTop, bandH, heroW, heroH, heroSectionTop, heroSectionH } =
       layoutRef.current;
 
     const p = rest ? 0 : clamp01(travel.get());
@@ -293,8 +348,8 @@ export default function CircleField({
     let pathStartVp: { x: number; y: number } | null = null;
     let pathEndVp: { x: number; y: number } | null = null;
     if (pt > 0) {
-      pathStartVp = getSvgViewportPoint(PATH_START.x, PATH_START.y);
-      pathEndVp = getSvgViewportPoint(PATH_END.x, PATH_END.y);
+      pathStartVp = getSvgViewportPoint(pathConfig.start.x, pathConfig.start.y);
+      pathEndVp = getSvgViewportPoint(pathConfig.end.x, pathConfig.end.y);
     }
 
     for (let i = 0; i < circles.length; i++) {
@@ -318,6 +373,13 @@ export default function CircleField({
         fromPxY = bandTop + c.fromY * bandH;
         toPxX = fromPxX;
         toPxY = fromPxY;
+      } else if (!isDesktop) {
+        const heroIndex = i - BOX_COUNT;
+        const slot = MOBILE_HERO_SLOTS[heroIndex % MOBILE_HERO_SLOTS.length];
+        fromPxX = slot.x * heroW;
+        fromPxY = heroSectionTop + slot.y * heroSectionH;
+        toPxX = bandLeft + c.toX * bandW;
+        toPxY = bandTop + c.toY * bandH;
       } else {
         fromPxX = c.fromX * heroW;
         fromPxY = c.fromY * heroH;
@@ -383,12 +445,14 @@ export default function CircleField({
         ? 0
         : c.day * vmin * Math.cos(t * c.fy + c.phase) * driftDampen * fallDrift;
 
-      // Soft repulsion from hero text — only while logos are resting in the hero
+      // Soft repulsion from hero text while logos rest in the hero
       if (c.origin === "hero" && p === 0) {
         const textCx = heroW * 0.5;
-        const textCy = heroH * 0.48;
-        const zoneRx = heroW * 0.45;
-        const zoneRy = heroH * 0.2;
+        const textCy = isDesktop
+          ? heroH * 0.48
+          : heroSectionTop + heroSectionH * 0.5;
+        const zoneRx = heroW * (isDesktop ? 0.45 : 0.38);
+        const zoneRy = (isDesktop ? heroH : heroSectionH) * (isDesktop ? 0.2 : 0.16);
 
         const fx = baseX + dx - textCx;
         const fy = baseY + dy - textCy;
@@ -423,11 +487,11 @@ export default function CircleField({
       let scale: number;
       let maxVisible: number;
       if (w < 480) {
-        scale = 0.5;
-        maxVisible = 17;
+        scale = 0.72;
+        maxVisible = CIRCLE_LOGOS.length;
       } else if (w < 768) {
-        scale = 0.65;
-        maxVisible = 20;
+        scale = 0.78;
+        maxVisible = CIRCLE_LOGOS.length;
       } else if (w < 1024) {
         scale = 0.8;
         maxVisible = CIRCLE_LOGOS.length;
@@ -458,7 +522,7 @@ export default function CircleField({
 
   useEffect(() => {
     measureLayout();
-  }, [measureLayout]);
+  }, [measureLayout, isDesktop]);
 
   useAnimationFrame((time) => {
     frameTimeRef.current = time;

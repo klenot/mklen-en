@@ -12,7 +12,7 @@ import { smoothstep } from "@/lib/math";
 // Services maps these to marginX; CircleField uses its own deferred keyframes
 // so circles land after the box finishes spreading.
 export const SPREAD_BREAKPOINTS = [0, 0.25, 0.35, 0.8, 0.9, 1] as const;
-export const SPREAD_MARGIN_PX = [24, 24, 0, 0, 24, 24] as const;
+export const SPREAD_MARGIN_PX = [8, 8, 0, 0, 8, 8] as const;
 
 // CircleField defers hero-circle travel until the box finishes spreading, then
 // completes the fall in a shorter window so logos don't lag behind scroll.
