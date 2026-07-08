@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import type { BlogHeading } from "@/lib/blog-headings";
 
@@ -29,58 +29,87 @@ function compactFallbackPosition(index: number, count: number): number {
   return start + (index / (count - 1)) * span;
 }
 
+function measurePositions(headings: TocHeading[]): (number | null)[] {
+  const scrollRange = Math.max(
+    1,
+    document.documentElement.scrollHeight - window.innerHeight,
+  );
+
+  return headings.map(({ id }) => {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    return Math.min(1, Math.max(0, el.offsetTop / scrollRange));
+  });
+}
+
+function useIsClient() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+}
+
+function useDiscoveredHeadings(enabled: boolean) {
+  return useSyncExternalStore(
+    (onStoreChange) => {
+      if (!enabled) return () => {};
+
+      window.addEventListener("resize", onStoreChange);
+      window.addEventListener("load", onStoreChange, true);
+      const t = window.setTimeout(onStoreChange, 100);
+
+      const root = document.querySelector(".blog-content");
+      const ro = root ? new ResizeObserver(onStoreChange) : null;
+      ro?.observe(root!);
+
+      return () => {
+        window.clearTimeout(t);
+        window.removeEventListener("resize", onStoreChange);
+        window.removeEventListener("load", onStoreChange, true);
+        ro?.disconnect();
+      };
+    },
+    () => (enabled ? discoverHeadings() : []),
+    () => [],
+  );
+}
+
+function useHeadingPositions(headings: TocHeading[]) {
+  return useSyncExternalStore(
+    (onStoreChange) => {
+      if (headings.length === 0) return () => {};
+
+      window.addEventListener("resize", onStoreChange);
+      window.addEventListener("load", onStoreChange, true);
+      const t = window.setTimeout(onStoreChange, 100);
+      const ro = new ResizeObserver(onStoreChange);
+      ro.observe(document.documentElement);
+
+      return () => {
+        window.clearTimeout(t);
+        window.removeEventListener("resize", onStoreChange);
+        window.removeEventListener("load", onStoreChange, true);
+        ro.disconnect();
+      };
+    },
+    () => measurePositions(headings),
+    () => headings.map(() => null),
+  );
+}
+
 export default function BlogTableOfContents({ headings: initialHeadings }: Props) {
-  const [mounted, setMounted] = useState(false);
-  const [headings, setHeadings] = useState<TocHeading[]>(initialHeadings);
-  const [positions, setPositions] = useState<number[]>([]);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    setHeadings(initialHeadings);
-  }, [initialHeadings]);
-
-  useEffect(() => {
-    if (initialHeadings.length > 0) return;
-
-    const found = discoverHeadings();
-    if (found.length > 0) setHeadings(found);
-  }, [initialHeadings]);
-
-  useEffect(() => {
-    if (headings.length === 0) return;
-
-    const measure = () => {
-      const scrollRange = Math.max(
-        1,
-        document.documentElement.scrollHeight - window.innerHeight,
-      );
-
-      setPositions(
-        headings.map(({ id }) => {
-          const el = document.getElementById(id);
-          if (!el) return null;
-          return Math.min(1, Math.max(0, el.offsetTop / scrollRange));
-        }),
-      );
-    };
-
-    measure();
-    const t = window.setTimeout(measure, 100);
-    window.addEventListener("resize", measure);
-    return () => {
-      window.clearTimeout(t);
-      window.removeEventListener("resize", measure);
-    };
-  }, [headings]);
+  const isClient = useIsClient();
+  const discoveredHeadings = useDiscoveredHeadings(initialHeadings.length === 0);
+  const headings =
+    initialHeadings.length > 0 ? initialHeadings : discoveredHeadings;
+  const positions = useHeadingPositions(headings);
 
   const scrollTo = useCallback((id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
-  if (!mounted || headings.length === 0) return null;
+  if (!isClient || headings.length === 0) return null;
 
   const rail = (
     <nav
