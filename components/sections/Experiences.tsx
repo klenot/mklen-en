@@ -1,10 +1,19 @@
 import Image from "next/image";
 
 const EXPERIENCE_LOGOS = [
-  { src: "/logos/bandits.png", alt: "Bandits" },
-  { src: "/logos/product-lasso.webp", alt: "Lasso" },
-  { src: "/logos/apadore.webp", alt: "Apadore" },
-  { src: "/logos/pria.webp", alt: "Pria" },
+  { src: "/logos/bandits.png", alt: "Bandits", href: "https://banditshq.com/cs" },
+  {
+    src: "/logos/product-lasso.webp",
+    alt: "Lasso",
+    href: "https://productlasso.com/",
+  },
+  { src: "/logos/apadore.webp", alt: "Apadore", href: "https://www.apadore.cz/" },
+  {
+    src: "/logos/wonder-makers.jpg",
+    alt: "Wonder Makers",
+    href: "https://www.wondermakers.digital/",
+  },
+  { src: "/logos/pria.webp", alt: "Pria", href: "https://pria.cz/" },
 ];
 
 export default function Experiences() {
@@ -20,19 +29,23 @@ export default function Experiences() {
 
           <div className="flex h-16 items-center md:h-20">
             {EXPERIENCE_LOGOS.map((logo, i) => (
-              <span
-                key={i}
+              <a
+                key={logo.href}
+                href={logo.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={logo.alt}
                 style={{ zIndex: EXPERIENCE_LOGOS.length - i }}
                 className="-ml-4 relative size-14 overflow-hidden rounded-full bg-black ring-2 ring-white transition-[width,height] duration-200 hover:size-16 first:ml-0 md:size-16 md:hover:size-18"
               >
                 <Image
                   src={logo.src}
-                  alt={logo.alt}
+                  alt=""
                   fill
                   className="object-cover"
                   sizes="64px"
                 />
-              </span>
+              </a>
             ))}
           </div>
         </div>

@@ -76,7 +76,11 @@ function extractPageMeta(page: PageObjectResponse) {
 
   const catProp = props["category"] ?? props["Category"];
   const category =
-    catProp?.type === "select" ? (catProp.select?.name ?? "") : "";
+    catProp?.type === "rich_text"
+      ? richTextToPlain(catProp.rich_text)
+      : catProp?.type === "select"
+        ? (catProp.select?.name ?? "")
+        : "";
 
   const publishedProp = props["published"] ?? props["Published"];
   const published =

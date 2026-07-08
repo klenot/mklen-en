@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import {
+  GoogleTagManagerHead,
+  GoogleTagManagerNoscript,
+} from "@/components/analytics/GoogleTagManager";
 import { ibmPlexMono } from "./fonts";
 import { defaultMetadata } from "@/lib/seo";
 import "./globals.css";
@@ -21,7 +25,11 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <GoogleTagManagerHead />
+        <GoogleTagManagerNoscript />
+        {children}
+      </body>
     </html>
   );
 }

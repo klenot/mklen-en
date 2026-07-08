@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
   motion,
@@ -12,45 +13,49 @@ type Review = {
   name: string;
   role: string;
   text: string;
+  photo?: string;
 };
 
 // Varying text lengths on purpose: the card grows with its content, so the
 // staggered heights read as a loose grid rather than a tidy row.
 const REVIEWS: Review[] = [
   {
-    name: "Jana Nováková",
-    role: "Product Lead",
-    text: "Shipped fast and kept everyone in the loop the whole way.",
+    name: "Lukáš Hubka",
+    role: "Art Director",
+    photo: "/reviews/lukas.jpg",
+    text: "Marek is able to combine his technical skills with his experience in digital marketing, which greatly benefits the development of websites and applications. As a designer, I most value his ability to understand what needs to be done for successful implementation — before the implementation even begins.",
   },
   {
-    name: "Tomáš Dvořák",
-    role: "CTO, Fintech",
-    text: "Rare mix of ops instinct and clean code. He untangled our deploy pipeline in a week and it has been quiet ever since.",
+    name: "Filip Vašulín",
+    role: "Co-Founder at Wonder Makers",
+    photo: "/reviews/filip.jpg",
+    text: "Marek possesses a broad range of knowledge across the entire spectrum of marketing. This multidisciplinary overlap is an advantage for any company. At the same time, Marek has experience in project management, which further highlights his ability to execute set decisions.",
   },
   {
-    name: "Lena Ford",
-    role: "Designer",
-    text: "Just gets it.",
+    name: "Miroslav Pecka",
+    role: "Web & Analytics Consultant",
+    text: "I appreciate Marek’s enthusiasm and business-oriented way of thinking. Combined with his ability to understand how things work technically and to communicate and translate information to and from the company, I consider Marek a very valuable member of the Easy Software marketing team.",
   },
   {
-    name: "Petr Malý",
-    role: "Founder",
-    text: "Treated our budget like his own and the results showed. Would hire again without a second thought.",
+    name: "Martin Štěpaník",
+    role: "ex-CEO Targito",
+    text: "Marek has extensive knowledge in the field of digital marketing. At Targito, he significantly contributed to finalizing and launching the company’s new website. We look forward to further collaboration with Marek in the areas of digital marketing!",
   },
   {
-    name: "Aisha Khan",
-    role: "Eng Manager",
-    text: "Calm under pressure, sharp with tradeoffs.",
+    name: "Michaela Zedníková",
+    role: "Organization Designer & Culture Shaper",
+    text: "I met Marek during the project of analysing and implementing new processes in digital marketing agency In creative. Even though the project was not completed entirely Marek showed good process thinking abilities and potential in process design. The cooperation with Marek was an inspiring part of the project.",
   },
   {
-    name: "Marco Rossi",
-    role: "Head of Growth",
-    text: "Turned a vague idea into a working product. Honest about risks and genuinely pleasant to work with across three quarters.",
+    name: "Vít Mačuda",
+    role: "Co-founder RunningFox, PPC Expert",
+    text: "Marek is a hard worker with a sincere heart. Cooperation with him is very rewarding after finding common tune. He is inspiring with his dedication to the job related topics, his ideas and organizational skills. I am looking forward to continue working with Marek in my future projects.",
   },
   {
-    name: "Sara Beck",
-    role: "PM",
-    text: "Reliable, quick, and low drama.",
+    name: "Mikoláš Voborský",
+    role: "Founder at Apadore",
+    photo: "/reviews/mikolas.jpg",
+    text: "We were able to make a great progress in the early stages of our marketing efforts thanks to Marek’s wide expertise.",
   },
 ];
 
@@ -109,7 +114,17 @@ function ReviewCard({
       }}
       className="absolute top-0 w-[150px] origin-bottom rounded-2xl border border-white/10 bg-black p-4 text-white shadow-[0_12px_40px_-8px_rgba(0,100,200,0.35),0_30px_60px_-20px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.18)]"
     >
-      <div className="size-9 rounded-full bg-white/15 ring-1 ring-white/25" />
+      <div className="relative size-9 overflow-hidden rounded-full bg-white/15 ring-1 ring-white/25">
+        {review.photo ? (
+          <Image
+            src={review.photo}
+            alt={review.name}
+            fill
+            className="object-cover"
+            sizes="36px"
+          />
+        ) : null}
+      </div>
       <p className="mt-3 font-mono text-sm font-bold leading-tight text-white">
         {review.name}
       </p>
