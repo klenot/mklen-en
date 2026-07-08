@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { trackEvent } from "@/lib/mixpanel";
 
@@ -100,14 +101,16 @@ export default function Footer({
 
       {/* Bottom panel — sticky at viewport bottom, slides out from behind the CTA */}
       <footer
-        className="sticky bottom-0 z-0 -mt-5 overflow-hidden px-6 pt-16 pb-4"
+        className="relative sticky bottom-0 z-0 -mt-5 overflow-hidden px-6 pt-16 pb-4"
         style={{ background: "linear-gradient(to bottom, #0082FF, #110058)" }}
       >
-        <img
+        <Image
           src="/abstract-gradient-texture-bg.jpg"
           alt=""
           aria-hidden
-          className="absolute inset-x-0 top-0 w-full object-cover object-top"
+          fill
+          className="object-cover object-top"
+          sizes="100vw"
         />
         <span
           aria-hidden

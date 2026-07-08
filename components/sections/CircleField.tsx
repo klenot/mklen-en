@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import type { RefObject } from "react";
 import {
   animate,
@@ -242,7 +242,7 @@ export default function CircleField({
     };
   };
 
-  const measureLayout = () => {
+  const measureLayout = useCallback(() => {
     const overlay = overlayRef.current;
     const box = boxRef.current;
     if (!overlay || !box) {
@@ -269,7 +269,9 @@ export default function CircleField({
       heroH: Math.max(1, bRect.top - oRect.top),
       valid: true,
     };
-  };
+    // Refs are stable; measureLayout reads layout from the DOM each call.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const place = (t: number, rest: boolean) => {
     if (!layoutRef.current.valid) {
@@ -452,11 +454,11 @@ export default function CircleField({
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, [measureLayout]);
 
   useEffect(() => {
     measureLayout();
-  }, []);
+  }, [measureLayout]);
 
   useAnimationFrame((time) => {
     frameTimeRef.current = time;

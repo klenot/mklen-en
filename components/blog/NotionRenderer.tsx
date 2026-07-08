@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { NotionBlock, RichText } from "@/data/notion-types";
 
 function RichTextRenderer({ segments }: { segments: RichText[] }) {
@@ -82,10 +83,13 @@ function PlainCode({ text, caption }: { text: string; caption?: string }) {
 function ImageBlock({ url, caption }: { url: string; caption?: string }) {
   return (
     <figure className="blog-block-spacing">
-      <img
+      <Image
         src={url}
         alt={caption || ""}
-        className="w-full rounded-md border border-black/10"
+        width={1200}
+        height={800}
+        className="h-auto w-full rounded-md border border-black/10"
+        sizes="(max-width: 640px) 100vw, 640px"
       />
       {caption && (
         <figcaption className="mt-2.5 text-[0.8125rem] font-mono text-black/70 leading-normal">
