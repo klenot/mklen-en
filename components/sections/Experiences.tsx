@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { trackEvent } from "@/lib/mixpanel";
 
 const EXPERIENCE_LOGOS = [
   { src: "/logos/bandits.png", alt: "Bandits", href: "https://banditshq.com/cs" },
@@ -35,6 +38,12 @@ export default function Experiences() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={logo.alt}
+                onClick={() =>
+                  trackEvent("experience_logo_clicked", {
+                    company: logo.alt,
+                    href: logo.href,
+                  })
+                }
                 style={{ zIndex: EXPERIENCE_LOGOS.length - i }}
                 className="-ml-4 relative size-14 overflow-hidden rounded-full bg-black ring-2 ring-white transition-[width,height] duration-200 hover:size-16 first:ml-0 md:size-16 md:hover:size-18"
               >

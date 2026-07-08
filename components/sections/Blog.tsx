@@ -13,7 +13,7 @@ export default async function Blog() {
         <div className="flex flex-col gap-4 w-full">
           <h2 className="text-4xl font-mono font-bold text-black mb-4">Blog</h2>
 
-          <BlogList posts={posts.slice(0, 6)} />
+          <BlogList posts={posts.slice(0, 6)} source="homepage" />
 
           <Link
             href="/blog"

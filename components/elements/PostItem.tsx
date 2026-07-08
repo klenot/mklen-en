@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { trackEvent } from "@/lib/mixpanel";
 
 const MAX_DESC = 150;
 
@@ -17,6 +18,7 @@ export default function PostItem({
   lift = 0,
   shadow = "none",
   delay = 0,
+  source = "unknown",
   onHoverStart,
   onHoverEnd,
 }: {
@@ -29,6 +31,7 @@ export default function PostItem({
   lift?: number;
   shadow?: string;
   delay?: number;
+  source?: "homepage" | "blog_index" | "unknown";
   onHoverStart?: () => void;
   onHoverEnd?: () => void;
 }) {
@@ -45,6 +48,14 @@ export default function PostItem({
     >
       <Link
         href={`/blog/${slug}`}
+        onClick={() =>
+          trackEvent("blog_post_clicked", {
+            slug,
+            title,
+            category,
+            source,
+          })
+        }
         className="group flex items-start gap-4 bg-white pr-4 py-3"
       >
         <div className="flex min-w-0 flex-1 flex-col wrap-break-words">

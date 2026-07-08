@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { trackEvent } from "@/lib/mixpanel";
 
 const EMAIL = "marek@mklenotic.com";
 
@@ -33,6 +34,7 @@ export default function Footer({
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(EMAIL);
     setCopied(true);
+    trackEvent("contact_email_copied", { email: EMAIL });
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => setCopied(false), 2000);
   }, []);

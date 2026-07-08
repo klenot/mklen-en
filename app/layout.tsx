@@ -4,6 +4,7 @@ import {
   GoogleTagManagerHead,
   GoogleTagManagerNoscript,
 } from "@/components/analytics/GoogleTagManager";
+import MixpanelProvider from "@/components/analytics/MixpanelProvider";
 import { ibmPlexMono } from "./fonts";
 import { defaultMetadata } from "@/lib/seo";
 import "./globals.css";
@@ -28,7 +29,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <GoogleTagManagerHead />
         <GoogleTagManagerNoscript />
-        {children}
+        <MixpanelProvider>{children}</MixpanelProvider>
       </body>
     </html>
   );

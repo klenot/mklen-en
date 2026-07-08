@@ -37,7 +37,7 @@ export default function BlogPageClient({ posts }: { posts: Post[] }) {
           className="w-full border-b border-black/15 bg-transparent py-2 font-mono text-sm text-black placeholder:text-black/40 outline-none transition-colors focus:border-black/40"
         />
 
-        <BlogList posts={filtered} />
+        <BlogList posts={filtered} source="blog_index" />
 
         {filtered.length === 0 && (
           <p className="text-sm font-light font-mono text-black/40 text-center py-8">

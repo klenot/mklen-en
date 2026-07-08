@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getBlogPostBySlug, getAllSlugs } from "@/lib/notion";
 import type { NotionBlock } from "@/data/notion-types";
 import NotionRenderer from "@/components/blog/NotionRenderer";
+import BlogPostAnalytics from "@/components/analytics/BlogPostAnalytics";
 import { blogPostMetadata, blogPostingJsonLd } from "@/lib/seo";
 import { codeToHtml } from "shiki";
 import type { Metadata } from "next";
@@ -57,6 +58,11 @@ export default async function BlogPostPage({
 
   return (
     <main className="flex min-h-dvh flex-col items-center bg-white px-4 pt-16 pb-24">
+      <BlogPostAnalytics
+        slug={post.slug}
+        title={post.title}
+        category={post.category}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

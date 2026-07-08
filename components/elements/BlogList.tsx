@@ -16,7 +16,13 @@ const SHADOW_BY_DISTANCE = ["4px 4px 0 0 #000", "2px 2px 0 0 rgba(0,0,0,0.75)"];
 // outward and settles back like a ripple instead of everything moving at once
 const DELAY_PER_DISTANCE = 70;
 
-export default function BlogList({ posts }: { posts: Post[] }) {
+export default function BlogList({
+  posts,
+  source = "unknown",
+}: {
+  posts: Post[];
+  source?: "homepage" | "blog_index" | "unknown";
+}) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
@@ -31,6 +37,7 @@ export default function BlogList({ posts }: { posts: Post[] }) {
           <PostItem
             key={post.slug}
             {...post}
+            source={source}
             lift={lift}
             shadow={shadow}
             delay={delay}
