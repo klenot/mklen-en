@@ -1,14 +1,18 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getBlogPostBySlug, getAllSlugs } from "@/lib/notion";
+import { Suspense } from "react";
+import { getBlogPostBySlug, getBlogPostMetaBySlug, getAllSlugs } from "@/lib/notion";
 import type { NotionBlock } from "@/data/notion-types";
 import NotionRenderer from "@/components/blog/NotionRenderer";
 import BlogTableOfContents from "@/components/blog/BlogTableOfContents";
+import BlogPostSkeleton from "@/components/blog/BlogPostSkeleton";
 import BlogPostAnalytics from "@/components/analytics/BlogPostAnalytics";
 import { blogPostMetadata, blogPostingJsonLd } from "@/lib/seo";
 import { extractBlogHeadings, blogHeadingIdMap } from "@/lib/blog-headings";
 import { codeToHtml } from "shiki";
 import type { Metadata } from "next";
+
+export const revalidate = 3600;
 
 async function highlightBlocks(blocks: NotionBlock[]): Promise<Record<number, string>> {
   const map: Record<number, string> = {};
@@ -24,7 +28,7 @@ async function highlightBlocks(blocks: NotionBlock[]): Promise<Record<number, st
           // fallback to plain text if language is unsupported
         }
       }
-    })
+    }),
   );
   return map;
 }
@@ -40,19 +44,13 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getBlogPostBySlug(slug);
+  const post = await getBlogPostMetaBySlug(slug);
   if (!post) return {};
   return blogPostMetadata(post);
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
+async function BlogPostArticle({ slug }: { slug: string }) {
   const post = await getBlogPostBySlug(slug);
-
   if (!post) notFound();
 
   const codeHtmlMap = await highlightBlocks(post.blocks);
@@ -61,7 +59,7 @@ export default async function BlogPostPage({
   const headingIdMap = blogHeadingIdMap(headings);
 
   return (
-    <main className="flex min-h-dvh flex-col items-center bg-white px-4 pt-16 pb-24">
+    <>
       <BlogTableOfContents headings={headings} />
       <BlogPostAnalytics
         slug={post.slug}
@@ -75,19 +73,19 @@ export default async function BlogPostPage({
       <article className="flex w-full max-w-[640px] flex-col">
         <Link
           href="/blog"
-          className="self-start text-[0.8125rem] font-mono text-black transition-colors hover:text-blue-600 mb-16"
+          className="mb-16 self-start font-mono text-[0.8125rem] text-black transition-colors hover:text-blue-600"
         >
           ← blog
         </Link>
 
         <header className="mb-16">
-          <span className="text-[0.6875rem] font-mono uppercase tracking-wider text-black mb-4 block">
+          <span className="mb-4 block font-mono text-[0.6875rem] uppercase tracking-wider text-black">
             {post.category}
           </span>
-          <h1 className="text-[1.802rem] font-bold font-mono leading-[1.3] tracking-[-0.02em] text-black mb-4">
+          <h1 className="mb-4 font-mono text-[1.802rem] font-bold leading-[1.3] tracking-[-0.02em] text-black">
             {post.title}
           </h1>
-          <div className="flex items-center gap-2 text-[0.8125rem] font-mono text-black/70">
+          <div className="flex items-center gap-2 font-mono text-[0.8125rem] text-black/70">
             <time>{post.date}</time>
             <span>·</span>
             <span>{post.readingTime}</span>
@@ -102,11 +100,27 @@ export default async function BlogPostPage({
 
         <Link
           href="/blog"
-          className="self-start text-[0.8125rem] font-mono text-black transition-colors hover:text-blue-600 mt-24"
+          className="mt-24 self-start font-mono text-[0.8125rem] text-black transition-colors hover:text-blue-600"
         >
           ← back to all posts
         </Link>
       </article>
+    </>
+  );
+}
+
+export default async function BlogPostPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+
+  return (
+    <main className="flex min-h-dvh flex-col items-center bg-white px-4 pb-24 pt-16">
+      <Suspense fallback={<BlogPostSkeleton />}>
+        <BlogPostArticle slug={slug} />
+      </Suspense>
     </main>
   );
 }

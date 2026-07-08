@@ -1,3 +1,5 @@
+import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import { Client } from "@notionhq/client";
 import { APIResponseError } from "@notionhq/client/build/src/errors";
 import type {
@@ -7,6 +9,8 @@ import type {
 } from "@notionhq/client/build/src/api-endpoints";
 import type { Post } from "@/data/types";
 import type { BlogPost, NotionBlock, RichText } from "@/data/notion-types";
+
+const REVALIDATE_SECONDS = 3600;
 
 function isNotionConfigured() {
   return Boolean(process.env.NOTION_API_KEY && process.env.NOTION_DATABASE_ID);
@@ -310,95 +314,166 @@ async function transformBlock(block: BlockObjectResponse): Promise<NotionBlock |
 }
 
 async function transformBlocks(blocks: BlockObjectResponse[]): Promise<NotionBlock[]> {
-  const results: NotionBlock[] = [];
-  for (const block of blocks) {
-    const transformed = await transformBlock(block);
-    if (transformed) results.push(transformed);
-  }
-  return results;
+  const results = await Promise.all(blocks.map((block) => transformBlock(block)));
+  return results.filter((block): block is NotionBlock => block !== null);
 }
 
-export async function getPostsFromNotion(
+async function queryPublishedPages(
   placement?: "blog" | "project",
-): Promise<Post[]> {
-  return withNotion("getPostsFromNotion", [], async () => {
-    const notion = getNotionClient();
-    const placementValue = placement === "project" ? "Projects" : placement === "blog" ? "Blog" : undefined;
+): Promise<PageObjectResponse[]> {
+  const notion = getNotionClient();
+  const placementValue =
+    placement === "project" ? "Projects" : placement === "blog" ? "Blog" : undefined;
 
-    const filter: Record<string, unknown> = {
-      and: [
-        {
-          property: "published",
-          select: { equals: "Published" },
-        },
-        ...(placementValue
-          ? [{ property: "placement", select: { equals: placementValue } }]
-          : []),
-      ],
-    };
-
-    const resp = await notion.dataSources.query({
-      data_source_id: getDataSourceId(),
-      filter: filter as never,
-      sorts: [{ property: "date", direction: "descending" }],
-    });
-
-    return (resp.results as PageObjectResponse[]).map((page) => {
-      const meta = extractPageMeta(page);
-      return {
-        slug: meta.slug,
-        icon: meta.icon,
-        title: meta.title,
-        description: meta.description,
-        content: meta.description,
-        category: meta.category,
-        date: meta.date,
-        updatedAt: meta.updatedAt,
-        tag: (meta.placement.toLowerCase() === "projects" ? "project" : "blog") as "blog" | "project",
-        coverImage: meta.coverImage,
-      };
-    });
-  });
-}
-
-export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
-  return withNotion("getBlogPostBySlug", null, async () => {
-    const notion = getNotionClient();
-    const resp = await notion.dataSources.query({
-      data_source_id: getDataSourceId(),
-      filter: {
+  const filter: Record<string, unknown> = {
+    and: [
+      {
         property: "published",
         select: { equals: "Published" },
       },
-      sorts: [{ property: "date", direction: "descending" }],
-    });
+      ...(placementValue
+        ? [{ property: "placement", select: { equals: placementValue } }]
+        : []),
+    ],
+  };
 
-    const page = (resp.results as PageObjectResponse[]).find((p) => {
-      const meta = extractPageMeta(p);
-      return meta.slug === slug;
-    });
+  const resp = await notion.dataSources.query({
+    data_source_id: getDataSourceId(),
+    filter: filter as never,
+    sorts: [{ property: "date", direction: "descending" }],
+  });
 
-    if (!page) return null;
+  return resp.results as PageObjectResponse[];
+}
 
+const getPublishedPagesCached = unstable_cache(
+  async (placement: "blog" | "project" | "all") =>
+    withNotion("getPublishedPages", [], () =>
+      queryPublishedPages(placement === "all" ? undefined : placement),
+    ),
+  ["notion-published-pages"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["notion-posts"] },
+);
+
+async function findPublishedPageBySlug(slug: string): Promise<PageObjectResponse | null> {
+  const pages = await getPublishedPagesCached("all");
+  return pages.find((page) => extractPageMeta(page).slug === slug) ?? null;
+}
+
+async function fetchPostsFromNotion(
+  placement?: "blog" | "project",
+): Promise<Post[]> {
+  const pages = await getPublishedPagesCached(placement ?? "all");
+
+  return pages.map((page) => {
     const meta = extractPageMeta(page);
-    const rawBlocks = await fetchBlockChildren(page.id);
-    const blocks = await transformBlocks(rawBlocks);
-
     return {
       slug: meta.slug,
       icon: meta.icon,
       title: meta.title,
       description: meta.description,
+      content: meta.description,
       category: meta.category,
       date: meta.date,
-      readingTime: estimateReadingTime(blocks),
+      updatedAt: meta.updatedAt,
+      tag: (meta.placement.toLowerCase() === "projects" ? "project" : "blog") as
+        | "blog"
+        | "project",
       coverImage: meta.coverImage,
-      metaTitle: meta.metaTitle,
-      metaDescription: meta.metaDescription,
-      blocks,
     };
   });
 }
+
+const getPostsFromNotionCached = unstable_cache(
+  async (placement: "blog" | "project" | "all") =>
+    withNotion("getPostsFromNotion", [], () =>
+      fetchPostsFromNotion(placement === "all" ? undefined : placement),
+    ),
+  ["notion-posts-list"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["notion-posts"] },
+);
+
+export async function getPostsFromNotion(
+  placement?: "blog" | "project",
+): Promise<Post[]> {
+  return getPostsFromNotionCached(placement ?? "all");
+}
+
+async function fetchBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const page = await findPublishedPageBySlug(slug);
+  if (!page) return null;
+
+  const meta = extractPageMeta(page);
+  const rawBlocks = await fetchBlockChildren(page.id);
+  const blocks = await transformBlocks(rawBlocks);
+
+  return {
+    slug: meta.slug,
+    icon: meta.icon,
+    title: meta.title,
+    description: meta.description,
+    category: meta.category,
+    date: meta.date,
+    readingTime: estimateReadingTime(blocks),
+    coverImage: meta.coverImage,
+    metaTitle: meta.metaTitle,
+    metaDescription: meta.metaDescription,
+    blocks,
+  };
+}
+
+const getBlogPostBySlugCached = unstable_cache(
+  async (slug: string) =>
+    withNotion("getBlogPostBySlug", null, () => fetchBlogPostBySlug(slug)),
+  ["notion-blog-post"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["notion-posts"] },
+);
+
+export const getBlogPostBySlug = cache(async (slug: string): Promise<BlogPost | null> => {
+  return getBlogPostBySlugCached(slug);
+});
+
+export type BlogPostMeta = Pick<
+  BlogPost,
+  | "slug"
+  | "title"
+  | "description"
+  | "category"
+  | "date"
+  | "coverImage"
+  | "metaTitle"
+  | "metaDescription"
+>;
+
+async function fetchBlogPostMetaBySlug(slug: string): Promise<BlogPostMeta | null> {
+  const page = await findPublishedPageBySlug(slug);
+  if (!page) return null;
+
+  const meta = extractPageMeta(page);
+  return {
+    slug: meta.slug,
+    title: meta.title,
+    description: meta.description,
+    category: meta.category,
+    date: meta.date,
+    coverImage: meta.coverImage,
+    metaTitle: meta.metaTitle,
+    metaDescription: meta.metaDescription,
+  };
+}
+
+const getBlogPostMetaBySlugCached = unstable_cache(
+  async (slug: string) =>
+    withNotion("getBlogPostMetaBySlug", null, () => fetchBlogPostMetaBySlug(slug)),
+  ["notion-blog-post-meta"],
+  { revalidate: REVALIDATE_SECONDS, tags: ["notion-posts"] },
+);
+
+export const getBlogPostMetaBySlug = cache(
+  async (slug: string): Promise<BlogPostMeta | null> => {
+    return getBlogPostMetaBySlugCached(slug);
+  },
+);
 
 export async function getAllSlugs(): Promise<string[]> {
   const posts = await getPostsFromNotion();

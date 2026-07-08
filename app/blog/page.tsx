@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { getPostsFromNotion } from "@/lib/notion";
 import { absoluteUrl } from "@/lib/site";
+import BlogIndexSkeleton from "@/components/blog/BlogIndexSkeleton";
 import BlogPageClient from "./BlogPageClient";
 
 export const metadata: Metadata = {
@@ -21,8 +23,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogPage() {
-  const posts = await getPostsFromNotion("blog");
+export const revalidate = 3600;
 
+async function BlogPosts() {
+  const posts = await getPostsFromNotion("blog");
   return <BlogPageClient posts={posts} />;
+}
+
+export default function BlogPage() {
+  return (
+    <Suspense fallback={<BlogIndexSkeleton />}>
+      <BlogPosts />
+    </Suspense>
+  );
 }
