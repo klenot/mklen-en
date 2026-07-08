@@ -28,7 +28,7 @@ export default function ProjectCard({
         )}
       </div>
       <div className="flex flex-col pt-4 px-4 min-w-0 wrap-break-words">
-        <h3 className="text-xl font-mono text-black transition-[font-weight] duration-300 ease-out font-medium group-hover:font-bold">
+        <h3 className="text-xl font-mono text-black transition-[font-weight] duration-300 ease-out font-medium group-hover:font-bold mb-3">
           {headline}
         </h3>
         <p className="text-sm font-mono text-black">{description}</p>

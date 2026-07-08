@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getBlogPostBySlug, getAllSlugs } from "@/lib/notion";
 import type { NotionBlock } from "@/data/notion-types";
 import NotionRenderer from "@/components/blog/NotionRenderer";
+import { blogPostMetadata, blogPostingJsonLd } from "@/lib/seo";
 import { codeToHtml } from "shiki";
 import type { Metadata } from "next";
 
@@ -38,10 +39,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
   if (!post) return {};
-  return {
-    title: post.metaTitle || `${post.title} — mklen`,
-    description: post.metaDescription || post.description,
-  };
+  return blogPostMetadata(post);
 }
 
 export default async function BlogPostPage({
@@ -55,9 +53,14 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   const codeHtmlMap = await highlightBlocks(post.blocks);
+  const jsonLd = blogPostingJsonLd(post);
 
   return (
     <main className="flex min-h-dvh flex-col items-center bg-white px-4 pt-16 pb-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <article className="flex w-full max-w-[640px] flex-col">
         <Link
           href="/blog"

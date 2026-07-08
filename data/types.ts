@@ -6,6 +6,7 @@ export type Post = {
   content: string;
   category: string;
   date: string;
+  updatedAt?: string;
   tag: "blog" | "project";
   coverImage?: string;
 };

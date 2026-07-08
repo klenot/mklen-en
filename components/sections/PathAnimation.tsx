@@ -76,7 +76,7 @@ export default function PathAnimation({
         </svg>
 
         <p className="pointer-events-none absolute px-4 text-center font-mono text-lg text-black md:text-2xl">
-          You just need to connect the dots
+          You just need to connect the dots.
         </p>
       </div>
     </section>

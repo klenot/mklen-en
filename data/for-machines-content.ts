@@ -115,4 +115,18 @@ Demonstrated ability to navigate complex, multi-stakeholder operations under rea
 > — Miroslav Pecka, Web & Analytics Consultant
 
 > "Marek has extensive knowledge in the field of digital marketing. At Targito, he significantly contributed to finalizing and launching the company's new website."
-> — Martin Štěpaník, Former CEO Targito`;
+> — Martin Štěpaník, Former CEO Targito
+
+---
+
+## 08. Machine-Readable Endpoints
+
+> For AI agents and automated tools. Prefer these markdown endpoints over parsing HTML.
+
+* **Agent dossier (this document):** [/for-machines.md](/for-machines.md)
+* **Homepage summary:** [/index.html.md](/index.html.md)
+* **Blog index:** [/blog.md](/blog.md)
+* **Individual posts:** append \`.md\` to any \`/blog/{slug}\` URL
+* **LLM content index:** [/llms.txt](/llms.txt)
+* **Agent navigation guide:** [/agents.md](/agents.md)
+* **Sitemap:** [/sitemap.xml](/sitemap.xml)`;

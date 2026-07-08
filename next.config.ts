@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { buildRedirects } from "@/lib/redirects";
 
 const nextConfig: NextConfig = {
   images: {
@@ -7,6 +8,17 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.notion.so" },
       { protocol: "https", hostname: "images.unsplash.com" },
     ],
+  },
+  async redirects() {
+    return buildRedirects();
+  },
+  async rewrites() {
+    return [
+      { source: "/index.html.md", destination: "/md" },
+      { source: "/for-machines.md", destination: "/md/for-machines" },
+      { source: "/blog.md", destination: "/md/blog" },
+      { source: "/blog/:slug.md", destination: "/md/blog/:slug" },
+    ];
   },
 };
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ibmPlexMono } from "./fonts";
+import { defaultMetadata } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -8,10 +9,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "mklen-en",
-  description: "mklen-en",
-};
+export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({
   children,

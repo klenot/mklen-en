@@ -112,10 +112,20 @@ function extractPageMeta(page: PageObjectResponse) {
   const coverImageProp = props["cover image"] ?? props["Cover image"] ?? props["Cover Image"];
   const coverImage = coverImageProp ? getFileUrl(coverImageProp as never) : undefined;
 
-  const slug = title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+  const slugProp = props["slug"] ?? props["Slug"];
+  const explicitSlug =
+    slugProp?.type === "rich_text" ? richTextToPlain(slugProp.rich_text).trim() : "";
+  const slug =
+    explicitSlug ||
+    title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+
+  const updatedAt =
+    dateProp?.type === "date" && dateProp.date?.start
+      ? dateProp.date.start
+      : page.last_edited_time;
 
   const iconRaw = page.icon;
   const icon = iconRaw?.type === "emoji" ? iconRaw.emoji : "📝";
@@ -132,6 +142,7 @@ function extractPageMeta(page: PageObjectResponse) {
     metaTitle,
     metaDescription,
     coverImage,
+    updatedAt,
   };
 }
 
@@ -299,6 +310,7 @@ export async function getPostsFromNotion(
       content: meta.description,
       category: meta.category,
       date: meta.date,
+      updatedAt: meta.updatedAt,
       tag: (meta.placement.toLowerCase() === "projects" ? "project" : "blog") as "blog" | "project",
       coverImage: meta.coverImage,
     };
@@ -344,4 +356,19 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
 export async function getAllSlugs(): Promise<string[]> {
   const posts = await getPostsFromNotion();
   return posts.map((p) => p.slug);
+}
+
+export type SitemapEntry = {
+  slug: string;
+  updatedAt: string;
+  tag: "blog" | "project";
+};
+
+export async function getSitemapEntries(): Promise<SitemapEntry[]> {
+  const posts = await getPostsFromNotion();
+  return posts.map((p) => ({
+    slug: p.slug,
+    updatedAt: p.updatedAt ?? new Date().toISOString(),
+    tag: p.tag,
+  }));
 }

@@ -1,4 +1,4 @@
-export function getRevealHeight(firstPanel: HTMLElement): number {
+function getRevealHeight(firstPanel: HTMLElement): number {
   const spacer = firstPanel.nextElementSibling;
   if (spacer instanceof HTMLElement && spacer.hasAttribute("aria-hidden")) {
     return spacer.offsetHeight;
@@ -6,7 +6,7 @@ export function getRevealHeight(firstPanel: HTMLElement): number {
   return firstPanel.offsetHeight;
 }
 
-export function getOffsetWithinAncestor(
+function getOffsetWithinAncestor(
   target: HTMLElement,
   ancestor: HTMLElement,
 ): number {
@@ -26,7 +26,7 @@ export function getOffsetWithinAncestor(
   );
 }
 
-export function getDocumentTop(element: HTMLElement): number {
+function getDocumentTop(element: HTMLElement): number {
   return element.getBoundingClientRect().top + window.scrollY;
 }
 
