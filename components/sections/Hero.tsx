@@ -59,7 +59,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative flex h-[55vh] overflow-hidden rounded-t-3xl"
+      className="relative flex h-[65vh] overflow-hidden rounded-t-3xl"
     >
       <div
         aria-hidden

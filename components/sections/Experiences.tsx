@@ -1,8 +1,15 @@
+import Image from "next/image";
+
+const EXPERIENCE_LOGOS = [
+  { src: "/logos/bandits.png", alt: "Bandits" },
+  { src: "/logos/product-lasso.webp", alt: "Lasso" },
+  { src: "/logos/apadore.webp", alt: "Apadore" },
+  { src: "/logos/pria.webp", alt: "Pria" },
+];
+
 export default function Experiences() {
   return (
     <section id="experiences" className="mx-4 mt-4">
-      {/* Liquid glass panel: pure ~20px backdrop blur (no color tint), with an
-          orange refractive edge and a top specular highlight. */}
       <div className="relative flex min-h-[60vh] items-center justify-center overflow-hidden rounded-4xl border border-blue-900/40 bg-black/20 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.45)] backdrop-blur-xl">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/20 to-transparent" />
 
@@ -12,12 +19,20 @@ export default function Experiences() {
           </p>
 
           <div className="flex h-16 items-center md:h-20">
-            {Array.from({ length: 5 }).map((_, i) => (
+            {EXPERIENCE_LOGOS.map((logo, i) => (
               <span
                 key={i}
-                style={{ zIndex: 5 - i }}
-                className="-ml-4 size-14 rounded-full bg-black ring-2 ring-white transition-[width,height] duration-200 hover:size-16 first:ml-0 md:size-16 md:hover:size-18"
-              />
+                style={{ zIndex: EXPERIENCE_LOGOS.length - i }}
+                className="-ml-4 relative size-14 overflow-hidden rounded-full bg-black ring-2 ring-white transition-[width,height] duration-200 hover:size-16 first:ml-0 md:size-16 md:hover:size-18"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  fill
+                  className="object-cover"
+                  sizes="64px"
+                />
+              </span>
             ))}
           </div>
         </div>

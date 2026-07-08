@@ -2,46 +2,51 @@
 
 import { useRef } from "react";
 import type { RefObject } from "react";
+import type { MotionValue } from "motion/react";
 import { motion, useScroll, useTransform } from "motion/react";
-import { SPREAD_BREAKPOINTS, SPREAD_OFFSET } from "./serviceReveal";
+import {
+  interpolateProgress,
+  SPREAD_BREAKPOINTS,
+  SPREAD_MARGIN_PX,
+  SPREAD_OFFSET,
+} from "./serviceReveal";
 
 export default function Services({
   sectionRef,
   boxRef,
+  logosLandedProgress,
 }: {
   sectionRef?: RefObject<HTMLElement | null>;
   boxRef?: RefObject<HTMLDivElement | null>;
+  logosLandedProgress: MotionValue<number>;
 }) {
   const internalRef = useRef<HTMLElement>(null);
   const ref = sectionRef ?? internalRef;
 
-  // progress 0 → section entering from the bottom, 1 → section leaving past the top
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: SPREAD_OFFSET,
   });
 
-  // rest (inset) → spread to full-bleed → hold → shrink back to rest
-  const marginX = useTransform(scrollYProgress, SPREAD_BREAKPOINTS, [
-    "1rem",
-    "1rem",
-    "0rem",
-    "0rem",
-    "1rem",
-    "1rem",
-  ]);
-  const borderRadius = useTransform(
+  const marginX = useTransform(scrollYProgress, (progress) => {
+    const px = interpolateProgress(progress, SPREAD_BREAKPOINTS, SPREAD_MARGIN_PX);
+    return `${px}px`;
+  });
+
+  const borderRadius = useTransform(scrollYProgress, (progress) => {
+    const px = interpolateProgress(progress, [0.25, 0.35, 0.8, 0.9], [24, 0, 0, 24]);
+    return `${px}px`;
+  });
+
+  const textExitOpacity = useTransform(
     scrollYProgress,
-    [0.15, 0.25, 0.80, 0.90],
-    ["1.5rem", "0rem", "0rem", "1.5rem"]
+    [0, 0.72, 0.78, 1],
+    [1, 1, 0, 0],
   );
 
-  // text fades in once circles have settled, holds through the rest of
-  // the full-bleed phase, then out before shrinking
   const textOpacity = useTransform(
-    scrollYProgress,
-    [0.34, 0.42, 0.72, 0.78],
-    [0, 1, 1, 0]
+    [logosLandedProgress, textExitOpacity],
+    ([landed, exit]) => (landed as number) * (exit as number),
   );
 
   return (

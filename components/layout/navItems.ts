@@ -6,4 +6,5 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "projects", href: "#projects" },
   { label: "blog", href: "#blog" },
   { label: "contact", href: "#contact" },
+  { label: "linkedin", href: "https://linkedin.com/in/klenoticmarek" },
 ];

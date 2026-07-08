@@ -1,19 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { NAV_ITEMS } from "@/components/layout/navItems";
+import { navWaveHoveredGlobal } from "@/components/layout/navWave";
 import WaveNavLink from "@/components/layout/WaveNavLink";
 import ViewToggle from "@/components/layout/ViewToggle";
 
 export default function Navbar() {
   const [hoveredGlobal, setHoveredGlobal] = useState<number | null>(null);
-  const [copied, setCopied] = useState(false);
-
-  const copyEmail = () => {
-    navigator.clipboard.writeText("marek@mklenotic.com");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const letterRefs = useRef<Map<number, HTMLSpanElement>>(new Map());
 
   let offset = 0;
   const offsets = NAV_ITEMS.map((item) => {
@@ -22,44 +17,49 @@ export default function Navbar() {
     return start;
   });
 
+  const registerLetterRef = useCallback(
+    (globalIndex: number, el: HTMLSpanElement | null) => {
+      if (el) letterRefs.current.set(globalIndex, el);
+      else letterRefs.current.delete(globalIndex);
+    },
+    [],
+  );
+
+  const handleWaveMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const letters = Array.from(letterRefs.current.entries()).map(
+        ([index, el]) => {
+          const rect = el.getBoundingClientRect();
+          return { index, centerX: rect.left + rect.width / 2 };
+        },
+      );
+      setHoveredGlobal(navWaveHoveredGlobal(e.clientX, letters));
+    },
+    [],
+  );
+
   return (
     <nav
       id="navbar"
-      className="flex flex-col items-center bg-white py-2 px-12 max-w-3xl"
+      className="flex w-full items-center bg-white py-2 pl-12 pr-4"
     >
-      <div className="mb-1 absolute right-2 top-2 flex flex-col items-end gap-3">
-        <ViewToggle />
-        <div className="font-mono text-xs text-black flex flex-col items-end">
-          <span
-            onClick={copyEmail}
-            className="font-regular mb-3 cursor-pointer hover:text-gray-400 transition-colors"
-          >
-            {copied ? "email copied" : "marek@mklenotic.com"}
-          </span>
-          <a
-            href="https://linkedin.com/in/klenoticmarek"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-gray-400 transition-colors"
-          >
-            linkedin
-          </a>
-        </div>
-      </div>
-      <div className="flex justify-between items-start w-full">
+      <div
+        className="flex items-center gap-6"
+        onMouseMove={handleWaveMouseMove}
+        onMouseLeave={() => setHoveredGlobal(null)}
+      >
         {NAV_ITEMS.map((item, i) => (
           <WaveNavLink
             key={item.label}
             item={item}
             globalOffset={offsets[i]}
             hoveredGlobal={hoveredGlobal}
-            onLetterHover={(localIndex: number | null) =>
-              setHoveredGlobal(
-                localIndex === null ? null : offsets[i] + localIndex,
-              )
-            }
+            registerLetterRef={registerLetterRef}
           />
         ))}
+      </div>
+      <div className="ml-auto shrink-0">
+        <ViewToggle />
       </div>
     </nav>
   );

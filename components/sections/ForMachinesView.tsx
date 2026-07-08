@@ -118,7 +118,7 @@ function CopyButton() {
   return (
     <button
       onClick={handleCopy}
-      className="p-2 rounded-md border border-neutral-700 bg-black text-neutral-400 hover:text-white hover:border-neutral-500 transition-colors"
+      className="p-2 rounded-md border border-neutral-700 bg-black text-neutral-400 hover:text-white hover:border-neutral-500 transition-colors cursor-pointer"
       aria-label="Copy to clipboard"
     >
       {copied ? (

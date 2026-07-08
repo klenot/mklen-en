@@ -3,16 +3,54 @@
 import { useEffect, useMemo, useRef } from "react";
 import type { RefObject } from "react";
 import {
+  animate,
   useAnimationFrame,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useTransform,
 } from "motion/react";
-import { SPREAD_OFFSET } from "./serviceReveal";
+import type { MotionValue } from "motion/react";
+import {
+  CIRCLE_TRAVEL_BREAKPOINTS,
+  CIRCLE_TRAVEL_VALUES,
+  interpolateProgress,
+  SPREAD_OFFSET,
+} from "./serviceReveal";
 import { PATH_START, PATH_END, VIEWBOX } from "./PathAnimation";
 
-const HERO_COUNT = 10;
-const BOX_COUNT = 4;
+const CIRCLE_LOGOS: { file: string; size: number }[] = [
+  // --- BOX (services) circles ---
+  { file: "supabase.webp", size: 52 },
+  { file: "gtm.webp", size: 36 },
+  { file: "mixpanel.webp", size: 44 },
+  { file: "python.webp", size: 60 },
+  { file: "apollo.webp", size: 46 },
+  { file: "linkedin.webp", size: 38 },
+  { file: "openai.webp", size: 64 },
+  { file: "smartlook.webp", size: 40 },
+  { file: "duvo.webp", size: 44 },
+  // --- HERO circles ---
+  { file: "cursor.webp", size: 64 },
+  { file: "gemini.webp", size: 56 },
+  { file: "attio.webp", size: 38 },
+  { file: "nexos.webp", size: 48 },
+  { file: "analytics.webp", size: 36 },
+  { file: "nextjs.webp", size: 60 },
+  { file: "product-board.webp", size: 42 },
+  { file: "pocketbase.webp", size: 38 },
+  { file: "claude.webp", size: 58 },
+  { file: "React.webp", size: 50 },
+  { file: "framer.webp", size: 40 },
+  { file: "cloudflare.webp", size: 46 },
+  { file: "slack.webp", size: 36 },
+];
+
+const PATH_CIRCLE_CURSOR = 9;
+const PATH_CIRCLE_NEXTJS = 14;
+
+const BOX_COUNT = 9;
+const HERO_COUNT = 13;
 
 function mulberry32(seed: number) {
   let a = seed >>> 0;
@@ -87,16 +125,20 @@ function makeCircles(): Circle[] {
     });
   }
 
+  // Place hero circles in a stratified grid to avoid clustering
+  const heroCols = Math.ceil(Math.sqrt(HERO_COUNT * 1.5));
+  const heroRows = Math.ceil(HERO_COUNT / heroCols);
+  const heroCellW = 0.8 / heroCols;
+  const heroCellH = 0.7 / heroRows;
   for (let i = 0; i < HERO_COUNT; i++) {
     const s = slots[BOX_COUNT + i];
-    // Spread circles toward top/bottom, away from center text line
-    const rawY = pick(0, 1);
-    const fromY = rawY < 0.5
-      ? pick(0.08, 0.38)
-      : pick(0.62, 0.92);
+    const col = i % heroCols;
+    const row = Math.floor(i / heroCols);
+    const fromX = 0.1 + (col + 0.5) * heroCellW + pick(-heroCellW * 0.3, heroCellW * 0.3);
+    const fromY = 0.12 + (row + 0.5) * heroCellH + pick(-heroCellH * 0.3, heroCellH * 0.3);
     circles.push({
       origin: "hero",
-      fromX: pick(0.25, 0.95),
+      fromX,
       fromY,
       toX: s.x,
       toY: s.y,
@@ -104,13 +146,8 @@ function makeCircles(): Circle[] {
     });
   }
 
-  // Pick two circles near the bottom of the box to become path-destination dots.
-  // Sort by toY descending (bottom-most first) and assign path destinations.
-  const sorted = circles
-    .map((c, idx) => ({ idx, toY: c.toY }))
-    .sort((a, b) => b.toY - a.toY);
-  circles[sorted[0].idx].pathDest = "start";
-  circles[sorted[1].idx].pathDest = "end";
+  circles[PATH_CIRCLE_CURSOR].pathDest = "start";
+  circles[PATH_CIRCLE_NEXTJS].pathDest = "end";
 
   return circles;
 }
@@ -125,17 +162,34 @@ export default function CircleField({
   boxRef,
   svgRef,
   pathSectionRef,
+  logosLandedProgress,
 }: {
   servicesRef: RefObject<HTMLElement | null>;
   boxRef: RefObject<HTMLDivElement | null>;
   svgRef: RefObject<SVGSVGElement | null>;
   pathSectionRef: RefObject<HTMLElement | null>;
+  logosLandedProgress: MotionValue<number>;
 }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const elsRef = useRef<(HTMLSpanElement | null)[]>([]);
   const visibleRef = useRef(true);
   const viewportRef = useRef({ w: 1, h: 1 });
   const revealedRef = useRef(false);
+  const sizeScaleRef = useRef(1);
+  const maxVisibleRef = useRef(CIRCLE_LOGOS.length);
+  const landedRef = useRef(false);
+  const frameTimeRef = useRef(0);
+  const layoutRef = useRef({
+    overlayLeft: 0,
+    overlayTop: 0,
+    bandLeft: 0,
+    bandW: 0,
+    bandTop: 0,
+    bandH: 0,
+    heroW: 0,
+    heroH: 0,
+    valid: false,
+  });
 
   const reduced = useReducedMotion();
   const circles = useMemo(() => makeCircles(), []);
@@ -145,11 +199,19 @@ export default function CircleField({
     target: servicesRef,
     offset: SPREAD_OFFSET,
   });
-  const travel = useTransform(
-    scrollYProgress,
-    [0, 0.25, 0.4, 0.8, 0.88, 1],
-    [0, 0, 1, 1, 0, 0],
+  const travel = useTransform(scrollYProgress, (progress) =>
+    interpolateProgress(progress, CIRCLE_TRAVEL_BREAKPOINTS, CIRCLE_TRAVEL_VALUES, (t) => t),
   );
+
+  useMotionValueEvent(travel, "change", (value) => {
+    const landed = value >= 0.98;
+    if (landed === landedRef.current) return;
+    landedRef.current = landed;
+    animate(logosLandedProgress, landed ? 1 : 0, {
+      duration: landed ? 0.6 : 0.25,
+      ease: "easeOut",
+    });
+  });
 
   // Phase 2: path circles detach from box and fall to SVG path endpoints.
   // Triggered as the PathAnimation section scrolls into view. The circles
@@ -182,23 +244,43 @@ export default function CircleField({
     };
   };
 
-  const place = (t: number, rest: boolean) => {
+  const measureLayout = () => {
     const overlay = overlayRef.current;
     const box = boxRef.current;
-    if (!overlay || !box) return;
+    if (!overlay || !box) {
+      layoutRef.current.valid = false;
+      return;
+    }
 
     const oRect = overlay.getBoundingClientRect();
     const bRect = box.getBoundingClientRect();
-    if (oRect.width === 0 || bRect.width === 0) return;
+    if (oRect.width === 0 || bRect.width === 0) {
+      layoutRef.current.valid = false;
+      return;
+    }
 
     const padX = bRect.width * 0.04;
-    const bandLeft = bRect.left - oRect.left + padX;
-    const bandW = bRect.width - padX * 2;
-    const bandTop = bRect.top - oRect.top;
-    const bandH = bRect.height;
+    layoutRef.current = {
+      overlayLeft: oRect.left,
+      overlayTop: oRect.top,
+      bandLeft: bRect.left - oRect.left + padX,
+      bandW: bRect.width - padX * 2,
+      bandTop: bRect.top - oRect.top,
+      bandH: bRect.height,
+      heroW: oRect.width,
+      heroH: Math.max(1, bRect.top - oRect.top),
+      valid: true,
+    };
+  };
 
-    const heroW = oRect.width;
-    const heroH = Math.max(1, bandTop);
+  const place = (t: number, rest: boolean) => {
+    if (!layoutRef.current.valid) {
+      measureLayout();
+      if (!layoutRef.current.valid) return;
+    }
+
+    const { overlayLeft, bandLeft, bandW, bandTop, bandH, heroW, heroH } =
+      layoutRef.current;
 
     const p = rest ? 0 : clamp01(travel.get());
     const pt = rest ? 0 : clamp01(pathTravel.get());
@@ -219,6 +301,12 @@ export default function CircleField({
       const el = elsRef.current[i];
       if (!el) continue;
       const c = circles[i];
+
+      // Hide excess circles on smaller viewports
+      if (i >= maxVisibleRef.current) {
+        el.style.opacity = "0";
+        continue;
+      }
 
       let fromPxX: number;
       let fromPxY: number;
@@ -269,8 +357,8 @@ export default function CircleField({
         // Interpolate in overlay-local space
         if (targetVp) {
           const targetLocal = {
-            x: targetVp.x - oRect.left,
-            y: targetVp.y - oRect.top,
+            x: targetVp.x - overlayLeft,
+            y: targetVp.y - layoutRef.current.overlayTop,
           };
           baseX = lerp(toPxX, targetLocal.x, ptEased);
           baseY = lerp(toPxY, targetLocal.y, ptEased);
@@ -287,12 +375,34 @@ export default function CircleField({
 
       // Kill all drift once path circles have arrived
       const driftDampen = arrived ? 0 : isPathCircle ? 1 - ptEased : 1;
-      const dx = rest
+      const fallDrift = p > 0 && p < 1 ? Math.max(0, 1 - p * 2.5) : 1;
+      let dx = rest
         ? 0
-        : c.dax * vmin * Math.sin(t * c.fx + c.phase) * driftDampen;
-      const dy = rest
+        : c.dax * vmin * Math.sin(t * c.fx + c.phase) * driftDampen * fallDrift;
+      let dy = rest
         ? 0
-        : c.day * vmin * Math.cos(t * c.fy + c.phase) * driftDampen;
+        : c.day * vmin * Math.cos(t * c.fy + c.phase) * driftDampen * fallDrift;
+
+      // Soft repulsion from hero text — only while logos are resting in the hero
+      if (c.origin === "hero" && p === 0) {
+        const textCx = heroW * 0.5;
+        const textCy = heroH * 0.48;
+        const zoneRx = heroW * 0.45;
+        const zoneRy = heroH * 0.2;
+
+        const fx = baseX + dx - textCx;
+        const fy = baseY + dy - textCy;
+        const nx = fx / zoneRx;
+        const ny = fy / zoneRy;
+        const d2 = nx * nx + ny * ny;
+
+        if (d2 < 1 && d2 > 0.001) {
+          const dist = Math.sqrt(d2);
+          const push = (1 - dist) * (1 - dist) * 90;
+          dx += (nx / dist) * push;
+          dy += (ny / dist) * push;
+        }
+      }
 
       el.style.transform = `translate3d(${baseX + dx}px, ${
         baseY + dy
@@ -305,23 +415,78 @@ export default function CircleField({
 
   useEffect(() => {
     const update = () => {
-      viewportRef.current = { w: window.innerWidth, h: window.innerHeight };
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      viewportRef.current = { w, h };
+
+      // Responsive sizing: scale logos based on viewport width
+      let scale: number;
+      let maxVisible: number;
+      if (w < 480) {
+        scale = 0.5;
+        maxVisible = 17;
+      } else if (w < 768) {
+        scale = 0.65;
+        maxVisible = 20;
+      } else if (w < 1024) {
+        scale = 0.8;
+        maxVisible = CIRCLE_LOGOS.length;
+      } else {
+        scale = 1;
+        maxVisible = CIRCLE_LOGOS.length;
+      }
+      sizeScaleRef.current = scale;
+      maxVisibleRef.current = maxVisible;
+
+      // Apply sizes to elements
+      for (let i = 0; i < CIRCLE_LOGOS.length; i++) {
+        const el = elsRef.current[i];
+        if (!el) continue;
+        const s = Math.round(CIRCLE_LOGOS[i].size * scale);
+        el.style.width = `${s}px`;
+        el.style.height = `${s}px`;
+      }
     };
     update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    const onResize = () => {
+      update();
+      measureLayout();
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  useAnimationFrame((t) => {
+  useEffect(() => {
+    measureLayout();
+  }, []);
+
+  useAnimationFrame((time) => {
+    frameTimeRef.current = time;
     if (reduced) return;
     if (!visibleRef.current) return;
-    place(t, false);
+    place(time, false);
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", () => {
+    if (reduced || !visibleRef.current) return;
+    measureLayout();
+    place(frameTimeRef.current, false);
+  });
+
+  useMotionValueEvent(pathProgress, "change", () => {
+    if (reduced || !visibleRef.current) return;
+    measureLayout();
+    place(frameTimeRef.current, false);
   });
 
   useEffect(() => {
     if (!reduced) return;
+    measureLayout();
     place(0, true);
-    const onResize = () => place(0, true);
+    const onResize = () => {
+      measureLayout();
+      place(0, true);
+    };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -352,13 +517,20 @@ export default function CircleField({
           ref={(el) => {
             elsRef.current[i] = el;
           }}
-          className="absolute left-0 top-0 rounded-full bg-white"
+          className="absolute left-0 top-0 overflow-hidden rounded-full will-change-transform"
           style={{
             opacity: 0,
-            width: 50,
-            height: 50,
+            width: CIRCLE_LOGOS[i].size,
+            height: CIRCLE_LOGOS[i].size,
           }}
-        />
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`/logos/${CIRCLE_LOGOS[i].file}`}
+            alt=""
+            className="h-full w-full object-cover"
+          />
+        </span>
       ))}
     </div>
   );
