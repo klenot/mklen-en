@@ -142,10 +142,12 @@ function ToggleBlock({
   text,
   blocks,
   codeHtmlMap,
+  headingIdMap,
 }: {
   text: RichText[];
   blocks: NotionBlock[];
   codeHtmlMap: Record<number, string>;
+  headingIdMap?: Record<number, string>;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -162,7 +164,11 @@ function ToggleBlock({
         <RichTextRenderer segments={text} />
       </summary>
       <div className="mt-3 pl-[1.25em] border-l-2 border-black/10">
-        <BlockRenderer blocks={blocks} codeHtmlMap={codeHtmlMap} />
+        <BlockRenderer
+          blocks={blocks}
+          codeHtmlMap={codeHtmlMap}
+          headingIdMap={headingIdMap}
+        />
       </div>
     </details>
   );
@@ -171,9 +177,11 @@ function ToggleBlock({
 function BlockRenderer({
   blocks,
   codeHtmlMap,
+  headingIdMap = {},
 }: {
   blocks: NotionBlock[];
   codeHtmlMap: Record<number, string>;
+  headingIdMap?: Record<number, string>;
 }) {
   const elements: React.ReactNode[] = [];
   let i = 0;
@@ -255,7 +263,7 @@ function BlockRenderer({
     switch (block.type) {
       case "heading_1":
         elements.push(
-          <h1 key={i} className="blog-h1">
+          <h1 key={i} id={headingIdMap[i] ?? `heading-${i}`} className="blog-h1">
             <RichTextRenderer segments={block.text} />
           </h1>,
         );
@@ -263,7 +271,7 @@ function BlockRenderer({
 
       case "heading_2":
         elements.push(
-          <h2 key={i} className="blog-h2">
+          <h2 key={i} id={headingIdMap[i] ?? `heading-${i}`} className="blog-h2">
             <RichTextRenderer segments={block.text} />
           </h2>,
         );
@@ -271,7 +279,7 @@ function BlockRenderer({
 
       case "heading_3":
         elements.push(
-          <h3 key={i} className="blog-h3">
+          <h3 key={i} id={headingIdMap[i] ?? `heading-${i}`} className="blog-h3">
             <RichTextRenderer segments={block.text} />
           </h3>,
         );
@@ -383,6 +391,7 @@ function BlockRenderer({
             text={block.text}
             blocks={block.children}
             codeHtmlMap={codeHtmlMap}
+            headingIdMap={headingIdMap}
           />,
         );
         break;
@@ -400,13 +409,19 @@ function BlockRenderer({
 export default function NotionRenderer({
   blocks,
   codeHtmlMap = {},
+  headingIdMap = {},
 }: {
   blocks: NotionBlock[];
   codeHtmlMap?: Record<number, string>;
+  headingIdMap?: Record<number, string>;
 }) {
   return (
     <div className="blog-content">
-      <BlockRenderer blocks={blocks} codeHtmlMap={codeHtmlMap} />
+      <BlockRenderer
+        blocks={blocks}
+        codeHtmlMap={codeHtmlMap}
+        headingIdMap={headingIdMap}
+      />
     </div>
   );
 }

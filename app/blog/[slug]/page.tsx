@@ -3,8 +3,10 @@ import Link from "next/link";
 import { getBlogPostBySlug, getAllSlugs } from "@/lib/notion";
 import type { NotionBlock } from "@/data/notion-types";
 import NotionRenderer from "@/components/blog/NotionRenderer";
+import BlogTableOfContents from "@/components/blog/BlogTableOfContents";
 import BlogPostAnalytics from "@/components/analytics/BlogPostAnalytics";
 import { blogPostMetadata, blogPostingJsonLd } from "@/lib/seo";
+import { extractBlogHeadings, blogHeadingIdMap } from "@/lib/blog-headings";
 import { codeToHtml } from "shiki";
 import type { Metadata } from "next";
 
@@ -55,9 +57,12 @@ export default async function BlogPostPage({
 
   const codeHtmlMap = await highlightBlocks(post.blocks);
   const jsonLd = blogPostingJsonLd(post);
+  const headings = extractBlogHeadings(post.blocks);
+  const headingIdMap = blogHeadingIdMap(headings);
 
   return (
     <main className="flex min-h-dvh flex-col items-center bg-white px-4 pt-16 pb-24">
+      <BlogTableOfContents headings={headings} />
       <BlogPostAnalytics
         slug={post.slug}
         title={post.title}
@@ -89,7 +94,11 @@ export default async function BlogPostPage({
           </div>
         </header>
 
-        <NotionRenderer blocks={post.blocks} codeHtmlMap={codeHtmlMap} />
+        <NotionRenderer
+          blocks={post.blocks}
+          codeHtmlMap={codeHtmlMap}
+          headingIdMap={headingIdMap}
+        />
 
         <Link
           href="/blog"
