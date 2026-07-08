@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
+import { useCallback, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import type { BlogHeading } from "@/lib/blog-headings";
 
@@ -10,9 +10,12 @@ type Props = {
   headings: TocHeading[];
 };
 
+const EMPTY_HEADINGS: TocHeading[] = [];
+const EMPTY_POSITIONS: (number | null)[] = [];
+
 function discoverHeadings(): TocHeading[] {
   const root = document.querySelector(".blog-content");
-  if (!root) return [];
+  if (!root) return EMPTY_HEADINGS;
 
   return Array.from(root.querySelectorAll<HTMLElement>("h1, h2, h3"))
     .map((el, index) => {
@@ -20,6 +23,21 @@ function discoverHeadings(): TocHeading[] {
       return { id: el.id, text: el.textContent?.trim() ?? "" };
     })
     .filter((h) => h.text.length > 0);
+}
+
+function discoverHeadingsCached(): TocHeading[] {
+  const found = discoverHeadings();
+  return found.length === 0 ? EMPTY_HEADINGS : found;
+}
+
+function headingsEqual(a: TocHeading[], b: TocHeading[]): boolean {
+  if (a.length !== b.length) return false;
+  return a.every((h, i) => h.id === b[i].id && h.text === b[i].text);
+}
+
+function positionsEqual(a: (number | null)[], b: (number | null)[]): boolean {
+  if (a.length !== b.length) return false;
+  return a.every((v, i) => v === b[i]);
 }
 
 function compactFallbackPosition(index: number, count: number): number {
@@ -51,6 +69,8 @@ function useIsClient() {
 }
 
 function useDiscoveredHeadings(enabled: boolean) {
+  const cache = useRef<TocHeading[]>(EMPTY_HEADINGS);
+
   return useSyncExternalStore(
     (onStoreChange) => {
       if (!enabled) return () => {};
@@ -61,7 +81,7 @@ function useDiscoveredHeadings(enabled: boolean) {
 
       const root = document.querySelector(".blog-content");
       const ro = root ? new ResizeObserver(onStoreChange) : null;
-      ro?.observe(root!);
+      if (root && ro) ro.observe(root);
 
       return () => {
         window.clearTimeout(t);
@@ -70,12 +90,21 @@ function useDiscoveredHeadings(enabled: boolean) {
         ro?.disconnect();
       };
     },
-    () => (enabled ? discoverHeadings() : []),
-    () => [],
+    () => {
+      if (!enabled) return EMPTY_HEADINGS;
+      const next = discoverHeadingsCached();
+      if (headingsEqual(cache.current, next)) return cache.current;
+      cache.current = next;
+      return next;
+    },
+    () => EMPTY_HEADINGS,
   );
 }
 
 function useHeadingPositions(headings: TocHeading[]) {
+  const cache = useRef<(number | null)[]>(EMPTY_POSITIONS);
+  const serverCache = useRef<(number | null)[]>(EMPTY_POSITIONS);
+
   return useSyncExternalStore(
     (onStoreChange) => {
       if (headings.length === 0) return () => {};
@@ -93,8 +122,20 @@ function useHeadingPositions(headings: TocHeading[]) {
         ro.disconnect();
       };
     },
-    () => measurePositions(headings),
-    () => headings.map(() => null),
+    () => {
+      if (headings.length === 0) return EMPTY_POSITIONS;
+      const next = measurePositions(headings);
+      if (positionsEqual(cache.current, next)) return cache.current;
+      cache.current = next;
+      return next;
+    },
+    () => {
+      if (headings.length === 0) return EMPTY_POSITIONS;
+      if (serverCache.current.length !== headings.length) {
+        serverCache.current = headings.map(() => null);
+      }
+      return serverCache.current;
+    },
   );
 }
 
