@@ -71,12 +71,21 @@ async function BlogPostArticle({ slug }: { slug: string }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <article className="flex w-full max-w-[640px] flex-col">
-        <Link
-          href="/blog"
-          className="mb-16 self-start font-mono text-[0.8125rem] text-black transition-colors hover:text-blue-600"
+        <nav
+          aria-label="Blog post navigation"
+          className="mb-16 self-start font-mono text-[0.8125rem] text-black"
         >
-          ← blog
-        </Link>
+          <Link
+            href="/blog"
+            className="transition-colors hover:text-blue-600"
+          >
+            ← blog
+          </Link>
+          <span className="text-black/40"> / </span>
+          <Link href="/" className="transition-colors hover:text-blue-600">
+            home
+          </Link>
+        </nav>
 
         <header className="mb-16">
           <span className="mb-4 block font-mono text-[0.6875rem] uppercase tracking-wider text-black">

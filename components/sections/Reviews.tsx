@@ -138,15 +138,15 @@ function ReviewCard({
           ) : null}
         </div>
         <div className="min-w-0">
-          <p className="truncate font-mono text-sm font-bold leading-tight text-white">
+          <p className="truncate font-mono text-[0.9375rem] font-bold leading-tight text-white md:text-base">
             {review.name}
           </p>
-          <p className="truncate font-mono text-[11px] font-light text-white/70 md:text-xs">
+          <p className="truncate font-mono text-xs font-light text-white/70 md:text-[0.8125rem]">
             {review.role}
           </p>
         </div>
       </div>
-      <p className="mt-2 line-clamp-4 text-xs leading-snug text-white/90 md:line-clamp-5 md:text-sm">
+      <p className="mt-2 line-clamp-4 text-[0.8125rem] leading-relaxed text-white/90 md:line-clamp-5 md:text-[0.9375rem] md:leading-relaxed lg:text-base">
         {review.text}
       </p>
     </motion.div>

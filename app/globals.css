@@ -26,6 +26,19 @@ body {
   cursor: default;
 }
 
+html,
+body,
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+}
+
 /* ─────────────────────────────────────────────────────────────────────────────
    Blog Typography — Major Second (1.125) Scale
    Base: 16px → 18 → 20.25 → 22.78 → 25.63 → 28.83 → 32.44
@@ -181,4 +194,129 @@ body {
   border-top: 1px solid #262626;
   margin-top: 2rem;
   margin-bottom: 2rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Text CTAs — medium default, light on hover (color fades; weight snaps instantly)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.text-link-cta {
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #000;
+  cursor: pointer;
+  transition: color 0.35s ease;
+}
+
+.text-link-cta:hover {
+  font-weight: 300;
+  color: rgb(0 0 0 / 0.45);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Form inputs — matches blog search bar
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.form-input {
+  width: 100%;
+  border-bottom: 1px solid rgb(0 0 0 / 0.15);
+  background: transparent;
+  padding-block: 0.5rem;
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.875rem;
+  color: #000;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.form-input::placeholder {
+  color: rgb(0 0 0 / 0.4);
+}
+
+.form-input:focus {
+  border-bottom-color: rgb(0 0 0 / 0.4);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+
+.form-select-trigger {
+  display: flex;
+  width: 100%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.form-select-trigger[data-open="true"] {
+  border-bottom-color: rgb(0 0 0 / 0.4);
+}
+
+.form-select-placeholder {
+  color: rgb(0 0 0 / 0.4);
+}
+
+.form-select-chevron {
+  flex-shrink: 0;
+  color: rgb(0 0 0 / 0.4);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.form-select-trigger[data-open="true"] .form-select-chevron {
+  transform: rotate(180deg);
+  color: rgb(0 0 0 / 0.65);
+}
+
+.form-select-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  z-index: 20;
+  margin-top: -1px;
+  border-bottom: 1px solid rgb(0 0 0 / 0.15);
+  background: #fff;
+}
+
+.form-select-option {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  border-top: 1px solid rgb(0 0 0 / 0.08);
+  background: transparent;
+  padding-block: 0.625rem;
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: rgb(0 0 0 / 0.55);
+  text-align: left;
+  transition: color 0.2s ease, font-weight 0s;
+}
+
+.form-select-option:hover,
+.form-select-option[data-selected="true"] {
+  font-weight: 500;
+  color: #000;
+}
+
+.form-select-option:focus-visible {
+  outline: none;
+  color: #000;
+  font-weight: 500;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-family: var(--font-ibm-plex-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(0 0 0 / 0.55);
 }

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import ProBonoModal from "@/components/forms/ProBonoModal";
 import { trackEvent } from "@/lib/mixpanel";
 
 const EMAIL = "marek@mklenotic.com";
@@ -15,6 +16,7 @@ export default function Footer({
 }) {
   const [now, setNow] = useState<Date | null>(null);
   const [copied, setCopied] = useState(false);
+  const [proBonoOpen, setProBonoOpen] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function Footer({
       {/* Contact section — scrolls over the panel, white bg with rounded bottom */}
       <section
         id="contact-footer"
-        className="relative z-10 flex min-h-[70vh] flex-col items-center justify-center gap-8 rounded-b-3xl bg-white px-6 pb-16 text-center"
+        className="relative z-10 flex min-h-[70vh] flex-col items-center justify-center gap-8 rounded-b-3xl bg-white px-6 text-center"
       >
         <div className="flex w-fit flex-col items-stretch gap-5">
           <p className="px-4 font-mono font-regular text-black">
@@ -97,7 +99,17 @@ export default function Footer({
           <br />
           Let&apos;s connect and make it happen.
         </p>
+
+        <button
+          type="button"
+          onClick={() => setProBonoOpen(true)}
+          className="text-link-cta absolute bottom-0 left-1/2 -translate-x-1/2 pb-3 md:left-auto md:right-0 md:translate-x-0 md:pb-6 md:pr-6"
+        >
+          pro bono
+        </button>
       </section>
+
+      <ProBonoModal open={proBonoOpen} onClose={() => setProBonoOpen(false)} />
 
       {/* Bottom panel — sticky at viewport bottom, slides out from behind the CTA */}
       <footer

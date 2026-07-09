@@ -15,10 +15,7 @@ export default async function Blog() {
 
           <BlogList posts={posts.slice(0, 6)} source="homepage" />
 
-          <Link
-            href="/blog"
-            className="mt-12 self-end pr-4 text-xs font-light font-mono text-black transition-all duration-500 hover:font-medium hover:[text-shadow:0_0_0.4px_currentColor,0_0_0.4px_currentColor]"
-          >
+          <Link href="/blog" className="text-link-cta mt-12 self-end pr-4">
             see all
           </Link>
         </div>
