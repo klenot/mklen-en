@@ -51,7 +51,7 @@ function HighlightedCode({
   return (
     <figure className="blog-block-spacing">
       <div
-        className="code-block overflow-x-auto rounded-md border border-black/10 text-[0.8125rem] leading-[1.7] font-mono [&_pre]:p-[1.25em] [&_pre]:m-0 [&_pre]:bg-[#fafafa]! [&_code]:text-[0.8125rem] [&_code]:leading-[1.7]"
+        className="code-block overflow-x-auto rounded-md border border-white/10 text-[0.8125rem] leading-[1.7] font-mono shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] [&_pre]:p-[1.25em] [&_pre]:m-0 [&_pre]:bg-[#1a1b26]! [&_pre]:border-0 [&_code]:text-[0.8125rem] [&_code]:leading-[1.7] [&_.line]:block"
         dangerouslySetInnerHTML={{ __html: html }}
       />
       {caption && (
@@ -66,8 +66,8 @@ function HighlightedCode({
 function PlainCode({ text, caption }: { text: string; caption?: string }) {
   return (
     <figure className="blog-block-spacing">
-      <pre className="overflow-x-auto rounded-md border border-black/10 bg-[#fafafa] p-[1.25em]">
-        <code className="block text-[0.8125rem] leading-[1.7] font-mono text-black">
+      <pre className="overflow-x-auto rounded-md border border-white/10 bg-[#1a1b26] p-[1.25em] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+        <code className="block text-[0.8125rem] leading-[1.7] font-mono text-[#c0caf5]">
           {text}
         </code>
       </pre>
@@ -277,7 +277,11 @@ function BlockRenderer({
     switch (block.type) {
       case "heading_1":
         elements.push(
-          <h1 key={i} id={headingIdMap[i] ?? `heading-${i}`} className="blog-h1">
+          <h1
+            key={i}
+            id={headingIdMap[i] ?? `heading-${i}`}
+            className="blog-h1"
+          >
             <RichTextRenderer segments={block.text} />
           </h1>,
         );
@@ -285,7 +289,11 @@ function BlockRenderer({
 
       case "heading_2":
         elements.push(
-          <h2 key={i} id={headingIdMap[i] ?? `heading-${i}`} className="blog-h2">
+          <h2
+            key={i}
+            id={headingIdMap[i] ?? `heading-${i}`}
+            className="blog-h2"
+          >
             <RichTextRenderer segments={block.text} />
           </h2>,
         );
@@ -293,7 +301,11 @@ function BlockRenderer({
 
       case "heading_3":
         elements.push(
-          <h3 key={i} id={headingIdMap[i] ?? `heading-${i}`} className="blog-h3">
+          <h3
+            key={i}
+            id={headingIdMap[i] ?? `heading-${i}`}
+            className="blog-h3"
+          >
             <RichTextRenderer segments={block.text} />
           </h3>,
         );

@@ -125,6 +125,17 @@ body::-webkit-scrollbar,
   margin-bottom: 2rem;
 }
 
+/* ── Code blocks (Shiki / diagram) ─────────────────────────────────────────── */
+
+.code-block .shiki {
+  background-color: #1a1b26 !important;
+}
+
+.code-block .shiki code {
+  display: block;
+  font-family: var(--font-ibm-plex-mono);
+}
+
 /* ── Lists ────────────────────────────────────────────────────────────────── */
 
 .blog-list-spacing {

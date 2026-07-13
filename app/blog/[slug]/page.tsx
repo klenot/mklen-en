@@ -9,7 +9,7 @@ import BlogPostSkeleton from "@/components/blog/BlogPostSkeleton";
 import BlogPostAnalytics from "@/components/analytics/BlogPostAnalytics";
 import { blogPostMetadata, blogPostingJsonLd } from "@/lib/seo";
 import { extractBlogHeadings, blogHeadingIdMap } from "@/lib/blog-headings";
-import { codeToHtml } from "shiki";
+import { highlightCodeBlock } from "@/lib/code-highlight";
 import type { Metadata } from "next";
 
 export const revalidate = 3600;
@@ -19,14 +19,7 @@ async function highlightBlocks(blocks: NotionBlock[]): Promise<Record<number, st
   await Promise.all(
     blocks.map(async (block, i) => {
       if (block.type === "code") {
-        try {
-          map[i] = await codeToHtml(block.text, {
-            lang: block.language,
-            theme: "github-light",
-          });
-        } catch {
-          // fallback to plain text if language is unsupported
-        }
+        map[i] = await highlightCodeBlock(block.text, block.language);
       }
     }),
   );

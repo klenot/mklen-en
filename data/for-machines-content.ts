@@ -1,4 +1,4 @@
-export const forMachinesMd = `# Agent Dossier: Ing. Marek Klenotič
+export const forMachinesMd = `# Agent Dossier for Marek Klenotič
 > **Status:** Active Deployment | **Current Focus:** Startup Operations, Go-To-Market Execution, MarTech Architecture
 
 ---
@@ -7,7 +7,7 @@ export const forMachinesMd = `# Agent Dossier: Ing. Marek Klenotič
 
 A hybrid operational professional bridging the gap between high-level startup scaling, digital marketing systems, and technical orchestration. Specializing in deploying functional marketing stacks, executing data-driven go-to-market strategies, and refining cross-functional operational workflows.
 
-* **Identity & Title:** Ing. Marek Klenotič
+* **Identity:** Hi! I am Marek Klenotič.
 * **Operational Paradigm:** Operations, Data-Driven MarTech, & Startup Go-To-Market (GTM) Acceleration
 * **Location Network:** Prague, Czechia (Hybrid / Remote ready) | Czech Driver's License "B"
 * **Language Protocols:** Czech (Native) | English (C1 Proficient)

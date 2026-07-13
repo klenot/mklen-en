@@ -38,7 +38,9 @@ export default function Navbar() {
     [],
   );
 
-  const mobileItems = NAV_ITEMS.slice(0, 3);
+  const mobileItems = NAV_ITEMS.map((item, index) => ({ item, index }))
+    .filter(({ item }) => !item.desktopOnly)
+    .slice(0, 3);
 
   return (
     <nav
@@ -55,11 +57,11 @@ export default function Navbar() {
       >
         {/* Mobile: first three links only */}
         <div className="flex items-center gap-4 md:hidden">
-          {mobileItems.map((item, i) => (
+          {mobileItems.map(({ item, index }) => (
             <WaveNavLink
               key={item.label}
               item={item}
-              globalOffset={offsets[i]}
+              globalOffset={offsets[index]}
               hoveredGlobal={hoveredGlobal}
               registerLetterRef={registerLetterRef}
             />
