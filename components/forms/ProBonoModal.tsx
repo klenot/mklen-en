@@ -55,12 +55,10 @@ function AreaSelect({
   const selectedLabel =
     AREA_OPTIONS.find((option) => option.value === value)?.label ?? null;
 
-  useEffect(() => {
-    if (disabled) setOpen(false);
-  }, [disabled]);
+  const menuOpen = open && !disabled;
 
   useEffect(() => {
-    if (!open) return;
+    if (!menuOpen) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -82,7 +80,7 @@ function AreaSelect({
       window.removeEventListener("keydown", onKeyDown, true);
       document.removeEventListener("pointerdown", onPointerDown);
     };
-  }, [open]);
+  }, [menuOpen]);
 
   return (
     <div ref={rootRef} className="relative">
@@ -92,9 +90,9 @@ function AreaSelect({
         type="button"
         tabIndex={tabIndex}
         aria-haspopup="listbox"
-        aria-expanded={open}
+        aria-expanded={menuOpen}
         aria-controls={listboxId}
-        data-open={open}
+        data-open={menuOpen}
         disabled={disabled}
         onClick={() => setOpen((current) => !current)}
         className="form-input form-select-trigger"
@@ -120,7 +118,7 @@ function AreaSelect({
         </svg>
       </button>
 
-      {open ? (
+      {menuOpen ? (
         <ul id={listboxId} role="listbox" aria-label="Area" className="form-select-menu">
           {AREA_OPTIONS.map((option) => (
             <li key={option.value} role="presentation">
@@ -158,6 +156,15 @@ export default function ProBonoModal({ open, onClose }: ProBonoModalProps) {
     "idle",
   );
   const [errorMessage, setErrorMessage] = useState("");
+  const [prevOpen, setPrevOpen] = useState(open);
+
+  if (open !== prevOpen) {
+    setPrevOpen(open);
+    if (open) {
+      setStatus("idle");
+      setErrorMessage("");
+    }
+  }
 
   const handleClose = useCallback(() => {
     if (status === "submitting") return;
@@ -169,11 +176,11 @@ export default function ProBonoModal({ open, onClose }: ProBonoModalProps) {
   }, []);
 
   useEffect(() => {
-    if (!open) return;
+    if (open) trackEvent("pro_bono_form_opened");
+  }, [open]);
 
-    trackEvent("pro_bono_form_opened");
-    setStatus("idle");
-    setErrorMessage("");
+  useEffect(() => {
+    if (!open) return;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -352,6 +359,7 @@ export default function ProBonoModal({ open, onClose }: ProBonoModalProps) {
               <div className="block">
                 <span className="form-label">Area</span>
                 <AreaSelect
+                  key={open ? "open" : "closed"}
                   value={form.area}
                   onChange={(value) => updateField("area", value)}
                   disabled={!open}
