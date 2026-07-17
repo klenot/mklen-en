@@ -3,6 +3,7 @@ import { getPostsFromNotion } from "@/lib/notion";
 
 export default async function Projects() {
   const projects = await getPostsFromNotion("project");
+  const solo = projects.length === 1;
 
   return (
     <section id="projects" className="flex w-full justify-center pt-12 pb-16 shrink-0">
@@ -20,6 +21,7 @@ export default async function Projects() {
                   headline={project.title}
                   description={project.description}
                   coverImage={project.coverImage}
+                  fullWidthMobile={solo}
                 />
               ))}
 

@@ -10,7 +10,8 @@ import type {
 import type { Post } from "@/data/types";
 import type { BlogPost, NotionBlock, RichText } from "@/data/notion-types";
 
-const REVALIDATE_SECONDS = 3600;
+// Notion file URLs expire after ~1h; keep cache under that so signed covers stay valid.
+const REVALIDATE_SECONDS = 1800;
 
 function isNotionConfigured() {
   return Boolean(process.env.NOTION_API_KEY && process.env.NOTION_DATABASE_ID);

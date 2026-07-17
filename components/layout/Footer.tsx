@@ -94,19 +94,31 @@ export default function Footer({
           </div>
         </div>
 
-        <p className="font-regular font-mono text-xs text-black">
-          My brain cells are for hire.
-          <br />
-          Let&apos;s connect and make it happen.
-        </p>
+        <div className="flex flex-col items-center gap-3">
+          <p className="font-regular font-mono text-xs text-black">
+            My brain cells are for hire.
+            <br />
+            Let&apos;s connect and make it happen.
+          </p>
 
-        <button
-          type="button"
-          onClick={() => setProBonoOpen(true)}
-          className="text-link-cta absolute bottom-0 left-1/2 -translate-x-1/2 pb-3 md:left-auto md:right-0 md:translate-x-0 md:pb-6 md:pr-6"
-        >
-          pro bono
-        </button>
+          <div className="mt-6 flex items-center gap-6">
+            <button
+              type="button"
+              onClick={() => setProBonoOpen(true)}
+              className="cursor-pointer font-mono text-xs font-medium text-black transition-[font-weight] duration-300 ease-out hover:font-bold"
+            >
+              pro bono
+            </button>
+            <a
+              href="https://calendar.notion.so/meet/klenoticmarek/can-we-meet"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-xs font-medium text-black transition-[font-weight] duration-300 ease-out hover:font-bold"
+            >
+              book a meeting
+            </a>
+          </div>
+        </div>
       </section>
 
       <ProBonoModal open={proBonoOpen} onClose={() => setProBonoOpen(false)} />

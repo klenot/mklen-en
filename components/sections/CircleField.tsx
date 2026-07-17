@@ -15,11 +15,22 @@ import {
   CIRCLE_TRAVEL_BREAKPOINTS,
   CIRCLE_TRAVEL_VALUES,
   interpolateProgress,
+  SPREAD_BREAKPOINTS,
+  SPREAD_MARGIN_PX,
   SPREAD_OFFSET,
 } from "./serviceReveal";
 import { PATH_HORIZONTAL, PATH_VERTICAL } from "./pathConfig";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { clamp01, smoothstep } from "@/lib/math";
+import {
+  EMPTY_LAYOUT_CACHE,
+  measureLayoutCache,
+  type LayoutCache,
+} from "./circleLayoutCache";
+import {
+  isScrubbing,
+  placeCircles,
+  type CircleModel,
+} from "./placeCircles";
 
 const CIRCLE_LOGOS: { file: string; size: number }[] = [
   // --- BOX (services) circles ---
@@ -107,22 +118,7 @@ function mulberry32(seed: number) {
   };
 }
 
-type Circle = {
-  origin: "hero" | "box";
-  fromX: number;
-  fromY: number;
-  toX: number;
-  toY: number;
-  sizeVmin: number;
-  dax: number;
-  day: number;
-  fx: number;
-  fy: number;
-  phase: number;
-  pathDest?: "start" | "end";
-};
-
-function makeCircles(): Circle[] {
+function makeCircles(): CircleModel[] {
   const rand = mulberry32(20260702);
   const pick = (a: number, b: number) => a + rand() * (b - a);
 
@@ -147,10 +143,9 @@ function makeCircles(): Circle[] {
     [slots[i], slots[j]] = [slots[j], slots[i]];
   }
 
-  const circles: Circle[] = [];
+  const circles: CircleModel[] = [];
 
   const motionProps = () => ({
-    sizeVmin: pick(0.9, 1.6),
     dax: pick(0.6, 1.4),
     day: pick(0.6, 1.4),
     fx: pick(0.0004, 0.0009),
@@ -170,11 +165,9 @@ function makeCircles(): Circle[] {
     });
   }
 
-  // Place hero circles in a stratified grid to avoid clustering
   const heroCols = Math.ceil(Math.sqrt(HERO_COUNT * 1.5));
-  const heroRows = Math.ceil(HERO_COUNT / heroCols);
   const heroCellW = 0.8 / heroCols;
-  const heroCellH = 0.7 / heroRows;
+  const heroCellH = 0.7 / Math.ceil(HERO_COUNT / heroCols);
   for (let i = 0; i < HERO_COUNT; i++) {
     const s = slots[BOX_COUNT + i];
     const col = i % heroCols;
@@ -197,7 +190,12 @@ function makeCircles(): Circle[] {
   return circles;
 }
 
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+function logoScaleForWidth(w: number) {
+  if (w < 480) return 0.72;
+  if (w < 768) return 0.78;
+  if (w < 1024) return 0.8;
+  return 1;
+}
 
 export default function CircleField({
   servicesRef,
@@ -217,36 +215,30 @@ export default function CircleField({
   const visibleRef = useRef(true);
   const viewportRef = useRef({ w: 1, h: 1 });
   const revealedRef = useRef(false);
-  const sizeScaleRef = useRef(1);
   const maxVisibleRef = useRef(CIRCLE_LOGOS.length);
   const landedRef = useRef(false);
   const frameTimeRef = useRef(0);
-  const layoutRef = useRef({
-    overlayLeft: 0,
-    overlayTop: 0,
-    bandLeft: 0,
-    bandW: 0,
-    bandTop: 0,
-    bandH: 0,
-    heroW: 0,
-    heroH: 0,
-    heroSectionTop: 0,
-    heroSectionH: 0,
-    valid: false,
-  });
+  const layoutRef = useRef<LayoutCache>(EMPTY_LAYOUT_CACHE);
+  const isDesktopRef = useRef(false);
 
   const reduced = useReducedMotion();
   const circles = useMemo(() => makeCircles(), []);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const pathConfig = isDesktop ? PATH_HORIZONTAL : PATH_VERTICAL;
 
-  // Phase 1: circles fall into the box (existing behavior)
+  useEffect(() => {
+    isDesktopRef.current = isDesktop;
+  }, [isDesktop]);
+
   const { scrollYProgress } = useScroll({
     target: servicesRef,
     offset: SPREAD_OFFSET,
   });
   const travel = useTransform(scrollYProgress, (progress) =>
     interpolateProgress(progress, CIRCLE_TRAVEL_BREAKPOINTS, CIRCLE_TRAVEL_VALUES, (t) => t),
+  );
+  const marginPx = useTransform(scrollYProgress, (progress) =>
+    interpolateProgress(progress, SPREAD_BREAKPOINTS, SPREAD_MARGIN_PX),
   );
 
   useMotionValueEvent(travel, "change", (value) => {
@@ -259,302 +251,146 @@ export default function CircleField({
     });
   });
 
-  // Phase 2: path circles detach from box and fall to SVG path endpoints.
-  // Triggered as the PathAnimation section scrolls into view. The circles
-  // arrive before the path starts drawing (path draws at 0–0.85 of its own
-  // scroll progress, which starts AFTER the section is pinned at top).
   const { scrollYProgress: pathProgress } = useScroll({
     target: pathSectionRef,
     offset: ["start end", "start start"],
   });
   const pathTravel = useTransform(pathProgress, [0, 1], [0, 1]);
 
-  // Convert SVG viewBox coordinates to viewport pixel coordinates
-  const getSvgViewportPoint = (svgX: number, svgY: number) => {
-    const svg = svgRef.current;
-    if (!svg) return null;
-    const svgRect = svg.getBoundingClientRect();
-
-    const scaleX = svgRect.width / pathConfig.viewBox.w;
-    const scaleY = svgRect.height / pathConfig.viewBox.h;
-    const scale = Math.min(scaleX, scaleY);
-
-    const renderedW = pathConfig.viewBox.w * scale;
-    const renderedH = pathConfig.viewBox.h * scale;
-    const offsetX = (svgRect.width - renderedW) / 2;
-    const offsetY = (svgRect.height - renderedH) / 2;
-
-    return {
-      x: svgRect.left + offsetX + svgX * scale,
-      y: svgRect.top + offsetY + svgY * scale,
-    };
-  };
-
-  const measureLayout = useCallback(() => {
+  const remeasure = useCallback(() => {
     const overlay = overlayRef.current;
     const box = boxRef.current;
     if (!overlay || !box) {
-      layoutRef.current.valid = false;
+      layoutRef.current = EMPTY_LAYOUT_CACHE;
       return;
     }
 
-    const oRect = overlay.getBoundingClientRect();
-    const bRect = box.getBoundingClientRect();
-    if (oRect.width === 0 || bRect.width === 0) {
-      layoutRef.current.valid = false;
-      return;
-    }
+    layoutRef.current = measureLayoutCache({
+      overlay,
+      box,
+      hero: document.getElementById("hero"),
+      svg: svgRef.current,
+      pathSection: pathSectionRef.current,
+      pathConfig: isDesktopRef.current ? PATH_HORIZONTAL : PATH_VERTICAL,
+      marginPx: marginPx.get(),
+      isDesktop: isDesktopRef.current,
+    });
+  }, [boxRef, marginPx, pathSectionRef, svgRef]);
 
-    const padX = bRect.width * 0.04;
-    const heroEl = document.getElementById("hero");
-    const heroRect = heroEl?.getBoundingClientRect();
-    const heroSectionTop = heroRect ? heroRect.top - oRect.top : 0;
-    const heroSectionH = heroRect?.height ?? Math.max(1, bRect.top - oRect.top);
+  const applyPoses = useCallback(
+    (time: number, rest: boolean) => {
+      const cache = layoutRef.current;
+      if (!cache.valid) return;
 
-    layoutRef.current = {
-      overlayLeft: oRect.left,
-      overlayTop: oRect.top,
-      bandLeft: bRect.left - oRect.left + padX,
-      bandW: bRect.width - padX * 2,
-      bandTop: bRect.top - oRect.top,
-      bandH: bRect.height,
-      heroW: oRect.width,
-      heroH: Math.max(1, bRect.top - oRect.top),
-      heroSectionTop,
-      heroSectionH,
-      valid: true,
-    };
-    // Refs are stable; measureLayout reads layout from the DOM each call.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      const poses = placeCircles({
+        circles,
+        cache,
+        travel: travel.get(),
+        pathTravel: pathTravel.get(),
+        marginPx: marginPx.get(),
+        scrollY: window.scrollY,
+        scrollX: window.scrollX,
+        viewportW: viewportRef.current.w,
+        viewportH: viewportRef.current.h,
+        time,
+        rest,
+        isDesktop: isDesktopRef.current,
+        maxVisible: maxVisibleRef.current,
+        mobileHeroSlots: MOBILE_HERO_SLOTS,
+        boxCount: BOX_COUNT,
+      });
 
-  const place = (t: number, rest: boolean) => {
-    if (!layoutRef.current.valid) {
-      measureLayout();
-      if (!layoutRef.current.valid) return;
-    }
-
-    const { overlayLeft, bandLeft, bandW, bandTop, bandH, heroW, heroH, heroSectionTop, heroSectionH } =
-      layoutRef.current;
-
-    const p = rest ? 0 : clamp01(travel.get());
-    const pt = rest ? 0 : clamp01(pathTravel.get());
-    const ptEased = smoothstep(pt);
-    const { w, h } = viewportRef.current;
-    const vmin = Math.min(w, h) / 100;
-    const reveal = !revealedRef.current;
-
-    // Compute SVG endpoint positions in viewport coords for path circles
-    let pathStartVp: { x: number; y: number } | null = null;
-    let pathEndVp: { x: number; y: number } | null = null;
-    if (pt > 0) {
-      pathStartVp = getSvgViewportPoint(pathConfig.start.x, pathConfig.start.y);
-      pathEndVp = getSvgViewportPoint(pathConfig.end.x, pathConfig.end.y);
-    }
-
-    for (let i = 0; i < circles.length; i++) {
-      const el = elsRef.current[i];
-      if (!el) continue;
-      const c = circles[i];
-
-      // Hide excess circles on smaller viewports
-      if (i >= maxVisibleRef.current) {
-        el.style.opacity = "0";
-        continue;
-      }
-
-      let fromPxX: number;
-      let fromPxY: number;
-      let toPxX: number;
-      let toPxY: number;
-
-      if (c.origin === "box") {
-        fromPxX = bandLeft + c.fromX * bandW;
-        fromPxY = bandTop + c.fromY * bandH;
-        toPxX = fromPxX;
-        toPxY = fromPxY;
-      } else if (!isDesktop) {
-        const heroIndex = i - BOX_COUNT;
-        const slot = MOBILE_HERO_SLOTS[heroIndex % MOBILE_HERO_SLOTS.length];
-        fromPxX = slot.x * heroW;
-        fromPxY = heroSectionTop + slot.y * heroSectionH;
-        toPxX = bandLeft + c.toX * bandW;
-        toPxY = bandTop + c.toY * bandH;
-      } else {
-        fromPxX = c.fromX * heroW;
-        fromPxY = c.fromY * heroH;
-        toPxX = bandLeft + c.toX * bandW;
-        toPxY = bandTop + c.toY * bandH;
-      }
-
-      let baseX = lerp(fromPxX, toPxX, p);
-      let baseY = lerp(fromPxY, toPxY, p);
-
-      // Path destination circles: once pathTravel kicks in, interpolate toward
-      // the SVG endpoint. Once arrived, switch to fixed positioning so they
-      // stay rock-solid on screen regardless of overlay scrolling.
-      let isPathCircle = false;
-      const arrived = c.pathDest && pt >= 0.98;
-      if (c.pathDest && pt > 0) {
-        isPathCircle = true;
-        const targetVp = c.pathDest === "start" ? pathStartVp : pathEndVp;
-
-        if (arrived && targetVp) {
-          // Switch to fixed positioning — completely decoupled from overlay
-          el.style.position = "fixed";
-          el.style.transform = `translate(-50%, -50%)`;
-          el.style.left = `${targetVp.x}px`;
-          el.style.top = `${targetVp.y}px`;
-          if (reveal) el.style.opacity = "1";
-          continue;
-        }
-
-        // Travelling (forward or reverse) — ensure we're back to absolute
-        if (el.style.position === "fixed") {
-          el.style.position = "absolute";
-          el.style.left = "0";
-          el.style.top = "0";
-        }
-
-        // Interpolate in overlay-local space
-        if (targetVp) {
-          const targetLocal = {
-            x: targetVp.x - overlayLeft,
-            y: targetVp.y - layoutRef.current.overlayTop,
-          };
-          baseX = lerp(toPxX, targetLocal.x, ptEased);
-          baseY = lerp(toPxY, targetLocal.y, ptEased);
-        } else {
-          baseX = toPxX;
-          baseY = toPxY;
-        }
-      } else if (c.pathDest && el.style.position === "fixed") {
-        // pathTravel fully at 0 — revert to absolute
-        el.style.position = "absolute";
-        el.style.left = "0";
-        el.style.top = "0";
-      }
-
-      // Kill all drift once path circles have arrived
-      const driftDampen = arrived ? 0 : isPathCircle ? 1 - ptEased : 1;
-      const fallDrift = p > 0 && p < 1 ? Math.max(0, 1 - p * 2.5) : 1;
-      let dx = rest
-        ? 0
-        : c.dax * vmin * Math.sin(t * c.fx + c.phase) * driftDampen * fallDrift;
-      let dy = rest
-        ? 0
-        : c.day * vmin * Math.cos(t * c.fy + c.phase) * driftDampen * fallDrift;
-
-      // Soft repulsion from hero text while logos rest in the hero
-      if (c.origin === "hero" && p === 0) {
-        const textCx = heroW * 0.5;
-        const textCy = isDesktop
-          ? heroH * 0.48
-          : heroSectionTop + heroSectionH * 0.5;
-        const zoneRx = heroW * (isDesktop ? 0.45 : 0.38);
-        const zoneRy = (isDesktop ? heroH : heroSectionH) * (isDesktop ? 0.2 : 0.16);
-
-        const fx = baseX + dx - textCx;
-        const fy = baseY + dy - textCy;
-        const nx = fx / zoneRx;
-        const ny = fy / zoneRy;
-        const d2 = nx * nx + ny * ny;
-
-        if (d2 < 1 && d2 > 0.001) {
-          const dist = Math.sqrt(d2);
-          const push = (1 - dist) * (1 - dist) * 90;
-          dx += (nx / dist) * push;
-          dy += (ny / dist) * push;
-        }
-      }
-
-      el.style.transform = `translate3d(${baseX + dx}px, ${
-        baseY + dy
-      }px, 0) translate(-50%, -50%)`;
-      if (reveal) el.style.opacity = "1";
-    }
-
-    revealedRef.current = true;
-  };
-
-  useEffect(() => {
-    const update = () => {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      viewportRef.current = { w, h };
-
-      // Responsive sizing: scale logos based on viewport width
-      let scale: number;
-      let maxVisible: number;
-      if (w < 480) {
-        scale = 0.72;
-        maxVisible = CIRCLE_LOGOS.length;
-      } else if (w < 768) {
-        scale = 0.78;
-        maxVisible = CIRCLE_LOGOS.length;
-      } else if (w < 1024) {
-        scale = 0.8;
-        maxVisible = CIRCLE_LOGOS.length;
-      } else {
-        scale = 1;
-        maxVisible = CIRCLE_LOGOS.length;
-      }
-      sizeScaleRef.current = scale;
-      maxVisibleRef.current = maxVisible;
-
-      // Apply sizes to elements
-      for (let i = 0; i < CIRCLE_LOGOS.length; i++) {
+      const reveal = !revealedRef.current;
+      for (let i = 0; i < poses.length; i++) {
         const el = elsRef.current[i];
         if (!el) continue;
-        const s = Math.round(CIRCLE_LOGOS[i].size * scale);
-        el.style.width = `${s}px`;
-        el.style.height = `${s}px`;
+        const pose = poses[i];
+        if (pose.hidden) {
+          el.style.opacity = "0";
+          continue;
+        }
+        el.style.transform = `translate3d(${pose.x}px, ${pose.y}px, 0) translate(-50%, -50%)`;
+        if (reveal) el.style.opacity = "1";
       }
-    };
-    update();
+      revealedRef.current = true;
+    },
+    [circles, marginPx, pathTravel, travel],
+  );
+
+  const applyLogoSizes = useCallback(() => {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    viewportRef.current = { w, h };
+    const scale = logoScaleForWidth(w);
+    maxVisibleRef.current = CIRCLE_LOGOS.length;
+    for (let i = 0; i < CIRCLE_LOGOS.length; i++) {
+      const el = elsRef.current[i];
+      if (!el) continue;
+      const s = Math.round(CIRCLE_LOGOS[i].size * scale);
+      el.style.width = `${s}px`;
+      el.style.height = `${s}px`;
+    }
+  }, []);
+
+  useEffect(() => {
+    applyLogoSizes();
+    remeasure();
+    applyPoses(0, Boolean(reduced));
+
     const onResize = () => {
-      update();
-      measureLayout();
+      applyLogoSizes();
+      remeasure();
+      applyPoses(frameTimeRef.current, Boolean(reduced));
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [measureLayout]);
+  }, [applyLogoSizes, applyPoses, reduced, remeasure, isDesktop, pathConfig]);
 
+  // Cold-path: pick up SVG size once it lays out (not on box margin animation).
   useEffect(() => {
-    measureLayout();
-  }, [measureLayout, isDesktop]);
+    const svg = svgRef.current;
+    if (!svg) return;
 
+    const ro = new ResizeObserver(() => {
+      remeasure();
+      if (!visibleRef.current) return;
+      applyPoses(frameTimeRef.current, Boolean(reduced));
+    });
+    ro.observe(svg);
+    return () => ro.disconnect();
+  }, [applyPoses, reduced, remeasure, svgRef, isDesktop]);
+
+  // Idle drift only — scrub updates come from scroll motion values.
   useAnimationFrame((time) => {
     frameTimeRef.current = time;
     if (reduced) return;
     if (!visibleRef.current) return;
-    place(time, false);
+    if (isScrubbing(travel.get(), pathTravel.get())) return;
+    applyPoses(time, false);
   });
 
   useMotionValueEvent(scrollYProgress, "change", () => {
     if (reduced || !visibleRef.current) return;
-    measureLayout();
-    place(frameTimeRef.current, false);
+    applyPoses(frameTimeRef.current, false);
   });
 
   useMotionValueEvent(pathProgress, "change", () => {
     if (reduced || !visibleRef.current) return;
-    measureLayout();
-    place(frameTimeRef.current, false);
+    applyPoses(frameTimeRef.current, false);
   });
 
+  // Path endpoints depend on scrollY (sticky math). pathProgress alone is not
+  // enough once the section is pinned (progress stays at 1 while scroll continues).
   useEffect(() => {
-    if (!reduced) return;
-    measureLayout();
-    place(0, true);
-    const onResize = () => {
-      measureLayout();
-      place(0, true);
+    if (reduced) return;
+    const onScroll = () => {
+      if (!visibleRef.current) return;
+      if (pathTravel.get() <= 0) return;
+      applyPoses(frameTimeRef.current, false);
     };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reduced]);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [applyPoses, pathTravel, reduced]);
 
   useEffect(() => {
     const overlay = overlayRef.current;
@@ -575,7 +411,7 @@ export default function CircleField({
       aria-hidden
       className="pointer-events-none absolute inset-0 z-20 overflow-hidden"
     >
-      {circles.map((c, i) => (
+      {circles.map((_, i) => (
         <span
           key={i}
           ref={(el) => {

@@ -4,23 +4,31 @@ import Link from "next/link";
 import Image from "next/image";
 import { useNavigatingLink } from "@/hooks/useNavigatingLink";
 
+function cardWidthClass(fullWidthMobile: boolean) {
+  return fullWidthMobile
+    ? "w-full max-w-none sm:max-w-[300px]"
+    : "w-full max-w-[300px]";
+}
+
 function ProjectCardContent({
   id,
   headline,
   description,
   coverImage,
   isPending,
+  fullWidthMobile,
 }: {
   id: string;
   headline: string;
   description: string;
   coverImage?: string;
   isPending: boolean;
+  fullWidthMobile: boolean;
 }) {
   return (
     <div
       id={id}
-      className={`group relative flex w-full max-w-[300px] shrink-0 flex-col ${
+      className={`group relative flex shrink-0 flex-col ${cardWidthClass(fullWidthMobile)} ${
         isPending ? "opacity-60" : ""
       }`}
     >
@@ -52,6 +60,7 @@ function ProjectCardContent({
 
 function LinkedProjectCard({
   slug,
+  fullWidthMobile,
   ...props
 }: {
   id: string;
@@ -59,6 +68,7 @@ function LinkedProjectCard({
   headline: string;
   description: string;
   coverImage?: string;
+  fullWidthMobile: boolean;
 }) {
   const href = `/blog/${slug}`;
   const { isPending, navigate, prefetch } = useNavigatingLink(href);
@@ -70,9 +80,13 @@ function LinkedProjectCard({
       onMouseEnter={prefetch}
       onClick={navigate}
       aria-busy={isPending}
-      className="block w-full max-w-[300px] cursor-pointer no-underline"
+      className={`block cursor-pointer no-underline ${cardWidthClass(fullWidthMobile)}`}
     >
-      <ProjectCardContent {...props} isPending={isPending} />
+      <ProjectCardContent
+        {...props}
+        fullWidthMobile={fullWidthMobile}
+        isPending={isPending}
+      />
     </Link>
   );
 }
@@ -83,12 +97,14 @@ export default function ProjectCard({
   headline,
   description,
   coverImage,
+  fullWidthMobile = false,
 }: {
   id: string;
   slug?: string;
   headline: string;
   description: string;
   coverImage?: string;
+  fullWidthMobile?: boolean;
 }) {
   if (!slug) {
     return (
@@ -98,6 +114,7 @@ export default function ProjectCard({
         description={description}
         coverImage={coverImage}
         isPending={false}
+        fullWidthMobile={fullWidthMobile}
       />
     );
   }
@@ -109,6 +126,7 @@ export default function ProjectCard({
       headline={headline}
       description={description}
       coverImage={coverImage}
+      fullWidthMobile={fullWidthMobile}
     />
   );
 }

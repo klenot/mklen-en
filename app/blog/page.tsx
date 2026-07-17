@@ -23,7 +23,8 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 3600;
+// Keep under Notion signed URL TTL (~1h); see lib/notion.ts
+export const revalidate = 1800;
 
 async function BlogPosts() {
   const posts = await getPostsFromNotion("blog");

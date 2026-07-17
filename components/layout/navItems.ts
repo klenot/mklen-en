@@ -5,7 +5,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "experience", href: "#experiences" },
   { label: "projects", href: "#projects" },
   { label: "blog", href: "#blog" },
-  { label: "pro bono", href: "#contact", desktopOnly: true },
   { label: "contact", href: "#contact" },
   { label: "linkedin", href: "https://linkedin.com/in/klenoticmarek" },
+  { label: "pro bono", href: "#contact", desktopOnly: true },
 ];

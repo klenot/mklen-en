@@ -12,7 +12,8 @@ import { extractBlogHeadings, blogHeadingIdMap } from "@/lib/blog-headings";
 import { highlightCodeBlock } from "@/lib/code-highlight";
 import type { Metadata } from "next";
 
-export const revalidate = 3600;
+// Keep under Notion signed URL TTL (~1h); see lib/notion.ts
+export const revalidate = 1800;
 
 async function highlightBlocks(blocks: NotionBlock[]): Promise<Record<number, string>> {
   const map: Record<number, string> = {};
