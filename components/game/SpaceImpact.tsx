@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 /* ------------------------------------------------------------------ *
  * Space Impact — a small, self-contained canvas game.
@@ -151,13 +152,50 @@ function drawSprite(
   }
 }
 
+type MobileInput = {
+  touchActive: boolean;
+  touchX: number;
+  touchY: number;
+  firing: boolean;
+};
+
 export default function SpaceImpact() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mobileInputRef = useRef<MobileInput>({
+    touchActive: false,
+    touchX: 0,
+    touchY: 0,
+    firing: false,
+  });
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const [status, setStatus] = useState<Status>("idle");
   const [lives, setLives] = useState(LIVES);
   const [secondsLeft, setSecondsLeft] = useState(GAME_DURATION / 1000);
 
+  const clientToGame = (clientX: number, clientY: number) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: (clientX - rect.left) / PIXEL,
+      y: (clientY - rect.top) / PIXEL,
+    };
+  };
+
+  const setTouchFromClient = (clientX: number, clientY: number) => {
+    const { x, y } = clientToGame(clientX, clientY);
+    mobileInputRef.current.touchActive = true;
+    mobileInputRef.current.touchX = x;
+    mobileInputRef.current.touchY = y;
+  };
+
+  const clearMobileInput = () => {
+    mobileInputRef.current.touchActive = false;
+    mobileInputRef.current.firing = false;
+  };
+
   const start = () => {
+    clearMobileInput();
     setLives(LIVES);
     setSecondsLeft(GAME_DURATION / 1000);
     setStatus("playing");
@@ -244,7 +282,10 @@ export default function SpaceImpact() {
       ([entry]) => {
         visible = entry.isIntersecting;
         last = performance.now(); // avoid a huge dt on resume
-        if (!visible) keys.clear();
+        if (!visible) {
+          keys.clear();
+          clearMobileInput();
+        }
       },
       { threshold: 0.35 },
     );
@@ -255,15 +296,23 @@ export default function SpaceImpact() {
       const frac = elapsed / GAME_DURATION;
 
       // movement
-      if (keys.has("ArrowUp")) shipY -= SHIP_SPEED * dts;
-      if (keys.has("ArrowDown")) shipY += SHIP_SPEED * dts;
-      if (keys.has("ArrowLeft")) shipX -= SHIP_SPEED * dts;
-      if (keys.has("ArrowRight")) shipX += SHIP_SPEED * dts;
+      const mobile = mobileInputRef.current;
+      if (isMobile && mobile.touchActive) {
+        shipX = mobile.touchX - SHIP_W / 2;
+        shipY = mobile.touchY - SHIP_H / 2;
+      } else {
+        if (keys.has("ArrowUp")) shipY -= SHIP_SPEED * dts;
+        if (keys.has("ArrowDown")) shipY += SHIP_SPEED * dts;
+        if (keys.has("ArrowLeft")) shipX -= SHIP_SPEED * dts;
+        if (keys.has("ArrowRight")) shipX += SHIP_SPEED * dts;
+      }
       shipX = Math.min(Math.max(0, shipX), W - SHIP_W);
       shipY = Math.min(Math.max(0, shipY), H - SHIP_H);
 
       // firing
-      if (keys.has(" ") && now - lastFire >= FIRE_COOLDOWN) {
+      const wantsFire =
+        (isMobile && mobile.firing) || (!isMobile && keys.has(" "));
+      if (wantsFire && now - lastFire >= FIRE_COOLDOWN) {
         bullets.push({ x: shipX + SHIP_W, y: shipY + SHIP_H / 2 - SCALE / 2 });
         lastFire = now;
       }
@@ -436,10 +485,43 @@ export default function SpaceImpact() {
       window.removeEventListener("resize", resize);
       io.disconnect();
     };
-  }, [status]);
+  }, [status, isMobile]);
 
   return (
-    <div className="relative h-dvh w-full overflow-hidden bg-white select-none">
+    <div
+      className={`relative h-dvh w-full overflow-hidden bg-white select-none ${status === "playing" && isMobile ? "touch-none" : ""}`}
+      onTouchStart={
+        status === "playing" && isMobile
+          ? (e) => {
+              const t = e.changedTouches[0] ?? e.touches[0];
+              if (!t) return;
+              setTouchFromClient(t.clientX, t.clientY);
+            }
+          : undefined
+      }
+      onTouchMove={
+        status === "playing" && isMobile
+          ? (e) => {
+              e.preventDefault();
+              const t = e.touches[0];
+              if (!t) return;
+              setTouchFromClient(t.clientX, t.clientY);
+            }
+          : undefined
+      }
+      onTouchEnd={
+        status === "playing" && isMobile
+          ? (e) => {
+              if (e.touches.length === 0) {
+                mobileInputRef.current.touchActive = false;
+              }
+            }
+          : undefined
+      }
+      onTouchCancel={
+        status === "playing" && isMobile ? clearMobileInput : undefined
+      }
+    >
       <canvas
         ref={canvasRef}
         className="absolute inset-0 h-full w-full [image-rendering:pixelated]"
@@ -455,24 +537,51 @@ export default function SpaceImpact() {
             {secondsLeft}s
           </div>
           <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 font-mono text-[10px] font-light text-black/30">
-            arrows to move · space to shoot
+            {isMobile
+              ? "drag to move · hold fire to shoot"
+              : "arrows to move · space to shoot"}
           </div>
+          {isMobile && (
+            <button
+              type="button"
+              aria-label="Fire"
+              className="absolute bottom-6 right-4 z-10 flex h-16 w-16 items-center justify-center rounded-full border-2 border-black bg-white font-mono text-[10px] font-medium tracking-wider text-black touch-none select-none active:bg-black active:text-white"
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchMove={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onPointerDown={(e) => {
+                e.preventDefault();
+                mobileInputRef.current.firing = true;
+              }}
+              onPointerUp={() => {
+                mobileInputRef.current.firing = false;
+              }}
+              onPointerLeave={() => {
+                mobileInputRef.current.firing = false;
+              }}
+              onPointerCancel={() => {
+                mobileInputRef.current.firing = false;
+              }}
+            >
+              FIRE
+            </button>
+          )}
         </>
       )}
 
       {status === "idle" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white px-4 text-center">
           <div className="mx-auto flex w-full max-w-[1200px] flex-col items-center gap-1">
-            <p className="font-sans text-xs italic text-black">
-              before you leave
-            </p>
             <h3 className="font-mono text-lg font-bold tracking-wide text-black sm:text-2xl sm:tracking-widest">
               What is life if not fun?
             </h3>
           </div>
           <p className="mx-auto max-w-[min(320px,calc(100vw-32px))] font-mono text-xs font-light leading-relaxed text-black/50 sm:max-w-xs">
-            Survive 60 seconds. Use arrows to fly, space to shoot. You have 3
-            lives.
+            {isMobile
+              ? "Survive 60 seconds. Drag to fly, hold fire to shoot. You have 3 lives."
+              : "Survive 60 seconds. Use arrows to fly, space to shoot. You have 3 lives."}
           </p>
           <button
             onClick={start}
