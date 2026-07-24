@@ -1,5 +1,3 @@
-export const skeletonBarClass =
-  "rounded bg-gradient-to-r from-[#0082FF]/30 to-[#110058]/40";
+export const skeletonBarClass = "rounded bg-black/20";
 
-export const skeletonBarMutedClass =
-  "rounded bg-gradient-to-r from-[#0082FF]/16 to-[#110058]/24";
+export const skeletonBarMutedClass = "rounded bg-black/5";
