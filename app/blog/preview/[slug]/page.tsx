@@ -1,18 +1,18 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { getDraftBlogPostBySlug, getDraftBlogPostMetaBySlug } from "@/lib/notion";
 import type { NotionBlock } from "@/data/notion-types";
 import NotionRenderer from "@/components/blog/NotionRenderer";
 import BlogTableOfContents from "@/components/blog/BlogTableOfContents";
-import BlogPostSkeleton from "@/components/blog/BlogPostSkeleton";
 import { draftBlogPostMetadata } from "@/lib/seo";
 import { extractBlogHeadings, blogHeadingIdMap } from "@/lib/blog-headings";
 import { highlightCodeBlock } from "@/lib/code-highlight";
 import { isValidDraftPreviewToken } from "@/lib/draft-preview";
 
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const maxDuration = 60;
 
 async function highlightBlocks(blocks: NotionBlock[]): Promise<Record<number, string>> {
   const map: Record<number, string> = {};
@@ -44,13 +44,16 @@ export async function generateMetadata({
   return draftBlogPostMetadata(post);
 }
 
-async function DraftBlogPostArticle({
-  slug,
-  token,
+export default async function DraftBlogPreviewPage({
+  params,
+  searchParams,
 }: {
-  slug: string;
-  token: string;
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ token?: string }>;
 }) {
+  const { slug } = await params;
+  const { token } = await searchParams;
+
   if (!isValidDraftPreviewToken(token)) notFound();
 
   const post = await getDraftBlogPostBySlug(slug);
@@ -61,7 +64,7 @@ async function DraftBlogPostArticle({
   const headingIdMap = blogHeadingIdMap(headings);
 
   return (
-    <>
+    <main className="flex min-h-dvh flex-col items-center bg-white px-4 pb-24 pt-16">
       <BlogTableOfContents headings={headings} />
       <div
         role="status"
@@ -110,27 +113,6 @@ async function DraftBlogPostArticle({
           ← back to all posts
         </Link>
       </article>
-    </>
-  );
-}
-
-export default async function DraftBlogPreviewPage({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ token?: string }>;
-}) {
-  const { slug } = await params;
-  const { token } = await searchParams;
-
-  if (!token) notFound();
-
-  return (
-    <main className="flex min-h-dvh flex-col items-center bg-white px-4 pb-24 pt-16">
-      <Suspense fallback={<BlogPostSkeleton />}>
-        <DraftBlogPostArticle slug={slug} token={token} />
-      </Suspense>
     </main>
   );
 }
