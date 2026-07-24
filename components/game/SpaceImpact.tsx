@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type FormEvent, type RefObject } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 /* ------------------------------------------------------------------ *
@@ -15,9 +15,11 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type Status = "idle" | "playing" | "won" | "lost";
 
-// tuning knobs
-const PIXEL = 4; // css px per rendered game pixel (chunky retro look)
-const SCALE = 3; // game px per sprite cell
+// tuning knobs — desktop defaults; mobile uses smaller sprites + denser grid
+const DESKTOP_PIXEL = 4; // css px per rendered game pixel
+const DESKTOP_SCALE = 3; // game px per sprite cell
+const MOBILE_PIXEL = 3;
+const MOBILE_SCALE = 2;
 const LIVES = 3;
 const GAME_DURATION = 60_000; // survive this long (ms) to win
 const FIRE_COOLDOWN = 240; // ms between shots
@@ -110,11 +112,13 @@ const VARIANTS: Variant[] = [
   },
 ];
 
-const spriteW = (s: Sprite) => s[0].length * SCALE;
-const spriteH = (s: Sprite) => s.length * SCALE;
+const spriteW = (s: Sprite, scale: number) => s[0].length * scale;
+const spriteH = (s: Sprite, scale: number) => s.length * scale;
 
-const SHIP_W = spriteW(SHIP);
-const SHIP_H = spriteH(SHIP);
+const gameConfig = (mobile: boolean) =>
+  mobile
+    ? { pixel: MOBILE_PIXEL, scale: MOBILE_SCALE }
+    : { pixel: DESKTOP_PIXEL, scale: DESKTOP_SCALE };
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
 const randInt = (n: number) => Math.floor(Math.random() * n);
@@ -138,6 +142,7 @@ function drawSprite(
   x: number,
   y: number,
   palette: Palette,
+  scale: number,
 ) {
   const px = Math.round(x);
   const py = Math.round(y);
@@ -147,56 +152,185 @@ function drawSprite(
       const color = palette[row[c]];
       if (!color) continue;
       ctx.fillStyle = color;
-      ctx.fillRect(px + c * SCALE, py + r * SCALE, SCALE, SCALE);
+      ctx.fillRect(px + c * scale, py + r * scale, scale, scale);
     }
   }
 }
 
 type MobileInput = {
-  touchActive: boolean;
-  touchX: number;
-  touchY: number;
+  moveX: number;
+  moveY: number;
   firing: boolean;
 };
+
+const MOBILE_CONTROLS_BOTTOM =
+  "bottom-[calc(env(safe-area-inset-bottom,34px)+1.5rem)]";
+
+const JOYSTICK_RADIUS = 36;
+const JOYSTICK_DEAD = 0.12;
+
+function MobileJoystick({
+  inputRef,
+}: {
+  inputRef: RefObject<MobileInput>;
+}) {
+  const baseRef = useRef<HTMLDivElement>(null);
+  const activeRef = useRef(false);
+  const [knob, setKnob] = useState({ x: 0, y: 0 });
+
+  const applyPointer = (clientX: number, clientY: number) => {
+    const base = baseRef.current;
+    if (!base) return;
+    const rect = base.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    let dx = clientX - cx;
+    let dy = clientY - cy;
+    const dist = Math.hypot(dx, dy);
+    if (dist > JOYSTICK_RADIUS) {
+      dx = (dx / dist) * JOYSTICK_RADIUS;
+      dy = (dy / dist) * JOYSTICK_RADIUS;
+    }
+    setKnob({ x: dx, y: dy });
+    const nx = dx / JOYSTICK_RADIUS;
+    const ny = dy / JOYSTICK_RADIUS;
+    inputRef.current.moveX = Math.abs(nx) < JOYSTICK_DEAD ? 0 : nx;
+    inputRef.current.moveY = Math.abs(ny) < JOYSTICK_DEAD ? 0 : ny;
+  };
+
+  const reset = () => {
+    activeRef.current = false;
+    setKnob({ x: 0, y: 0 });
+    inputRef.current.moveX = 0;
+    inputRef.current.moveY = 0;
+  };
+
+  return (
+    <div
+      ref={baseRef}
+      aria-label="Move"
+      className={`absolute left-4 z-10 touch-none select-none ${MOBILE_CONTROLS_BOTTOM}`}
+      onTouchStart={(e) => e.stopPropagation()}
+      onTouchMove={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        activeRef.current = true;
+        baseRef.current?.setPointerCapture(e.pointerId);
+        applyPointer(e.clientX, e.clientY);
+      }}
+      onPointerMove={(e) => {
+        if (!activeRef.current) return;
+        applyPointer(e.clientX, e.clientY);
+      }}
+      onPointerUp={reset}
+      onPointerCancel={reset}
+    >
+      <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-black/25 bg-white/70">
+        <div
+          className="absolute h-12 w-12 rounded-full border-2 border-black bg-white shadow-sm"
+          style={{
+            left: `calc(50% + ${knob.x}px)`,
+            top: `calc(50% + ${knob.y}px)`,
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ScoreBragForm({ score }: { score: number }) {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "sent" | "error"
+  >("idle");
+
+  const submit = async (event: FormEvent) => {
+    event.preventDefault();
+    const trimmed = email.trim();
+    if (!trimmed || status === "submitting" || status === "sent") return;
+
+    setStatus("submitting");
+    try {
+      const response = await fetch("/api/space-impact-score", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: trimmed, score }),
+      });
+      if (!response.ok) throw new Error("send failed");
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  return (
+    <form
+      onSubmit={submit}
+      className="flex w-full max-w-sm flex-col items-center gap-3"
+    >
+      <p className="font-mono text-xs font-light text-black/50">
+        Wanna brag about your score?
+      </p>
+      <div className="flex w-full items-end gap-2">
+        <input
+          type="email"
+          name="email"
+          required
+          autoComplete="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          placeholder="you@example.com"
+          disabled={status === "submitting" || status === "sent"}
+          className="form-input min-w-0 flex-1"
+        />
+        <button
+          type="submit"
+          aria-label="Send score"
+          disabled={status === "submitting" || status === "sent"}
+          className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-black bg-black font-mono text-lg leading-none text-white transition-colors hover:bg-neutral-700 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          {status === "submitting" ? "…" : "→"}
+        </button>
+      </div>
+      {status === "sent" ? (
+        <p className="font-mono text-xs text-black/50">Score sent. Thanks!</p>
+      ) : null}
+      {status === "error" ? (
+        <p className="font-mono text-xs text-red-600" role="alert">
+          Could not send. Try again in a moment.
+        </p>
+      ) : null}
+    </form>
+  );
+}
 
 export default function SpaceImpact() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mobileInputRef = useRef<MobileInput>({
-    touchActive: false,
-    touchX: 0,
-    touchY: 0,
+    moveX: 0,
+    moveY: 0,
     firing: false,
   });
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [status, setStatus] = useState<Status>("idle");
   const [lives, setLives] = useState(LIVES);
+  const [score, setScore] = useState(0);
   const [secondsLeft, setSecondsLeft] = useState(GAME_DURATION / 1000);
 
-  const clientToGame = (clientX: number, clientY: number) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return { x: 0, y: 0 };
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: (clientX - rect.left) / PIXEL,
-      y: (clientY - rect.top) / PIXEL,
-    };
-  };
-
-  const setTouchFromClient = (clientX: number, clientY: number) => {
-    const { x, y } = clientToGame(clientX, clientY);
-    mobileInputRef.current.touchActive = true;
-    mobileInputRef.current.touchX = x;
-    mobileInputRef.current.touchY = y;
-  };
-
   const clearMobileInput = () => {
-    mobileInputRef.current.touchActive = false;
+    mobileInputRef.current.moveX = 0;
+    mobileInputRef.current.moveY = 0;
     mobileInputRef.current.firing = false;
   };
 
   const start = () => {
     clearMobileInput();
     setLives(LIVES);
+    setScore(0);
     setSecondsLeft(GAME_DURATION / 1000);
     setStatus("playing");
   };
@@ -215,6 +349,10 @@ export default function SpaceImpact() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const { pixel: PIXEL, scale: SCALE } = gameConfig(isMobile);
+    const SHIP_W = spriteW(SHIP, SCALE);
+    const SHIP_H = spriteH(SHIP, SCALE);
+
     // --- mutable game state (local to this run) ---
     let W = 1;
     let H = 1;
@@ -227,7 +365,9 @@ export default function SpaceImpact() {
 
     let elapsed = 0;
     let livesLeft = LIVES;
+    let score = 0;
     let shownLives = LIVES;
+    let shownScore = 0;
     let shownSec = GAME_DURATION / 1000;
     let invulnUntil = -Infinity;
     let lastFire = -Infinity;
@@ -297,9 +437,9 @@ export default function SpaceImpact() {
 
       // movement
       const mobile = mobileInputRef.current;
-      if (isMobile && mobile.touchActive) {
-        shipX = mobile.touchX - SHIP_W / 2;
-        shipY = mobile.touchY - SHIP_H / 2;
+      if (isMobile && (mobile.moveX !== 0 || mobile.moveY !== 0)) {
+        shipX += mobile.moveX * SHIP_SPEED * dts;
+        shipY += mobile.moveY * SHIP_SPEED * dts;
       } else {
         if (keys.has("ArrowUp")) shipY -= SHIP_SPEED * dts;
         if (keys.has("ArrowDown")) shipY += SHIP_SPEED * dts;
@@ -332,7 +472,7 @@ export default function SpaceImpact() {
         const v = VARIANTS[vi];
         enemies.push({
           x: W,
-          y: rand(0, H - spriteH(v.sprite)),
+          y: rand(0, H - spriteH(v.sprite, SCALE)),
           speed:
             rand(ENEMY_SPEED_MIN, ENEMY_SPEED_MAX) *
             v.speedMul *
@@ -344,7 +484,7 @@ export default function SpaceImpact() {
       // enemies travel left
       for (let i = enemies.length - 1; i >= 0; i--) {
         enemies[i].x -= enemies[i].speed * dts;
-        if (enemies[i].x + spriteW(VARIANTS[enemies[i].vi].sprite) < 0) {
+        if (enemies[i].x + spriteW(VARIANTS[enemies[i].vi].sprite, SCALE) < 0) {
           enemies.splice(i, 1);
         }
       }
@@ -353,13 +493,14 @@ export default function SpaceImpact() {
       for (let ei = enemies.length - 1; ei >= 0; ei--) {
         const en = enemies[ei];
         const es = VARIANTS[en.vi].sprite;
-        const ew = spriteW(es);
-        const eh = spriteH(es);
+        const ew = spriteW(es, SCALE);
+        const eh = spriteH(es, SCALE);
         for (let bi = bullets.length - 1; bi >= 0; bi--) {
           const b = bullets[bi];
           if (overlap(b.x, b.y, SCALE * 2, SCALE, en.x, en.y, ew, eh)) {
             enemies.splice(ei, 1);
             bullets.splice(bi, 1);
+            score += 1;
             break;
           }
         }
@@ -378,8 +519,8 @@ export default function SpaceImpact() {
               SHIP_H,
               en.x,
               en.y,
-              spriteW(es),
-              spriteH(es),
+              spriteW(es, SCALE),
+              spriteH(es, SCALE),
             )
           ) {
             enemies.splice(ei, 1);
@@ -424,7 +565,7 @@ export default function SpaceImpact() {
 
       for (const en of enemies) {
         const v = VARIANTS[en.vi];
-        drawSprite(ctx, v.sprite, en.x, en.y, v.palette);
+        drawSprite(ctx, v.sprite, en.x, en.y, v.palette, SCALE);
       }
 
       // blink the ship while briefly invulnerable
@@ -440,7 +581,7 @@ export default function SpaceImpact() {
             SCALE * 2,
           );
         }
-        drawSprite(ctx, SHIP, shipX, shipY, SHIP_PALETTE);
+        drawSprite(ctx, SHIP, shipX, shipY, SHIP_PALETTE, SCALE);
       }
     };
 
@@ -469,6 +610,10 @@ export default function SpaceImpact() {
         shownLives = livesLeft;
         setLives(livesLeft);
       }
+      if (score !== shownScore) {
+        shownScore = score;
+        setScore(score);
+      }
       const sec = Math.max(0, Math.ceil((GAME_DURATION - elapsed) / 1000));
       if (sec !== shownSec) {
         shownSec = sec;
@@ -490,37 +635,6 @@ export default function SpaceImpact() {
   return (
     <div
       className={`relative h-dvh w-full overflow-hidden bg-white select-none ${status === "playing" && isMobile ? "touch-none" : ""}`}
-      onTouchStart={
-        status === "playing" && isMobile
-          ? (e) => {
-              const t = e.changedTouches[0] ?? e.touches[0];
-              if (!t) return;
-              setTouchFromClient(t.clientX, t.clientY);
-            }
-          : undefined
-      }
-      onTouchMove={
-        status === "playing" && isMobile
-          ? (e) => {
-              e.preventDefault();
-              const t = e.touches[0];
-              if (!t) return;
-              setTouchFromClient(t.clientX, t.clientY);
-            }
-          : undefined
-      }
-      onTouchEnd={
-        status === "playing" && isMobile
-          ? (e) => {
-              if (e.touches.length === 0) {
-                mobileInputRef.current.touchActive = false;
-              }
-            }
-          : undefined
-      }
-      onTouchCancel={
-        status === "playing" && isMobile ? clearMobileInput : undefined
-      }
     >
       <canvas
         ref={canvasRef}
@@ -533,19 +647,29 @@ export default function SpaceImpact() {
             {"♥".repeat(lives)}
             <span className="text-black/20">{"♥".repeat(LIVES - lives)}</span>
           </div>
-          <div className="pointer-events-none absolute right-4 top-4 font-mono text-sm tabular-nums text-black/60">
-            {secondsLeft}s
+          <div className="pointer-events-none absolute right-4 top-4 flex items-center gap-2 font-mono text-sm tabular-nums text-black/60">
+            <span>{score}</span>
+            <span className="text-black/25">·</span>
+            <span>{secondsLeft}s</span>
           </div>
-          <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 font-mono text-[10px] font-light text-black/30">
+          <div
+            className={`pointer-events-none absolute left-1/2 -translate-x-1/2 font-mono text-[10px] font-light text-black/30 ${
+              isMobile
+                ? "bottom-[calc(env(safe-area-inset-bottom,34px)+6.5rem)]"
+                : "bottom-3"
+            }`}
+          >
             {isMobile
-              ? "drag to move · hold fire to shoot"
+              ? "joystick to move · hold fire to shoot"
               : "arrows to move · space to shoot"}
           </div>
           {isMobile && (
-            <button
-              type="button"
-              aria-label="Fire"
-              className="absolute bottom-6 right-4 z-10 flex h-16 w-16 items-center justify-center rounded-full border-2 border-black bg-white font-mono text-[10px] font-medium tracking-wider text-black touch-none select-none active:bg-black active:text-white"
+            <>
+              <MobileJoystick inputRef={mobileInputRef} />
+              <button
+                type="button"
+                aria-label="Fire"
+                className={`absolute right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full border-2 border-black bg-white font-mono text-[10px] font-medium tracking-wider text-black touch-none select-none active:bg-black active:text-white ${MOBILE_CONTROLS_BOTTOM}`}
               onTouchStart={(e) => e.stopPropagation()}
               onTouchMove={(e) => {
                 e.preventDefault();
@@ -567,6 +691,7 @@ export default function SpaceImpact() {
             >
               FIRE
             </button>
+            </>
           )}
         </>
       )}
@@ -580,7 +705,7 @@ export default function SpaceImpact() {
           </div>
           <p className="mx-auto max-w-[min(320px,calc(100vw-32px))] font-mono text-xs font-light leading-relaxed text-black/50 sm:max-w-xs">
             {isMobile
-              ? "Survive 60 seconds. Drag to fly, hold fire to shoot. You have 3 lives."
+              ? "Survive 60 seconds. Use the joystick to fly, hold fire to shoot. You have 3 lives."
               : "Survive 60 seconds. Use arrows to fly, space to shoot. You have 3 lives."}
           </p>
           <button
@@ -592,14 +717,29 @@ export default function SpaceImpact() {
         </div>
       )}
 
-      {(status === "won" || status === "lost") && (
+      {status === "won" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/70 px-4 text-center backdrop-blur-[1px]">
           <h3 className="font-mono text-2xl font-bold tracking-wide text-black sm:text-4xl sm:tracking-widest">
-            {status === "won" ? "You nerd!" : "Game over"}
+            You nerd!
+          </h3>
+          <ScoreBragForm score={score} />
+          <button
+            onClick={start}
+            className="cursor-pointer font-mono text-sm text-black underline decoration-2 underline-offset-4 transition-colors hover:text-blue-500"
+          >
+            play again
+          </button>
+        </div>
+      )}
+
+      {status === "lost" && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/70 px-4 text-center backdrop-blur-[1px]">
+          <h3 className="font-mono text-2xl font-bold tracking-wide text-black sm:text-4xl sm:tracking-widest">
+            Game over
           </h3>
           <button
             onClick={start}
-            className="font-mono text-sm text-black underline decoration-2 underline-offset-4 transition-colors hover:text-blue-500"
+            className="cursor-pointer font-mono text-sm text-black underline decoration-2 underline-offset-4 transition-colors hover:text-blue-500"
           >
             play again
           </button>
