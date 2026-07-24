@@ -218,20 +218,35 @@ function BlockRenderer({
       elements.push(
         <Tag
           key={`list-${i}`}
-          className={`blog-list-spacing flex flex-col gap-[0.35em] pl-0 ${
+          className={`blog-list-spacing ml-[1.25em] pl-[0.35em] ${
             listType === "numbered_list_item" ? "list-decimal" : "list-disc"
-          } list-inside marker:text-black`}
+          } list-outside marker:text-black [&>li+li]:mt-[0.35em]`}
         >
-          {items.map((item, j) => (
-            <li
-              key={j}
-              className="text-[1rem] leading-[1.75] font-mono text-[#1a1a1a]"
-            >
-              {"text" in item && (
-                <RichTextRenderer segments={item.text as RichText[]} />
-              )}
-            </li>
-          ))}
+          {items.map((item, j) => {
+            const childBlocks =
+              item.type === "bulleted_list_item" ||
+              item.type === "numbered_list_item"
+                ? item.children
+                : undefined;
+
+            return (
+              <li
+                key={j}
+                className="text-[1rem] leading-[1.75] font-mono text-[#1a1a1a]"
+              >
+                {"text" in item && (
+                  <RichTextRenderer segments={item.text as RichText[]} />
+                )}
+                {childBlocks && childBlocks.length > 0 && (
+                  <BlockRenderer
+                    blocks={childBlocks}
+                    codeHtmlMap={codeHtmlMap}
+                    headingIdMap={headingIdMap}
+                  />
+                )}
+              </li>
+            );
+          })}
         </Tag>,
       );
       continue;
