@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { useViewMode } from "@/hooks/useViewMode";
 import { forMachinesMd } from "@/data/for-machines-content";
 import ViewToggle from "@/components/layout/ViewToggle";
@@ -139,24 +139,38 @@ export default function ForMachinesView() {
   const { mode } = useViewMode();
   const sections = useMemo(() => parseMd(forMachinesMd), []);
 
+  useEffect(() => {
+    if (mode !== "machines") return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mode]);
+
   if (mode !== "machines") return null;
 
   return (
-    <div className="fixed inset-0 z-100 overflow-auto bg-black">
-      <div className="max-w-[800px] mx-auto px-6 pt-5 flex items-center justify-end gap-3">
+    <div className="fixed inset-0 z-100 flex flex-col bg-black">
+      <div className="mx-auto flex w-full max-w-[800px] shrink-0 items-center justify-end gap-3 px-6 pt-5">
         <ViewToggle />
         <CopyButton />
       </div>
-      <div className="max-w-[800px] mx-auto px-6 pt-10 pb-32 font-mono text-sm flex flex-col gap-10">
-        {sections.map((section, idx) => (
-          <div key={idx} className="flex w-full">
-            <div className="shrink-0 w-px bg-neutral-800" />
-            <div className="flex-1 min-w-0 px-8 py-4">
-              {parseSection(section.lines, section.startIdx)}
+
+      <div className="flex-1 min-h-0 w-full overflow-x-hidden overflow-y-auto overscroll-contain">
+        <div className="mx-auto flex w-full max-w-[800px] flex-col gap-10 px-6 pb-32 pt-10 font-mono text-sm">
+          {sections.map((section, idx) => (
+            <div key={idx} className="flex w-full">
+              <div className="w-px shrink-0 bg-neutral-800" />
+              <div className="min-w-0 flex-1 px-8 py-4">
+                {parseSection(section.lines, section.startIdx)}
+              </div>
+              <div className="w-px shrink-0 bg-neutral-800" />
             </div>
-            <div className="shrink-0 w-px bg-neutral-800" />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

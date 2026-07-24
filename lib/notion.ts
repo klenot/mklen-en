@@ -361,6 +361,26 @@ async function findPublishedPageBySlug(slug: string): Promise<PageObjectResponse
   return pages.find((page) => extractPageMeta(page).slug === slug) ?? null;
 }
 
+async function queryDraftPages(): Promise<PageObjectResponse[]> {
+  const notion = getNotionClient();
+
+  const resp = await notion.dataSources.query({
+    data_source_id: getDataSourceId(),
+    filter: {
+      property: "published",
+      select: { equals: "Draft" },
+    } as never,
+    sorts: [{ property: "date", direction: "descending" }],
+  });
+
+  return resp.results as PageObjectResponse[];
+}
+
+async function findDraftPageBySlug(slug: string): Promise<PageObjectResponse | null> {
+  const pages = await withNotion("queryDraftPages", [], () => queryDraftPages());
+  return pages.find((page) => extractPageMeta(page).slug === slug) ?? null;
+}
+
 async function fetchPostsFromNotion(
   placement?: "blog" | "project",
 ): Promise<Post[]> {
@@ -475,6 +495,56 @@ export const getBlogPostMetaBySlug = cache(
     return getBlogPostMetaBySlugCached(slug);
   },
 );
+
+async function fetchDraftBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  const page = await findDraftPageBySlug(slug);
+  if (!page) return null;
+
+  const meta = extractPageMeta(page);
+  const rawBlocks = await fetchBlockChildren(page.id);
+  const blocks = await transformBlocks(rawBlocks);
+
+  return {
+    slug: meta.slug,
+    icon: meta.icon,
+    title: meta.title,
+    description: meta.description,
+    category: meta.category,
+    date: meta.date,
+    readingTime: estimateReadingTime(blocks),
+    coverImage: meta.coverImage,
+    metaTitle: meta.metaTitle,
+    metaDescription: meta.metaDescription,
+    blocks,
+  };
+}
+
+export async function getDraftBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  return withNotion("getDraftBlogPostBySlug", null, () => fetchDraftBlogPostBySlug(slug));
+}
+
+async function fetchDraftBlogPostMetaBySlug(slug: string): Promise<BlogPostMeta | null> {
+  const page = await findDraftPageBySlug(slug);
+  if (!page) return null;
+
+  const meta = extractPageMeta(page);
+  return {
+    slug: meta.slug,
+    title: meta.title,
+    description: meta.description,
+    category: meta.category,
+    date: meta.date,
+    coverImage: meta.coverImage,
+    metaTitle: meta.metaTitle,
+    metaDescription: meta.metaDescription,
+  };
+}
+
+export async function getDraftBlogPostMetaBySlug(slug: string): Promise<BlogPostMeta | null> {
+  return withNotion("getDraftBlogPostMetaBySlug", null, () =>
+    fetchDraftBlogPostMetaBySlug(slug),
+  );
+}
 
 export async function getAllSlugs(): Promise<string[]> {
   const posts = await getPostsFromNotion();

@@ -20,6 +20,14 @@ const nextConfig: NextConfig = {
       { source: "/blog/:slug.md", destination: "/md/blog/:slug" },
     ];
   },
+  async headers() {
+    return [
+      {
+        source: "/blog/preview/:slug*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

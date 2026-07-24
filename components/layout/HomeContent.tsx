@@ -20,8 +20,9 @@ export default function HomeContent({
 }) {
   return (
     <ViewModeProvider>
-      <ForMachinesView />
-      <main className="bg-white">
+      <div className="flex min-h-dvh flex-1 flex-col">
+        <ForMachinesView />
+        <main className="flex-1 bg-white">
         <div className="relative">
           <section className="sticky top-0 z-0 min-h-dvh bg-white flex flex-col items-center justify-center">
             {projectsSection}
@@ -81,7 +82,8 @@ export default function HomeContent({
         </div>
 
         <Footer />
-      </main>
+        </main>
+      </div>
     </ViewModeProvider>
   );
 }

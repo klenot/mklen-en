@@ -34,6 +34,28 @@ export const defaultMetadata: Metadata = {
   },
 };
 
+const draftPreviewRobots: NonNullable<Metadata["robots"]> = {
+  index: false,
+  follow: false,
+  googleBot: { index: false, follow: false },
+};
+
+export function draftBlogPostMetadata(post: {
+  title: string;
+  description: string;
+  metaTitle?: string;
+  metaDescription?: string;
+}): Metadata {
+  const title = post.metaTitle ?? post.title;
+  const description = post.metaDescription ?? post.description;
+
+  return {
+    title: `[Draft] ${title}`,
+    description,
+    robots: draftPreviewRobots,
+  };
+}
+
 export function blogPostMetadata(post: {
   slug: string;
   title: string;
