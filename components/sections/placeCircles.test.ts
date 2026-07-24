@@ -165,4 +165,57 @@ describe("placeCircles", () => {
     });
     expect(poses[1].hidden).toBe(true);
   });
+
+  it("keeps path circles static on locked endpoints (no drift)", () => {
+    const pathCircle: CircleModel = {
+      ...circle,
+      pathDest: "start",
+      dax: 1.2,
+      day: 1.2,
+      fx: 0.001,
+      fy: 0.001,
+      phase: 0,
+    };
+    const locked = { x: 120, y: 340 };
+    const posesA = placeCircles({
+      circles: [pathCircle],
+      cache: baseCache(),
+      travel: 1,
+      pathTravel: 1,
+      marginPx: 8,
+      scrollY: 3200,
+      scrollX: 0,
+      viewportW: 1000,
+      viewportH: 800,
+      time: 0,
+      rest: false,
+      isDesktop: true,
+      maxVisible: 1,
+      mobileHeroSlots: [],
+      boxCount: 9,
+      pathEndpoints: { start: locked, end: null },
+    });
+    const posesB = placeCircles({
+      circles: [pathCircle],
+      cache: baseCache(),
+      travel: 1,
+      pathTravel: 1,
+      marginPx: 8,
+      scrollY: 3200,
+      scrollX: 0,
+      viewportW: 1000,
+      viewportH: 800,
+      time: 5000,
+      rest: false,
+      isDesktop: true,
+      maxVisible: 1,
+      mobileHeroSlots: [],
+      boxCount: 9,
+      pathEndpoints: { start: locked, end: null },
+    });
+    expect(posesA[0].x).toBeCloseTo(locked.x);
+    expect(posesA[0].y).toBeCloseTo(locked.y);
+    expect(posesB[0].x).toBeCloseTo(locked.x);
+    expect(posesB[0].y).toBeCloseTo(locked.y);
+  });
 });

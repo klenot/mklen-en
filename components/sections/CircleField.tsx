@@ -24,13 +24,10 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
   EMPTY_LAYOUT_CACHE,
   measureLayoutCache,
+  measurePathEndpointsFromDom,
   type LayoutCache,
 } from "./circleLayoutCache";
-import {
-  isScrubbing,
-  placeCircles,
-  type CircleModel,
-} from "./placeCircles";
+import { placeCircles, type CircleModel } from "./placeCircles";
 
 const CIRCLE_LOGOS: { file: string; size: number }[] = [
   // --- BOX (services) circles ---
@@ -282,11 +279,23 @@ export default function CircleField({
       const cache = layoutRef.current;
       if (!cache.valid) return;
 
+      const pathTravelVal = pathTravel.get();
+      const overlay = overlayRef.current;
+      const svg = svgRef.current;
+      const pathEndpoints =
+        pathTravelVal > 0 && overlay && svg
+          ? measurePathEndpointsFromDom(
+              overlay,
+              svg,
+              isDesktopRef.current ? PATH_HORIZONTAL : PATH_VERTICAL,
+            )
+          : null;
+
       const poses = placeCircles({
         circles,
         cache,
         travel: travel.get(),
-        pathTravel: pathTravel.get(),
+        pathTravel: pathTravelVal,
         marginPx: marginPx.get(),
         scrollY: window.scrollY,
         scrollX: window.scrollX,
@@ -298,6 +307,7 @@ export default function CircleField({
         maxVisible: maxVisibleRef.current,
         mobileHeroSlots: MOBILE_HERO_SLOTS,
         boxCount: BOX_COUNT,
+        pathEndpoints: pathEndpoints ?? undefined,
       });
 
       const reveal = !revealedRef.current;
@@ -360,37 +370,14 @@ export default function CircleField({
     return () => ro.disconnect();
   }, [applyPoses, reduced, remeasure, svgRef, isDesktop]);
 
-  // Idle drift only — scrub updates come from scroll motion values.
+  // Single rAF path for all pose updates (scroll + idle drift). Avoids
+  // duplicate applyPoses calls from scroll listeners during smooth nav scroll.
   useAnimationFrame((time) => {
     frameTimeRef.current = time;
     if (reduced) return;
     if (!visibleRef.current) return;
-    if (isScrubbing(travel.get(), pathTravel.get())) return;
     applyPoses(time, false);
   });
-
-  useMotionValueEvent(scrollYProgress, "change", () => {
-    if (reduced || !visibleRef.current) return;
-    applyPoses(frameTimeRef.current, false);
-  });
-
-  useMotionValueEvent(pathProgress, "change", () => {
-    if (reduced || !visibleRef.current) return;
-    applyPoses(frameTimeRef.current, false);
-  });
-
-  // Path endpoints depend on scrollY (sticky math). pathProgress alone is not
-  // enough once the section is pinned (progress stays at 1 while scroll continues).
-  useEffect(() => {
-    if (reduced) return;
-    const onScroll = () => {
-      if (!visibleRef.current) return;
-      if (pathTravel.get() <= 0) return;
-      applyPoses(frameTimeRef.current, false);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [applyPoses, pathTravel, reduced]);
 
   useEffect(() => {
     const overlay = overlayRef.current;

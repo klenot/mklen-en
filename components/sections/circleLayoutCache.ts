@@ -165,6 +165,37 @@ export function pathEndpointLocal(
   return { x: vp.x - overlayLeft, y: vp.y - overlayTop };
 }
 
+/** Live path endpoints in overlay-local space — tracks sticky SVG without scroll math drift. */
+export function measurePathEndpointsFromDom(
+  overlay: HTMLElement,
+  svg: SVGSVGElement,
+  pathConfig: PathConfig,
+): { start: { x: number; y: number }; end: { x: number; y: number } } | null {
+  const svgRect = svg.getBoundingClientRect();
+  if (svgRect.width <= 0 || svgRect.height <= 0) return null;
+
+  const overlayRect = overlay.getBoundingClientRect();
+  const toLocal = (dest: "start" | "end") => {
+    const vb =
+      dest === "start"
+        ? { x: pathConfig.start.x, y: pathConfig.start.y }
+        : { x: pathConfig.end.x, y: pathConfig.end.y };
+    const vp = svgPointInViewport(
+      svgRect.left,
+      svgRect.top,
+      svgRect.width,
+      svgRect.height,
+      pathConfig.viewBox.w,
+      pathConfig.viewBox.h,
+      vb.x,
+      vb.y,
+    );
+    return { x: vp.x - overlayRect.left, y: vp.y - overlayRect.top };
+  };
+
+  return { start: toLocal("start"), end: toLocal("end") };
+}
+
 export function measureLayoutCache({
   overlay,
   box,

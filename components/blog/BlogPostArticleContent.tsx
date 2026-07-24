@@ -41,22 +41,22 @@ export default function BlogPostArticleContent({
       </nav>
 
       <header className="mb-16">
-        <span className="mb-4 block font-mono text-[0.6875rem] uppercase tracking-wider text-black">
+        <span className="mb-2 block font-mono text-[0.6875rem] uppercase tracking-wider text-black">
           {post.category}
         </span>
-        <h1 className="mb-4 font-mono text-[1.802rem] font-bold leading-[1.3] tracking-[-0.02em] text-black">
-          {post.title}
-        </h1>
-        {summary ? (
-          <p className="mb-4 font-mono text-base font-light leading-relaxed text-black/70">
-            {summary}
-          </p>
-        ) : null}
-        <div className="flex items-center gap-2 font-mono text-[0.8125rem] text-black/70">
+        <div className="mb-4 flex items-center gap-2 font-mono text-[0.8125rem] text-black/70">
           <time>{post.date}</time>
           <span>·</span>
           <span>{post.readingTime}</span>
         </div>
+        <h1 className="mb-4 font-mono text-[1.802rem] font-bold leading-[1.3] tracking-[-0.02em] text-black">
+          {post.title}
+        </h1>
+        {summary ? (
+          <p className="font-mono text-base font-light leading-relaxed text-black/70">
+            {summary}
+          </p>
+        ) : null}
       </header>
 
       <NotionRenderer

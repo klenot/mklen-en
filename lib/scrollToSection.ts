@@ -21,9 +21,9 @@ function getOffsetWithinAncestor(
 
   if (node === ancestor) return offset;
 
-  return (
-    target.getBoundingClientRect().top - ancestor.getBoundingClientRect().top
-  );
+  // Scroll-position independent — getBoundingClientRect fallback breaks for
+  // sticky ancestors once the page has been scrolled.
+  return getDocumentTop(target) - getDocumentTop(ancestor);
 }
 
 function getDocumentTop(element: HTMLElement): number {

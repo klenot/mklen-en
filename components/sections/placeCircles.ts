@@ -27,6 +27,8 @@ export type CirclePose = {
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
+const PATH_ARRIVED = 1 - 1e-4;
+
 export function placeCircles({
   circles,
   cache,
@@ -43,6 +45,7 @@ export function placeCircles({
   maxVisible,
   mobileHeroSlots,
   boxCount,
+  pathEndpoints,
 }: {
   circles: readonly CircleModel[];
   cache: LayoutCache;
@@ -59,6 +62,10 @@ export function placeCircles({
   maxVisible: number;
   mobileHeroSlots: readonly { x: number; y: number }[];
   boxCount: number;
+  pathEndpoints?: {
+    start: { x: number; y: number } | null;
+    end: { x: number; y: number } | null;
+  };
 }): CirclePose[] {
   const out: CirclePose[] = new Array(circles.length);
   if (!cache.valid) {
@@ -75,11 +82,13 @@ export function placeCircles({
 
   const pathStart =
     pt > 0
-      ? pathEndpointLocal(cache, marginPx, scrollY, scrollX, viewportH, "start")
+      ? (pathEndpoints?.start ??
+        pathEndpointLocal(cache, marginPx, scrollY, scrollX, viewportH, "start"))
       : null;
   const pathEnd =
     pt > 0
-      ? pathEndpointLocal(cache, marginPx, scrollY, scrollX, viewportH, "end")
+      ? (pathEndpoints?.end ??
+        pathEndpointLocal(cache, marginPx, scrollY, scrollX, viewportH, "end"))
       : null;
 
   for (let i = 0; i < circles.length; i++) {
@@ -117,21 +126,25 @@ export function placeCircles({
     let baseY = lerp(fromPxY, toPxY, p);
 
     let isPathCircle = false;
-    const arrived = Boolean(c.pathDest && pt >= 0.98);
 
     if (c.pathDest && pt > 0) {
       isPathCircle = true;
       const target = c.pathDest === "start" ? pathStart : pathEnd;
       if (target) {
-        baseX = lerp(toPxX, target.x, ptEased);
-        baseY = lerp(toPxY, target.y, ptEased);
+        if (pt >= PATH_ARRIVED) {
+          baseX = target.x;
+          baseY = target.y;
+        } else {
+          baseX = lerp(toPxX, target.x, ptEased);
+          baseY = lerp(toPxY, target.y, ptEased);
+        }
       } else {
         baseX = toPxX;
         baseY = toPxY;
       }
     }
 
-    const driftDampen = arrived ? 0 : isPathCircle ? 1 - ptEased : 1;
+    const driftDampen = isPathCircle ? 0 : 1;
     const fallDrift = p > 0 && p < 1 ? Math.max(0, 1 - p * 2.5) : 1;
     let dx = rest
       ? 0
