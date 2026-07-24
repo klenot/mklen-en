@@ -24,7 +24,7 @@ const LIVES = 3;
 const GAME_DURATION = 60_000; // survive this long (ms) to win
 const FIRE_COOLDOWN = 240; // ms between shots
 const SHIP_SPEED = 115; // game px / second
-const MOBILE_SHIP_SPEED = 185; // snappier joystick feel on small screens
+const MOBILE_SHIP_SPEED = 98; // tuned for precise joystick control
 const BULLET_SPEED = 170;
 const ENEMY_SPEED_MIN = 42;
 const ENEMY_SPEED_MAX = 78;
@@ -166,14 +166,13 @@ type MobileInput = {
 
 const MOBILE_CONTROLS_BOTTOM_FALLBACK = 88;
 
-const JOYSTICK_RADIUS = 36;
-const JOYSTICK_DEAD = 0.06;
+const JOYSTICK_RADIUS = 40;
+const JOYSTICK_DEAD = 0.1;
 
 function joystickAxis(value: number) {
   const abs = Math.abs(value);
   if (abs < JOYSTICK_DEAD) return 0;
-  const t = (abs - JOYSTICK_DEAD) / (1 - JOYSTICK_DEAD);
-  return Math.sign(value) * Math.min(1, Math.pow(t, 0.55) * 1.08);
+  return Math.sign(value) * Math.min(0.85, abs);
 }
 
 function useMobileControlsBottom(active: boolean) {
@@ -253,29 +252,57 @@ function MobileJoystick({
     inputRef.current.moveY = 0;
   };
 
+  const begin = (clientX: number, clientY: number) => {
+    activeRef.current = true;
+    applyPointer(clientX, clientY);
+  };
+
   return (
     <div
       ref={baseRef}
       aria-label="Move"
       className="absolute left-4 z-10 touch-none select-none"
       style={{ bottom: bottomPx }}
-      onTouchStart={(e) => e.stopPropagation()}
+      onTouchStart={(e) => {
+        e.stopPropagation();
+        const t = e.changedTouches[0] ?? e.touches[0];
+        if (!t) return;
+        begin(t.clientX, t.clientY);
+      }}
       onTouchMove={(e) => {
         e.preventDefault();
         e.stopPropagation();
+        if (!activeRef.current) return;
+        const t = e.touches[0];
+        if (!t) return;
+        applyPointer(t.clientX, t.clientY);
+      }}
+      onTouchEnd={(e) => {
+        e.stopPropagation();
+        if (e.touches.length === 0) reset();
+      }}
+      onTouchCancel={(e) => {
+        e.stopPropagation();
+        if (e.touches.length === 0) reset();
       }}
       onPointerDown={(e) => {
+        if (e.pointerType === "touch") return;
         e.preventDefault();
-        activeRef.current = true;
         baseRef.current?.setPointerCapture(e.pointerId);
-        applyPointer(e.clientX, e.clientY);
+        begin(e.clientX, e.clientY);
       }}
       onPointerMove={(e) => {
-        if (!activeRef.current) return;
+        if (e.pointerType === "touch" || !activeRef.current) return;
         applyPointer(e.clientX, e.clientY);
       }}
-      onPointerUp={reset}
-      onPointerCancel={reset}
+      onPointerUp={(e) => {
+        if (e.pointerType === "touch") return;
+        reset();
+      }}
+      onPointerCancel={(e) => {
+        if (e.pointerType === "touch") return;
+        reset();
+      }}
     >
       <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-black/25 bg-white/70">
         <div
