@@ -1,11 +1,10 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
 import { Suspense } from "react";
 import { getBlogPostBySlug, getBlogPostMetaBySlug, getAllSlugs } from "@/lib/notion";
 import type { NotionBlock } from "@/data/notion-types";
-import NotionRenderer from "@/components/blog/NotionRenderer";
 import BlogTableOfContents from "@/components/blog/BlogTableOfContents";
 import BlogPostSkeleton from "@/components/blog/BlogPostSkeleton";
+import BlogPostArticleContent from "@/components/blog/BlogPostArticleContent";
 import BlogPostAnalytics from "@/components/analytics/BlogPostAnalytics";
 import { blogPostMetadata, blogPostingJsonLd } from "@/lib/seo";
 import { extractBlogHeadings, blogHeadingIdMap } from "@/lib/blog-headings";
@@ -64,50 +63,11 @@ async function BlogPostArticle({ slug }: { slug: string }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <article className="flex w-full max-w-[640px] flex-col">
-        <nav
-          aria-label="Blog post navigation"
-          className="mb-16 self-start font-mono text-[0.8125rem] text-black"
-        >
-          <Link
-            href="/blog"
-            className="transition-colors hover:text-blue-600"
-          >
-            ← blog
-          </Link>
-          <span className="text-black/40"> / </span>
-          <Link href="/" className="transition-colors hover:text-blue-600">
-            home
-          </Link>
-        </nav>
-
-        <header className="mb-16">
-          <span className="mb-4 block font-mono text-[0.6875rem] uppercase tracking-wider text-black">
-            {post.category}
-          </span>
-          <h1 className="mb-4 font-mono text-[1.802rem] font-bold leading-[1.3] tracking-[-0.02em] text-black">
-            {post.title}
-          </h1>
-          <div className="flex items-center gap-2 font-mono text-[0.8125rem] text-black/70">
-            <time>{post.date}</time>
-            <span>·</span>
-            <span>{post.readingTime}</span>
-          </div>
-        </header>
-
-        <NotionRenderer
-          blocks={post.blocks}
-          codeHtmlMap={codeHtmlMap}
-          headingIdMap={headingIdMap}
-        />
-
-        <Link
-          href="/blog"
-          className="mt-24 self-start font-mono text-[0.8125rem] text-black transition-colors hover:text-blue-600"
-        >
-          ← back to all posts
-        </Link>
-      </article>
+      <BlogPostArticleContent
+        post={post}
+        codeHtmlMap={codeHtmlMap}
+        headingIdMap={headingIdMap}
+      />
     </>
   );
 }

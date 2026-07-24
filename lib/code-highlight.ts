@@ -1,8 +1,37 @@
-import { codeToHtml } from "shiki";
+import { codeToHtml, getSingletonHighlighter } from "shiki";
 
 const THEME = "tokyo-night";
 const BG = "#1a1b26";
 const FG = "#c0caf5";
+
+const COMMON_LANGS = [
+  "bash",
+  "css",
+  "html",
+  "javascript",
+  "json",
+  "markdown",
+  "plaintext",
+  "python",
+  "shell",
+  "sql",
+  "text",
+  "tsx",
+  "typescript",
+  "yaml",
+] as const;
+
+let highlighterPromise: ReturnType<typeof getSingletonHighlighter> | null = null;
+
+function getHighlighter() {
+  if (!highlighterPromise) {
+    highlighterPromise = getSingletonHighlighter({
+      themes: [THEME],
+      langs: [...COMMON_LANGS],
+    });
+  }
+  return highlighterPromise;
+}
 
 const DIAGRAM_LANGS = new Set([
   "text",
@@ -119,8 +148,13 @@ export async function highlightCodeBlock(
   }
 
   try {
-    return await codeToHtml(text, { lang, theme: THEME });
+    const highlighter = await getHighlighter();
+    return highlighter.codeToHtml(text, { lang, theme: THEME });
   } catch {
-    return highlightDiagram(text);
+    try {
+      return await codeToHtml(text, { lang, theme: THEME });
+    } catch {
+      return highlightDiagram(text);
+    }
   }
 }

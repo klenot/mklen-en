@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { unstable_cache, unstable_noStore as noStore } from "next/cache";
+import { unstable_cache } from "next/cache";
 import { withRetry } from "@/lib/retry";
 import { Client } from "@notionhq/client";
 import { APIResponseError } from "@notionhq/client/build/src/errors";
@@ -52,8 +52,49 @@ async function withNotion<T>(label: string, fallback: T, fn: () => Promise<T>): 
   }
 }
 
+function extractFormulaString(formula: {
+  type: string;
+  string?: string | null;
+}): string {
+  if (formula.type === "string" && formula.string) {
+    return formula.string.trim();
+  }
+  return "";
+}
+
+function extractSlugFromProperty(
+  prop: PageObjectResponse["properties"][string] | undefined,
+): string {
+  if (!prop) return "";
+
+  if (prop.type === "rich_text") {
+    return richTextToPlain(prop.rich_text).trim();
+  }
+
+  if (prop.type === "formula") {
+    return extractFormulaString(prop.formula);
+  }
+
+  return "";
+}
+
 function richTextToPlain(rt: RichTextItemResponse[]): string {
   return rt.map((r) => r.plain_text).join("");
+}
+
+function slugFromTitle(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function normalizeSlug(slug: string): string {
+  try {
+    return decodeURIComponent(slug).trim();
+  } catch {
+    return slug.trim();
+  }
 }
 
 function transformRichText(rt: RichTextItemResponse[]): RichText[] {
@@ -159,14 +200,8 @@ function extractPageMeta(page: PageObjectResponse) {
   const coverImage = coverImageProp ? getFileUrl(coverImageProp as never) : undefined;
 
   const slugProp = props["slug"] ?? props["Slug"];
-  const explicitSlug =
-    slugProp?.type === "rich_text" ? richTextToPlain(slugProp.rich_text).trim() : "";
-  const slug =
-    explicitSlug ||
-    title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, "");
+  const explicitSlug = extractSlugFromProperty(slugProp);
+  const slug = explicitSlug || slugFromTitle(title);
 
   const updatedAt =
     dateProp?.type === "date" && dateProp.date?.start
@@ -359,12 +394,13 @@ const getPublishedPagesCached = unstable_cache(
 
 async function findPublishedPageBySlug(slug: string): Promise<PageObjectResponse | null> {
   const pages = await getPublishedPagesCached("all");
-  return pages.find((page) => extractPageMeta(page).slug === slug) ?? null;
+  const targetSlug = normalizeSlug(slug);
+  return pages.find((page) => extractPageMeta(page).slug === targetSlug) ?? null;
 }
 
-async function queryDraftPages(): Promise<PageObjectResponse[]> {
+async function queryDraftPageBySlug(slug: string): Promise<PageObjectResponse | null> {
   const notion = getNotionClient();
-  const pages: PageObjectResponse[] = [];
+  const targetSlug = normalizeSlug(slug);
   let cursor: string | undefined;
 
   do {
@@ -379,25 +415,20 @@ async function queryDraftPages(): Promise<PageObjectResponse[]> {
       page_size: 100,
     });
 
-    pages.push(...(resp.results as PageObjectResponse[]));
+    for (const page of resp.results as PageObjectResponse[]) {
+      if (extractPageMeta(page).slug === targetSlug) {
+        return page;
+      }
+    }
+
     cursor = resp.has_more ? (resp.next_cursor ?? undefined) : undefined;
   } while (cursor);
 
-  return pages;
-}
-
-async function findDraftPageBySlugUncached(slug: string): Promise<PageObjectResponse | null> {
-  const pages = await queryDraftPages();
-  return pages.find((page) => extractPageMeta(page).slug === slug) ?? null;
+  return null;
 }
 
 const getDraftPageBySlug = cache(async (slug: string): Promise<PageObjectResponse | null> => {
-  noStore();
-  return withRetry(
-    () =>
-      withNotion("getDraftPageBySlug", null, () => findDraftPageBySlugUncached(slug)),
-    { retries: 4, delayMs: 800 },
-  );
+  return withNotion("getDraftPageBySlug", null, () => queryDraftPageBySlug(slug));
 });
 
 async function fetchPostsFromNotion(
@@ -521,8 +552,8 @@ async function fetchDraftBlogPostBySlug(slug: string): Promise<BlogPost | null> 
 
   const meta = extractPageMeta(page);
   const rawBlocks = await withRetry(() => fetchBlockChildren(page.id), {
-    retries: 4,
-    delayMs: 800,
+    retries: 2,
+    delayMs: 500,
   });
   const blocks = await transformBlocks(rawBlocks);
 
@@ -542,7 +573,6 @@ async function fetchDraftBlogPostBySlug(slug: string): Promise<BlogPost | null> 
 }
 
 export const getDraftBlogPostBySlug = cache(async (slug: string): Promise<BlogPost | null> => {
-  noStore();
   return withNotion("getDraftBlogPostBySlug", null, () => fetchDraftBlogPostBySlug(slug));
 });
 
@@ -565,7 +595,6 @@ async function fetchDraftBlogPostMetaBySlug(slug: string): Promise<BlogPostMeta 
 
 export const getDraftBlogPostMetaBySlug = cache(
   async (slug: string): Promise<BlogPostMeta | null> => {
-    noStore();
     return withNotion("getDraftBlogPostMetaBySlug", null, () =>
       fetchDraftBlogPostMetaBySlug(slug),
     );

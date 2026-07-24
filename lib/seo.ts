@@ -40,6 +40,15 @@ const draftPreviewRobots: NonNullable<Metadata["robots"]> = {
   googleBot: { index: false, follow: false },
 };
 
+type BlogPostSummaryFields = {
+  description: string;
+  metaDescription?: string;
+};
+
+export function blogPostSummary(post: BlogPostSummaryFields): string {
+  return post.metaDescription ?? post.description;
+}
+
 export function draftBlogPostMetadata(post: {
   title: string;
   description: string;
@@ -47,11 +56,24 @@ export function draftBlogPostMetadata(post: {
   metaDescription?: string;
 }): Metadata {
   const title = post.metaTitle ?? post.title;
-  const description = post.metaDescription ?? post.description;
+  const description = blogPostSummary(post);
 
   return {
     title: `[Draft] ${title}`,
     description,
+    robots: draftPreviewRobots,
+  };
+}
+
+export function draftPreviewLoadingMetadata(slug: string): Metadata {
+  const title = slug
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+
+  return {
+    title: title ? `[Draft] ${title}` : "[Draft] Preview",
     robots: draftPreviewRobots,
   };
 }
@@ -66,7 +88,7 @@ export function blogPostMetadata(post: {
   date: string;
 }): Metadata {
   const title = post.metaTitle ?? post.title;
-  const description = post.metaDescription ?? post.description;
+  const description = blogPostSummary(post);
   const url = absoluteUrl(`/blog/${post.slug}`);
 
   return {
@@ -99,6 +121,7 @@ export function blogPostingJsonLd(post: {
   slug: string;
   title: string;
   description: string;
+  metaDescription?: string;
   date: string;
   coverImage?: string;
 }) {
@@ -106,7 +129,7 @@ export function blogPostingJsonLd(post: {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
-    description: post.description,
+    description: blogPostSummary(post),
     datePublished: post.date,
     url: absoluteUrl(`/blog/${post.slug}`),
     author: {
