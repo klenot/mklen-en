@@ -411,7 +411,21 @@ export default function SpaceImpact() {
     setScore(0);
     setSecondsLeft(GAME_DURATION / 1000);
     setStatus("playing");
+    if (isMobile) {
+      document.getElementById("game")?.scrollIntoView({ block: "center" });
+    }
   };
+
+  const mobilePinned = isMobile && status !== "idle";
+
+  useEffect(() => {
+    if (!mobilePinned) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [mobilePinned]);
 
   // After a game ends, drop back to the intro screen if left untouched.
   useEffect(() => {
@@ -711,9 +725,15 @@ export default function SpaceImpact() {
   }, [status, isMobile]);
 
   return (
-    <div
-      className={`relative h-dvh w-full overflow-hidden bg-white select-none ${status === "playing" && isMobile ? "touch-none" : ""}`}
-    >
+    <>
+      {mobilePinned && <div className="h-dvh w-full shrink-0 md:hidden" aria-hidden />}
+      <div
+        className={`w-full overflow-hidden bg-white select-none ${
+          mobilePinned
+            ? "fixed inset-0 z-50 h-dvh touch-none"
+            : `relative h-dvh ${status === "playing" && isMobile ? "touch-none" : ""}`
+        }`}
+      >
       <canvas
         ref={canvasRef}
         className="absolute inset-0 h-full w-full [image-rendering:pixelated]"
@@ -731,12 +751,11 @@ export default function SpaceImpact() {
             <span>{secondsLeft}s</span>
           </div>
           <div
-            className={`pointer-events-none absolute left-1/2 -translate-x-1/2 font-mono text-[10px] font-light text-black/30 ${
-              isMobile ? "" : "bottom-3"
+            className={`pointer-events-none absolute font-mono text-[10px] font-light leading-snug text-black/30 ${
+              isMobile
+                ? "left-4 top-11 max-w-[42%] text-left"
+                : "bottom-3 left-1/2 -translate-x-1/2 text-center"
             }`}
-            style={
-              isMobile ? { bottom: controlsBottomPx + 116 } : undefined
-            }
           >
             {isMobile
               ? "joystick to move · hold fire to shoot"
@@ -829,5 +848,6 @@ export default function SpaceImpact() {
         </div>
       )}
     </div>
+    </>
   );
 }
