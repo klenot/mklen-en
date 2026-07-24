@@ -24,6 +24,7 @@ const LIVES = 3;
 const GAME_DURATION = 60_000; // survive this long (ms) to win
 const FIRE_COOLDOWN = 240; // ms between shots
 const SHIP_SPEED = 115; // game px / second
+const MOBILE_SHIP_SPEED = 185; // snappier joystick feel on small screens
 const BULLET_SPEED = 170;
 const ENEMY_SPEED_MIN = 42;
 const ENEMY_SPEED_MAX = 78;
@@ -163,20 +164,69 @@ type MobileInput = {
   firing: boolean;
 };
 
-const MOBILE_CONTROLS_BOTTOM =
-  "bottom-[calc(env(safe-area-inset-bottom,34px)+1.5rem)]";
+const MOBILE_CONTROLS_BOTTOM_FALLBACK = 88;
 
 const JOYSTICK_RADIUS = 36;
-const JOYSTICK_DEAD = 0.12;
+const JOYSTICK_DEAD = 0.06;
+
+function joystickAxis(value: number) {
+  const abs = Math.abs(value);
+  if (abs < JOYSTICK_DEAD) return 0;
+  const t = (abs - JOYSTICK_DEAD) / (1 - JOYSTICK_DEAD);
+  return Math.sign(value) * Math.min(1, Math.pow(t, 0.55) * 1.08);
+}
+
+function useMobileControlsBottom(active: boolean) {
+  const [bottomPx, setBottomPx] = useState(MOBILE_CONTROLS_BOTTOM_FALLBACK);
+
+  useEffect(() => {
+    if (!active) return;
+
+    const update = () => {
+      const vv = window.visualViewport;
+      if (!vv) {
+        setBottomPx(MOBILE_CONTROLS_BOTTOM_FALLBACK);
+        return;
+      }
+
+      const browserChrome = Math.max(
+        0,
+        window.innerHeight - vv.height - vv.offsetTop,
+      );
+      setBottomPx(Math.max(MOBILE_CONTROLS_BOTTOM_FALLBACK, browserChrome + 56));
+    };
+
+    update();
+    window.visualViewport?.addEventListener("resize", update);
+    window.visualViewport?.addEventListener("scroll", update);
+    window.addEventListener("resize", update);
+    return () => {
+      window.visualViewport?.removeEventListener("resize", update);
+      window.visualViewport?.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [active]);
+
+  return bottomPx;
+}
 
 function MobileJoystick({
   inputRef,
+  bottomPx,
 }: {
   inputRef: RefObject<MobileInput>;
+  bottomPx: number;
 }) {
   const baseRef = useRef<HTMLDivElement>(null);
+  const knobRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef(false);
-  const [knob, setKnob] = useState({ x: 0, y: 0 });
+
+  const setKnobPosition = (x: number, y: number) => {
+    const knob = knobRef.current;
+    if (!knob) return;
+    knob.style.left = `calc(50% + ${x}px)`;
+    knob.style.top = `calc(50% + ${y}px)`;
+  };
 
   const applyPointer = (clientX: number, clientY: number) => {
     const base = baseRef.current;
@@ -191,16 +241,14 @@ function MobileJoystick({
       dx = (dx / dist) * JOYSTICK_RADIUS;
       dy = (dy / dist) * JOYSTICK_RADIUS;
     }
-    setKnob({ x: dx, y: dy });
-    const nx = dx / JOYSTICK_RADIUS;
-    const ny = dy / JOYSTICK_RADIUS;
-    inputRef.current.moveX = Math.abs(nx) < JOYSTICK_DEAD ? 0 : nx;
-    inputRef.current.moveY = Math.abs(ny) < JOYSTICK_DEAD ? 0 : ny;
+    setKnobPosition(dx, dy);
+    inputRef.current.moveX = joystickAxis(dx / JOYSTICK_RADIUS);
+    inputRef.current.moveY = joystickAxis(dy / JOYSTICK_RADIUS);
   };
 
   const reset = () => {
     activeRef.current = false;
-    setKnob({ x: 0, y: 0 });
+    setKnobPosition(0, 0);
     inputRef.current.moveX = 0;
     inputRef.current.moveY = 0;
   };
@@ -209,7 +257,8 @@ function MobileJoystick({
     <div
       ref={baseRef}
       aria-label="Move"
-      className={`absolute left-4 z-10 touch-none select-none ${MOBILE_CONTROLS_BOTTOM}`}
+      className="absolute left-4 z-10 touch-none select-none"
+      style={{ bottom: bottomPx }}
       onTouchStart={(e) => e.stopPropagation()}
       onTouchMove={(e) => {
         e.preventDefault();
@@ -230,10 +279,11 @@ function MobileJoystick({
     >
       <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-black/25 bg-white/70">
         <div
+          ref={knobRef}
           className="absolute h-12 w-12 rounded-full border-2 border-black bg-white shadow-sm"
           style={{
-            left: `calc(50% + ${knob.x}px)`,
-            top: `calc(50% + ${knob.y}px)`,
+            left: "50%",
+            top: "50%",
             transform: "translate(-50%, -50%)",
           }}
         />
@@ -317,6 +367,7 @@ export default function SpaceImpact() {
   });
   const isMobile = useMediaQuery("(max-width: 767px)");
   const [status, setStatus] = useState<Status>("idle");
+  const controlsBottomPx = useMobileControlsBottom(isMobile && status === "playing");
   const [lives, setLives] = useState(LIVES);
   const [score, setScore] = useState(0);
   const [secondsLeft, setSecondsLeft] = useState(GAME_DURATION / 1000);
@@ -438,8 +489,8 @@ export default function SpaceImpact() {
       // movement
       const mobile = mobileInputRef.current;
       if (isMobile && (mobile.moveX !== 0 || mobile.moveY !== 0)) {
-        shipX += mobile.moveX * SHIP_SPEED * dts;
-        shipY += mobile.moveY * SHIP_SPEED * dts;
+        shipX += mobile.moveX * MOBILE_SHIP_SPEED * dts;
+        shipY += mobile.moveY * MOBILE_SHIP_SPEED * dts;
       } else {
         if (keys.has("ArrowUp")) shipY -= SHIP_SPEED * dts;
         if (keys.has("ArrowDown")) shipY += SHIP_SPEED * dts;
@@ -654,10 +705,11 @@ export default function SpaceImpact() {
           </div>
           <div
             className={`pointer-events-none absolute left-1/2 -translate-x-1/2 font-mono text-[10px] font-light text-black/30 ${
-              isMobile
-                ? "bottom-[calc(env(safe-area-inset-bottom,34px)+6.5rem)]"
-                : "bottom-3"
+              isMobile ? "" : "bottom-3"
             }`}
+            style={
+              isMobile ? { bottom: controlsBottomPx + 116 } : undefined
+            }
           >
             {isMobile
               ? "joystick to move · hold fire to shoot"
@@ -665,11 +717,15 @@ export default function SpaceImpact() {
           </div>
           {isMobile && (
             <>
-              <MobileJoystick inputRef={mobileInputRef} />
+              <MobileJoystick
+                inputRef={mobileInputRef}
+                bottomPx={controlsBottomPx}
+              />
               <button
                 type="button"
                 aria-label="Fire"
-                className={`absolute right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full border-2 border-black bg-white font-mono text-[10px] font-medium tracking-wider text-black touch-none select-none active:bg-black active:text-white ${MOBILE_CONTROLS_BOTTOM}`}
+                className="absolute right-4 z-10 flex h-14 w-14 items-center justify-center rounded-full border-2 border-black bg-white font-mono text-[10px] font-medium tracking-wider text-black touch-none select-none active:bg-black active:text-white"
+                style={{ bottom: controlsBottomPx }}
               onTouchStart={(e) => e.stopPropagation()}
               onTouchMove={(e) => {
                 e.preventDefault();

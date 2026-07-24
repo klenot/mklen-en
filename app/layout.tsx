@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import {
   GoogleTagManagerHead,
@@ -15,6 +15,10 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = defaultMetadata;
+
+export const viewport: Viewport = {
+  viewportFit: "cover",
+};
 
 export default function RootLayout({
   children,
