@@ -51,7 +51,7 @@ export default function WaveNavLink({
               transition: "transform 150ms ease-out",
             }}
           >
-            {char}
+            {char === " " ? "\u00A0" : char}
           </span>
         );
       })}
